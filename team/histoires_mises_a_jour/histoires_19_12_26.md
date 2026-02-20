@@ -45,5 +45,14 @@ Au total, on estime 320 heures pour les 28 histoires
 - Histoire 14
     - Sous-histoire 14A : Remplacer la progréssion en 1D de la tour en une progression 2D
     - Sous-histoire 14B : Navigation dans l'étage
+- Histoire 17
+    - Sous-histoire 17A : Points de compétences
+    - Sous-histoire 17B : Structure de l'arbre 
+    - Sous-histoire 17C : Règles
+    - Sous-histoire 17D : Interface
+- Histoire 19
+    - Sous-histoire 19A : Paramètre / Contenu de chaque étage
+    - Sous-histoire 19B : Algorithme de génération
+    - Sous-histoire 19C : Interface
 
 ## Détails et questions à poser au client
