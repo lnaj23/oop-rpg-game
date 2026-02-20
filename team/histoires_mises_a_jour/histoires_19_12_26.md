@@ -2,7 +2,7 @@
 
 - Groupe : 5
 - Date : 19/02/2026
-- 
+
 ## Risque et heures de travail
 |             | Risque | Heures de travail |
 |-------------|--------|-------------------|
@@ -38,5 +38,12 @@
 Au total, on estime 320 heures pour les 28 histoires
 
 ## Sous-histoires
+- Histoire 4
+    - Sous-histoire 4A : Combat semi-automatique
+    - Sous-histoire 4B : Bugémon atteint 0 PV
+    - Sous-histoire 4C : Interface
+- Histoire 14
+    - Sous-histoire 14A : Remplacer la progréssion en 1D de la tour en une progression 2D
+    - Sous-histoire 14B : Navigation dans l'étage
 
 ## Détails et questions à poser au client
