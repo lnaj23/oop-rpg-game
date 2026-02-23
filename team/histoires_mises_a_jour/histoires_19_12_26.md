@@ -4,38 +4,38 @@
 - Date : 19/02/2026
 
 ## Risque et heures de travail
-|             | Risque | Heures de travail |
-|-------------|--------|-------------------|
-| Histoire 1  | 2      | 13h               |
-| Histoire 2  | 3      | 5h                |
-| Histoire 3  | 2      | 13h               |
-| Histoire 4  | 1      | 21h               |
-| Histoire 5  | 2      | 8h                |
-| Histoire 6  | 2      | 13h               |
-| Histoire 7  | 3      | 8h                |
-| Histoire 8  | 3      | 5h                |
-| Histoire 9  | 1      | 13h               |
-| Histoire 10 | 3      | 8h                |
-| Histoire 11 | 2      | 8h                |
-| Histoire 12 | 3      | 5h                |
-| Histoire 13 | 1      | 13h               |
-| Histoire 14 | 2      | 8h                |
-| Histoire 15 | 2      | 5h                |
-| Histoire 16 | 3      | 5h                |
-| Histoire 17 | 2      | 34h               |
-| Histoire 18 | 3      | 8h                |
-| Histoire 19 | 1      | 21h               |
-| Histoire 20 | 2      | 13h               |
-| Histoire 21 | 3      | 3h                |
-| Histoire 22 | 1      | 21h               |
-| Histoire 23 | 2      | 13h               |
-| Histoire 24 | 3      | 2h                |
-| Histoire 25 | 2      | 21h               |
-| Histoire 26 | 2      | 8h                |
-| Histoire 27 | 3      | 2h                |
-| Histoire 28 | 2      | 13h               |
+|             | Risque | Points |
+|-------------|--------|--------|
+| Histoire 1  | 2      | 13     |
+| Histoire 2  | 3      | 5      |
+| Histoire 3  | 2      | 13     |
+| Histoire 4  | 1      | 21     |
+| Histoire 5  | 2      | 8      |
+| Histoire 6  | 2      | 13     |
+| Histoire 7  | 3      | 8      |
+| Histoire 8  | 3      | 5      |
+| Histoire 9  | 1      | 13     |
+| Histoire 10 | 3      | 8      |
+| Histoire 11 | 2      | 8      |
+| Histoire 12 | 3      | 5      |
+| Histoire 13 | 1      | 13     |
+| Histoire 14 | 2      | 8      |
+| Histoire 15 | 2      | 5      |
+| Histoire 16 | 3      | 5      |
+| Histoire 17 | 2      | 34     |
+| Histoire 18 | 3      | 8      |
+| Histoire 19 | 1      | 21     |
+| Histoire 20 | 2      | 13     |
+| Histoire 21 | 3      | 3      |
+| Histoire 22 | 1      | 21     |
+| Histoire 23 | 2      | 13     |
+| Histoire 24 | 3      | 2      |
+| Histoire 25 | 2      | 21     |
+| Histoire 26 | 2      | 8      |
+| Histoire 27 | 3      | 2      |
+| Histoire 28 | 2      | 13     |
 
-Au total, on estime 320 heures pour les 28 histoires
+Au total, on estime 310 heures pour les 28 histoires
 
 ## Sous-histoires
 - Histoire 4
