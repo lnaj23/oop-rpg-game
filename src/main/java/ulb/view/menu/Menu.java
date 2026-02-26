@@ -1,4 +1,4 @@
-package view.menu;
+package ulb.view.menu;
 
 public class Menu {
 }
