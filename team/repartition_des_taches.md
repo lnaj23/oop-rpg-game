@@ -28,6 +28,8 @@ ___
 ## Itération 1
 ### Plan d'ensemble
 
+![Plan](gantt/plans/26_02_26.jpg)
+
 ### Tâches
 <table>
     <tbody>
