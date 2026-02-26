@@ -10,4 +10,6 @@ public class Student {
     public boolean isAdult() {
         return this.age >= 18;
     }
+
+    public boolean isNotAdul(){return this.age < 18;}
 }
