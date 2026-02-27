@@ -10,6 +10,7 @@ import ulb.models.team.Team;
 import javafx.scene.layout.VBox;
 import java.util.UUID;
 
+
 public class PreBuildTeamView extends BorderPane {
     private final ListView<Team> ListTeams = new ListView<>();
     private final Button renameButton = new Button("Rename");
