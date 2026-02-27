@@ -2,6 +2,7 @@ package ulb.models.Bugemon;
 
 import ulb.exceptions.AttackNotFoundException;
 import ulb.exceptions.BugemonNotFoundException;
+import ulb.exceptions.BugemonNotInTeamException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,7 +44,7 @@ public class TeamBugemon {
                 return bug.getAttacks();
             }
         }
-        throw new BugemonNotFoundException(bugemonId);
+        throw new BugemonNotInTeamException(bugemonId);
     }
 
     public boolean hasNullAttacks() {

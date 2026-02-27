@@ -3,6 +3,7 @@ package ulb.models.Bugemon;
 import junit.framework.TestCase;
 import org.junit.Test;
 import ulb.exceptions.BugemonNotFoundException;
+import ulb.exceptions.BugemonNotInTeamException;
 
 import java.util.Arrays;
 import java.util.List;
@@ -23,6 +24,18 @@ public class TeamBugemonTest extends TestCase {
         } catch (BugemonNotFoundException e) {
             assertTrue(e.getMessage().contains("unknown_id"));
         }
+    }
+
+    @Test
+    public void testEmptyConstructorNotNull() {
+        TeamBugemon team = new TeamBugemon();
+        assertNotNull(team);
+    }
+
+    @Test
+    public void testEmptyConstructorSizeIsZero() {
+        TeamBugemon team = new TeamBugemon();
+        assertEquals(0, team.getSize());
     }
 
     @Test
@@ -104,22 +117,31 @@ public class TeamBugemonTest extends TestCase {
     public void testGetAttacksOfBugemonNoNullAttack() {
         TeamBugemon team = new TeamBugemon(Arrays.asList("florachu", "exceflam"));
         List<Attack> attacks = team.getAttacksOf("florachu");
-        assertNotNull(attacks);
         for (Attack attack : attacks) {
             assertNotNull(attack);
         }
     }
 
     @Test
-    public void testGetAttacksOfBugemonNotInTeamReturnsNull() {
+    public void testGetAttacksOfBugemonNotInTeamThrows() {
         TeamBugemon team = new TeamBugemon(Arrays.asList("florachu"));
-        assertNull(team.getAttacksOf("exceflam"));
+        try {
+            team.getAttacksOf("exceflam");
+            fail("Expected BugemonNotFoundException");
+        } catch (BugemonNotInTeamException e) {
+            assertTrue(e.getMessage().contains("exceflam"));
+        }
     }
 
     @Test
-    public void testGetAttacksOfUnknownIdReturnsNull() {
+    public void testGetAttacksOfUnknownIdThrows() {
         TeamBugemon team = new TeamBugemon(Arrays.asList("florachu"));
-        assertNull(team.getAttacksOf("unknown_id"));
+        try {
+            team.getAttacksOf("unknown_id");
+            fail("Expected BugemonNotFoundException");
+        } catch (BugemonNotInTeamException e) {
+            assertTrue(e.getMessage().contains("unknown_id"));
+        }
     }
 
     @Test
