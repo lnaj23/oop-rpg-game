@@ -11,7 +11,7 @@ public class Main extends Application {
     public void start(Stage stage) {
         PreBuildTeamView view = new PreBuildTeamView();
         stage.setScene(new Scene(view, 400, 500));
-        stage.setTitle("Prebuilt Teams");
+        stage.setTitle("Choisissez une équipe");
         stage.show();
     }
 

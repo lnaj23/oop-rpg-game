@@ -8,8 +8,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import ulb.models.team.Team;
 import javafx.scene.layout.VBox;
-
-import java.util.List;
 import java.util.UUID;
 
 public class PreBuildTeamView extends BorderPane {
@@ -27,9 +25,7 @@ public class PreBuildTeamView extends BorderPane {
 
         VBox bottom = new VBox(buttons);
         bottom.setPadding(new Insets(10));
-        bottom.setStyle("-fx-background-color: #f2f2f2;");
         setBottom(bottom);
-
         InitFakeTeam();
     }
 
