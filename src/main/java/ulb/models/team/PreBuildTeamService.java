@@ -12,12 +12,16 @@ public class PreBuildTeamService {
         teams.remove(teamToDelete);
     }
 
+    public void renameTeam(Team team, String newName) {
+        team.setName(newName);
+    }
+
     public void InitFakeTeam() {
         teams.add(new Team("1 équipe", UUID.randomUUID()));
         teams.add(new Team("2 équipe", UUID.randomUUID()));
     }
 
-    //Getters
+    // Getters
     public ObservableList<Team> getTeams() {
         return teams;
     }
