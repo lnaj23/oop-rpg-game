@@ -12,7 +12,7 @@ import java.util.List;
  */
 public class TeamBugemon {
 
-    private String name;
+    private String name = null;
     private List<Bugemon> team;
 
     public String getName() {return name;}
@@ -20,6 +20,10 @@ public class TeamBugemon {
 
     public TeamBugemon() {
         team = new ArrayList<>();
+    }
+
+    public TeamBugemon(List<String> TeamId) {
+        this.team = BugemonProvider.getListBugemon(TeamId);
     }
 
     public TeamBugemon(String name, List<String> TeamId) {
