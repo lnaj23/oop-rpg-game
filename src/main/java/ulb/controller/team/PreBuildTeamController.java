@@ -2,7 +2,12 @@ package ulb.controller.team;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+<<<<<<< HEAD
 import ulb.models.Bugemon.TeamBugemon;
+=======
+import javafx.scene.control.TextInputDialog;
+import ulb.models.team.Team;
+>>>>>>> 725a215 (Permet de modifer le nom d'une équipe en plus de pouvoir la supprimer)
 import ulb.models.team.PreBuildTeamService;
 import ulb.view.team.PreBuildTeamView;
 
@@ -20,13 +25,14 @@ public class PreBuildTeamController {
     public void init() {
         service.InitFakeTeam();
 
-        // On lie la ListView à une liste qui envoie des signaux à celles-ci dès qu'il y a des changements dedans
+        // On lie la ListView à une liste qui envoie des signaux à celles-ci dès qu'il y
+        // a des changements dedans
         view.getListView().setItems(service.getTeams());
 
         view.getStartButton().setOnAction(e -> showError("Not Available", "Temporarily unavailable"));
         view.getModifyButton().cancelButtonProperty();
-        view.getDeleteButton().setOnAction(e -> DeleteTeam());
-        view.getRenameButton().setOnAction(e -> RenameTeam());
+        view.getDeleteButton().setOnAction(e -> deleteTeam());
+        view.getRenameButton().setOnAction(e -> renameTeam());
     }
 
     private void showError(String title, String message) {
@@ -37,24 +43,28 @@ public class PreBuildTeamController {
         alert.showAndWait();
     }
 
+<<<<<<< HEAD
     private void DeleteTeam() {
         TeamBugemon selectedTeam = view.getSelectedTeam();
+=======
+    private void deleteTeam() {
+        Team selectedTeam = view.getSelectedTeam();
+>>>>>>> 725a215 (Permet de modifer le nom d'une équipe en plus de pouvoir la supprimer)
 
         if (selectedTeam == null) {
             showError("Error", "You need to select a team you want to delete");
         }
 
         else {
-            // Cette partie vient de la documentation directement
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to delete this team?");
             Optional<ButtonType> result = alert.showAndWait();
             if (result.isPresent() && result.get() == ButtonType.OK) {
-                // On modifie simplement la liste et au
                 service.deleteTeam(selectedTeam);
             }
         }
     }
 
+<<<<<<< HEAD
     private void RenameTeam() {
         TeamBugemon selectedTeam = view.getSelectedTeam();
 
@@ -67,7 +77,28 @@ public class PreBuildTeamController {
             
         }
 
+=======
+    private void renameTeam() {
+        Team selectedTeam = view.getSelectedTeam();
+>>>>>>> 725a215 (Permet de modifer le nom d'une équipe en plus de pouvoir la supprimer)
 
+        if (selectedTeam == null) {
+            showError("Problem", "You need to select a team you want to rename");
+            return;
+        }
+
+        TextInputDialog dialog = new TextInputDialog(selectedTeam.getName());
+        dialog.setTitle("Rename Team");
+        dialog.setHeaderText(null);
+        dialog.setContentText("New name:");
+
+        Optional<String> result = dialog.showAndWait();
+        result.ifPresent(newName -> {
+            if (!newName.trim().isEmpty()) {
+                service.renameTeam(selectedTeam, newName.trim());
+                view.getListView().refresh();
+            }
+        });
     }
 
 }

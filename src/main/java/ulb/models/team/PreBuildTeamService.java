@@ -13,6 +13,10 @@ public class PreBuildTeamService {
         teams.remove(teamToDelete);
     }
 
+    public void renameTeam(Team team, String newName) {
+        team.setName(newName);
+    }
+
     public void InitFakeTeam() {
         TeamBugemon firstTeam = new TeamBugemon();
         TeamBugemon secondTeam = new TeamBugemon();
@@ -22,8 +26,13 @@ public class PreBuildTeamService {
         teams.add(secondTeam);
     }
 
+<<<<<<< HEAD
     //Getters
     public ObservableList<TeamBugemon> getTeams() {
+=======
+    // Getters
+    public ObservableList<Team> getTeams() {
+>>>>>>> 725a215 (Permet de modifer le nom d'une équipe en plus de pouvoir la supprimer)
         return teams;
     }
 }
