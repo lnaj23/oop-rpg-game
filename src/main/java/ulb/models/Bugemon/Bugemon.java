@@ -3,7 +3,7 @@ package ulb.models.Bugemon;
 import java.util.ArrayList;
 import java.util.List;
 
-class Bugemon {
+public class Bugemon {
     private String id;
     private String nom;
     private String type;
@@ -16,8 +16,12 @@ class Bugemon {
     private String sprite;
     private boolean starter;
 
+    public Bugemon(String nom) {
+        this.nom = nom;
+    }
+
     String getId()              { return id; }
-    String getNom()             { return nom; }
+    public String getNom()             { return nom; }
     Stats getStats()            { return stats; }
     List<String> getAttackNames() { return attaques; }
     List<Attack> getAttacks()   { return Attacks; }
