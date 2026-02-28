@@ -63,18 +63,27 @@ public class PreBuildTeamController {
             return;
         }
 
-        TextInputDialog dialog = new TextInputDialog(selectedTeam.getName());
-        dialog.setTitle("Rename Team");
-        dialog.setHeaderText(null);
-        dialog.setContentText("New name:");
+        try {
+            TextInputDialog dialog = new TextInputDialog(selectedTeam.getName());
+            dialog.setTitle("Rename Team");
+            dialog.setHeaderText(null);
+            dialog.setContentText("New name:");
 
-        Optional<String> result = dialog.showAndWait();
-        result.ifPresent(newName -> {
-            if (!newName.trim().isEmpty()) {
-                service.renameTeam(selectedTeam, newName.trim());
-                view.getListView().refresh();
+            // Lie le dialog à la fenêtre principale (évite qu'il s'ouvre derrière sur Mac)
+            if (view.getScene() != null && view.getScene().getWindow() != null) {
+                dialog.initOwner(view.getScene().getWindow());
             }
-        });
+
+            Optional<String> result = dialog.showAndWait();
+            result.ifPresent(newName -> {
+                if (!newName.trim().isEmpty()) {
+                    service.renameTeam(selectedTeam, newName.trim());
+                }
+            });
+        } catch (Exception e) {
+            showError("Error", "An error occurred: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
 }

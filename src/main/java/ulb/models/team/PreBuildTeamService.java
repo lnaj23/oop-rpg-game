@@ -2,11 +2,11 @@ package ulb.models.team;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-
 import java.util.UUID;
 
 public class PreBuildTeamService {
-    private final ObservableList<Team> teams = FXCollections.observableArrayList();
+    private final ObservableList<Team> teams = FXCollections.observableArrayList(
+            team -> team.getObservables());
 
     public void deleteTeam(Team teamToDelete) {
         teams.remove(teamToDelete);
