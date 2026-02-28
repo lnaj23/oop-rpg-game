@@ -4,7 +4,7 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import ulb.controller.team.PreBuildTeamController;
-import ulb.service.team.PreBuildTeamService;
+import ulb.models.team.PreBuildTeamService;
 import ulb.view.team.PreBuildTeamView;
 
 public class Main extends Application {

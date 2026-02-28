@@ -11,7 +11,7 @@ import javafx.scene.layout.VBox;
 import java.util.UUID;
 
 public class PreBuildTeamView extends BorderPane {
-    private final ListView<Team> ListTeams = new ListView<>();
+    private ListView<Team> ListTeams = new ListView<>();
     private final Button startButton = new Button("Start a game");
     private final Button modifyButton = new Button("Modify the team");
     private final Button renameButton = new Button("Rename");
@@ -28,23 +28,20 @@ public class PreBuildTeamView extends BorderPane {
         VBox bottom = new VBox(buttons);
         bottom.setPadding(new Insets(10));
         setBottom(bottom);
-        InitFakeTeam();
     }
 
     public Team getSelectedTeam() {
         return ListTeams.getSelectionModel().getSelectedItem();
     }
 
-    public void InitFakeTeam(){
-        ListTeams.getItems().add(new Team("1 équipe", UUID.randomUUID()));
-        ListTeams.getItems().add(new Team("2 équipe", UUID.randomUUID()));
+    public void refreshListTeams() {
+        // Cette fonction devra être bougée là où on instancie la liste des teams
+
     }
-
-
 
     // Getters des variables privées utilisées dans controller.
 
-    public ListView<Team> getListTeams() {
+    public ListView<Team> getListView() {
         return ListTeams;
     }
     public Button getStartButton() {
