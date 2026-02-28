@@ -1,9 +1,10 @@
 package ulb;
-/**
- * Hello world!
- *
- */
+
+import javafx.application.Application;
+import ulb.view.menu.MenuView;
+
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Hello World!");}
+        Application.launch(MenuView.class,args);
+    }
 }
