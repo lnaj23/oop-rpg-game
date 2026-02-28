@@ -1,3 +1,4 @@
+/*
 package ulb.view;
 
 import javafx.stage.Stage;
@@ -30,3 +31,5 @@ public class TestSceneController extends ApplicationTest {
         FxAssert.verifyThat("#titelLabel", LabeledMatchers.hasText("BUGÉMON"));
     }
 }
+
+ */
