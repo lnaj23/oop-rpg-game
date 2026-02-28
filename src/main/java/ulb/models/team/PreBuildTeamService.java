@@ -2,14 +2,13 @@ package ulb.models.team;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import ulb.models.Bugemon.TeamBugemon;
-
 import java.util.UUID;
 
 public class PreBuildTeamService {
-    private final ObservableList<TeamBugemon> teams = FXCollections.observableArrayList();
+    private final ObservableList<Team> teams = FXCollections.observableArrayList(
+            team -> team.getObservables());
 
-    public void deleteTeam(TeamBugemon teamToDelete) {
+    public void deleteTeam(Team teamToDelete) {
         teams.remove(teamToDelete);
     }
 
@@ -18,21 +17,14 @@ public class PreBuildTeamService {
     }
 
     public void InitFakeTeam() {
-        TeamBugemon firstTeam = new TeamBugemon();
-        TeamBugemon secondTeam = new TeamBugemon();
-        firstTeam.setName("équipe 1");
-        secondTeam.setName("équipe 2");
+        Team firstTeam = new Team("équipe 1", UUID.randomUUID());
+        Team secondTeam = new Team("équipe 2", UUID.randomUUID());
         teams.add(firstTeam);
         teams.add(secondTeam);
     }
 
-<<<<<<< HEAD
-    //Getters
-    public ObservableList<TeamBugemon> getTeams() {
-=======
     // Getters
     public ObservableList<Team> getTeams() {
->>>>>>> 725a215 (Permet de modifer le nom d'une équipe en plus de pouvoir la supprimer)
         return teams;
     }
 }

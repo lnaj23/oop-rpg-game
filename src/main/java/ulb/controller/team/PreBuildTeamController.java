@@ -2,12 +2,8 @@ package ulb.controller.team;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
-<<<<<<< HEAD
-import ulb.models.Bugemon.TeamBugemon;
-=======
 import javafx.scene.control.TextInputDialog;
 import ulb.models.team.Team;
->>>>>>> 725a215 (Permet de modifer le nom d'une équipe en plus de pouvoir la supprimer)
 import ulb.models.team.PreBuildTeamService;
 import ulb.view.team.PreBuildTeamView;
 
@@ -43,13 +39,8 @@ public class PreBuildTeamController {
         alert.showAndWait();
     }
 
-<<<<<<< HEAD
-    private void DeleteTeam() {
-        TeamBugemon selectedTeam = view.getSelectedTeam();
-=======
     private void deleteTeam() {
         Team selectedTeam = view.getSelectedTeam();
->>>>>>> 725a215 (Permet de modifer le nom d'une équipe en plus de pouvoir la supprimer)
 
         if (selectedTeam == null) {
             showError("Error", "You need to select a team you want to delete");
@@ -64,41 +55,35 @@ public class PreBuildTeamController {
         }
     }
 
-<<<<<<< HEAD
-    private void RenameTeam() {
-        TeamBugemon selectedTeam = view.getSelectedTeam();
-
-        if (selectedTeam == null) {
-            showError("Error", "You need to select a team you want to rename");
-        }
-
-        else {
-            // Cette partie vient de la documentation directement
-            
-        }
-
-=======
     private void renameTeam() {
         Team selectedTeam = view.getSelectedTeam();
->>>>>>> 725a215 (Permet de modifer le nom d'une équipe en plus de pouvoir la supprimer)
 
         if (selectedTeam == null) {
             showError("Problem", "You need to select a team you want to rename");
             return;
         }
 
-        TextInputDialog dialog = new TextInputDialog(selectedTeam.getName());
-        dialog.setTitle("Rename Team");
-        dialog.setHeaderText(null);
-        dialog.setContentText("New name:");
+        try {
+            TextInputDialog dialog = new TextInputDialog(selectedTeam.getName());
+            dialog.setTitle("Rename Team");
+            dialog.setHeaderText(null);
+            dialog.setContentText("New name:");
 
-        Optional<String> result = dialog.showAndWait();
-        result.ifPresent(newName -> {
-            if (!newName.trim().isEmpty()) {
-                service.renameTeam(selectedTeam, newName.trim());
-                view.getListView().refresh();
+            // Lie le dialog à la fenêtre principale (évite qu'il s'ouvre derrière sur Mac)
+            if (view.getScene() != null && view.getScene().getWindow() != null) {
+                dialog.initOwner(view.getScene().getWindow());
             }
-        });
+
+            Optional<String> result = dialog.showAndWait();
+            result.ifPresent(newName -> {
+                if (!newName.trim().isEmpty()) {
+                    service.renameTeam(selectedTeam, newName.trim());
+                }
+            });
+        } catch (Exception e) {
+            showError("Error", "An error occurred: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
 }

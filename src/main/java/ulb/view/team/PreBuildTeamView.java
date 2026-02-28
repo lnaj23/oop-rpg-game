@@ -6,11 +6,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import ulb.models.Bugemon.TeamBugemon;
+import ulb.models.team.Team;
 import javafx.scene.layout.VBox;
 
 public class PreBuildTeamView extends BorderPane {
-    private ListView<TeamBugemon> ListTeams = new ListView<>();
+    private ListView<Team> ListTeams = new ListView<>();
     private final Button startButton = new Button("Start a game");
     private final Button modifyButton = new Button("Modify the team");
     private final Button renameButton = new Button("Rename");
@@ -29,24 +29,28 @@ public class PreBuildTeamView extends BorderPane {
         setBottom(bottom);
     }
 
-    public TeamBugemon getSelectedTeam() {
+    public Team getSelectedTeam() {
         return ListTeams.getSelectionModel().getSelectedItem();
     }
 
-   /* Getters */
+    /* Getters */
 
-    public ListView<TeamBugemon> getListView() {
+    public ListView<Team> getListView() {
         return ListTeams;
     }
+
     public Button getStartButton() {
         return startButton;
     }
+
     public Button getModifyButton() {
         return modifyButton;
     }
+
     public Button getRenameButton() {
         return renameButton;
     }
+
     public Button getDeleteButton() {
         return deleteButton;
     }
