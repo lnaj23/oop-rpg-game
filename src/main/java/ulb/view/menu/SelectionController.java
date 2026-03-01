@@ -7,15 +7,13 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.ListView;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import ulb.models.Bugemon.Bugemon;
 import ulb.models.Bugemon.BugemonProvider;
+import ulb.models.Bugemon.TeamBugemon;
 
 import java.io.File;
 import java.io.IOException;
@@ -38,10 +36,20 @@ public class SelectionController implements Initializable {
     @FXML
     private ListView<Bugemon> myListView;
 
+    @FXML
+    private Label myLabel;
+
+    private TeamBugemon playerTeam = new TeamBugemon();
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        myListView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+
         myListView.getItems().addAll(BugemonProvider.getAllBugemons());
 
+        myListView.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
+            updateTeam();
+        });
         myListView.setCellFactory(lv -> new ListCell<Bugemon>() {
             private final ImageView imageView = new ImageView();
             @Override
@@ -72,5 +80,28 @@ public class SelectionController implements Initializable {
                 }
             }
         });
+    }
+
+    private void updateTeam() {
+        List<Bugemon> selectedBugemons = myListView.getSelectionModel().getSelectedItems();
+
+        playerTeam = new TeamBugemon();
+
+        if (selectedBugemons.size() <= 6) {
+            for (Bugemon bug : selectedBugemons) {
+                playerTeam.addBugemon(bug);
+            }
+            myLabel.setText("Équipe : " + playerTeam.getSize() + " / 6 Bugémons");
+        } else {
+            myLabel.setText("Trop de Bugémons ! (Max 6)");
+        }
+    }
+
+    @FXML
+    public void confirmSelection() {
+        if (playerTeam.getSize() >= 1 && playerTeam.getSize() <= 6) {
+            System.out.println("Équipe validée : ");
+            playerTeam.printTeam();
+        }
     }
 }
