@@ -10,6 +10,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import ulb.models.Bugemon.Bugemon;
 import ulb.models.Bugemon.BugemonProvider;
@@ -23,8 +24,6 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class SelectionController implements Initializable {
-    public Button btnReturn;
-    public Label subtitleLabel;
 
     public void switchToMenuView(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("menuview.fxml"));
@@ -33,75 +32,38 @@ public class SelectionController implements Initializable {
         stage.setScene(scene);
         stage.show();
     }
-    @FXML
-    private ListView<Bugemon> myListView;
 
     @FXML
-    private Label myLabel;
-
-    private TeamBugemon playerTeam = new TeamBugemon();
+    private GridPane gridPane;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        myListView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-
-        myListView.getItems().addAll(BugemonProvider.getAllBugemons());
-
-        myListView.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
-            updateTeam();
-        });
-        myListView.setCellFactory(lv -> new ListCell<Bugemon>() {
-            private final ImageView imageView = new ImageView();
-            @Override
-            protected void updateItem(Bugemon bugemon, boolean empty) {
-                super.updateItem(bugemon, empty);
-
-                if (empty || bugemon == null) {
-                    setText(null);
-                    setGraphic(null);
-                } else {
-                    String path = "/Assets/png/" + bugemon.getSprite();
-
-                    try {
-
-                        Image img = new Image(getClass().getResourceAsStream(path));
-
-                        imageView.setImage(img);
-                        imageView.setFitHeight(40);
-                        imageView.setPreserveRatio(true);
-
-                        setText(bugemon.getNom());
-                        setGraphic(imageView);
-
-                    } catch (Exception e) {
-                        setText(bugemon.getNom() + " (Image manquante)");
-                        setGraphic(null);
-                    }
-                }
-            }
-        });
+        displayBugemons();
     }
 
-    private void updateTeam() {
-        List<Bugemon> selectedBugemons = myListView.getSelectionModel().getSelectedItems();
+    private void displayBugemons() {
 
-        playerTeam = new TeamBugemon();
+        List<Bugemon> allBugemons = BugemonProvider.getAllBugemons();
 
-        if (selectedBugemons.size() <= 6) {
-            for (Bugemon bug : selectedBugemons) {
-                playerTeam.addBugemon(bug);
+        List<Node> buttons = gridPane.getChildren().filtered(node -> node instanceof Button);
+
+        for (int i = 0; i < allBugemons.size() && i < buttons.size(); i++) {
+            Bugemon bugemon = allBugemons.get(i);
+            Button btn = (Button) buttons.get(i);
+            btn.setText(bugemon.getNom());
+
+            try {
+                String path = "/Assets/png/" + bugemon.getSprite();
+                Image img = new Image(getClass().getResourceAsStream(path));
+                ImageView view = new ImageView(img);
+                view.setFitHeight(50);
+                view.setPreserveRatio(true);
+                btn.setGraphic(view);
+                btn.setContentDisplay(javafx.scene.control.ContentDisplay.TOP);
             }
-            myLabel.setText("Équipe : " + playerTeam.getSize() + " / 6 Bugémons");
-        } else {
-            myLabel.setText("Trop de Bugémons ! (Max 6)");
-        }
-    }
-
-    @FXML
-    public void confirmSelection() {
-        if (playerTeam.getSize() >= 1 && playerTeam.getSize() <= 6) {
-            System.out.println("Équipe validée : ");
-            playerTeam.printTeam();
+            catch (Exception e) {
+                System.err.println("Impossible de charger l'image pour : " + bugemon.getNom());
+            }
         }
     }
 }
