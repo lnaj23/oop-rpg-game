@@ -18,6 +18,7 @@ public class Bugemon {
 
     public String getId()              { return id; }
     public String getNom()             { return nom; }
+    public String getSprite() {return sprite;}
     Stats getStats()            { return stats; }
     List<String> getAttackNames() { return attaques; }
     List<Attack> getAttacks()   { return Attacks; }

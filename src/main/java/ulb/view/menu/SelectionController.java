@@ -60,7 +60,7 @@ public class SelectionController implements Initializable {
                     setText(null);
                     setGraphic(null);
                 } else {
-                    String path = "/Assets/png/" + bugemon.getId() + ".png";
+                    String path = "/Assets/png/" + bugemon.getSprite();
 
                     try {
 
