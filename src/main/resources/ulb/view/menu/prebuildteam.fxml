@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0"
+            xmlns="http://javafx.com/javafx/25"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="ulb.view.menu.PreBuildTeamController">
+    <children>
+        <!-- message -->
+        <Label layoutX="200.0" layoutY="180.0" text="Page PreBuildTeam !"/>
+
+        <!-- Bouton Retour -->
+        <Button fx:id="btnRetour"
+                layoutX="20.0"
+                layoutY="20.0"
+                text="Retour"
+                mnemonicParsing="false"
+                onAction="#switchToMenuView"/>
+    </children>
+</AnchorPane>

@@ -12,5 +12,6 @@
             <Font size="50.0" />
          </font></Label>
       <Button fx:id="btnNewGame" layoutX="250.0" layoutY="174.0" mnemonicParsing="false" onAction="#switchToSelectionView" text="Nouvelle partie" />
+      <Button fx:id="btnPreBuildTeam" layoutX="250.0" layoutY="234.0" mnemonicParsing="false" onAction="#switchToPreBuildTeamPage" text="PreBuilTeam" />
    </children>
 </AnchorPane>
