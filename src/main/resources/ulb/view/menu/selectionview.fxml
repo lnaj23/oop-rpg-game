@@ -21,6 +21,6 @@
       </Label>
       <ListView fx:id="myListView" layoutX="20.0" layoutY="137.0" prefHeight="223.0" prefWidth="267.0" />
       <Button layoutX="519.0" layoutY="104.0" mnemonicParsing="false" onAction="#confirmSelection" text="Valider" />
-      <Label fx:id="ctrlSelectionLabel" layoutX="20.0" layoutY="369.0" text="Maintenir Ctrl/Cmd pour sélectionner plusieurs Bugémon" />
+      <Label fx:id="ctrlSelectionLabel" layoutX="20.0" layoutY="369.0" text="Maintenir Ctrl/Cmd pour sélectionner plusieurs Bugémons" />
    </children>
 </AnchorPane>
