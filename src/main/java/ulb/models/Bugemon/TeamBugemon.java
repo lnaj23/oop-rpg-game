@@ -1,20 +1,33 @@
 package ulb.models.Bugemon;
 
-import ulb.exceptions.AttackNotFoundException;
-import ulb.exceptions.BugemonNotFoundException;
 import ulb.exceptions.BugemonNotInTeamException;
 
 import java.util.ArrayList;
 import java.util.List;
 
+/*
+ * Represents a Bugemon team, identified by a name and the Bugemon that compose it.
+ * In the game, teams are the core unit — individual Bugemon are never manipulated directly during gameplay.
+ * Uses BugemonProvider to instantiate Bugemon objects from a list of their ids.
+ */
 public class TeamBugemon {
+
+    private String name = null;
     private List<Bugemon> team;
+
+    public String getName() {return name;}
+    public void setName(String name) {this.name = name;}
 
     public TeamBugemon() {
         team = new ArrayList<>();
     }
 
     public TeamBugemon(List<String> TeamId) {
+        this.team = BugemonProvider.getListBugemon(TeamId);
+    }
+
+    public TeamBugemon(String name, List<String> TeamId) {
+        this.name = name;
         this.team = BugemonProvider.getListBugemon(TeamId);
     }
 

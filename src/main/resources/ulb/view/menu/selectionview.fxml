@@ -14,11 +14,12 @@
          </font>
       </Label>
       <Button fx:id="btnReturn" layoutX="14.0" layoutY="20.0" mnemonicParsing="false" onAction="#switchToMenuView" text="Retour" />
-      <Label fx:id="myLabel" layoutX="224.0" layoutY="84.0" text="Choisi 1 à 6 Bugémons" textAlignment="CENTER">
+      <Label fx:id="myLabel" layoutX="224.0" layoutY="65.0" text="Choisi 1 à 6 Bugémons" textAlignment="CENTER">
          <font>
             <Font size="16.0" />
          </font>
       </Label>
       <ListView fx:id="myListView" layoutX="20.0" layoutY="157.0" prefHeight="223.0" prefWidth="560.0" />
+      <Button layoutX="519.0" layoutY="104.0" mnemonicParsing="false" text="Valider" />
    </children>
 </AnchorPane>

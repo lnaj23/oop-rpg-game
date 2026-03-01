@@ -239,4 +239,8 @@ public abstract class BugemonProvider {
         Bugemon bug = getBugemon(id);
         return bug.getAttackNames();
     }
+
+    public static List<Bugemon> getAllBugemons() {
+        return new ArrayList<>(bugemonRepo);
+    }
 }
