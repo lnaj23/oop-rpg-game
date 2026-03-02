@@ -83,9 +83,14 @@ ___
 
 Le 25 février, nous nous sommes réunies sur Teams pour répartir les tâches.
 
+Lors de la première réunion avec le client, nous avons mis au clair les détails des histoires 1 et 3 qu'on devra faire pour cette première itération.
+
 
 
 ### Risques et problèmes
 
-Nous avons eu du mal à séparer les tâches de manière équitable. Donc, on va faire en sorte que les personnes qui ont eu des tâches compliquées, auront des tâches plus simples aux prochaines itérations..
+Nous avons eu du mal à séparer les tâches de manière équitable. Donc, on va faire en sorte que les personnes qui ont eu des tâches compliquées, auront des tâches plus simples aux prochaines itérations.
+
+À cause du peu d'histoire qu'on a eu pour cette itération en conséquence de la surestimation des points des histoires, on a séparé les histoires en trop petites histoires ce qui a conduit au fait que certaines personnes ont fait des taches qui ne l'était pas attribué en pensant faire la leur. 
+Pour palier à celà, on va réduire les points sur notre histoire afin d'en avoir plus durant la prochaine itération et éviter de séparer les tâches en tâches futiles.
 ___
