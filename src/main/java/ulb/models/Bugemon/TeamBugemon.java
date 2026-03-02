@@ -72,4 +72,10 @@ public class TeamBugemon {
             System.out.println(bug.getId());
         }
     }
+
+    /* This function is used by the ListView */
+    @Override
+    public String toString() {
+        return this.name; // ou this.name
+    }
 }

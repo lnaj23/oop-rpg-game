@@ -2,23 +2,28 @@ package ulb.models.team;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import ulb.models.Bugemon.TeamBugemon;
 
 import java.util.UUID;
 
 public class PreBuildTeamService {
-    private final ObservableList<Team> teams = FXCollections.observableArrayList();
+    private final ObservableList<TeamBugemon> teams = FXCollections.observableArrayList();
 
-    public void deleteTeam(Team teamToDelete) {
+    public void deleteTeam(TeamBugemon teamToDelete) {
         teams.remove(teamToDelete);
     }
 
     public void InitFakeTeam() {
-        teams.add(new Team("1 équipe", UUID.randomUUID()));
-        teams.add(new Team("2 équipe", UUID.randomUUID()));
+        TeamBugemon firstTeam = new TeamBugemon();
+        TeamBugemon secondTeam = new TeamBugemon();
+        firstTeam.setName("équipe 1");
+        secondTeam.setName("équipe 2");
+        teams.add(firstTeam);
+        teams.add(secondTeam);
     }
 
     //Getters
-    public ObservableList<Team> getTeams() {
+    public ObservableList<TeamBugemon> getTeams() {
         return teams;
     }
 }

@@ -2,7 +2,7 @@ package ulb.controller.team;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
-import ulb.models.team.Team;
+import ulb.models.Bugemon.TeamBugemon;
 import ulb.models.team.PreBuildTeamService;
 import ulb.view.team.PreBuildTeamView;
 
@@ -38,7 +38,7 @@ public class PreBuildTeamController {
     }
 
     private void DeleteTeam() {
-        Team selectedTeam = view.getSelectedTeam();
+        TeamBugemon selectedTeam = view.getSelectedTeam();
 
         if (selectedTeam == null) {
             showError("Error", "You need to select a team you want to delete");
@@ -56,7 +56,7 @@ public class PreBuildTeamController {
     }
 
     private void RenameTeam() {
-        Team selectedTeam = view.getSelectedTeam();
+        TeamBugemon selectedTeam = view.getSelectedTeam();
 
         if (selectedTeam == null) {
             showError("Error", "You need to select a team you want to rename");
