@@ -95,7 +95,7 @@
       <Region prefHeight="71.0" prefWidth="900.0" BorderPane.alignment="CENTER" />
    </bottom>
    <right>
-      <Button mnemonicParsing="false" text="Valider" BorderPane.alignment="TOP_LEFT">
+      <Button mnemonicParsing="false" onAction="#confirmSelection" text="Valider" BorderPane.alignment="TOP_LEFT">
          <BorderPane.margin>
             <Insets right="20.0" top="20.0" />
          </BorderPane.margin>

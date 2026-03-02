@@ -2,15 +2,23 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0"
             xmlns="http://javafx.com/javafx/25"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="ulb.view.menu.PreBuildTeamController">
     <children>
-        <!-- message -->
-        <Label layoutX="200.0" layoutY="180.0" text="Page PreBuildTeam !"/>
+
+        <!-- Titre -->
+        <Label layoutX="200.0" layoutY="40.0" text="Mes équipes">
+            <font>
+                <Font size="30.0" />
+            </font>
+        </Label>
 
         <!-- Bouton Retour -->
         <Button fx:id="btnRetour"
@@ -19,5 +27,37 @@
                 text="Retour"
                 mnemonicParsing="false"
                 onAction="#switchToMenuView"/>
+
+        <!-- Liste des équipes sauvegardées -->
+        <ListView fx:id="teamListView"
+                  layoutX="50.0" layoutY="100.0"
+                  prefWidth="500.0" prefHeight="185.0"/>
+
+        <!-- Boutons d'action (désactivés si rien sélectionné) -->
+        <HBox layoutX="50.0" layoutY="300.0" spacing="15.0">
+            <Button fx:id="btnPlay"
+                    text="▶  Jouer"
+                    mnemonicParsing="false"
+                    onAction="#onPlay"
+                    prefWidth="150.0" prefHeight="35.0"/>
+            <Button fx:id="btnRename"
+                    text="✏  Renommer"
+                    mnemonicParsing="false"
+                    onAction="#onRename"
+                    prefWidth="150.0" prefHeight="35.0"/>
+            <Button fx:id="btnDelete"
+                    text="🗑  Supprimer"
+                    mnemonicParsing="false"
+                    onAction="#onDelete"
+                    prefWidth="150.0" prefHeight="35.0"/>
+        </HBox>
+
+        <!-- Bouton nouvelle équipe -->
+        <Button layoutX="200.0" layoutY="350.0"
+                text="＋  Nouvelle équipe"
+                mnemonicParsing="false"
+                onAction="#onNewTeam"
+                prefWidth="200.0" prefHeight="35.0"/>
+
     </children>
 </AnchorPane>
