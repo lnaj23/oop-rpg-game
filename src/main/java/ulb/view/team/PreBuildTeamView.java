@@ -8,7 +8,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import ulb.models.team.Team;
 import javafx.scene.layout.VBox;
-import java.util.UUID;
 
 public class PreBuildTeamView extends BorderPane {
     private ListView<Team> ListTeams = new ListView<>();
@@ -34,12 +33,7 @@ public class PreBuildTeamView extends BorderPane {
         return ListTeams.getSelectionModel().getSelectedItem();
     }
 
-    public void refreshListTeams() {
-        // Cette fonction devra être bougée là où on instancie la liste des teams
-
-    }
-
-    // Getters des variables privées utilisées dans controller.
+   /* Getters */
 
     public ListView<Team> getListView() {
         return ListTeams;

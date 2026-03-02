@@ -41,7 +41,7 @@ public class PreBuildTeamController {
         Team selectedTeam = view.getSelectedTeam();
 
         if (selectedTeam == null) {
-            showError("Problem", "You need to select a team you want to delete");
+            showError("Error", "You need to select a team you want to delete");
         }
 
         else {
@@ -56,9 +56,18 @@ public class PreBuildTeamController {
     }
 
     private void RenameTeam() {
+        Team selectedTeam = view.getSelectedTeam();
+
+        if (selectedTeam == null) {
+            showError("Error", "You need to select a team you want to rename");
+        }
+
+        else {
+            // Cette partie vient de la documentation directement
+            
+        }
+
 
     }
-
-
 
 }
