@@ -33,7 +33,12 @@ public class PreBuildTeamView extends BorderPane {
         return ListTeams.getSelectionModel().getSelectedItem();
     }
 
-    /* Getters */
+    public void refreshListTeams() {
+        // Cette fonction devra être bougée là où on instancie la liste des teams
+
+    }
+
+    // Getters des variables privées utilisées dans controller
 
     public ListView<Team> getListView() {
         return ListTeams;
