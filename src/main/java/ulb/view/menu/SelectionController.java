@@ -24,7 +24,7 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class SelectionController implements Initializable {
-
+    private TeamBugemon teamBeingEdited = null;
     public void switchToMenuView(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("menuview.fxml"));
         Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
@@ -95,26 +95,42 @@ public class SelectionController implements Initializable {
     // Validation & sauvegarde
 
     @FXML
+    public void loadTeamForEditing(TeamBugemon team) {
+        this.teamBeingEdited = team;
+        // Pré-sélectionne les boutons correspondants
+        List<Node> buttons = gridPane.getChildren().filtered(n -> n instanceof Button);
+        for (int i = 0; i < displayedBugemons.size() && i < buttons.size(); i++) {
+            if (team.getTeam().contains(displayedBugemons.get(i))) {
+                Button btn = (Button) buttons.get(i);
+                selectedButtons.add(btn);
+                playerTeam.addBugemon(displayedBugemons.get(i));
+                btn.setStyle("-fx-background-color: #a8d8a8; -fx-border-color: #4caf50; -fx-border-width: 2;");
+            }
+        }
+    }
     public void confirmSelection(ActionEvent event) throws IOException {
         if (playerTeam.getSize() < 1) {
             showError("Aucun Bugémon", "Sélectionnez au moins 1 Bugémon avant de valider.");
             return;
         }
 
-        TextInputDialog dialog = new TextInputDialog("Mon équipe");
-        dialog.setTitle("Sauvegarder l'équipe");
-        dialog.setHeaderText("Donnez un nom à votre équipe (" + playerTeam.getSize() + " Bugémon(s))");
-        dialog.setContentText("Nom :");
-
-        Optional<String> result = dialog.showAndWait();
-        if (!result.isPresent() || result.get().trim().isEmpty()) return;
-
-        playerTeam.setName(result.get().trim());
-
-        // Ajouter directement à la liste en mémoire
-        PreBuildTeamController.teams.add(playerTeam);
-
-        // Retour à la page des équipes
+        if (teamBeingEdited != null) {
+            // Remplace le contenu de l'équipe existante
+            teamBeingEdited.getTeam().clear();
+            teamBeingEdited.getTeam().addAll(playerTeam.getTeam());
+        } else {
+            // Choix de nom
+            TextInputDialog dialog = new TextInputDialog("Mon équipe");
+            dialog.setTitle("Sauvegarder l'équipe");
+            dialog.setHeaderText("Donnez un nom à votre équipe (" + playerTeam.getSize() + " Bugémon(s))");
+            dialog.setContentText("Nom :");
+            Optional<String> result = dialog.showAndWait();
+            if (!result.isPresent() || result.get().trim().isEmpty()) return;
+            playerTeam.setName(result.get().trim());
+            // Ajoute à la liste d'équipe
+            PreBuildTeamController.teams.add(playerTeam);
+        }
+        // Retour a la page des équipes
         navigateTo(event, "prebuildteam.fxml");
     }
     private void navigateTo(ActionEvent event, String fxml) throws IOException {

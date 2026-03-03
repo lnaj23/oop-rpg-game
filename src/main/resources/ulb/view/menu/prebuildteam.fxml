@@ -31,29 +31,40 @@
         <!-- Liste des équipes sauvegardées -->
         <ListView fx:id="teamListView"
                   layoutX="50.0" layoutY="100.0"
-                  prefWidth="500.0" prefHeight="185.0"/>
+                  prefWidth="220.0" prefHeight="260.0"/>
+
+        <!-- Bugémons de l'équipe sélectionnée (droite) -->
+        <Label layoutX="290.0" layoutY="100.0" text="Bugémons :"/>
+        <ListView fx:id="bugemonListView"
+                  layoutX="290.0" layoutY="120.0"
+                  prefWidth="260.0" prefHeight="240.0"/>
 
         <!-- Boutons d'action (désactivés si rien sélectionné) -->
-        <HBox layoutX="50.0" layoutY="300.0" spacing="15.0">
+        <HBox layoutX="50.0" layoutY="380.0" spacing="15.0">
             <Button fx:id="btnPlay"
                     text="▶  Jouer"
                     mnemonicParsing="false"
                     onAction="#onPlay"
-                    prefWidth="150.0" prefHeight="35.0"/>
+                    prefWidth="110.0" prefHeight="35.0"/>
+            <Button fx:id="btnModify"
+                    text="🖊  Modifier"
+                    mnemonicParsing="false"
+                    onAction="#onModify"
+                    prefWidth="110.0" prefHeight="35.0"/>
             <Button fx:id="btnRename"
                     text="✏  Renommer"
                     mnemonicParsing="false"
                     onAction="#onRename"
-                    prefWidth="150.0" prefHeight="35.0"/>
+                    prefWidth="110.0" prefHeight="35.0"/>
             <Button fx:id="btnDelete"
                     text="🗑  Supprimer"
                     mnemonicParsing="false"
                     onAction="#onDelete"
-                    prefWidth="150.0" prefHeight="35.0"/>
+                    prefWidth="110.0" prefHeight="35.0"/>
         </HBox>
 
         <!-- Bouton nouvelle équipe -->
-        <Button layoutX="200.0" layoutY="350.0"
+        <Button layoutX="200.0" layoutY="435.0"
                 text="＋  Nouvelle équipe"
                 mnemonicParsing="false"
                 onAction="#onNewTeam"

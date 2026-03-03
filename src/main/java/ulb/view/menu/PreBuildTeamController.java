@@ -11,6 +11,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import ulb.models.Bugemon.Bugemon;
 import ulb.models.Bugemon.TeamBugemon;
 
 import java.io.IOException;
@@ -26,9 +27,12 @@ public class PreBuildTeamController implements Initializable {
             FXCollections.observableArrayList(new ArrayList<>());
 
     @FXML private ListView<TeamBugemon> teamListView;
+    @FXML private ListView<String> bugemonListView;
     @FXML private Button btnPlay;
     @FXML private Button btnRename;
     @FXML private Button btnDelete;
+    @FXML private Button btnModify;
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -40,6 +44,8 @@ public class PreBuildTeamController implements Initializable {
         btnRename.disableProperty().bind(
                 teamListView.getSelectionModel().selectedItemProperty().isNull());
         btnDelete.disableProperty().bind(
+                teamListView.getSelectionModel().selectedItemProperty().isNull());
+        btnModify.disableProperty().bind(
                 teamListView.getSelectionModel().selectedItemProperty().isNull());
         // Afficher : "Nom Équipe (nombre de Bugémon)"
         teamListView.setCellFactory(lv -> new ListCell<TeamBugemon>() {
@@ -54,6 +60,16 @@ public class PreBuildTeamController implements Initializable {
                 }
             }
         });
+        // Quand on sélectionne une équipe → affiche ses Bugémons à droite
+        teamListView.getSelectionModel().selectedItemProperty().addListener(
+                (obs, oldVal, newVal) -> {
+                    bugemonListView.getItems().clear();
+                    if (newVal != null) {
+                        for (Bugemon b : newVal.getTeam()) {
+                            bugemonListView.getItems().add(b.getNom());
+                        }
+                    }
+                });
     }
     // Retour au menu principal
     @FXML
@@ -72,6 +88,23 @@ public class PreBuildTeamController implements Initializable {
         if (selected == null) return;
         showInfo("Lancement", "Partie lancée avec « " + selected.getName() + " » !");
     }
+    // Modifier une équipe
+    @FXML
+    private void onModify(ActionEvent event) throws IOException {
+        TeamBugemon selected = teamListView.getSelectionModel().getSelectedItem();
+        if (selected == null) return;
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("selectionview.fxml"));
+        Parent root = loader.load();
+
+        SelectionController controller = loader.getController();
+        controller.loadTeamForEditing(selected);
+
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(new Scene(root));
+        stage.show();
+    }
+
     // Renommer l'équipe sélectionnée
     @FXML
     private void onRename(ActionEvent event) {
@@ -106,6 +139,7 @@ public class PreBuildTeamController implements Initializable {
         Optional<ButtonType> result = confirm.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK) {
             teams.remove(selected);
+            bugemonListView.getItems().clear();
         }
     }
     // Aller à la sélection pour créer une nouvelle équipe
@@ -113,6 +147,7 @@ public class PreBuildTeamController implements Initializable {
     private void onNewTeam(ActionEvent event) throws IOException {
         navigateTo(event, "selectionview.fxml");
     }
+    @FXML
     private void navigateTo(ActionEvent event, String fxml) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource(fxml));
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
