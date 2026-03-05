@@ -8,9 +8,12 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.Label;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import ulb.models.Bugemon.Bugemon;
 import ulb.models.Bugemon.BugemonProvider;
@@ -35,6 +38,9 @@ public class SelectionController implements Initializable {
 
     @FXML
     private GridPane gridPane;
+    @FXML
+    private Pane pane;
+    private final Label statsPopup = new Label("testLabel");
     // Bugémons dans le même ordre que les boutons de la grille
     private final List<Bugemon> displayedBugemons = new ArrayList<>();
     // Boutons actuellement sélectionnés (dans l'équipe)
@@ -43,6 +49,12 @@ public class SelectionController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        statsPopup.setMouseTransparent(true);
+        statsPopup.setStyle("-fx-background-color: rgba(0,0,0,0.8); -fx-text-fill: white; -fx-padding: 5; -fx-background-radius: 5;");
+        statsPopup.setVisible(false);
+        pane.getChildren().add(statsPopup);
+        pane.setMouseTransparent(true);
+
         displayBugemons();
     }
 
@@ -70,6 +82,28 @@ public class SelectionController implements Initializable {
             catch (Exception e) {
                 System.err.println("Impossible de charger l'image pour : " + bugemon.getNom());
             }
+            // Affichage des stats au survol
+            btn.setOnMouseEntered(event -> {
+                String stats = "PV: " + BugemonProvider.getSTATS(bugemon.getId(), "pv") + "\n"
+                        + "ATK: " + BugemonProvider.getSTATS(bugemon.getId(), "attaque") + "\n"
+                        + "DEF: " + BugemonProvider.getSTATS(bugemon.getId(), "defense") + "\n"
+                        + "INIT: " + BugemonProvider.getSTATS(bugemon.getId(), "initiative") + "\n"
+                        + "Attaques: " + BugemonProvider.getSTATS(bugemon.getId(), "attaques");
+
+                statsPopup.setText(stats);
+                statsPopup.setVisible(true);
+                statsPopup.setLayoutX(event.getSceneX() - pane.localToScene(0,0).getX() + 15);
+                statsPopup.setLayoutY(event.getSceneY() - pane.localToScene(0,0).getY() + 15);
+            });
+
+            btn.setOnMouseMoved(event -> {
+                statsPopup.setLayoutX(event.getSceneX() - pane.localToScene(0,0).getX() + 15);
+                statsPopup.setLayoutY(event.getSceneY() - pane.localToScene(0,0).getY() + 15);
+            });
+
+            btn.setOnMouseExited(event -> {
+                statsPopup.setVisible(false);
+            });
             // Clic = toggle sélection
             final int index = i;
             btn.setOnAction(e -> toggleSelection(btn, displayedBugemons.get(index)));
