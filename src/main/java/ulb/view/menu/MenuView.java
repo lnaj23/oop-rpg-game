@@ -20,6 +20,7 @@ public class MenuView extends Application {
         //scene.getStylesheets().add(css);
         stage.setTitle("Bugémon");
         stage.setScene(scene);
+        stage.setMaximized(true); // Ouvre la fenêtre en plein écran
         stage.show();
     }
 }

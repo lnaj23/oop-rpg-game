@@ -5,31 +5,21 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.stage.Stage;
 import javafx.fxml.FXML;
-
 import java.io.IOException;
 
 public class MenuController {
-    public Label titelLabel;
-    public Button btnNewGame;
-
+    @FXML
     public void switchToSelectionView(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("selectionview.fxml"));
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
+        Scene scene = ((Node) event.getSource()).getScene();
+        scene.setRoot(root); // Remplace le contenu sans changer la scène
     }
 
     @FXML
     private void switchToPreBuildTeamPage(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("prebuildteam.fxml"));
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
+        Scene scene = ((Node) event.getSource()).getScene();
+        scene.setRoot(root);
     }
 }
