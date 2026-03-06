@@ -3,72 +3,89 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
+<?import javafx.geometry.Insets?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0"
-            xmlns="http://javafx.com/javafx/25"
+<BorderPane xmlns="http://javafx.com/javafx/25"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="ulb.view.menu.PreBuildTeamController">
-    <children>
 
-        <!-- Titre -->
-        <Label layoutX="200.0" layoutY="40.0" text="Mes équipes">
-            <font>
-                <Font size="30.0" />
-            </font>
-        </Label>
-
-        <!-- Bouton Retour -->
-        <Button fx:id="btnRetour"
-                layoutX="20.0"
-                layoutY="20.0"
-                text="Retour"
-                mnemonicParsing="false"
-                onAction="#switchToMenuView"/>
-
-        <!-- Liste des équipes sauvegardées -->
-        <ListView fx:id="teamListView"
-                  layoutX="50.0" layoutY="100.0"
-                  prefWidth="220.0" prefHeight="260.0"/>
-
-        <!-- Bugémons de l'équipe sélectionnée (droite) -->
-        <Label layoutX="290.0" layoutY="100.0" text="Bugémons :"/>
-        <ListView fx:id="bugemonListView"
-                  layoutX="290.0" layoutY="120.0"
-                  prefWidth="260.0" prefHeight="240.0"/>
-
-        <!-- Boutons d'action (désactivés si rien sélectionné) -->
-        <HBox layoutX="50.0" layoutY="380.0" spacing="15.0">
-            <Button fx:id="btnPlay"
-                    text="▶  Jouer"
-                    mnemonicParsing="false"
-                    onAction="#onPlay"
-                    prefWidth="110.0" prefHeight="35.0"/>
-            <Button fx:id="btnModify"
-                    text="🖊  Modifier"
-                    mnemonicParsing="false"
-                    onAction="#onModify"
-                    prefWidth="110.0" prefHeight="35.0"/>
-            <Button fx:id="btnRename"
-                    text="✏  Renommer"
-                    mnemonicParsing="false"
-                    onAction="#onRename"
-                    prefWidth="110.0" prefHeight="35.0"/>
-            <Button fx:id="btnDelete"
-                    text="🗑  Supprimer"
-                    mnemonicParsing="false"
-                    onAction="#onDelete"
-                    prefWidth="110.0" prefHeight="35.0"/>
+    <top>
+        <HBox alignment="CENTER_LEFT" prefHeight="70.0">
+            <children>
+                <Button fx:id="btnRetour"
+                        text="Retour"
+                        mnemonicParsing="false"
+                        onAction="#switchToMenuView">
+                    <HBox.margin><Insets left="20.0"/></HBox.margin>
+                </Button>
+                <Region HBox.hgrow="ALWAYS"/>
+                <Label text="Mes équipes">
+                    <font><Font size="30.0"/></font>
+                    <HBox.margin><Insets right="20.0"/></HBox.margin>
+                </Label>
+            </children>
         </HBox>
+    </top>
 
-        <!-- Bouton nouvelle équipe -->
-        <Button layoutX="200.0" layoutY="435.0"
-                text="＋  Nouvelle équipe"
-                mnemonicParsing="false"
-                onAction="#onNewTeam"
-                prefWidth="200.0" prefHeight="35.0"/>
+    <center>
+        <HBox alignment="CENTER" spacing="30.0">
+            <children>
+                <VBox spacing="8.0" alignment="TOP_CENTER">
+                    <children>
+                        <Label text="Équipes" style="-fx-font-weight: bold; -fx-font-size: 14;"/>
+                        <ListView fx:id="teamListView" prefWidth="220.0" prefHeight="320.0"/>
+                    </children>
+                </VBox>
 
-    </children>
-</AnchorPane>
+                <VBox spacing="8.0" alignment="TOP_CENTER">
+                    <children>
+                        <Label text="Bugémons :" style="-fx-font-weight: bold; -fx-font-size: 14;"/>
+                        <ListView fx:id="bugemonListView" prefWidth="260.0" prefHeight="320.0"/>
+                    </children>
+                </VBox>
+            </children>
+            <padding><Insets left="20.0" right="20.0"/></padding>
+        </HBox>
+    </center>
+
+    <bottom>
+        <VBox alignment="CENTER" spacing="10.0">
+            <children>
+                <!-- Boutons d'action -->
+                <HBox alignment="CENTER" spacing="15.0">
+                    <children>
+                        <Button fx:id="btnPlay"
+                                text="▶  Jouer"
+                                mnemonicParsing="false"
+                                onAction="#onPlay"
+                                prefWidth="110.0" prefHeight="35.0"/>
+                        <Button fx:id="btnModify"
+                                text="🖊  Modifier"
+                                mnemonicParsing="false"
+                                onAction="#onModify"
+                                prefWidth="110.0" prefHeight="35.0"/>
+                        <Button fx:id="btnRename"
+                                text="✏  Renommer"
+                                mnemonicParsing="false"
+                                onAction="#onRename"
+                                prefWidth="110.0" prefHeight="35.0"/>
+                        <Button fx:id="btnDelete"
+                                text="🗑  Supprimer"
+                                mnemonicParsing="false"
+                                onAction="#onDelete"
+                                prefWidth="110.0" prefHeight="35.0"/>
+                    </children>
+                </HBox>
+
+                <Button text="＋  Nouvelle équipe"
+                        mnemonicParsing="false"
+                        onAction="#onNewTeam"
+                        prefWidth="200.0" prefHeight="35.0"/>
+            </children>
+            <padding><Insets bottom="20.0" top="10.0"/></padding>
+        </VBox>
+    </bottom>
+
+</BorderPane>

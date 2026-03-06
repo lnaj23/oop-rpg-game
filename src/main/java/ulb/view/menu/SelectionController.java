@@ -6,13 +6,12 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Popup;
 import ulb.models.Bugemon.Bugemon;
 import ulb.models.Bugemon.BugemonProvider;
 import ulb.models.Bugemon.TeamBugemon;
@@ -25,36 +24,41 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class SelectionController implements Initializable {
+
     private TeamBugemon teamBeingEdited = null;
 
     @FXML private GridPane gridPane;
-    @FXML private Pane pane;
     @FXML private VBox teamRectangle;
     @FXML private GridPane teamGrid;
 
-    private final Label statsPopup = new Label();
+    // Popup flottant avec une Label dedans — aucun impact sur le layout
+    private final Popup statsPopup = new Popup();
+    private final Label statsLabel = new Label();
+
     private final List<Bugemon> displayedBugemons = new ArrayList<>();
     private final List<Button> selectedButtons = new ArrayList<>();
     private final TeamBugemon playerTeam = new TeamBugemon();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        statsPopup.setMouseTransparent(true);
-        statsPopup.setStyle("-fx-background-color: rgba(0,0,0,0.8); -fx-text-fill: white; -fx-padding: 5; -fx-background-radius: 5;");
-        statsPopup.setVisible(false);
-
-        // FIX : Empêche la fenêtre de changer de taille quand le popup bouge
-        statsPopup.setManaged(false);
-
-        pane.getChildren().add(statsPopup);
-        pane.setMouseTransparent(true);
+        // Configuration de la Label dans le Popup
+        statsLabel.setMouseTransparent(true);
+        statsLabel.setStyle(
+                "-fx-background-color: rgba(0,0,0,0.85);" +
+                        "-fx-text-fill: white;" +
+                        "-fx-padding: 6;" +
+                        "-fx-background-radius: 5;" +
+                        "-fx-font-size: 12;"
+        );
+        statsPopup.getContent().add(statsLabel);
+        // Le popup se ferme si on clique ailleurs
+        statsPopup.setAutoHide(true);
 
         displayBugemons();
     }
 
     public void switchToMenuView(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("menuview.fxml"));
-        // FIX : Change le contenu sans changer la scène (garde le plein écran)
         ((Node) event.getSource()).getScene().setRoot(root);
     }
 
@@ -68,6 +72,7 @@ public class SelectionController implements Initializable {
             displayedBugemons.add(bugemon);
             btn.setText(bugemon.getNom());
 
+            // Chargement de l'image
             try {
                 String path = "/Assets/png/" + bugemon.getSprite();
                 Image img = new Image(getClass().getResourceAsStream(path));
@@ -75,11 +80,12 @@ public class SelectionController implements Initializable {
                 view.setFitHeight(50);
                 view.setPreserveRatio(true);
                 btn.setGraphic(view);
-                btn.setContentDisplay(javafx.scene.control.ContentDisplay.TOP);
+                btn.setContentDisplay(ContentDisplay.TOP);
             } catch (Exception e) {
                 System.err.println("Impossible de charger l'image pour : " + bugemon.getNom());
             }
 
+            // Affichage des stats au survol
             btn.setOnMouseEntered(event -> {
                 String stats = "PV: " + BugemonProvider.getSTATS(bugemon.getId(), "pv") + "\n"
                         + "ATK: " + BugemonProvider.getSTATS(bugemon.getId(), "attaque") + "\n"
@@ -87,19 +93,19 @@ public class SelectionController implements Initializable {
                         + "INIT: " + BugemonProvider.getSTATS(bugemon.getId(), "initiative") + "\n"
                         + "Attaques: " + BugemonProvider.getSTATS(bugemon.getId(), "attaques");
 
-                statsPopup.setText(stats);
-                statsPopup.setVisible(true);
-                statsPopup.setLayoutX(event.getSceneX() - pane.localToScene(0,0).getX() + 15);
-                statsPopup.setLayoutY(event.getSceneY() - pane.localToScene(0,0).getY() + 15);
+                statsLabel.setText(stats);
+                // Coordonnées écran absolues — pas de calcul relatif nécessaire
+                statsPopup.show(btn, event.getScreenX() + 15, event.getScreenY() + 15);
             });
 
             btn.setOnMouseMoved(event -> {
-                statsPopup.setLayoutX(event.getSceneX() - pane.localToScene(0,0).getX() + 15);
-                statsPopup.setLayoutY(event.getSceneY() - pane.localToScene(0,0).getY() + 15);
+                statsPopup.setX(event.getScreenX() + 15);
+                statsPopup.setY(event.getScreenY() + 15);
             });
 
-            btn.setOnMouseExited(event -> statsPopup.setVisible(false));
+            btn.setOnMouseExited(event -> statsPopup.hide());
 
+            // Clic = toggle sélection
             final int index = i;
             btn.setOnAction(e -> toggleSelection(btn, displayedBugemons.get(index)));
         }
@@ -111,7 +117,6 @@ public class SelectionController implements Initializable {
             playerTeam.getTeam().remove(bugemon);
             btn.setStyle("");
         } else {
-            // Ton code d'erreur que j'avais supprimé par erreur :
             if (selectedButtons.size() >= 6) {
                 showError("Équipe pleine", "Vous ne pouvez sélectionner que 6 Bugémons maximum.");
                 return;
@@ -150,9 +155,9 @@ public class SelectionController implements Initializable {
     public void loadTeamForEditing(TeamBugemon team) {
         this.teamBeingEdited = team;
         List<Node> buttons = gridPane.getChildren().filtered(n -> n instanceof Button);
+
         for (int i = 0; i < displayedBugemons.size() && i < buttons.size(); i++) {
             Bugemon currentBug = displayedBugemons.get(i);
-            // On vérifie si l'ID correspond pour sélectionner le bon bouton
             if (team.getTeam().stream().anyMatch(b -> b.getId().equals(currentBug.getId()))) {
                 Button btn = (Button) buttons.get(i);
                 selectedButtons.add(btn);
@@ -187,7 +192,6 @@ public class SelectionController implements Initializable {
 
     private void navigateTo(ActionEvent event, String fxml) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource(fxml));
-        // FIX : Garde le plein écran lors du changement de page
         ((Node) event.getSource()).getScene().setRoot(root);
     }
 
