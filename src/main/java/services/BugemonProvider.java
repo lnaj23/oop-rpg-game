@@ -1,21 +1,24 @@
-package models.Bugemon;
+package services;
 
 import com.google.gson.Gson;
+import models.Bugemon.DTO.BugemonDTO;
 import exceptions.AttackNotFoundException;
 import exceptions.BugemonNotFoundException;
+import models.Bugemon.Attack;
+import models.Bugemon.Bugemon;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-/*
+/**
  * Provides access to Bugemon and Attack data loaded from JSON files.
  * Acts as the single entry point for retrieving Bugemon stats and building teams.
  */
 public abstract class BugemonProvider {
 
-    /*
+    /**
      * These inner classes mirror the structure of the JSON files bugemons.json and attaques.json,
      * which respectively contain a list of Bugemon objects under the key "bugemons"
      * and a list of Attack objects under the key "attaques".
@@ -32,7 +35,7 @@ public abstract class BugemonProvider {
     private static List<Bugemon> bugemonRepo;
     private static List<Attack> attackRepo;
 
-    /*
+    /**
      * This class is not intended to be instantiated, so it is declared abstract.
      * So no constructor is used to run initialization code.
      *
@@ -43,7 +46,7 @@ public abstract class BugemonProvider {
         readJsonFiles();
     }
 
-    /*
+    /**
      * Reads bugemons.json and attaques.json from resources and populates
      * bugemonRepo and AttackRepo. Throws IllegalStateException if a file is missing.
      */
@@ -60,7 +63,7 @@ public abstract class BugemonProvider {
         bugemonRepo = gson.fromJson(new InputStreamReader(bugemonStream), JsonBugemons.class).bugemons;
     }
 
-    /*
+    /**
      * Returns a List of Bugemon objects, used by the TeamBugemon constructor.
      * The next three methods are only used by this method.
      * Throws BugemonNotFoundException if any id in the list does not match a known Bugemon.
@@ -69,7 +72,7 @@ public abstract class BugemonProvider {
      * @return List of Bugemon objects
      * @throws BugemonNotFoundException if any id is not found
      */
-    static List<Bugemon> getListBugemon(List<String> teamId) {
+    public static List<Bugemon> getListBugemon(List<String> teamId) {
         List<Bugemon> bugemonList = new ArrayList<>();
         for (String id : teamId) {
             bugemonList.add(getBugemon(id));
@@ -77,7 +80,7 @@ public abstract class BugemonProvider {
         return bugemonList;
     }
 
-    /*
+    /**
      * Searches bugemonRepo for a Bugemon matching the given id.
      * Assigns its attacks before returning it.
      * Throws BugemonNotFoundException if no Bugemon matches the given id.
@@ -96,7 +99,7 @@ public abstract class BugemonProvider {
         throw new BugemonNotFoundException(id);
     }
 
-    /*
+    /**
      * Populates the Attack list of the given Bugemon from AttackRepo.
      * Skips assignment if attacks are already loaded to avoid duplicates.
      *
@@ -109,7 +112,7 @@ public abstract class BugemonProvider {
         }
     }
 
-    /*
+    /**
      * Searches AttackRepo for an Attack matching the given id.
      * Returns null and logs an error if not found.
      *
@@ -123,7 +126,7 @@ public abstract class BugemonProvider {
         throw new AttackNotFoundException(id);
     }
 
-    /*
+    /**
      * Returns the requested stat of the Bugemon with the given id as a String.
      * Accepted values for statsToGet: "pv", "attaque", "defense", "initiative", "attaques".
      * Returns null if the Bugemon is not found or if the stat name is unknown.
@@ -148,7 +151,7 @@ public abstract class BugemonProvider {
         }
     }
 
-    /*
+    /**
      * Returns the max HP of the Bugemon with the given id as a String.
      *
      * @param id the id of the Bugemon
@@ -159,7 +162,7 @@ public abstract class BugemonProvider {
         return String.valueOf(bug.getStats().getPv());
     }
 
-    /*
+    /**
      * Returns the attack stat of the Bugemon with the given id as a String.
      *
      * @param id the id of the Bugemon
@@ -170,7 +173,7 @@ public abstract class BugemonProvider {
         return String.valueOf(bug.getStats().getAttaque());
     }
 
-    /*
+    /**
      * Returns the defense stat of the Bugemon with the given id as a String.
      *
      * @param id the id of the Bugemon
@@ -181,7 +184,7 @@ public abstract class BugemonProvider {
         return String.valueOf(bug.getStats().getDefense());
     }
 
-    /*
+    /**
      * Returns the initiative stat of the Bugemon with the given id as a String.
      *
      * @param id the id of the Bugemon
@@ -192,7 +195,7 @@ public abstract class BugemonProvider {
         return String.valueOf(bug.getStats().getInitiative());
     }
 
-    /*
+    /**
      * Returns the names of the attacks of the Bugemon with the given id as a String.
      *
      * @param id the id of the Bugemon
@@ -203,7 +206,7 @@ public abstract class BugemonProvider {
         return String.join(", ", bug.getAttackNames());
     }
 
-    /*
+    /**
      * Returns the names of the attacks of the Bugemon with the given id as a List of Strings.
      *
      * @param id the id of the Bugemon
@@ -217,5 +220,7 @@ public abstract class BugemonProvider {
     public static List<Bugemon> getAllBugemons() {
         return new ArrayList<>(bugemonRepo);
     }
-
+    public static List<BugemonDTO> getAllBugemonsDTO() {
+        return new ArrayList<>(bugemonRepo);
+    }
 }

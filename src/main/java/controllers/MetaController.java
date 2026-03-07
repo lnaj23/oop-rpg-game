@@ -7,6 +7,8 @@ import models.Bugemon.TeamBugemon;
 import views.FatalErrorView;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Central controller that manages navigation between scenes and holds shared application state.
@@ -28,7 +30,7 @@ public class MetaController {
     private final SelectionController selectionController;
 
     /** Shared list of saved teams, passed to all controllers that need it. */
-    private final ObservableList<TeamBugemon> teams = FXCollections.observableArrayList();
+    private final List<TeamBugemon> teams = new ArrayList<>();
 
     /**
      * Initializes all controllers and views.
@@ -68,7 +70,9 @@ public class MetaController {
             case SELECTION -> this.selectionController.show(stage);
             default -> throw new IllegalArgumentException("Invalid scene: " + scene);
         }
-
+        if (scene == Scenes.PREBUILD_TEAM) {
+            this.preBuildTeamController.refreshView();
+        }
         if (stage.isShowing()) {
             stage.setWidth(width);
             stage.setHeight(height);

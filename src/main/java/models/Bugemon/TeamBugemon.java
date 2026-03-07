@@ -1,20 +1,23 @@
 package models.Bugemon;
 
+import models.Bugemon.DTO.BugemonDTO;
+import models.Bugemon.DTO.TeamBugemonDTO;
 import exceptions.BugemonNotInTeamException;
+import services.BugemonProvider;
 
 import java.util.ArrayList;
 import java.util.List;
 
-/*
- * Represents a Bugemon team, identified by a name and the Bugemon that compose it.
- * In the game, teams are the core unit — individual Bugemon are never manipulated directly during gameplay.
- * Uses BugemonProvider to instantiate Bugemon objects from a list of their ids.
+/**
+ * Represents a named team of up to 6 Bugémons.
+ * Implements {@link TeamBugemonDTO} to expose read-only data to views.
  */
-public class TeamBugemon {
+public class TeamBugemon implements TeamBugemonDTO {
 
     private String name = null;
     private List<Bugemon> team;
 
+    @Override
     public String getName()          { return name; }
     public void setName(String name) { this.name = name; }
 
@@ -31,10 +34,15 @@ public class TeamBugemon {
         this.team = BugemonProvider.getListBugemon(teamId);
     }
 
-    public void addBugemon(Bugemon bug) {
-        team.add(bug);
+    public void addBugemon(BugemonDTO bug) {
+        team.add((Bugemon) bug);
     }
 
+    @Override
+    public void addBugemonDTO(BugemonDTO bug) {
+        team.add((Bugemon) bug);
+    }
+    @Override
     public int getSize() {
         return team.size();
     }
@@ -42,6 +50,8 @@ public class TeamBugemon {
     public List<Bugemon> getTeam() {
         return team;
     }
+    @Override
+    public List<BugemonDTO> getTeamDTO()   { return new ArrayList<>(team); }
 
     public List<Attack> getAllAttacks() {
         List<Attack> allAttacks = new ArrayList<>();
@@ -71,5 +81,10 @@ public class TeamBugemon {
         for (Bugemon bug : team) {
             System.out.println(bug.getId());
         }
+    }
+
+    @Override
+    public void removeBugemonDTO(BugemonDTO bug) {
+        team.remove((Bugemon) bug);
     }
 }

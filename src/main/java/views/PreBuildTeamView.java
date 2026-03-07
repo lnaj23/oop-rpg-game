@@ -1,13 +1,13 @@
 package views;
 
 import controllers.PreBuildTeamController;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import models.Bugemon.Bugemon;
-import models.Bugemon.TeamBugemon;
+import models.Bugemon.DTO.BugemonDTO;
+import models.Bugemon.DTO.TeamBugemonDTO;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -18,7 +18,7 @@ public class PreBuildTeamView extends View {
 
     private PreBuildTeamController controller;
 
-    @FXML private ListView<TeamBugemon> teamListView;
+    @FXML private ListView<TeamBugemonDTO> teamListView;
     @FXML private ListView<String> bugemonListView;
     @FXML private Button btnRetour;
     @FXML private Button btnNewTeam;
@@ -28,25 +28,23 @@ public class PreBuildTeamView extends View {
     @FXML private Button btnDelete;
 
     /**
-     * Loads the FXML, binds the team list, and wires all button actions.
+     * Loads the FXML and wires all button actions.
      * Action buttons (play, modify, rename, delete) are disabled when no team is selected.
+     * Call {@link #refreshTeams(List)} after construction to populate the list.
      *
-     * @param teams the shared observable list of saved teams to display
      * @throws IOException if the FXML file cannot be loaded
      */
-    public PreBuildTeamView(ObservableList<TeamBugemon> teams) throws IOException {
+    public PreBuildTeamView() throws IOException {
         super("/fxml/prebuildteam.fxml");
-
-        teamListView.setItems(teams);
 
         btnPlay.disableProperty().bind(teamListView.getSelectionModel().selectedItemProperty().isNull());
         btnModify.disableProperty().bind(teamListView.getSelectionModel().selectedItemProperty().isNull());
         btnRename.disableProperty().bind(teamListView.getSelectionModel().selectedItemProperty().isNull());
         btnDelete.disableProperty().bind(teamListView.getSelectionModel().selectedItemProperty().isNull());
 
-        teamListView.setCellFactory(lv -> new ListCell<TeamBugemon>() {
+        teamListView.setCellFactory(lv -> new ListCell<TeamBugemonDTO>() {
             @Override
-            protected void updateItem(TeamBugemon item, boolean empty) {
+            protected void updateItem(TeamBugemonDTO item, boolean empty) {
                 super.updateItem(item, empty);
                 if (empty || item == null) setText(null);
                 else setText(item.getName() + " (" + item.getSize() + " Bugémon(s))");
@@ -56,7 +54,7 @@ public class PreBuildTeamView extends View {
         teamListView.getSelectionModel().selectedItemProperty().addListener((obs, oldV, newV) -> {
             bugemonListView.getItems().clear();
             if (newV != null) {
-                for (Bugemon b : newV.getTeam()) bugemonListView.getItems().add(b.getNom());
+                for (BugemonDTO b : newV.getTeamDTO()) bugemonListView.getItems().add(b.getNom());
             }
         });
 
@@ -76,9 +74,19 @@ public class PreBuildTeamView extends View {
     }
 
     /**
-     * @return the currently selected team, or null if none is selected
+     * Replaces the displayed team list with the given one.
+     * Accepts any list whose elements implement {@link TeamBugemonDTO} (e.g. {@code List<TeamBugemon>}).
+     *
+     * @param teams the updated list of teams to display
      */
-    private TeamBugemon getSelected() {
+    public void refreshTeams(List<? extends TeamBugemonDTO> teams) {
+        teamListView.getItems().setAll(teams);
+    }
+
+    /**
+     * @return the currently selected team as a DTO, or null if none is selected
+     */
+    private TeamBugemonDTO getSelected() {
         return teamListView.getSelectionModel().getSelectedItem();
     }
 
@@ -86,7 +94,7 @@ public class PreBuildTeamView extends View {
      * Shows a dialog to rename the selected team and delegates to the controller.
      */
     private void onRenameClicked() {
-        TeamBugemon selected = getSelected();
+        TeamBugemonDTO selected = getSelected();
         if (selected == null) return;
         TextInputDialog dialog = new TextInputDialog(selected.getName());
         dialog.setTitle("Renommer l'équipe");
@@ -103,7 +111,7 @@ public class PreBuildTeamView extends View {
      * Shows a confirmation dialog before deleting the selected team.
      */
     private void onDeleteClicked() {
-        TeamBugemon selected = getSelected();
+        TeamBugemonDTO selected = getSelected();
         if (selected == null) return;
         Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
         confirm.setTitle("Supprimer l'équipe");

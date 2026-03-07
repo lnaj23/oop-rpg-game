@@ -9,10 +9,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Popup;
-import models.Bugemon.Bugemon;
-import models.Bugemon.BugemonProvider;
-import models.Bugemon.TeamBugemon;
-
+import models.Bugemon.DTO.BugemonDTO;
+import services.BugemonProvider;
+import models.Bugemon.DTO.TeamBugemonDTO;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,13 +39,13 @@ public class SelectionView extends View {
     private final Label statsLabel = new Label();
 
     /** Bugémons currently displayed in the grid, in order. */
-    private final List<Bugemon> displayedBugemons = new ArrayList<>();
+    private final List<BugemonDTO> displayedBugemons = new ArrayList<>();
 
     /** Grid buttons that are currently selected (highlighted in red). */
     private final List<Button> selectedButtons = new ArrayList<>();
 
     /** The team being built by the player. */
-    private TeamBugemon playerTeam = new TeamBugemon();
+    private TeamBugemonDTO playerTeam;
 
     /**
      * Loads the FXML, sets up the hover popup, and wires button actions.
@@ -74,16 +73,20 @@ public class SelectionView extends View {
         this.controller = controller;
     }
 
+    public void setPlayerTeam(TeamBugemonDTO team) {
+        this.playerTeam = team;
+    }
+
     /**
      * Populates the Bugémon grid with all available Bugémons.
      * Sets up hover popups and click-to-toggle selection for each button.
      */
     private void displayBugemons() {
-        List<Bugemon> allBugemons = BugemonProvider.getAllBugemons();
+        List<BugemonDTO> allBugemons = BugemonProvider.getAllBugemonsDTO();
         List<Node> buttons = gridPane.getChildren().filtered(node -> node instanceof Button);
 
         for (int i = 0; i < allBugemons.size() && i < buttons.size(); i++) {
-            Bugemon bugemon = allBugemons.get(i);
+            BugemonDTO bugemon = allBugemons.get(i);
             Button btn = (Button) buttons.get(i);
             displayedBugemons.add(bugemon);
             btn.setText(bugemon.getNom());
@@ -117,7 +120,7 @@ public class SelectionView extends View {
 
             final int index = i;
             btn.setOnAction(e -> {
-                Bugemon selected = displayedBugemons.get(index);
+                BugemonDTO selected = displayedBugemons.get(index);
                 toggleSelection(btn, selected);
                 showBugemonStats(selected);
             });
@@ -132,10 +135,10 @@ public class SelectionView extends View {
      * @param btn the button that was clicked
      * @param bugemon the Bugémon associated with that button
      */
-    private void toggleSelection(Button btn, Bugemon bugemon) {
+    private void toggleSelection(Button btn, BugemonDTO bugemon) {
         if (selectedButtons.contains(btn)) {
             selectedButtons.remove(btn);
-            playerTeam.getTeam().remove(bugemon);
+            playerTeam.removeBugemonDTO(bugemon);
             btn.setStyle("");
         } else {
             if (selectedButtons.size() >= 6) {
@@ -143,7 +146,7 @@ public class SelectionView extends View {
                 return;
             }
             selectedButtons.add(btn);
-            playerTeam.addBugemon(bugemon);
+            playerTeam.addBugemonDTO(bugemon);
             btn.setStyle("-fx-background-color: #e8a8a8; -fx-border-color: #c0392b; -fx-border-width: 2;");
         }
         updateTeamGridDisplay();
@@ -154,7 +157,7 @@ public class SelectionView extends View {
      *
      * @param bugemon the Bugémon to display stats for
      */
-    private void showBugemonStats(Bugemon bugemon) {
+    private void showBugemonStats(BugemonDTO bugemon) {
         bugemonStatsLabel.setText(String.format(
                 "%s | PV: %s | ATK: %s | DEF: %s | INIT: %s",
                 bugemon.getNom(),
@@ -170,12 +173,12 @@ public class SelectionView extends View {
      */
     private void updateTeamGridDisplay() {
         teamGrid.getChildren().clear();
-        List<Bugemon> currentTeam = playerTeam.getTeam();
+        List<BugemonDTO> currentTeam = playerTeam.getTeamDTO();
         for (int i = 0; i < currentTeam.size(); i++) {
-            Bugemon bugemon = currentTeam.get(i);
+            BugemonDTO bugemon = currentTeam.get(i);
             try {
                 String path = "/Assets/png/" + bugemon.getSprite();
-                Image img = new Image(getClass().getResourceAsStream(path));
+                Image img = new Image(Objects.requireNonNull(getClass().getResourceAsStream(path)));
                 ImageView imgView = new ImageView(img);
                 imgView.setFitHeight(60);
                 imgView.setFitWidth(60);
@@ -193,15 +196,15 @@ public class SelectionView extends View {
      *
      * @param team the team whose Bugémons should be pre-selected
      */
-    public void preSelectTeam(TeamBugemon team) {
+    public void preSelectTeam(TeamBugemonDTO team) {
         List<Node> buttons = gridPane.getChildren().filtered(n -> n instanceof Button);
         for (int i = 0; i < displayedBugemons.size() && i < buttons.size(); i++) {
-            Bugemon currentBug = displayedBugemons.get(i);
-            if (team.getTeam().stream().anyMatch(b -> b.getId().equals(currentBug.getId()))) {
+            BugemonDTO currentBug = displayedBugemons.get(i);
+            if (team.getTeamDTO().stream().anyMatch(b -> b.getId().equals(currentBug.getId()))) {
                 Button btn = (Button) buttons.get(i);
                 selectedButtons.add(btn);
-                playerTeam.addBugemon(currentBug);
-                btn.setStyle("-fx-background-color: #a8d8a8; -fx-border-color: #4caf50; -fx-border-width: 2;");
+                playerTeam.addBugemonDTO(currentBug);
+                btn.setStyle("-fx-background-color: #e8a8a8; -fx-border-color: #c0392b; -fx-border-width: 2;");
             }
         }
         updateTeamGridDisplay();
@@ -213,7 +216,7 @@ public class SelectionView extends View {
     public void reset() {
         for (Button btn : selectedButtons) btn.setStyle("");
         selectedButtons.clear();
-        playerTeam = new TeamBugemon();
+        controller.resetPlayerTeam();
         teamGrid.getChildren().clear();
         bugemonStatsLabel.setText("Clique sur un Bugémon pour voir ses statistiques");
         displayedBugemons.clear();

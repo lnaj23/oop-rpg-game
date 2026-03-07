@@ -23,7 +23,7 @@
         </ImageView>
 
         <ImageView fitHeight="200" preserveRatio="true" AnchorPane.bottomAnchor="250" AnchorPane.rightAnchor="550">
-            <image><Image url="@../Assets/png/pyricore.png" /></image>
+            <image><Image url="@../Assets/png/pyroxis.png" /></image>
         </ImageView>
 
     </AnchorPane>

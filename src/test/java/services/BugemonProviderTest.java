@@ -1,14 +1,14 @@
-package models.Bugemon;
+package services;
 
-import junit.framework.TestCase;
-import org.junit.Test;
 import exceptions.BugemonNotFoundException;
+import junit.framework.TestCase;
+import models.Bugemon.Bugemon;
+import org.junit.Test;
 
 import java.util.Arrays;
 import java.util.List;
 
 public class BugemonProviderTest extends TestCase {
-
     @Test
     public void testGetListBugemonReturnsNotNull() {
         List<Bugemon> list = BugemonProvider.getListBugemon(Arrays.asList("florachu", "exceflam", "commitide"));

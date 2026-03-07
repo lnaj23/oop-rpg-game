@@ -1,10 +1,12 @@
 package controllers;
 
 import javafx.collections.ObservableList;
+import models.Bugemon.DTO.TeamBugemonDTO;
 import models.Bugemon.TeamBugemon;
 import views.PreBuildTeamView;
 
 import java.io.IOException;
+import java.util.List;
 
 /**
  * Controller for the team management screen.
@@ -13,17 +15,18 @@ import java.io.IOException;
 public class PreBuildTeamController extends Controller<PreBuildTeamView> {
 
     /** The shared list of saved teams. */
-    private final ObservableList<TeamBugemon> teams;
+    private final List<TeamBugemon> teams;
 
     /**
      * @param metaController the central controller
      * @param teams the shared observable list of saved teams
      * @throws IOException if the FXML fails to load
      */
-    public PreBuildTeamController(MetaController metaController, ObservableList<TeamBugemon> teams) throws IOException {
-        super(metaController, new PreBuildTeamView(teams));
+    public PreBuildTeamController(MetaController metaController, List<TeamBugemon> teams) throws IOException {
+        super(metaController, new PreBuildTeamView());
         this.teams = teams;
         this.view.setController(this);
+        this.view.refreshTeams(teams);
     }
 
     /** Navigates back to the main menu. */
@@ -39,38 +42,46 @@ public class PreBuildTeamController extends Controller<PreBuildTeamView> {
     /**
      * Opens the selection screen to edit an existing team.
      *
-     * @param team the team to modify
+     * @param teamDTO the team to modify, cast internally to {@link TeamBugemon}
      */
-    public void modifyTeam(TeamBugemon team) {
-        this.metaController.openSelectionForEdit(team);
+    public void modifyTeam(TeamBugemonDTO teamDTO) {
+        this.metaController.openSelectionForEdit((TeamBugemon) teamDTO);
     }
 
     /**
-     * Removes a team from the saved list.
+     * Removes a team from the saved list and refreshes the view.
      *
-     * @param team the team to delete
+     * @param teamDTO the team to delete, cast internally to {@link TeamBugemon}
      */
-    public void deleteTeam(TeamBugemon team) {
-        this.teams.remove(team);
+    public void deleteTeam(TeamBugemonDTO teamDTO) {
+        this.teams.remove((TeamBugemon) teamDTO);
+        this.view.refreshTeams(teams);
     }
 
     /**
      * Renames a team and refreshes the list display.
      *
-     * @param team the team to rename
+     * @param teamDTO the team to rename, cast internally to {@link TeamBugemon}
      * @param newName the new name to assign
      */
-    public void renameTeam(TeamBugemon team, String newName) {
-        team.setName(newName);
+    public void renameTeam(TeamBugemonDTO teamDTO, String newName) {
+        ((TeamBugemon) teamDTO).setName(newName);
         this.view.refreshTeamList();
+    }
+
+    /**
+     * Refreshes the view's team list (e.g. after a new team is added).
+     */
+    public void refreshView() {
+        this.view.refreshTeams(teams);
     }
 
     /**
      * Starts a game with the selected team.
      *
-     * @param team the team to play with
+     * @param teamDTO the team to play with
      */
-    public void play(TeamBugemon team) {
+    public void play(TeamBugemonDTO teamDTO) {
         System.out.println("Jeu lancé");
     }
 }

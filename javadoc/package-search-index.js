@@ -1,1 +1,1 @@
-packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"controllers"},{"l":"exceptions"},{"l":"models.Bugemon"},{"l":"views"}];updateSearchResults();
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"controllers"},{"l":"exceptions"},{"l":"models.Bugemon"},{"l":"models.Bugemon.DTO"},{"l":"services"},{"l":"views"}];updateSearchResults();
