@@ -5,6 +5,14 @@
 
 ## Suivi de planification du projet
 
+### Analyse de l'écart (Prévu vs Réalisé)
+
+Nous avons initialement alloué une période importante à la découverte de notre environnement de travail (IntelliJ, Java, JUnit,...). Finalement, l'utilisation de ces outils s’est révélée moins complexe que nous l'avions imaginé.
+
+### Gestion des risques (R1, R2, R3)
+
+Pour l'histoire 1, nous avons attribué un risque R2 ce qui s'est ressenti après le TP3 car nous avons remarqué que nous ne respections pas correctement le modèle MVC comme ce qui est présenté dans le TP. Nous avons donc effectué un grand refactoring afin de garantir d'avoir une base solide respectant le MVC pour les itérations suivants.
+
 ## Motivation des choix pris lors de la conception
 
 ### Justification du modèle MVC
