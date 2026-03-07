@@ -16,8 +16,14 @@ import models.Bugemon.TeamBugemon;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
+/**
+ * View for the Bugémon selection screen.
+ * Displays a grid of all available Bugémons and lets the player build a team of up to 6.
+ * Supports both new team creation and editing of an existing team.
+ */
 public class SelectionView extends View {
 
     private SelectionController controller;
@@ -29,16 +35,27 @@ public class SelectionView extends View {
     @FXML private Button confirmButton;
     @FXML private Button backButton;
 
+    /** Popup shown on hover to preview a Bugémon's stats. */
     private final Popup statsPopup = new Popup();
     private final Label statsLabel = new Label();
+
+    /** Bugémons currently displayed in the grid, in order. */
     private final List<Bugemon> displayedBugemons = new ArrayList<>();
+
+    /** Grid buttons that are currently selected (highlighted in red). */
     private final List<Button> selectedButtons = new ArrayList<>();
+
+    /** The team being built by the player. */
     private TeamBugemon playerTeam = new TeamBugemon();
 
+    /**
+     * Loads the FXML, sets up the hover popup, and wires button actions.
+     *
+     * @throws IOException if the FXML file cannot be loaded
+     */
     public SelectionView() throws IOException {
         super("/fxml/selectionview.fxml");
 
-        // Setup popup de stats au survol
         statsLabel.setMouseTransparent(true);
         statsLabel.setStyle("-fx-background-color: rgba(0,0,0,0.8); -fx-text-fill: white; -fx-padding: 5; -fx-background-radius: 5;");
         statsPopup.getContent().add(statsLabel);
@@ -50,10 +67,17 @@ public class SelectionView extends View {
         displayBugemons();
     }
 
+    /**
+     * @param controller the controller to delegate actions to
+     */
     public void setController(SelectionController controller) {
         this.controller = controller;
     }
 
+    /**
+     * Populates the Bugémon grid with all available Bugémons.
+     * Sets up hover popups and click-to-toggle selection for each button.
+     */
     private void displayBugemons() {
         List<Bugemon> allBugemons = BugemonProvider.getAllBugemons();
         List<Node> buttons = gridPane.getChildren().filtered(node -> node instanceof Button);
@@ -66,7 +90,7 @@ public class SelectionView extends View {
 
             try {
                 String path = "/Assets/png/" + bugemon.getSprite();
-                Image img = new Image(getClass().getResourceAsStream(path));
+                Image img = new Image(Objects.requireNonNull(getClass().getResourceAsStream(path)));
                 ImageView imgView = new ImageView(img);
                 imgView.setFitHeight(50);
                 imgView.setPreserveRatio(true);
@@ -76,7 +100,6 @@ public class SelectionView extends View {
                 System.err.println("Impossible de charger l'image pour : " + bugemon.getNom());
             }
 
-            // Popup de stats au survol
             btn.setOnMouseEntered(event -> {
                 String stats = "PV: " + BugemonProvider.getSTATS(bugemon.getId(), "pv") + "\n"
                         + "ATK: " + BugemonProvider.getSTATS(bugemon.getId(), "attaque") + "\n"
@@ -92,7 +115,6 @@ public class SelectionView extends View {
             });
             btn.setOnMouseExited(event -> statsPopup.hide());
 
-            // Clic = toggle sélection
             final int index = i;
             btn.setOnAction(e -> {
                 Bugemon selected = displayedBugemons.get(index);
@@ -102,6 +124,14 @@ public class SelectionView extends View {
         }
     }
 
+    /**
+     * Toggles the selection state of a Bugémon button.
+     * Adds or removes the Bugémon from the player's team and updates button style.
+     * Shows an error if the team is already full (6 Bugémons).
+     *
+     * @param btn the button that was clicked
+     * @param bugemon the Bugémon associated with that button
+     */
     private void toggleSelection(Button btn, Bugemon bugemon) {
         if (selectedButtons.contains(btn)) {
             selectedButtons.remove(btn);
@@ -114,11 +144,16 @@ public class SelectionView extends View {
             }
             selectedButtons.add(btn);
             playerTeam.addBugemon(bugemon);
-            btn.setStyle("-fx-background-color: #a8d8a8; -fx-border-color: #4caf50; -fx-border-width: 2;");
+            btn.setStyle("-fx-background-color: #e8a8a8; -fx-border-color: #c0392b; -fx-border-width: 2;");
         }
         updateTeamGridDisplay();
     }
 
+    /**
+     * Updates the stats label at the bottom with the given Bugémon's stats.
+     *
+     * @param bugemon the Bugémon to display stats for
+     */
     private void showBugemonStats(Bugemon bugemon) {
         bugemonStatsLabel.setText(String.format(
                 "%s | PV: %s | ATK: %s | DEF: %s | INIT: %s",
@@ -130,6 +165,9 @@ public class SelectionView extends View {
         ));
     }
 
+    /**
+     * Refreshes the team preview grid with the current player team's sprites.
+     */
     private void updateTeamGridDisplay() {
         teamGrid.getChildren().clear();
         List<Bugemon> currentTeam = playerTeam.getTeam();
@@ -149,7 +187,12 @@ public class SelectionView extends View {
         }
     }
 
-    // Appelée par SelectionController.loadTeamForEditing()
+    /**
+     * Pre-selects the Bugémons of an existing team in the grid (edit mode).
+     * Selected buttons are highlighted in green.
+     *
+     * @param team the team whose Bugémons should be pre-selected
+     */
     public void preSelectTeam(TeamBugemon team) {
         List<Node> buttons = gridPane.getChildren().filtered(n -> n instanceof Button);
         for (int i = 0; i < displayedBugemons.size() && i < buttons.size(); i++) {
@@ -164,15 +207,23 @@ public class SelectionView extends View {
         updateTeamGridDisplay();
     }
 
-    // Réinitialise toute la sélection
+    /**
+     * Resets the view to its initial state: clears selection, team, stats label, and reloads the grid.
+     */
     public void reset() {
         for (Button btn : selectedButtons) btn.setStyle("");
         selectedButtons.clear();
         playerTeam = new TeamBugemon();
         teamGrid.getChildren().clear();
         bugemonStatsLabel.setText("Clique sur un Bugémon pour voir ses statistiques");
+        displayedBugemons.clear();
+        displayBugemons();
     }
 
+    /**
+     * Handles the confirm button click. Shows an error if the team is empty.
+     * In edit mode, confirms directly. In creation mode, prompts for a team name first.
+     */
     private void onConfirmClicked() {
         if (playerTeam.getSize() < 1) {
             showError("Aucun Bugémon", "Sélectionnez au moins 1 Bugémon avant de valider.");
@@ -191,6 +242,12 @@ public class SelectionView extends View {
         }
     }
 
+    /**
+     * Displays a modal error dialog.
+     *
+     * @param title the dialog title
+     * @param message the error message
+     */
     private void showError(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(title);

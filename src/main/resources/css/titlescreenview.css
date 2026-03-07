@@ -1,0 +1,6 @@
+#titelLabel {
+    -fx-font-size: 80px;
+    -fx-font-weight: 900;
+    -fx-font-family: "Arial Black";
+    -fx-text-fill: white;
+}

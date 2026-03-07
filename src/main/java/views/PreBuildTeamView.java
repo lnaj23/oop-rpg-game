@@ -10,6 +10,10 @@ import models.Bugemon.TeamBugemon;
 import java.io.IOException;
 import java.util.Optional;
 
+/**
+ * View for the team management screen.
+ * Displays the list of saved teams and their Bugémons, and provides actions to play, modify, rename, or delete them.
+ */
 public class PreBuildTeamView extends View {
 
     private PreBuildTeamController controller;
@@ -23,19 +27,23 @@ public class PreBuildTeamView extends View {
     @FXML private Button btnRename;
     @FXML private Button btnDelete;
 
+    /**
+     * Loads the FXML, binds the team list, and wires all button actions.
+     * Action buttons (play, modify, rename, delete) are disabled when no team is selected.
+     *
+     * @param teams the shared observable list of saved teams to display
+     * @throws IOException if the FXML file cannot be loaded
+     */
     public PreBuildTeamView(ObservableList<TeamBugemon> teams) throws IOException {
         super("/fxml/prebuildteam.fxml");
 
-        // Lie la liste observable aux équipes partagées
         teamListView.setItems(teams);
 
-        // Désactive les boutons si aucune équipe sélectionnée
         btnPlay.disableProperty().bind(teamListView.getSelectionModel().selectedItemProperty().isNull());
         btnModify.disableProperty().bind(teamListView.getSelectionModel().selectedItemProperty().isNull());
         btnRename.disableProperty().bind(teamListView.getSelectionModel().selectedItemProperty().isNull());
         btnDelete.disableProperty().bind(teamListView.getSelectionModel().selectedItemProperty().isNull());
 
-        // Affichage : "Nom (n Bugémon(s))"
         teamListView.setCellFactory(lv -> new ListCell<TeamBugemon>() {
             @Override
             protected void updateItem(TeamBugemon item, boolean empty) {
@@ -45,7 +53,6 @@ public class PreBuildTeamView extends View {
             }
         });
 
-        // Sélection d'une équipe → affiche ses Bugémons à droite
         teamListView.getSelectionModel().selectedItemProperty().addListener((obs, oldV, newV) -> {
             bugemonListView.getItems().clear();
             if (newV != null) {
@@ -53,7 +60,6 @@ public class PreBuildTeamView extends View {
             }
         });
 
-        // Actions des boutons (les lambdas capturent controller lazily)
         btnRetour.setOnAction(e -> this.controller.goToMenu());
         btnNewTeam.setOnAction(e -> this.controller.goToNewTeam());
         btnPlay.setOnAction(e -> this.controller.play(getSelected()));
@@ -62,14 +68,23 @@ public class PreBuildTeamView extends View {
         btnDelete.setOnAction(e -> onDeleteClicked());
     }
 
+    /**
+     * @param controller the controller to delegate actions to
+     */
     public void setController(PreBuildTeamController controller) {
         this.controller = controller;
     }
 
+    /**
+     * @return the currently selected team, or null if none is selected
+     */
     private TeamBugemon getSelected() {
         return teamListView.getSelectionModel().getSelectedItem();
     }
 
+    /**
+     * Shows a dialog to rename the selected team and delegates to the controller.
+     */
     private void onRenameClicked() {
         TeamBugemon selected = getSelected();
         if (selected == null) return;
@@ -84,6 +99,9 @@ public class PreBuildTeamView extends View {
         });
     }
 
+    /**
+     * Shows a confirmation dialog before deleting the selected team.
+     */
     private void onDeleteClicked() {
         TeamBugemon selected = getSelected();
         if (selected == null) return;
@@ -98,6 +116,7 @@ public class PreBuildTeamView extends View {
         }
     }
 
+    /** Forces the team list to re-render its cells (e.g. after a rename). */
     public void refreshTeamList() {
         teamListView.refresh();
     }

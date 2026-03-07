@@ -8,8 +8,13 @@ import views.FatalErrorView;
 
 import java.io.IOException;
 
+/**
+ * Central controller that manages navigation between scenes and holds shared application state.
+ * Creates and owns all sub-controllers and the shared team list.
+ */
 public class MetaController {
 
+    /** Enumeration of all available scenes in the application. */
     public enum Scenes {
         MENU,
         PREBUILD_TEAM,
@@ -18,25 +23,39 @@ public class MetaController {
 
     private boolean isMaximized = false;
     private final Stage stage;
-    private final MenuController menuController;
+    private final TitleScreenController menuController;
     private final PreBuildTeamController preBuildTeamController;
     private final SelectionController selectionController;
 
-    // Liste partagée des équipes — injectée dans les controllers qui en ont besoin
+    /** Shared list of saved teams, passed to all controllers that need it. */
     private final ObservableList<TeamBugemon> teams = FXCollections.observableArrayList();
 
+    /**
+     * Initializes all controllers and views.
+     *
+     * @param stage the primary JavaFX stage
+     * @throws IOException if any FXML file fails to load
+     */
     public MetaController(Stage stage) throws IOException {
         this.stage = stage;
-        this.menuController = new MenuController(this);
+        this.menuController = new TitleScreenController(this);
         this.preBuildTeamController = new PreBuildTeamController(this, teams);
         this.selectionController = new SelectionController(this, teams);
     }
 
+    /**
+     * Starts the application by showing the menu and maximizing the window.
+     */
     public void start() {
         switchScene(Scenes.MENU);
         stage.setMaximized(true);
     }
 
+    /**
+     * Switches the current scene while preserving window size and position.
+     *
+     * @param scene the scene to switch to
+     */
     public void switchScene(Scenes scene) {
         double width = stage.getWidth();
         double height = stage.getHeight();
@@ -58,17 +77,30 @@ public class MetaController {
         }
     }
 
+    /**
+     * Resets the selection view and navigates to it for creating a new team.
+     */
     public void openNewSelection() {
         this.selectionController.reset();
         this.switchScene(Scenes.SELECTION);
     }
 
+    /**
+     * Resets the selection view, pre-selects the given team's Bugémons, and navigates to it.
+     *
+     * @param team the team to edit
+     */
     public void openSelectionForEdit(TeamBugemon team) {
         this.selectionController.reset();
         this.selectionController.loadTeamForEditing(team);
         this.switchScene(Scenes.SELECTION);
     }
 
+    /**
+     * Displays a fatal error message and exits the application.
+     *
+     * @param reason description of the error
+     */
     public void fatalError(String reason) {
         FatalErrorView.show("Fatal error, closing the application.\nReason: " + reason);
         System.exit(1);

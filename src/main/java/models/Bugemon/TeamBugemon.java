@@ -5,6 +5,11 @@ import exceptions.BugemonNotInTeamException;
 import java.util.ArrayList;
 import java.util.List;
 
+/*
+ * Represents a Bugemon team, identified by a name and the Bugemon that compose it.
+ * In the game, teams are the core unit — individual Bugemon are never manipulated directly during gameplay.
+ * Uses BugemonProvider to instantiate Bugemon objects from a list of their ids.
+ */
 public class TeamBugemon {
 
     private String name = null;

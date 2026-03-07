@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"controllers"},{"l":"exceptions"},{"l":"models.Bugemon"},{"l":"views"}];updateSearchResults();
