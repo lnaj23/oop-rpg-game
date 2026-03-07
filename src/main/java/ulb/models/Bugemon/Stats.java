@@ -1,6 +1,6 @@
 package ulb.models.Bugemon;
 
-class Stats {
+public class Stats {
     private int pv;
     private int currentpv;
     private int attaque;

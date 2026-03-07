@@ -7,35 +7,46 @@
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
+<?import javafx.scene.text.TextFlow?>
+<?import javafx.scene.text.Text?>
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ulb.view.menu.SelectionController">
    <top>
-      <HBox alignment="CENTER_LEFT" prefHeight="80.0" BorderPane.alignment="CENTER">
+      <VBox spacing="10.0">
          <children>
-            <Button mnemonicParsing="false" onAction="#switchToMenuView" text="Retour">
-               <HBox.margin>
-                  <Insets left="20.0" />
-               </HBox.margin>
-            </Button>
+            <Label fx:id="bugemonStatsLabel"
+                   text="Clique sur un Bugémon pour voir ses statistiques"
+                   wrapText="true"
+                   prefWidth="600.0"
+                   style="-fx-padding: 10; -fx-font-size: 14px; -fx-background-color: white; -fx-border-color: black;" />
 
-            <Region prefHeight="80.0" prefWidth="512.0" HBox.hgrow="ALWAYS" />
+            <HBox alignment="CENTER_LEFT" prefHeight="80.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Button mnemonicParsing="false" onAction="#switchToMenuView" text="Retour">
+                     <HBox.margin>
+                        <Insets left="20.0" />
+                     </HBox.margin>
+                  </Button>
 
-            <Label text="Sélection d'équipe">
-               <font>
-                  <Font size="30.0" />
-               </font>
-               <HBox.margin>
-                  <Insets right="20.0" />
-               </HBox.margin>
-            </Label>
+                  <Region prefHeight="80.0" prefWidth="512.0" HBox.hgrow="ALWAYS" />
+
+                  <Label text="Sélection d'équipe">
+                     <font>
+                        <Font size="30.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets right="20.0" />
+                     </HBox.margin>
+                  </Label>
+               </children>
+            </HBox>
          </children>
-      </HBox>
+      </VBox>
    </top>
 
    <center>
@@ -86,7 +97,6 @@
                         <Button fx:id="bug24" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Button" GridPane.columnIndex="3" GridPane.rowIndex="4" />
                      </children>
                   </GridPane>
-                  <Pane fx:id="pane" mouseTransparent="true" />
                </children>
             </StackPane>
 
