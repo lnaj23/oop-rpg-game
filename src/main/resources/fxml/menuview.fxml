@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+
+<StackPane xmlns="http://javafx.com/javafx/17.0.12"
+           xmlns:fx="http://javafx.com/fxml/1">
+
+    <VBox alignment="CENTER" spacing="30.0">
+
+        <Label fx:id="titelLabel" text="BUGÉMON" textAlignment="CENTER">
+            <font>
+                <Font size="50.0" />
+            </font>
+        </Label>
+
+        <VBox alignment="CENTER" spacing="15.0">
+            <Button fx:id="btnNewGame"
+                    mnemonicParsing="false"
+                    text="Nouvelle équipe"
+                    prefWidth="180.0" />
+            <Button fx:id="btnPreBuildTeam"
+                    mnemonicParsing="false"
+                    text="Vos équipes"
+                    prefWidth="180.0" />
+        </VBox>
+
+    </VBox>
+
+</StackPane>
