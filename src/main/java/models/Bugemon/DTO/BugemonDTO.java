@@ -49,4 +49,9 @@ public interface BugemonDTO {
      * @return the initiative stat of the Bugémon
      */
     int getInitiative();
+
+    /**
+     * @return the attacks as a String
+     */
+    String getAttackNamesAsString();
 }

@@ -16,20 +16,20 @@ public class Bugemon implements BugemonDTO {
     private String type;
     private Stats stats;
     private List<String> attaques;
-    private List<Attack> Attacks = new ArrayList<>();
+    private List<Attack> attacks = new ArrayList<>();
     private String sprite;
     private boolean starter;
 
     @Override public String getId()            { return id; }
     @Override public String getNom()           { return nom; }
     @Override public String getSprite()        { return sprite; }
-    @Override public List<Attack> getAttacks() { return Attacks; }
+    @Override public List<Attack> getAttacks() { return attacks; }
     @Override public int getPv()               { return stats.getPv(); }
     @Override public int getAttaque()          { return stats.getAttaque(); }
     @Override public int getDefense()          { return stats.getDefense(); }
     @Override public int getInitiative()       { return stats.getInitiative(); }
 
-    public Stats getStats()              { return stats; }
-    public List<String> getAttackNames() { return attaques; }
-    public void addAttacks(Attack attack)       { Attacks.add(attack); }
+    public List<String> getAttackNamesAsList() { return attaques; }
+    @Override public String getAttackNamesAsString() { return String.join(", ", attaques); }
+    public void addAttacks(Attack attack)       { attacks.add(attack); }
 }

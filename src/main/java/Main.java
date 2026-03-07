@@ -1,5 +1,4 @@
 import controllers.MetaController;
-import controllers.MetaController.Scenes;
 import javafx.application.Application;
 import javafx.stage.Stage;
 

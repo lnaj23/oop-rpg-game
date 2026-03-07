@@ -3,11 +3,13 @@ package views;
 import controllers.PreBuildTeamController;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.stage.StageStyle;
 import models.Bugemon.DTO.BugemonDTO;
 import models.Bugemon.DTO.TeamBugemonDTO;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -100,6 +102,11 @@ public class PreBuildTeamView extends View {
         dialog.setTitle("Renommer l'équipe");
         dialog.setHeaderText("Nouveau nom pour « " + selected.getName() + " »");
         dialog.setContentText("Nom :");
+        dialog.initStyle(StageStyle.UNDECORATED);
+        dialog.setGraphic(null);
+        dialog.getDialogPane().getStylesheets().add(
+                Objects.requireNonNull(getClass().getResource("/css/common.css")).toExternalForm()
+        );
         dialog.showAndWait().ifPresent(newName -> {
             if (!newName.trim().isEmpty()) {
                 this.controller.renameTeam(selected, newName.trim());
@@ -117,6 +124,11 @@ public class PreBuildTeamView extends View {
         confirm.setTitle("Supprimer l'équipe");
         confirm.setHeaderText("Supprimer « " + selected.getName() + " » ?");
         confirm.setContentText("Cette action est irréversible.");
+        confirm.initStyle(StageStyle.UNDECORATED);
+        confirm.setGraphic(null);
+        confirm.getDialogPane().getStylesheets().add(
+                Objects.requireNonNull(getClass().getResource("/css/common.css")).toExternalForm()
+        );
         Optional<ButtonType> result = confirm.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK) {
             this.controller.deleteTeam(selected);

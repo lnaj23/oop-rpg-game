@@ -34,8 +34,8 @@ public class TeamBugemon implements TeamBugemonDTO {
         this.team = BugemonProvider.getListBugemon(teamId);
     }
 
-    public void addBugemon(BugemonDTO bug) {
-        team.add((Bugemon) bug);
+    public void addBugemon(Bugemon bug) {
+        team.add(bug);
     }
 
     @Override

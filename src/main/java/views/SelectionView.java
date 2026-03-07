@@ -9,6 +9,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Popup;
+import javafx.stage.StageStyle;
 import models.Bugemon.DTO.BugemonDTO;
 import services.BugemonProvider;
 import models.Bugemon.DTO.TeamBugemonDTO;
@@ -104,11 +105,11 @@ public class SelectionView extends View {
             }
 
             btn.setOnMouseEntered(event -> {
-                String stats = "PV: " + BugemonProvider.getSTATS(bugemon.getId(), "pv") + "\n"
-                        + "ATK: " + BugemonProvider.getSTATS(bugemon.getId(), "attaque") + "\n"
-                        + "DEF: " + BugemonProvider.getSTATS(bugemon.getId(), "defense") + "\n"
-                        + "INIT: " + BugemonProvider.getSTATS(bugemon.getId(), "initiative") + "\n"
-                        + "Attaques: " + BugemonProvider.getSTATS(bugemon.getId(), "attaques");
+                String stats = "PV: "      + bugemon.getPv()         + "\n"
+                        + "ATK: "     + bugemon.getAttaque()     + "\n"
+                        + "DEF: "     + bugemon.getDefense()     + "\n"
+                        + "INIT: "    + bugemon.getInitiative()  + "\n"
+                        + "Attaques: " + bugemon.getAttackNamesAsString();
                 statsLabel.setText(stats);
                 statsPopup.show(btn, event.getScreenX() + 15, event.getScreenY() + 15);
             });
@@ -161,10 +162,10 @@ public class SelectionView extends View {
         bugemonStatsLabel.setText(String.format(
                 "%s | PV: %s | ATK: %s | DEF: %s | INIT: %s",
                 bugemon.getNom(),
-                BugemonProvider.getSTATS(bugemon.getId(), "pv"),
-                BugemonProvider.getSTATS(bugemon.getId(), "attaque"),
-                BugemonProvider.getSTATS(bugemon.getId(), "defense"),
-                BugemonProvider.getSTATS(bugemon.getId(), "initiative")
+                bugemon.getPv(),
+                bugemon.getAttaque(),
+                bugemon.getDefense(),
+                bugemon.getInitiative()
         ));
     }
 
@@ -239,6 +240,11 @@ public class SelectionView extends View {
             dialog.setTitle("Sauvegarder l'équipe");
             dialog.setHeaderText("Donnez un nom à votre équipe (" + playerTeam.getSize() + " Bugémon(s))");
             dialog.setContentText("Nom :");
+            dialog.initStyle(StageStyle.UNDECORATED);
+            dialog.setGraphic(null);
+            dialog.getDialogPane().getStylesheets().add(
+                    Objects.requireNonNull(getClass().getResource("/css/common.css")).toExternalForm()
+            );
             Optional<String> result = dialog.showAndWait();
             if (!result.isPresent() || result.get().trim().isEmpty()) return;
             this.controller.confirmSelection(playerTeam, result.get().trim());
@@ -256,6 +262,11 @@ public class SelectionView extends View {
         alert.setTitle(title);
         alert.setHeaderText(null);
         alert.setContentText(message);
+        alert.getDialogPane().getStylesheets().add(
+                Objects.requireNonNull(getClass().getResource("/css/common.css")).toExternalForm()
+        );
+        alert.initStyle(StageStyle.UNDECORATED);
+        alert.setGraphic(null);
         alert.showAndWait();
     }
 

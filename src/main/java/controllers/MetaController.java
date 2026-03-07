@@ -23,7 +23,6 @@ public class MetaController {
         SELECTION
     }
 
-    private boolean isMaximized = false;
     private final Stage stage;
     private final TitleScreenController menuController;
     private final PreBuildTeamController preBuildTeamController;

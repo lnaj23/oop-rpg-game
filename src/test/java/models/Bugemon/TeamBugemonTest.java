@@ -88,7 +88,7 @@ public class TeamBugemonTest extends TestCase {
     @Test
     public void testGetAllAttacksTotalCount() {
         TeamBugemon team = new TeamBugemon("test",Arrays.asList("florachu", "exceflam", "commitide"));
-        int expected = team.getTeam().stream().mapToInt(b -> b.getAttackNames().size()).sum();
+        int expected = team.getTeam().stream().mapToInt(b -> b.getAttackNamesAsList().size()).sum();
         assertEquals(expected, team.getAllAttacks().size());
     }
 
@@ -111,7 +111,7 @@ public class TeamBugemonTest extends TestCase {
         TeamBugemon team = new TeamBugemon("test",Arrays.asList("florachu", "exceflam"));
         List<Attack> attacks = team.getAttacksOf("florachu");
         assertNotNull(attacks);
-        assertEquals(team.getTeam().get(0).getAttackNames().size(), attacks.size());
+        assertEquals(team.getTeam().get(0).getAttackNamesAsList().size(), attacks.size());
     }
 
     @Test

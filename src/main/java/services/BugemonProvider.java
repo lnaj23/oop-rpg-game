@@ -107,7 +107,7 @@ public abstract class BugemonProvider {
      */
     private static void assignAttack(Bugemon bug) {
         if (!bug.getAttacks().isEmpty()) return;
-        for (String attackName : bug.getAttackNames()) {
+        for (String attackName : bug.getAttackNamesAsList()) {
             bug.addAttacks(getAttacksFromJson(attackName));
         }
     }
@@ -124,97 +124,6 @@ public abstract class BugemonProvider {
             if (attack.getId().equals(id)) return attack;
         }
         throw new AttackNotFoundException(id);
-    }
-
-    /**
-     * Returns the requested stat of the Bugemon with the given id as a String.
-     * Accepted values for statsToGet: "pv", "attaque", "defense", "initiative", "attaques".
-     * Returns null if the Bugemon is not found or if the stat name is unknown.
-     *
-     * This method is intended to be used in the team selection screen, where stats
-     * need to be displayed on hover before any TeamBugemon object is created.
-     *
-     * @param id         the id of the Bugemon
-     * @param statsToGet the name of the stat to retrieve
-     * @return the requested stat as a String, or null if not found
-     */
-    public static String getSTATS(String id, String statsToGet) {
-        switch (statsToGet.toLowerCase()) {
-            case "pv":         return getPv(id);
-            case "attaque":    return getAttaque(id);
-            case "defense":    return getDefense(id);
-            case "initiative": return getInitiative(id);
-            case "attaques":   return getAttackNames(id);
-            default:
-                System.err.println("Unknown stat: " + statsToGet);
-                return null;
-        }
-    }
-
-    /**
-     * Returns the max HP of the Bugemon with the given id as a String.
-     *
-     * @param id the id of the Bugemon
-     * @return max HP as a String, or null if not found
-     */
-    public static String getPv(String id) {
-        Bugemon bug = getBugemon(id);
-        return String.valueOf(bug.getStats().getPv());
-    }
-
-    /**
-     * Returns the attack stat of the Bugemon with the given id as a String.
-     *
-     * @param id the id of the Bugemon
-     * @return attack stat as a String, or null if not found
-     */
-    public static String getAttaque(String id) {
-        Bugemon bug = getBugemon(id);
-        return String.valueOf(bug.getStats().getAttaque());
-    }
-
-    /**
-     * Returns the defense stat of the Bugemon with the given id as a String.
-     *
-     * @param id the id of the Bugemon
-     * @return defense stat as a String, or null if not found
-     */
-    public static String getDefense(String id) {
-        Bugemon bug = getBugemon(id);
-        return String.valueOf(bug.getStats().getDefense());
-    }
-
-    /**
-     * Returns the initiative stat of the Bugemon with the given id as a String.
-     *
-     * @param id the id of the Bugemon
-     * @return initiative stat as a String, or null if not found
-     */
-    public static String getInitiative(String id) {
-        Bugemon bug = getBugemon(id);
-        return String.valueOf(bug.getStats().getInitiative());
-    }
-
-    /**
-     * Returns the names of the attacks of the Bugemon with the given id as a String.
-     *
-     * @param id the id of the Bugemon
-     * @return attack names separated by ", " as a String, or null if not found
-     */
-    public static String getAttackNames(String id) {
-        Bugemon bug = getBugemon(id);
-        return String.join(", ", bug.getAttackNames());
-    }
-
-    /**
-     * Returns the names of the attacks of the Bugemon with the given id as a List of Strings.
-     *
-     * @param id the id of the Bugemon
-     * @return attack names as a List of Strings, or null if not found
-     */
-    public static List<String> getAttackNamesList(String id) {
-        Bugemon bug = getBugemon(id);
-        return bug.getAttackNames();
     }
 
     public static List<Bugemon> getAllBugemons() {
