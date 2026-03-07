@@ -16,13 +16,14 @@ import javafx.scene.layout.VBox;
 import ulb.models.Bugemon.Bugemon;
 import ulb.models.Bugemon.BugemonProvider;
 import ulb.models.Bugemon.TeamBugemon;
-
+import javafx.scene.control.Label;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
+
 
 public class SelectionController implements Initializable {
     private TeamBugemon teamBeingEdited = null;
@@ -31,7 +32,9 @@ public class SelectionController implements Initializable {
     @FXML private Pane pane;
     @FXML private VBox teamRectangle;
     @FXML private GridPane teamGrid;
-
+    //mooooooooooooooooooooo
+    @FXML private Label bugemonStatsLabel;
+    //mooooooooooooooooooooooooooooooo
     private final Label statsPopup = new Label();
     private final List<Bugemon> displayedBugemons = new ArrayList<>();
     private final List<Button> selectedButtons = new ArrayList<>();
@@ -51,7 +54,19 @@ public class SelectionController implements Initializable {
 
         displayBugemons();
     }
-
+    //mooooooooooooooooooooooooooooooo
+    private void showBugemonStats(Bugemon bugemon) {
+        String statsText = String.format(
+                "%s | PV: %d | ATK: %d | DEF: %d | INIT: %d",
+                bugemon.getNom(),
+                bugemon.getStats().getPv(),
+                bugemon.getStats().getAttaque(),
+                bugemon.getStats().getDefense(),
+                bugemon.getStats().getInitiative()
+        );
+        bugemonStatsLabel.setText(statsText);
+    }
+    //mooooooooooooooooooooooooooooooo
     public void switchToMenuView(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("menuview.fxml"));
         // FIX : Change le contenu sans changer la scène (garde le plein écran)
@@ -101,7 +116,12 @@ public class SelectionController implements Initializable {
             btn.setOnMouseExited(event -> statsPopup.setVisible(false));
 
             final int index = i;
-            btn.setOnAction(e -> toggleSelection(btn, displayedBugemons.get(index)));
+            //mooooooooooooooooooooooooooooooo
+            btn.setOnAction(e -> {
+                Bugemon selectedBugemon = displayedBugemons.get(index);
+                toggleSelection(btn, selectedBugemon);
+                showBugemonStats(selectedBugemon);
+            });
         }
     }
 
