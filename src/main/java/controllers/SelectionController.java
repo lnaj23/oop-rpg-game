@@ -1,6 +1,5 @@
 package controllers;
 
-import javafx.collections.ObservableList;
 import models.Bugemon.DTO.TeamBugemonDTO;
 import models.Bugemon.TeamBugemon;
 import views.SelectionView;
@@ -34,7 +33,7 @@ public class SelectionController extends Controller<SelectionView> {
 
     /** Navigates back to the main menu. */
     public void goToMenu() {
-        this.metaController.switchScene(MetaController.Scenes.MENU);
+        this.metaController.switchScene(MetaController.Scenes.TITLE_SCREEN);
     }
 
     /**

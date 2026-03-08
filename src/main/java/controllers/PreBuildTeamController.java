@@ -1,6 +1,5 @@
 package controllers;
 
-import javafx.collections.ObservableList;
 import models.Bugemon.DTO.TeamBugemonDTO;
 import models.Bugemon.TeamBugemon;
 import views.PreBuildTeamView;
@@ -31,7 +30,7 @@ public class PreBuildTeamController extends Controller<PreBuildTeamView> {
 
     /** Navigates back to the main menu. */
     public void goToMenu() {
-        this.metaController.switchScene(MetaController.Scenes.MENU);
+        this.metaController.switchScene(MetaController.Scenes.TITLE_SCREEN);
     }
 
     /** Opens the selection screen to create a new team. */

@@ -1,7 +1,5 @@
 package controllers;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.stage.Stage;
 import models.Bugemon.TeamBugemon;
 import views.FatalErrorView;
@@ -18,13 +16,13 @@ public class MetaController {
 
     /** Enumeration of all available scenes in the application. */
     public enum Scenes {
-        MENU,
+        TITLE_SCREEN,
         PREBUILD_TEAM,
         SELECTION
     }
 
     private final Stage stage;
-    private final TitleScreenController menuController;
+    private final TitleScreenController titleScreenController;
     private final PreBuildTeamController preBuildTeamController;
     private final SelectionController selectionController;
 
@@ -39,7 +37,7 @@ public class MetaController {
      */
     public MetaController(Stage stage) throws IOException {
         this.stage = stage;
-        this.menuController = new TitleScreenController(this);
+        this.titleScreenController = new TitleScreenController(this);
         this.preBuildTeamController = new PreBuildTeamController(this, teams);
         this.selectionController = new SelectionController(this, teams);
     }
@@ -48,7 +46,7 @@ public class MetaController {
      * Starts the application by showing the menu and maximizing the window.
      */
     public void start() {
-        switchScene(Scenes.MENU);
+        switchScene(Scenes.TITLE_SCREEN);
         stage.setMaximized(true);
     }
 
@@ -64,7 +62,7 @@ public class MetaController {
         double y = stage.getY();
 
         switch (scene) {
-            case MENU -> this.menuController.show(stage);
+            case TITLE_SCREEN -> this.titleScreenController.show(stage);
             case PREBUILD_TEAM -> this.preBuildTeamController.show(stage);
             case SELECTION -> this.selectionController.show(stage);
             default -> throw new IllegalArgumentException("Invalid scene: " + scene);
