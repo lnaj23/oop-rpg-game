@@ -31,8 +31,8 @@ public class SelectionController extends Controller<SelectionView> {
         this.view.setPlayerTeam(new TeamBugemon());
     }
 
-    /** Navigates back to the main menu. */
-    public void goToMenu() {
+    /** Navigates back to the Title Screen. */
+    public void goToTitleScreen() {
         this.metaController.switchScene(MetaController.Scenes.TITLE_SCREEN);
     }
 

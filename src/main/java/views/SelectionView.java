@@ -61,7 +61,7 @@ public class SelectionView extends View {
         statsPopup.getContent().add(statsLabel);
         statsPopup.setAutoHide(true);
 
-        backButton.setOnAction(e -> this.controller.goToMenu());
+        backButton.setOnAction(e -> this.controller.goToTitleScreen());
         confirmButton.setOnAction(e -> onConfirmClicked());
 
         displayBugemons();
