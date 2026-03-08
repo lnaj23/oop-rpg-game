@@ -63,12 +63,12 @@ public class MetaController {
 
         switch (scene) {
             case TITLE_SCREEN -> this.titleScreenController.show(stage);
-            case PREBUILD_TEAM -> this.preBuildTeamController.show(stage);
+            case PREBUILD_TEAM -> {
+                this.preBuildTeamController.show(stage);
+                this.preBuildTeamController.refreshView();
+            }
             case SELECTION -> this.selectionController.show(stage);
             default -> throw new IllegalArgumentException("Invalid scene: " + scene);
-        }
-        if (scene == Scenes.PREBUILD_TEAM) {
-            this.preBuildTeamController.refreshView();
         }
         if (stage.isShowing()) {
             stage.setWidth(width);

@@ -44,6 +44,9 @@ public abstract class BugemonProvider {
      */
     static {
         readJsonFiles();
+        for (Bugemon bug : bugemonRepo) {
+            assignAttack(bug);
+        }
     }
 
     /**
@@ -92,7 +95,6 @@ public abstract class BugemonProvider {
     private static Bugemon getBugemon(String id) {
         for (Bugemon bug : bugemonRepo) {
             if (bug.getId().equals(id)) {
-                assignAttack(bug);
                 return bug;
             }
         }

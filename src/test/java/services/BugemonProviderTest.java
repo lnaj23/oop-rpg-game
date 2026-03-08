@@ -2,6 +2,7 @@ package services;
 
 import exceptions.BugemonNotFoundException;
 import junit.framework.TestCase;
+import models.Bugemon.Attack;
 import models.Bugemon.Bugemon;
 import org.junit.Test;
 
@@ -67,5 +68,29 @@ public class BugemonProviderTest extends TestCase {
     public void testGetListBugemonAllTypesReturnsCorrectSize() {
         List<Bugemon> list = BugemonProvider.getListBugemon(Arrays.asList("florachu", "exceflam", "commitide", "rockachu"));
         assertEquals(4, list.size());
+    }
+    @Test
+    public void testGetListBugemonHasAttacks() {
+        List<Bugemon> list = BugemonProvider.getListBugemon(Arrays.asList("florachu", "exceflam", "commitide"));
+        for (Bugemon bug : list) {
+            assertNotNull(bug.getAttacks());
+            assertFalse("Attacks should not be empty for " + bug.getId(), bug.getAttacks().isEmpty());
+        }
+    }
+
+    @Test
+    public void testGetListBugemonAttacksNotNull() {
+        List<Bugemon> list = BugemonProvider.getListBugemon(Arrays.asList("florachu"));
+        for (Attack attack : list.get(0).getAttacks()) {
+            assertNotNull(attack);
+        }
+    }
+
+    @Test
+    public void testGetAllBugemonsHaveAttacks() {
+        List<Bugemon> list = BugemonProvider.getAllBugemons();
+        for (Bugemon bug : list) {
+            assertFalse("Attacks should not be empty for " + bug.getId(), bug.getAttacks().isEmpty());
+        }
     }
 }
