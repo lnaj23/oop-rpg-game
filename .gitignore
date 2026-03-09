@@ -2,8 +2,8 @@
 # Edit at https://www.toptal.com/developers/gitignore?templates=java,intellij,visualstudiocode
 
 # Ignore persistence local data files
-src/main/java/persistence/addebugemon/
-src/main/java/persistence/savedteam/
+src/main/java/persistence/addebugemon/*
+src/main/java/persistence/savedteam/*
 
 
 ### Intellij ###
