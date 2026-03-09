@@ -32,7 +32,10 @@ public abstract class BugemonProvider {
         public List<Attack> attaques;
     }
 
+    /** All Bugémons loaded from bugemons.json at startup. */
     private static List<Bugemon> bugemonRepo;
+
+    /** All Attacks loaded from attaques.json at startup. */
     private static List<Attack> attackRepo;
 
     /**
@@ -44,14 +47,14 @@ public abstract class BugemonProvider {
      */
     static {
         readJsonFiles();
-        for (Bugemon bug : bugemonRepo) {
-            assignAttack(bug);
-        }
+        //We are making sure that all the bugemo already have their attacks
+        bugemonRepo.forEach(bug -> assignAttack(bug));
     }
 
     /**
      * Reads bugemons.json and attaques.json from resources and populates
-     * bugemonRepo and AttackRepo. Throws IllegalStateException if a file is missing.
+     * bugemonRepo and AttackRepo.
+     * @throws IllegalStateException if a file is missing.
      */
     private static void readJsonFiles() {
         Gson gson = new Gson();
@@ -77,9 +80,7 @@ public abstract class BugemonProvider {
      */
     public static List<Bugemon> getListBugemon(List<String> teamId) {
         List<Bugemon> bugemonList = new ArrayList<>();
-        for (String id : teamId) {
-            bugemonList.add(getBugemon(id));
-        }
+        teamId.forEach(id -> bugemonList.add(getBugemon(id)));
         return bugemonList;
     }
 
@@ -109,9 +110,7 @@ public abstract class BugemonProvider {
      */
     private static void assignAttack(Bugemon bug) {
         if (!bug.getAttacks().isEmpty()) return;
-        for (String attackName : bug.getAttackNamesAsList()) {
-            bug.addAttacks(getAttacksFromJson(attackName));
-        }
+        bug.getAttackNamesAsList().forEach(attackName -> bug.addAttacks(getAttacksFromJson(attackName)));
     }
 
     /**

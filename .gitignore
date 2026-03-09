@@ -1,6 +1,11 @@
 # Created by https://www.toptal.com/developers/gitignore/api/java,intellij,visualstudiocode
 # Edit at https://www.toptal.com/developers/gitignore?templates=java,intellij,visualstudiocode
 
+# Ignore persistence local data files
+src/main/java/persistence/addebugemon/
+src/main/java/persistence/savedteam/
+
+
 ### Intellij ###
 # Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio, WebStorm and Rider
 # Reference: https://intellij-support.jetbrains.com/hc/en-us/articles/206544839

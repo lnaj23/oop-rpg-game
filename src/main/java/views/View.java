@@ -8,11 +8,18 @@ import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
+import controllers.Controller;
+
 /**
  * Abstract base class for all views.
  * Loads an FXML file, sets itself as the controller, and wraps the result in a {@link Scene}.
+ *
+ * @param <T> the type of controller associated with this view
  */
-public abstract class View {
+public abstract class View <T extends Controller> {
+
+    /** the Controller */
+    protected T controller;
 
     /** The root layout pane loaded from FXML. */
     protected final Pane root;
@@ -45,6 +52,13 @@ public abstract class View {
         if (!stage.isShowing()) {
             stage.show();
         }
+    }
+
+    /**
+     * @param controller the controller to delegate actions to
+     */
+    public void setController(T controller) {
+        this.controller = controller;
     }
 
     /**

@@ -16,9 +16,7 @@ import java.util.Optional;
  * View for the team management screen.
  * Displays the list of saved teams and their Bugémons, and provides actions to play, modify, rename, or delete them.
  */
-public class PreBuildTeamView extends View {
-
-    private PreBuildTeamController controller;
+public class PreBuildTeamView extends View <PreBuildTeamController> {
 
     @FXML private ListView<TeamBugemonDTO> teamListView;
     @FXML private ListView<String> bugemonListView;
@@ -38,12 +36,16 @@ public class PreBuildTeamView extends View {
      */
     public PreBuildTeamView() throws IOException {
         super("/fxml/prebuildteam.fxml");
+        binButtons();
+        initTeamListView();
+        setActionButtons();
+    }
 
-        btnPlay.disableProperty().bind(teamListView.getSelectionModel().selectedItemProperty().isNull());
-        btnModify.disableProperty().bind(teamListView.getSelectionModel().selectedItemProperty().isNull());
-        btnRename.disableProperty().bind(teamListView.getSelectionModel().selectedItemProperty().isNull());
-        btnDelete.disableProperty().bind(teamListView.getSelectionModel().selectedItemProperty().isNull());
-
+    /**
+     * Initializes the team list cell factory and sets up the selection listener
+     * to update the Bugémon list when a team is selected.
+     */
+    private void initTeamListView() {
         teamListView.setCellFactory(lv -> new ListCell<TeamBugemonDTO>() {
             @Override
             protected void updateItem(TeamBugemonDTO item, boolean empty) {
@@ -55,24 +57,32 @@ public class PreBuildTeamView extends View {
 
         teamListView.getSelectionModel().selectedItemProperty().addListener((obs, oldV, newV) -> {
             bugemonListView.getItems().clear();
-            if (newV != null) {
-                for (BugemonDTO b : newV.getTeamDTO()) bugemonListView.getItems().add(b.getNom());
-            }
+            if (newV != null)
+                newV.getTeamDTO().forEach(b -> bugemonListView.getItems().add(b.getNom()));
         });
+    }
 
+    /**
+     * Binds the action buttons' disabled state to the team list selection.
+     * Buttons are disabled when no team is selected.
+     */
+    private void binButtons() {
+        btnPlay.disableProperty().bind(teamListView.getSelectionModel().selectedItemProperty().isNull());
+        btnModify.disableProperty().bind(teamListView.getSelectionModel().selectedItemProperty().isNull());
+        btnRename.disableProperty().bind(teamListView.getSelectionModel().selectedItemProperty().isNull());
+        btnDelete.disableProperty().bind(teamListView.getSelectionModel().selectedItemProperty().isNull());
+    }
+
+    /**
+     * Wires all button actions to their corresponding controller methods.
+     */
+    private void setActionButtons(){
         btnRetour.setOnAction(e -> this.controller.goToMenu());
         btnNewTeam.setOnAction(e -> this.controller.goToNewTeam());
         btnPlay.setOnAction(e -> this.controller.play(getSelected()));
         btnModify.setOnAction(e -> this.controller.modifyTeam(getSelected()));
         btnRename.setOnAction(e -> onRenameClicked());
         btnDelete.setOnAction(e -> onDeleteClicked());
-    }
-
-    /**
-     * @param controller the controller to delegate actions to
-     */
-    public void setController(PreBuildTeamController controller) {
-        this.controller = controller;
     }
 
     /**
@@ -98,6 +108,19 @@ public class PreBuildTeamView extends View {
     private void onRenameClicked() {
         TeamBugemonDTO selected = getSelected();
         if (selected == null) return;
+        showRenameDialog(selected).ifPresent(newName -> {
+            if (!newName.trim().isEmpty())
+                this.controller.renameTeam(selected, newName.trim());
+        });
+    }
+
+    /**
+     * Builds and shows a text input dialog to rename a team.
+     *
+     * @param selected the team to rename
+     * @return an Optional containing the new name entered by the user
+     */
+    private Optional<String> showRenameDialog(TeamBugemonDTO selected) {
         TextInputDialog dialog = new TextInputDialog(selected.getName());
         dialog.setTitle("Renommer l'équipe");
         dialog.setHeaderText("Nouveau nom pour « " + selected.getName() + " »");
@@ -107,11 +130,7 @@ public class PreBuildTeamView extends View {
         dialog.getDialogPane().getStylesheets().add(
                 Objects.requireNonNull(getClass().getResource("/css/common.css")).toExternalForm()
         );
-        dialog.showAndWait().ifPresent(newName -> {
-            if (!newName.trim().isEmpty()) {
-                this.controller.renameTeam(selected, newName.trim());
-            }
-        });
+        return dialog.showAndWait();
     }
 
     /**
@@ -120,6 +139,20 @@ public class PreBuildTeamView extends View {
     private void onDeleteClicked() {
         TeamBugemonDTO selected = getSelected();
         if (selected == null) return;
+        Optional<ButtonType> result = showDeleteConfirmDialog(selected);
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            this.controller.deleteTeam(selected);
+            bugemonListView.getItems().clear();
+        }
+    }
+
+    /**
+     * Builds and shows a confirmation dialog for deleting a team.
+     *
+     * @param selected the team to delete
+     * @return the user's response
+     */
+    private Optional<ButtonType> showDeleteConfirmDialog(TeamBugemonDTO selected) {
         Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
         confirm.setTitle("Supprimer l'équipe");
         confirm.setHeaderText("Supprimer « " + selected.getName() + " » ?");
@@ -129,11 +162,7 @@ public class PreBuildTeamView extends View {
         confirm.getDialogPane().getStylesheets().add(
                 Objects.requireNonNull(getClass().getResource("/css/common.css")).toExternalForm()
         );
-        Optional<ButtonType> result = confirm.showAndWait();
-        if (result.isPresent() && result.get() == ButtonType.OK) {
-            this.controller.deleteTeam(selected);
-            bugemonListView.getItems().clear();
-        }
+        return confirm.showAndWait();
     }
 
     /** Forces the team list to re-render its cells (e.g. after a rename). */
