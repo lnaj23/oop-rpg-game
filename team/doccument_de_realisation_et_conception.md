@@ -1,7 +1,7 @@
 # Document de réalisation et conception (DRC)
 
 - Groupe : 5
-- Date : 08/03/2026
+- Date : 09/03/2026
 
 ### Sommaire
 
@@ -18,9 +18,11 @@
   - [Principe de la programmation orienté objet](#principe-de-la-programmation-orienté-objet)
     - [Encapsulation (+ interfaces)](#encapsulation--interface)
     - [Héritage (+ classes et méthodes abstraites, typage, liaison tardive et polymorphisme)](#héritage--classes-et-méthodes-abstraites-typage-liaison-tardive-et-polymorphisme)
+  - [Design Patterns](#design-patterns)
   - [Programmation défensive](#programmation-défensive)
     - [Mécanisme de typage](#mécanismes-de-typage)
     - [Exceptions](#exceptions-)
+    - [Assertions](#assertions) 
 
 ## Suivi de planification du projet
 
@@ -54,9 +56,11 @@ Durant la première itération, nous avons directement implémenté nos codes af
 
 #### Modèle 
 Le modèle, comprenant des classes comme `Bugemon`, `Attack`, `Stats` et `TeamBugemon`, gère exclusivement les données et la logique métier de l'application. Conformément aux principes du cours, ces classes sont totalement indépendantes de l'interface graphique et ne contiennent aucune référence à JavaFX, ce qui permet de les tester ou de les réutiliser facilement sans modifier l'affichage. 
+
 #### Vue
 La vue ne doit pas contenir de logiques métiers et ne modifie pas directement les données. Elle délègue toute action au contrôleur. Dans le projet, `TitleScreenView`, `SelectionView` et `PreBuildTeamView` héritent toutes de la classe abstraite View qui centralise le chargement FXML, et communiquent uniquement avec leur contrôleur dédié via des appels.
 Les vues n'accèdent aux modèles qu'à travers les interfaces DTO `BugemonDTO` et `TeamBugemonDTO`.
+
 #### Contrôleur
 Le contrôleur reçoit les actions de l'utilisateur, modifie le modèle et demande à la vue de se mettre à jour. Dans le projet, `MetaController` joue parfaitement ce rôle central en gérant la navigation entre toutes les scènes via `switchScene(), sans que les vues se connaissent entre elles.
 
@@ -81,7 +85,16 @@ Le paramètre générique `T` borné par `extends View` garantit que `this.view`
 Les sous-classes `TitleScreenController`, `SelectionController` et `PreBuildTeamController` héritent tous de ces éléments via `super(metaController, new VueCorrespondante())` et définissent ensuite leur propre logique métier.
 
 L'héritage nous évite donc la duplication de code, nous assure un typage précis grâce aux génériques et enfin elle nous permet la liaison tardive et polymorphisme dans `View.show()`par l'appel `this.getTitle()`.
+### Design Patterns
 
+Le Template Method est un pattern qui définit le squelette d'un algorithme dans une méthode abstraite, en laissant certaines étapes à des sous-classes.
+Le projet l'applique à travers la classe abstraite `View, qui impose à toutes ses sous-classes (voir [Héritage](#héritage--classes-et-méthodes-abstraites-typage-liaison-tardive-et-polymorphisme))
+
+L'Iterator est décrit comme permettant de parcourir une collection sans exposer sa structure interne.
+Le projet l'utilise à travers les boucles `for-each` sur les `List<Bugemon>` et `List<Attack>` dans `TeamBugemon` et `BugemonProvider.
+
+La Facade fournit une interface unifiée à un ensemble d'interfaces dans un sous-système, simplifiant l'accès à un système complexe.
+Dans le projet, `MetaController` joue exactement ce rôle : il centralise toute la navigation entre les scènes via `switchScene()`, et masque aux contrôleurs spécifiques la complexité de la gestion des `Stage`, `Scene et du chargement FXML.
 ### Programmation défensive
 
 #### Mécanismes de typage
