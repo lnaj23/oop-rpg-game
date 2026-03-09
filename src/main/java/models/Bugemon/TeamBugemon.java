@@ -29,11 +29,6 @@ public class TeamBugemon implements TeamBugemonDTO {
         this.team = BugemonProvider.getListBugemon(teamId);
     }
 
-    public TeamBugemon(String name, List<String> teamId) {
-        this.name = name;
-        this.team = BugemonProvider.getListBugemon(teamId);
-    }
-
     public TeamBugemon(String name, List<String> TeamId) {
         this.name = name;
         this.team = BugemonProvider.getListBugemon(TeamId);
