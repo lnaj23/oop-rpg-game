@@ -66,6 +66,8 @@ Le contrôleur reçoit les actions de l'utilisateur, modifie le modèle et deman
 
 #### Services et repositories
 
+Pour l'instant, nous n'avons que le `BugemonProvider` comme service. Cependant, cette classe agit aussi comme repositories donc pour la seconde itération, il serait préferable de séparer le `BugemonProvider` en un service et plusieurs repositories. 
+
 ### Principe de la programmation orienté objet
 
 #### Encapsulation (+ interface)
@@ -88,7 +90,7 @@ L'héritage nous évite donc la duplication de code, nous assure un typage préc
 ### Design Patterns
 
 Le Template Method est un pattern qui définit le squelette d'un algorithme dans une méthode abstraite, en laissant certaines étapes à des sous-classes.
-Le projet l'applique à travers la classe abstraite `View, qui impose à toutes ses sous-classes (voir [Héritage](#héritage--classes-et-méthodes-abstraites-typage-liaison-tardive-et-polymorphisme))
+Le projet l'applique à travers la classe abstraite `View`, qui impose à toutes ses sous-classes (voir [Héritage](#héritage--classes-et-méthodes-abstraites-typage-liaison-tardive-et-polymorphisme))
 
 L'Iterator est décrit comme permettant de parcourir une collection sans exposer sa structure interne.
 Le projet l'utilise à travers les boucles `for-each` sur les `List<Bugemon>` et `List<Attack>` dans `TeamBugemon` et `BugemonProvider.
@@ -103,7 +105,8 @@ Dans le projet, `MetaController` joue exactement ce rôle : il centralise toute 
 
 #### Exceptions 
 
-Dans BugemonProvider et TeamBugemon les exceptions `BugemonNotFoundException`, `BugemonNotInTeamException` et `AttackNotFoundException` sont utilisées.
+Dans `BugemonProvider` et `TeamBugemon` les exceptions `BugemonNotFoundException`, `BugemonNotInTeamException` et `AttackNotFoundException` sont utilisées.
 
 #### Assertions
 
+On n'a pas encore eu l'occasion de place des assertions.
