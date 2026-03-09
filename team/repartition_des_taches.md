@@ -1,4 +1,4 @@
-# Répartition des tâches développeur 
+# Répartition des tâches développeur
 
 - Groupe : 05
 - Date : 25/02/2026
@@ -91,6 +91,6 @@ Lors de la première réunion avec le client, nous avons mis au clair les détai
 
 Nous avons eu du mal à séparer les tâches de manière équitable. Donc, on va faire en sorte que les personnes qui ont eu des tâches compliquées, auront des tâches plus simples aux prochaines itérations.
 
-À cause du peu d'histoire qu'on a eu pour cette itération en conséquence de la surestimation des points des histoires, on a séparé les histoires en trop petites histoires ce qui a conduit au fait que certaines personnes ont fait des taches qui ne l'était pas attribué en pensant faire la leur. 
+À cause du peu d'histoire qu'on a eu pour cette itération en conséquence de la surestimation des points des histoires, on a séparé les histoires en trop petites histoires ce qui a conduit au fait que certaines personnes ont fait des taches qui ne l'était pas attribué en pensant faire la leur.
 Pour palier à celà, on va réduire les points sur notre histoire afin d'en avoir plus durant la prochaine itération et éviter de séparer les tâches en tâches futiles.
 ___
