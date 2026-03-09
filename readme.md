@@ -1,0 +1,1 @@
+La version 24 de Java est la version minimale à utiliser.
