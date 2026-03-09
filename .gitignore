@@ -5,6 +5,8 @@
 src/main/java/persistence/addebugemon/*
 src/main/java/persistence/savedteam/*
 
+!src/main/java/persistence/addebugemon/.gitkeep
+!src/main/java/persistence/savedteam/.gitkeep
 
 ### Intellij ###
 # Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio, WebStorm and Rider

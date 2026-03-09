@@ -6,7 +6,7 @@ import views.View;
 /**
  * Abstract base controller that links a {@link MetaController} to a {@link View}.
  *
- * @param <T> the type of view managed by this controller
+ * @param <T> the type of view managed by this controller.
  */
 public abstract class Controller<T extends View> {
 
