@@ -34,7 +34,7 @@ ___
 <table>
     <tbody>
         <tr><td>Vélocité :</td><td>28</td></tr>
-        <tr><td>Total Points réel :</td><td></td></tr>
+        <tr><td>Total Points réel :</td><td>30</td></tr>
         <tr><td>Total Points estimé :</td><td>34</td></tr>
     </tbody>
 </table>
@@ -53,9 +53,9 @@ ___
     </tr>
   </thead>
   <tbody>
-    <tr><td>Lecture du fichier bugémon.json et création modèle (Model)</td><td>Sajid</td><td>Enzo</td><td></td><td>8</td></tr>
-    <tr><td>Création d'une page de la selection des Bugémons avec des boutons (View)</td><td>Harry</td><td>Luqman</td><td></td><td>5</td></tr>
-    <tr><td>Fonctionnement du mécanisme de selection + affiche les infos lors du passage de la souris sur le Bugémon</td><td>Alexendre</td><td>Mohamed</td><td></td><td>8</td></tr>
+    <tr><td>Lecture du fichier bugémon.json et création modèle (Model)</td><td>Sajid</td><td>Enzo</td><td>7</td><td>8</td></tr>
+    <tr><td>Création d'une page de la selection des Bugémons avec des boutons (View)</td><td>Harry</td><td>Luqman</td><td>6</td><td>5</td></tr>
+    <tr><td>Fonctionnement du mécanisme de selection + affiche les infos lors du passage de la souris sur le Bugémon</td><td>Alexendre</td><td>Mohamed</td><td>6</td><td>8</td></tr>
 
   </tbody>
 </table>
@@ -74,8 +74,8 @@ ___
     </tr>
   </thead>
   <tbody>
-    <tr><td>PreBuildTeamView pour afficher les équipes déjà faites sur une nouvelle fenêtre </td><td>Zakaria</td><td>Maxime</td><td></td><td>6</td></tr>
-    <tr><td>ListView permettant de sélectionner et de supprimer les équipes</td><td>Louai</td><td>Yanis</td><td></td><td>7</td></tr>
+    <tr><td>PreBuildTeamView pour afficher les équipes déjà faites sur une nouvelle fenêtre </td><td>Zakaria</td><td>Maxime</td><td>6</td><td>6</td></tr>
+    <tr><td>ListView permettant de sélectionner et de supprimer les équipes</td><td>Louai</td><td>Yanis</td><td>5</td><td>7</td></tr>
   </tbody>
 </table>
 
