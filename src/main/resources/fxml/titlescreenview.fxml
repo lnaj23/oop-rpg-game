@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+<StackPane prefHeight="892.0" prefWidth="1288.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1">
+
+    <stylesheets>
+        <URL value="@../css/titlescreenview.css" />
+        <URL value="@../css/common.css" />
+    </stylesheets>
+
+    <AnchorPane pickOnBounds="false">
+
+        <ImageView fitHeight="200" preserveRatio="true" AnchorPane.leftAnchor="550" AnchorPane.topAnchor="250">
+            <image><Image url="@../Assets/png/refaquix.png" /></image>
+        </ImageView>
+
+        <ImageView fitHeight="200" preserveRatio="true" AnchorPane.bottomAnchor="250" AnchorPane.leftAnchor="550">
+            <image><Image url="@../Assets/png/florachu.png" /></image>
+        </ImageView>
+
+        <ImageView fitHeight="200" preserveRatio="true" AnchorPane.bottomAnchor="250" AnchorPane.rightAnchor="550">
+            <image><Image url="@../Assets/png/pyroxis.png" /></image>
+        </ImageView>
+
+    </AnchorPane>
+
+    <VBox alignment="CENTER" spacing="30.0">
+        <Label fx:id="titelLabel" text="BUGÉMON" textAlignment="CENTER" />
+        <VBox alignment="CENTER" spacing="15.0">
+            <Button fx:id="btnNewGame" mnemonicParsing="false" text="Nouvelle équipe" />
+            <Button fx:id="btnPreBuildTeam" mnemonicParsing="false" text="Vos équipes" />
+        </VBox>
+    </VBox>
+
+</StackPane>

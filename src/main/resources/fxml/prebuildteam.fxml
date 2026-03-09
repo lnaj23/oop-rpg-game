@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<StackPane alignment="CENTER" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1">
+    <stylesheets>
+        <URL value="@../css/prebuildteam.css" />
+        <URL value="@../css/common.css" />
+    </stylesheets>
+
+    <VBox alignment="CENTER" spacing="20.0">
+
+        <HBox alignment="CENTER" spacing="20.0">
+            <children>
+                <Label fx:id="titleLabel" text="Mes équipes" />
+            </children>
+        </HBox>
+
+        <HBox alignment="CENTER" spacing="30.0">
+            <children>
+                <VBox alignment="TOP_CENTER" spacing="8.0">
+                    <children>
+                        <Label styleClass="list-header" text="Équipes" />
+                        <ListView fx:id="teamListView" prefHeight="320.0" prefWidth="320.0" />
+                    </children>
+                </VBox>
+
+                <VBox alignment="TOP_CENTER" spacing="8.0">
+                    <children>
+                        <Label styleClass="list-header" text="Bugémons :" />
+                        <ListView fx:id="bugemonListView" prefHeight="320.0" prefWidth="260.0" />
+                    </children>
+                </VBox>
+            </children>
+        </HBox>
+
+        <VBox alignment="CENTER" prefHeight="262.0" prefWidth="1406.0" spacing="10.0">
+            <children>
+                <HBox alignment="CENTER" spacing="15.0">
+                    <children>
+                        <Button fx:id="btnPlay" mnemonicParsing="false" styleClass="action-button" text="▶  Jouer" />
+                        <Button fx:id="btnModify" mnemonicParsing="false" styleClass="action-button" text="🖊  Modifier" />
+                        <Button fx:id="btnRename" mnemonicParsing="false" styleClass="action-button" text="✏  Renommer" />
+                        <Button fx:id="btnDelete" mnemonicParsing="false" styleClass="action-button" text="🗑  Supprimer" />
+                    </children>
+                </HBox>
+                <Button fx:id="btnNewTeam" mnemonicParsing="false" styleClass="new-team-button" text="＋  Nouvelle équipe" />
+                <Button fx:id="btnRetour" mnemonicParsing="false" text="Retour" />
+            </children>
+        </VBox>
+
+    </VBox>
+
+</StackPane>

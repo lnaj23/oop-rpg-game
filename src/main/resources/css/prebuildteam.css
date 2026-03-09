@@ -1,0 +1,84 @@
+#titleLabel {
+    -fx-font-size: 30px;
+}
+
+.list-header {
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+}
+
+.action-button {
+    -fx-pref-width: 110px;
+    -fx-pref-height: 35px;
+}
+
+.new-team-button {
+    -fx-pref-width: 200px;
+    -fx-pref-height: 35px;
+}
+
+.list-view {
+    -fx-background-color: #e8e8d8;
+    -fx-border-color: #2b2b2b;
+    -fx-border-width: 3;
+    -fx-padding: 8;
+}
+
+.list-view .list-cell {
+    -fx-background-color: #ccd0f0;
+    -fx-border-color: #aaaaaa;
+    -fx-border-width: 1;
+    -fx-padding: 18 14;
+    -fx-font-size: 16px;
+    -fx-text-fill: #1a1a1a;
+}
+
+.list-view .list-cell:hover {
+    -fx-background-color: #b8bde8;
+}
+
+.list-view .list-cell:selected {
+    -fx-background-color: #8890d8;
+    -fx-text-fill: white;
+}
+
+.list-view .list-cell:empty {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+.list-view .scroll-bar:vertical {
+    -fx-background-color: #e8e8d8;
+    -fx-pref-width: 40;
+}
+
+.list-view .scroll-bar:vertical .track {
+    -fx-background-color: #e8e8d8;
+}
+
+.list-view .scroll-bar:vertical .thumb {
+    -fx-background-color: #2b2b2b;
+    -fx-background-radius: 0;
+}
+
+.list-view .scroll-bar:vertical .increment-button,
+.list-view .scroll-bar:vertical .decrement-button {
+    -fx-background-color: #e8e8d8;
+    -fx-border-color: #2b2b2b;
+    -fx-border-width: 2;
+    -fx-pref-height: 40;
+}
+
+.list-view .scroll-bar:vertical .decrement-arrow {
+    -fx-background-color: #2b2b2b;
+    -fx-shape: "M 4 0 L 8 8 L 0 8 Z";
+    -fx-pref-height: 12;
+    -fx-pref-width: 12;
+}
+
+.list-view .scroll-bar:vertical .increment-arrow {
+    -fx-background-color: #2b2b2b;
+    -fx-shape: "M 0 0 L 8 0 L 4 8 Z";
+    -fx-pref-height: 12;
+    -fx-pref-width: 12;
+}

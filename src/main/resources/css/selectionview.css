@@ -1,0 +1,42 @@
+#titleLabel {
+    -fx-font-size: 30px;
+}
+
+#topPane {
+    -fx-pref-height: 80;
+}
+
+.small-button {
+    -fx-pref-width: 180px;
+    -fx-pref-height: 38px;
+    -fx-font-size: 14px;
+}
+
+#teamRectangle {
+    -fx-border-color: white;
+    -fx-border-width: 2;
+    -fx-background-color: #d0d0d0;
+    -fx-padding: 10;
+    -fx-background-radius: 5;
+    -fx-border-radius: 5;
+}
+
+#teamLabel {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: black;
+}
+
+#teamGrid {
+    -fx-background-color: #d0d0d0;
+    -fx-background-radius: 5;
+}
+
+#bugemonStatsLabel {
+    -fx-border-color: white;
+    -fx-padding: 10;
+    -fx-font-size: 14px;
+    -fx-background-color: #d0d0d0;
+    -fx-background-radius: 3;
+    -fx-text-fill: black;
+}

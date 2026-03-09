@@ -1,0 +1,52 @@
+.root {
+    -fx-background-color: rgb(20, 20, 20);
+}
+
+#titleLabel {
+    -fx-text-fill: white;
+}
+
+.button {
+    -fx-background-color: #5bc8f5;
+    -fx-text-fill: white;
+    -fx-font-size: 18px;
+    -fx-font-family: "Arial";
+    -fx-background-radius: 4;
+    -fx-pref-width: 340px;
+    -fx-pref-height: 52px;
+    -fx-cursor: hand;
+}
+
+.button:hover {
+    -fx-background-color: #3ab8ee;
+}
+
+.button:pressed {
+    -fx-background-color: #1fa8e0;
+}
+
+.label {
+    -fx-text-fill: white;
+    -fx-font-family: "Press Start 2P";
+}
+
+.dialog-pane {
+    -fx-background-color: rgb(20, 20, 20);
+    -fx-border-color: #5bc8f5;
+    -fx-border-width: 2;
+}
+
+.dialog-pane .content {
+    -fx-text-fill: white;
+}
+
+.dialog-pane .header-panel {
+    -fx-background-color: #5bc8f5;
+}
+
+.dialog-pane .button-bar .button {
+    -fx-pref-width: 80px;
+    -fx-pref-height: 30px;
+    -fx-font-size: 14px;
+}
+
