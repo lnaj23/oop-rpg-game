@@ -52,7 +52,7 @@ Ensuite, chaque classe a une responsabilité unique et claire avec des noms expl
 Enfin la majorité de nos méthodes sont courtes et bien nommées.
 
 ### Justification du modèle MVC
-Durant la première itération, nous avons directement implémenté nos codes afin de respecter l'architecture MVC en se basant sur le TP3 et le cours [Java](https://fpluquet.github.io/cours-java/cours/mvc/1-introduction.html).
+Dès la première itération, nous avons implémenté nos codes afin de respecter l'architecture MVC en se basant sur le TP3 et le cours [Java](https://fpluquet.github.io/cours-java/cours/mvc/1-introduction.html).
 
 #### Modèle 
 Le modèle, comprenant des classes comme `Bugemon`, `Attack`, `Stats` et `TeamBugemon`, gère exclusivement les données et la logique métier de l'application. Conformément aux principes du cours, ces classes sont totalement indépendantes de l'interface graphique et ne contiennent aucune référence à JavaFX, ce qui permet de les tester ou de les réutiliser facilement sans modifier l'affichage. 
@@ -62,7 +62,7 @@ La vue ne doit pas contenir de logiques métiers et ne modifie pas directement l
 Les vues n'accèdent aux modèles qu'à travers les interfaces DTO `BugemonDTO` et `TeamBugemonDTO`.
 
 #### Contrôleur
-Le contrôleur reçoit les actions de l'utilisateur, modifie le modèle et demande à la vue de se mettre à jour. Dans le projet, `MetaController` joue parfaitement ce rôle central en gérant la navigation entre toutes les scènes via `switchScene(), sans que les vues se connaissent entre elles.
+Le contrôleur reçoit les actions de l'utilisateur, modifie le modèle et demande à la vue de se mettre à jour. Dans le projet, `MetaController` joue parfaitement ce rôle central en gérant la navigation entre toutes les scènes via `switchScene()`, sans que les vues se connaissent entre elles.
 
 #### Services et repositories
 
@@ -93,7 +93,7 @@ Le Template Method est un pattern qui définit le squelette d'un algorithme dans
 Le projet l'applique à travers la classe abstraite `View`, qui impose à toutes ses sous-classes (voir [Héritage](#héritage--classes-et-méthodes-abstraites-typage-liaison-tardive-et-polymorphisme))
 
 L'Iterator est décrit comme permettant de parcourir une collection sans exposer sa structure interne.
-Le projet l'utilise à travers les boucles `for-each` sur les `List<Bugemon>` et `List<Attack>` dans `TeamBugemon` et `BugemonProvider.
+Le projet l'utilise à travers les boucles `for-each` sur les `List<Bugemon>` et `List<Attack>` dans `TeamBugemon` et `BugemonProvider`.
 
 La Facade fournit une interface unifiée à un ensemble d'interfaces dans un sous-système, simplifiant l'accès à un système complexe.
 Dans le projet, `MetaController` joue exactement ce rôle : il centralise toute la navigation entre les scènes via `switchScene()`, et masque aux contrôleurs spécifiques la complexité de la gestion des `Stage`, `Scene et du chargement FXML.
