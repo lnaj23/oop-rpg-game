@@ -4,7 +4,6 @@ import controllers.PreBuildTeamController;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.StageStyle;
-import models.Bugemon.DTO.BugemonDTO;
 import models.Bugemon.DTO.TeamBugemonDTO;
 
 import java.io.IOException;
@@ -121,16 +120,10 @@ public class PreBuildTeamView extends View <PreBuildTeamController> {
      * @return an Optional containing the new name entered by the user
      */
     private Optional<String> showRenameDialog(TeamBugemonDTO selected) {
-        TextInputDialog dialog = new TextInputDialog(selected.getName());
-        dialog.setTitle("Renommer l'équipe");
-        dialog.setHeaderText("Nouveau nom pour « " + selected.getName() + " »");
-        dialog.setContentText("Nom :");
-        dialog.initStyle(StageStyle.UNDECORATED);
-        dialog.setGraphic(null);
-        dialog.getDialogPane().getStylesheets().add(
-                Objects.requireNonNull(getClass().getResource("/css/common.css")).toExternalForm()
-        );
-        return dialog.showAndWait();
+        String title = "Renommer l'équipe";
+        String headerText = "Nouveau nom pour « " + selected.getName() + " »";
+        String contentText = "Nom :";
+        return showAndWaitTextInputDialog(selected, title, headerText, contentText);
     }
 
     /**

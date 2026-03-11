@@ -1,5 +1,6 @@
 package models.Bugemon;
 
+import com.google.gson.annotations.SerializedName;
 import models.Bugemon.DTO.BugemonDTO;
 
 import java.util.ArrayList;
@@ -8,6 +9,7 @@ import java.util.List;
 /**
  * Represents a Bugémon with its stats, attacks and sprite.
  * Implements {@link BugemonDTO} to expose read-only data to views.
+ * Fields are final and populated via an explicit constructor used by Gson.
  */
 public class Bugemon implements BugemonDTO {
 

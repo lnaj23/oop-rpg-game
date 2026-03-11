@@ -2,13 +2,18 @@ package views;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Objects;
+import java.util.Optional;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 import controllers.Controller;
+import javafx.stage.StageStyle;
+import models.Bugemon.DTO.TeamBugemonDTO;
 
 /**
  * Abstract base class for all views.
@@ -59,6 +64,19 @@ public abstract class View <T extends Controller> {
      */
     public void setController(T controller) {
         this.controller = controller;
+    }
+
+    protected Optional<String> showAndWaitTextInputDialog(TeamBugemonDTO selected, String title, String headerText, String contentText) {
+        TextInputDialog dialog = new TextInputDialog(selected.getName());
+        dialog.setTitle(title);
+        dialog.setHeaderText(headerText);
+        dialog.setContentText(contentText);
+        dialog.initStyle(StageStyle.UNDECORATED);
+        dialog.setGraphic(null);
+        dialog.getDialogPane().getStylesheets().add(
+                Objects.requireNonNull(getClass().getResource("/css/common.css")).toExternalForm()
+        );
+        return dialog.showAndWait();
     }
 
     /**

@@ -21,81 +21,8 @@
     <center>
         <HBox alignment="CENTER" spacing="40.0" BorderPane.alignment="CENTER">
             <children>
-                <StackPane>
-                    <GridPane fx:id="gridPane" hgap="10.0" prefHeight="450.0" prefWidth="650.0" vgap="10.0">
-                        <columnConstraints>
-                            <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
-                            <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
-                            <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
-                            <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
-                            <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
-                        </columnConstraints>
-                        <rowConstraints>
-                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
-                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
-                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
-                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
-                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
-                        </rowConstraints>
-                        <children>
-                            <Button fx:id="bug1"  maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Button" />
-                            <Button fx:id="bug2"  maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Button" GridPane.columnIndex="1" />
-                            <Button fx:id="bug3"  maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Button" GridPane.columnIndex="2" />
-                            <Button fx:id="bug4"  maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Button" GridPane.columnIndex="3" />
-                            <Button fx:id="bug5"  maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Button" GridPane.columnIndex="4" />
-                            <Button fx:id="bug6"  maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Button" GridPane.rowIndex="1" />
-                            <Button fx:id="bug7"  maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Button" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                            <Button fx:id="bug8"  maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Button" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                            <Button fx:id="bug9"  maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Button" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-                            <Button fx:id="bug10" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Button" GridPane.columnIndex="4" GridPane.rowIndex="1" />
-                            <Button fx:id="bug11" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Button" GridPane.rowIndex="2" />
-                            <Button fx:id="bug12" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Button" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                            <Button fx:id="bug13" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Button" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-                            <Button fx:id="bug14" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Button" GridPane.columnIndex="3" GridPane.rowIndex="2" />
-                            <Button fx:id="bug15" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Button" GridPane.columnIndex="4" GridPane.rowIndex="2" />
-                            <Button fx:id="bug16" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Button" GridPane.rowIndex="3" />
-                            <Button fx:id="bug17" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Button" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                            <Button fx:id="bug18" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Button" GridPane.columnIndex="2" GridPane.rowIndex="3" />
-                            <Button fx:id="bug19" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Button" GridPane.columnIndex="3" GridPane.rowIndex="3" />
-                            <Button fx:id="bug20" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Button" GridPane.columnIndex="4" GridPane.rowIndex="3" />
-                            <Button fx:id="bug21" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Button" GridPane.rowIndex="4" />
-                            <Button fx:id="bug22" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Button" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                            <Button fx:id="bug23" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Button" GridPane.columnIndex="2" GridPane.rowIndex="4" />
-                            <Button fx:id="bug24" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Button" GridPane.columnIndex="3" GridPane.rowIndex="4" />
-                        </children>
-                    </GridPane>
-                </StackPane>
-
-                <VBox alignment="CENTER" spacing="10.0">
-                    <children>
-                        <VBox fx:id="teamRectangle" alignment="TOP_CENTER" maxHeight="220.0" prefHeight="220.0" prefWidth="350.0" spacing="10.0">
-                            <children>
-                                <Label fx:id="teamLabel" text="Ton équipe"/>
-                                <GridPane fx:id="teamGrid" alignment="CENTER" hgap="10.0" vgap="10.0">
-                                    <columnConstraints>
-                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="80.0" />
-                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="80.0" />
-                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="80.0" />
-                                    </columnConstraints>
-                                    <rowConstraints>
-                                        <RowConstraints minHeight="10.0" prefHeight="80.0" vgrow="SOMETIMES" />
-                                        <RowConstraints minHeight="10.0" prefHeight="80.0" vgrow="SOMETIMES" />
-                                    </rowConstraints>
-                                </GridPane>
-                            </children>
-                        </VBox>
-                        <Label fx:id="bugemonStatsLabel"
-                               prefWidth="350.0"
-                               text="Clique sur un Bugémon pour voir ses statistiques"
-                               wrapText="true" />
-                        <HBox alignment="CENTER" spacing="10.0">
-                            <children>
-                                <Button fx:id="confirmButton" styleClass="small-button" text="Valider" />
-                                <Button fx:id="backButton" styleClass="small-button" text="Retour" />
-                            </children>
-                        </HBox>
-                    </children>
-                </VBox>
+                <fx:include fx:id="bugemonGrid" source="bugemon_grid.fxml" />
+                <fx:include fx:id="teamPanel"   source="team_panel.fxml" />
             </children>
             <padding>
                 <Insets left="20.0" right="20.0" />
@@ -109,4 +36,5 @@
     <bottom>
         <Region prefHeight="50.0" prefWidth="900.0" BorderPane.alignment="CENTER" />
     </bottom>
+
 </BorderPane>

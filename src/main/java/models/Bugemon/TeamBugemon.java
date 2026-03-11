@@ -15,7 +15,7 @@ import java.util.List;
 public class TeamBugemon implements TeamBugemonDTO {
 
     private String name = null;
-    private List<Bugemon> team;
+    private final List<Bugemon> team;
 
     @Override
     public String getName()          { return name; }
@@ -25,8 +25,8 @@ public class TeamBugemon implements TeamBugemonDTO {
         team = new ArrayList<>();
     }
 
-    public TeamBugemon(List<String> teamId) {
-        this.team = BugemonProvider.getListBugemon(teamId);
+    public TeamBugemon(List<String> TeamId) {
+        this.team = BugemonProvider.getListBugemon(TeamId);
     }
 
     public TeamBugemon(String name, List<String> TeamId) {
