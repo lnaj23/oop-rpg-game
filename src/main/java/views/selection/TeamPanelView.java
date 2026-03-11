@@ -1,4 +1,4 @@
-package views;
+package views.selection;
 
 import controllers.SelectionController;
 import javafx.fxml.FXML;

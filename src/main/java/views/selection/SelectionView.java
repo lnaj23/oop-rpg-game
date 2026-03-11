@@ -1,10 +1,11 @@
-package views;
+package views.selection;
 
 import controllers.SelectionController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import models.Bugemon.DTO.BugemonDTO;
 import models.Bugemon.DTO.TeamBugemonDTO;
+import views.View;
 
 import java.io.IOException;
 import java.util.List;
@@ -27,7 +28,7 @@ public class SelectionView extends View<SelectionController> {
      * @throws IOException if the FXML file cannot be loaded
      */
     public SelectionView() throws IOException {
-        super("/fxml/selectionview.fxml");
+        super("/fxml/selection/selectionview.fxml");
     }
 
     /**

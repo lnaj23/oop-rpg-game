@@ -4,7 +4,7 @@ import models.Bugemon.DTO.BugemonDTO;
 import models.Bugemon.DTO.TeamBugemonDTO;
 import models.Bugemon.TeamBugemon;
 import services.BugemonProvider;
-import views.SelectionView;
+import views.selection.SelectionView;
 import javafx.scene.control.Button;
 
 import java.io.IOException;

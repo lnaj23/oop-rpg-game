@@ -8,8 +8,8 @@
 <BorderPane xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1">
 
     <stylesheets>
-        <URL value="@../css/common.css" />
-        <URL value="@../css/selectionview.css" />
+        <URL value="@../../css/common.css" />
+        <URL value="@../../css/selectionview.css" />
     </stylesheets>
 
     <top>
