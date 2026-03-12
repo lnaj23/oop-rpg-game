@@ -141,4 +141,9 @@ public class SelectionController extends Controller<SelectionView> {
         }
         this.metaController.switchScene(MetaController.Scenes.PREBUILD_TEAM);
     }
+    /** Goes to the fight screen. */
+    public void goToFight() {
+        this.metaController.switchScene(MetaController.Scenes.FIGHT);
+    }
+
 }

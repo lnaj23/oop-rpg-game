@@ -31,6 +31,7 @@ public class TeamPanelView {
     @FXML private VBox teamRectangle;
     @FXML private Label bugemonStatsLabel;
     @FXML private Button confirmButton;
+    @FXML private Button startGameButton;
     @FXML private Button backButton;
 
     private static final int MIN_TEAM_SIZE = 1;
@@ -43,6 +44,7 @@ public class TeamPanelView {
     public void initialize() {
         backButton.setOnAction(e -> controller.goToTitleScreen());
         confirmButton.setOnAction(e -> onConfirmClicked());
+        startGameButton.setOnAction(e -> controller.goToFight());
     }
 
     /**

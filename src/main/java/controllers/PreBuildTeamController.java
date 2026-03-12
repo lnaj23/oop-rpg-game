@@ -81,6 +81,6 @@ public class PreBuildTeamController extends Controller<PreBuildTeamView> {
      * @param teamDTO the team to play with
      */
     public void play(TeamBugemonDTO teamDTO) {
-        System.out.println("Jeu lancé");
+        this.metaController.switchScene(MetaController.Scenes.FIGHT);
     }
 }
