@@ -7,6 +7,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.StageStyle;
 import models.Bugemon.DTO.BugemonDTO;
@@ -28,6 +29,7 @@ public class TeamPanelView {
     private SelectionController controller;
 
     @FXML private GridPane teamGrid;
+    @FXML private AnchorPane attackPanel;      // change ici en AnchorPane
     @FXML private VBox teamRectangle;
     @FXML private Label bugemonStatsLabel;
     @FXML private Button confirmButton;
@@ -44,7 +46,7 @@ public class TeamPanelView {
     public void initialize() {
         backButton.setOnAction(e -> controller.goToTitleScreen());
         confirmButton.setOnAction(e -> onConfirmClicked());
-        startGameButton.setOnAction(e -> controller.goToFight());
+        startGameButton.setOnAction(e -> onStartGameClicked());
     }
 
     /**
@@ -154,5 +156,15 @@ public class TeamPanelView {
         alert.initStyle(StageStyle.UNDECORATED);
         alert.setGraphic(null);
         alert.showAndWait();
+    }
+
+    private void onStartGameClicked(){
+        if (controller.getPlayerTeam().getSize()<1){
+            showError("Equipe vide", //titre
+                    "Il faut au moins 1 Bogémon pour pouvoir lancer le jeu." //message
+            );
+            return;
+        }
+        controller.goToFight();
     }
 }

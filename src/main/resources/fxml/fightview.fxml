@@ -17,49 +17,125 @@
 
     <AnchorPane>
 
-        <!-- ===== ADVERSAIRE (haut droite) ===== -->
-        <VBox AnchorPane.topAnchor="30" AnchorPane.rightAnchor="250"
-              alignment="CENTER" spacing="5">
-            <Label fx:id="enemyNameLabel" text="Ennemi (type)" styleClass="bugemon-name-label"/>
-            <Label fx:id="enemyHpLabel"   text="HP: 100/100"   styleClass="hp-text-label"/>
-            <StackPane>
-                <Rectangle fx:id="enemyHpBarBg"   width="200" height="18" styleClass="hp-bar-bg"/>
-                <Rectangle fx:id="enemyHpBarFill" width="200" height="18" styleClass="hp-bar-fill"
-                           StackPane.alignment="CENTER_LEFT"/>
-            </StackPane>
-        </VBox>
+        <!-- ===== ADVERSAIRES (haut droite, 3 Pokémon) ===== -->
+        <GridPane fx:id="enemyTeamPanel" AnchorPane.topAnchor="20" AnchorPane.rightAnchor="30"
+                  hgap="20" vgap="20">
+            <columnConstraints>
+                <ColumnConstraints percentWidth="33"/>
+                <ColumnConstraints percentWidth="33"/>
+                <ColumnConstraints percentWidth="33"/>
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints percentHeight="100"/>
+            </rowConstraints>
 
-        <ImageView fx:id="enemySprite" fitHeight="220" preserveRatio="true"
-                   AnchorPane.topAnchor="20" AnchorPane.rightAnchor="30">
-            <image><Image url="@../Assets/png/exceflam.png"/></image>
-        </ImageView>
+            <!-- Ennemi 1 -->
+            <VBox alignment="CENTER" spacing="5" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                <Label fx:id="enemyNameLabel1" text="Ennemi 1 (type)" styleClass="bugemon-name-label"/>
+                <Label fx:id="enemyEffectLabel1" text="Effets : Aucun" styleClass="effect-label"/>
+                <Label fx:id="enemyHpLabel1" text="HP: 100/100" styleClass="hp-text-label"/>
+                <StackPane>
+                    <Rectangle fx:id="enemyHpBarFill1" width="200" height="18" styleClass="hp-bar-fill"
+                               StackPane.alignment="CENTER_LEFT"/>
+                </StackPane>
+                <ImageView fx:id="enemySprite1" fitHeight="120" preserveRatio="true">
+                    <image><Image url="@../Assets/png/exceflam.png"/></image>
+                </ImageView>
+            </VBox>
 
-        <!-- ===== JOUEUR (bas gauche) ===== -->
-        <ImageView fx:id="playerSprite" fitHeight="260" preserveRatio="true"
-                   AnchorPane.bottomAnchor="220" AnchorPane.leftAnchor="30">
-            <image><Image url="@../Assets/png/florachu.png"/></image>
-        </ImageView>
+            <!-- Ennemi 2 -->
+            <VBox alignment="CENTER" spacing="5" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                <Label fx:id="enemyNameLabel2" text="Ennemi 2 (type)" styleClass="bugemon-name-label"/>
+                <Label fx:id="enemyEffectLabel2" text="Effets : Aucun" styleClass="effect-label"/>
+                <Label fx:id="enemyHpLabel2" text="HP: 100/100" styleClass="hp-text-label"/>
+                <StackPane>
+                    <Rectangle fx:id="enemyHpBarFill2" width="200" height="18" styleClass="hp-bar-fill"
+                               StackPane.alignment="CENTER_LEFT"/>
+                </StackPane>
+                <ImageView fx:id="enemySprite2" fitHeight="120" preserveRatio="true">
+                    <image><Image url="@../Assets/png/exceflam.png"/></image>
+                </ImageView>
+            </VBox>
 
-        <VBox AnchorPane.bottomAnchor="330" AnchorPane.leftAnchor="320"
-              alignment="CENTER_LEFT" spacing="5">
-            <Label fx:id="playerNameLabel" text="Allié (type)" styleClass="bugemon-name-label"/>
-            <Label fx:id="playerHpLabel"   text="HP: 120/120"  styleClass="hp-text-label"/>
-            <StackPane>
-                <Rectangle fx:id="playerHpBarBg"   width="200" height="18" styleClass="hp-bar-bg"/>
-                <Rectangle fx:id="playerHpBarFill" width="200" height="18" styleClass="hp-bar-fill"
-                           StackPane.alignment="CENTER_LEFT"/>
-            </StackPane>
-        </VBox>
+            <!-- Ennemi 3 -->
+            <VBox alignment="CENTER" spacing="5" GridPane.columnIndex="2" GridPane.rowIndex="0">
+                <Label fx:id="enemyNameLabel3" text="Ennemi 3 (type)" styleClass="bugemon-name-label"/>
+                <Label fx:id="enemyEffectLabel3" text="Effets : Aucun" styleClass="effect-label"/>
+                <Label fx:id="enemyHpLabel3" text="HP: 100/100" styleClass="hp-text-label"/>
+                <StackPane>
+                    <Rectangle fx:id="enemyHpBarFill3" width="200" height="18" styleClass="hp-bar-fill"
+                               StackPane.alignment="CENTER_LEFT"/>
+                </StackPane>
+                <ImageView fx:id="enemySprite3" fitHeight="120" preserveRatio="true">
+                    <image><Image url="@../Assets/png/exceflam.png"/></image>
+                </ImageView>
+            </VBox>
+        </GridPane>
+
+        <!-- ===== ALLIÉS (bas gauche, 3 Pokémon) ===== -->
+        <GridPane fx:id="playerTeamPanel" AnchorPane.bottomAnchor="220" AnchorPane.leftAnchor="30"
+                  hgap="20" vgap="20">
+            <columnConstraints>
+                <ColumnConstraints percentWidth="33"/>
+                <ColumnConstraints percentWidth="33"/>
+                <ColumnConstraints percentWidth="33"/>
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints percentHeight="100"/>
+            </rowConstraints>
+
+            <!-- Allié 1 -->
+            <VBox alignment="CENTER" spacing="5" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                <Label fx:id="playerNameLabel1" text="Allié 1 (type)" styleClass="bugemon-name-label"/>
+                <Label fx:id="playerEffectLabel1" text="Effets : Aucun" styleClass="effect-label"/>
+                <Label fx:id="playerHpLabel1" text="HP: 120/120" styleClass="hp-text-label"/>
+                <StackPane>
+                    <Rectangle fx:id="playerHpBarFill1" width="200" height="18" styleClass="hp-bar-fill"
+                               StackPane.alignment="CENTER_LEFT"/>
+                </StackPane>
+                <ImageView fx:id="playerSprite1" fitHeight="120" preserveRatio="true">
+                    <image><Image url="@../Assets/png/florachu.png"/></image>
+                </ImageView>
+            </VBox>
+
+            <!-- Allié 2 -->
+            <VBox alignment="CENTER" spacing="5" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                <Label fx:id="playerNameLabel2" text="Allié 2 (type)" styleClass="bugemon-name-label"/>
+                <Label fx:id="playerEffectLabel2" text="Effets : Aucun" styleClass="effect-label"/>
+                <Label fx:id="playerHpLabel2" text="HP: 120/120" styleClass="hp-text-label"/>
+                <StackPane>
+                    <Rectangle fx:id="playerHpBarFill2" width="200" height="18" styleClass="hp-bar-fill"
+                               StackPane.alignment="CENTER_LEFT"/>
+                </StackPane>
+                <ImageView fx:id="playerSprite2" fitHeight="120" preserveRatio="true">
+                    <image><Image url="@../Assets/png/florachu.png"/></image>
+                </ImageView>
+            </VBox>
+
+            <!-- Allié 3 -->
+            <VBox alignment="CENTER" spacing="5" GridPane.columnIndex="2" GridPane.rowIndex="0">
+                <Label fx:id="playerNameLabel3" text="Allié 3 (type)" styleClass="bugemon-name-label"/>
+                <Label fx:id="playerEffectLabel3" text="Effets : Aucun" styleClass="effect-label"/>
+                <Label fx:id="playerHpLabel3" text="HP: 120/120" styleClass="hp-text-label"/>
+                <StackPane>
+                    <Rectangle fx:id="playerHpBarFill3" width="200" height="18" styleClass="hp-bar-fill"
+                               StackPane.alignment="CENTER_LEFT"/>
+                </StackPane>
+                <ImageView fx:id="playerSprite3" fitHeight="120" preserveRatio="true">
+                    <image><Image url="@../Assets/png/florachu.png"/></image>
+                </ImageView>
+            </VBox>
+        </GridPane>
 
         <!-- ===== PANEL D'ACTION (bas centre) ===== -->
-        <VBox AnchorPane.bottomAnchor="20" AnchorPane.leftAnchor="350"
-              AnchorPane.rightAnchor="50" spacing="10">
+        <VBox AnchorPane.bottomAnchor="20" AnchorPane.leftAnchor="10"
+              AnchorPane.rightAnchor="10" spacing="10">
 
             <!-- Message combat -->
             <Label fx:id="combatMessageLabel" text="Que va faire votre Bugémon ?"
                    styleClass="combat-message-label" wrapText="true"/>
 
-            <!-- Les 4 boutons principaux -->
+            <!-- Les 4 boutons principaux en carré 2x2 -->
             <GridPane fx:id="actionPanel" hgap="15" vgap="15" styleClass="action-panel">
                 <columnConstraints>
                     <ColumnConstraints percentWidth="50"/>
@@ -71,13 +147,13 @@
                 </rowConstraints>
 
                 <Button fx:id="btnAttack"  text="Attaquer"        styleClass="btn-attack"
-                        GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                        GridPane.columnIndex="0" GridPane.rowIndex="0" maxWidth="Infinity"/>
                 <Button fx:id="btnItem"    text="Objet"           styleClass="btn-item"
-                        GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+                        GridPane.columnIndex="1" GridPane.rowIndex="0" maxWidth="Infinity"/>
                 <Button fx:id="btnSwitch"  text="Changer Bugémon" styleClass="btn-switch"
-                        GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                        GridPane.columnIndex="0" GridPane.rowIndex="1" maxWidth="Infinity"/>
                 <Button fx:id="btnForfeit" text="Abandonner"      styleClass="btn-forfeit"
-                        GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                        GridPane.columnIndex="1" GridPane.rowIndex="1" maxWidth="Infinity"/>
             </GridPane>
 
             <!-- Les 3 attaques (caché par défaut) -->
@@ -93,13 +169,13 @@
                 </rowConstraints>
 
                 <Button fx:id="btnAttack1"        text="Attaque 1" styleClass="btn-attack-move"
-                        GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                        GridPane.columnIndex="0" GridPane.rowIndex="0" maxWidth="Infinity"/>
                 <Button fx:id="btnAttack2"        text="Attaque 2" styleClass="btn-attack-move"
-                        GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+                        GridPane.columnIndex="1" GridPane.rowIndex="0" maxWidth="Infinity"/>
                 <Button fx:id="btnAttack3"        text="Attaque 3" styleClass="btn-attack-move"
-                        GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                        GridPane.columnIndex="0" GridPane.rowIndex="1" maxWidth="Infinity"/>
                 <Button fx:id="btnBackFromAttack" text="Retour"    styleClass="btn-forfeit"
-                        GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                        GridPane.columnIndex="1" GridPane.rowIndex="1" maxWidth="Infinity"/>
             </GridPane>
 
         </VBox>
