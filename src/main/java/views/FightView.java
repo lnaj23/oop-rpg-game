@@ -11,6 +11,8 @@ import javafx.scene.shape.Rectangle;
 import java.util.List;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.layout.StackPane;
+import models.Bugemon.DTO.BugemonDTO;
+
 import java.io.IOException;
 
 public class FightView extends View<FightController> {
@@ -67,29 +69,25 @@ public class FightView extends View<FightController> {
         ColorAdjust grayscale = new ColorAdjust();
         grayscale.setSaturation(-1); // -1 = noir et blanc
         enemySprite3.setEffect(grayscale);
-
-        createEmptyGrid();
     }
 
-    // Création des 6 cases du tableau
-    private void createEmptyGrid() {
-
-        if (teamGrid == null) return;
+    public void displayTeam(List<BugemonDTO> team) {
 
         teamGrid.getChildren().clear();
 
-        for (int i = 0; i < 6; i++) {
+        for (int i = 0; i < team.size(); i++) {
 
-            StackPane slot = new StackPane();
-            slot.setPrefSize(70, 70);
+            BugemonDTO bugemon = team.get(i);
 
-            slot.setStyle(
-                    "-fx-border-color: black;" +
-                            "-fx-border-width: 2;" +
-                            "-fx-background-color: lightgray;"
-            );
+            String path = "/Assets/png/" + bugemon.getSprite();
+            Image img = new Image(getClass().getResourceAsStream(path));
 
-            teamGrid.add(slot, i % 3, i / 3);
+            ImageView imgView = new ImageView(img);
+            imgView.setFitHeight(60);
+            imgView.setFitWidth(60);
+            imgView.setPreserveRatio(true);
+
+            teamGrid.add(imgView, i % 3, i / 3);
         }
     }
     public void showAttackandActionPanels(boolean showAttack) {

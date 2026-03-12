@@ -6,6 +6,7 @@ import models.Bugemon.TeamBugemon;
 import services.BugemonProvider;
 import views.selection.SelectionView;
 import javafx.scene.control.Button;
+import controllers.FightController;
 
 import java.io.IOException;
 import java.util.List;
@@ -143,6 +144,11 @@ public class SelectionController extends Controller<SelectionView> {
     }
     /** Goes to the fight screen. */
     public void goToFight() {
+
+        FightController fightController = metaController.getFightController();
+
+        fightController.setPlayerTeam(playerTeam);
+
         this.metaController.switchScene(MetaController.Scenes.FIGHT);
     }
 

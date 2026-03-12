@@ -126,12 +126,31 @@
                 </ImageView>
             </VBox>
         </GridPane>
-        <!-- ===== TABLEAU 2x3  ===== -->
-        <GridPane fx:id="teamGrid"
-                  AnchorPane.topAnchor="350"
-                  AnchorPane.rightAnchor="30"
-                  hgap="10"
-                  vgap="10"/>
+        <!-- ===== TABLEAU 2x3 + TITRE ===== -->
+        <VBox AnchorPane.topAnchor="350"
+              AnchorPane.rightAnchor="30"
+              spacing="10"
+              alignment="CENTER">
+
+            <Label text="Équipe du joueur"
+                   style="-fx-font-size:18; -fx-font-weight:bold;" />
+
+            <GridPane fx:id="teamGrid" hgap="10" vgap="10">
+
+                <columnConstraints>
+                    <ColumnConstraints percentWidth="33"/>
+                    <ColumnConstraints percentWidth="33"/>
+                    <ColumnConstraints percentWidth="33"/>
+                </columnConstraints>
+
+                <rowConstraints>
+                    <RowConstraints percentHeight="50"/>
+                    <RowConstraints percentHeight="50"/>
+                </rowConstraints>
+
+            </GridPane>
+
+        </VBox>
         <!-- ===== PANEL D'ACTION (bas centre) ===== -->
         <VBox AnchorPane.bottomAnchor="20" AnchorPane.leftAnchor="10"
               AnchorPane.rightAnchor="10" spacing="10">

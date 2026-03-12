@@ -109,4 +109,8 @@ public class MetaController {
         FatalErrorView.show("Fatal error, closing the application.\nReason: " + reason);
         System.exit(1);
     }
+
+    public FightController getFightController() {
+        return fightController;
+    }
 }

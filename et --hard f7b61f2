@@ -1,0 +1,22 @@
+[33m5cd730c[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mInit-FightView-FightController[m[33m, [m[1;31morigin/Init-FightView-FightController[m[33m)[m HEAD@{0}: reset: moving to HEAD~1
+[33mf7b61f2[m HEAD@{1}: commit: création d'un tableau 2x3 dans fightview
+[33m5cd730c[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mInit-FightView-FightController[m[33m, [m[1;31morigin/Init-FightView-FightController[m[33m)[m HEAD@{2}: commit: Ajout condition : il faut minimum 1 bugemon pour commencer la partie,fusion des fonctions showAttack et Action,commpléter et amélioration de la fightview.
+[33mbe5b876[m HEAD@{3}: checkout: moving from FightView-FightController to Init-FightView-FightController
+[33m3bba413[m[33m ([m[1;31morigin/FightView-FightController[m[33m, [m[1;32mFightView-FightController[m[33m)[m HEAD@{4}: checkout: moving from main to FightView-FightController
+[33m8a8fbe9[m[33m ([m[1;32mmain[m[33m)[m HEAD@{5}: checkout: moving from It2Hist4-5 to main
+[33m8a8fbe9[m[33m ([m[1;32mmain[m[33m)[m HEAD@{6}: checkout: moving from main to It2Hist4-5
+[33m8a8fbe9[m[33m ([m[1;32mmain[m[33m)[m HEAD@{7}: pull: Fast-forward
+[33mb268e8f[m HEAD@{8}: checkout: moving from 8e67582dd2990194305f497c08218122f0591fb1 to main
+[33m8e67582[m HEAD@{9}: checkout: moving from PreBuildTeam-view-sur-base-viewit1 to origin/Rerefactor
+[33m7381f96[m[33m ([m[1;32mPreBuildTeam-view-sur-base-viewit1[m[33m)[m HEAD@{10}: pull: Fast-forward
+[33mc59bf22[m HEAD@{11}: commit (amend): Ajout du bouton PreBuilTeam dans le menu principal, création d'une nouvelle fenêtre pour voir les équipes crées et le bouton retour qui permet de revenir au menu principal
+[33m61baedd[m HEAD@{12}: commit: Ajout bouton PreBuildTeam et page associée avec retour menu
+[33m8725cc7[m[33m ([m[1;32mViewIt1[m[33m)[m HEAD@{13}: checkout: moving from It1Hist3 to PreBuildTeam-view-sur-base-viewit1
+[33mffaf830[m[33m ([m[1;32mIt1Hist3[m[33m)[m HEAD@{14}: checkout: moving from main to It1Hist3
+[33mb268e8f[m HEAD@{15}: pull origin main: Fast-forward
+[33m61ee1e2[m[33m ([m[1;31morigin/ModelIt1[m[33m)[m HEAD@{16}: checkout: moving from ViewIt1 to main
+[33m8725cc7[m[33m ([m[1;32mViewIt1[m[33m)[m HEAD@{17}: reset: moving to HEAD
+[33m8725cc7[m[33m ([m[1;32mViewIt1[m[33m)[m HEAD@{18}: checkout: moving from ViewIt1 to ViewIt1
+[33m8725cc7[m[33m ([m[1;32mViewIt1[m[33m)[m HEAD@{19}: checkout: moving from main to ViewIt1
+[33m61ee1e2[m[33m ([m[1;31morigin/ModelIt1[m[33m)[m HEAD@{20}: reset: moving to HEAD
+[33m61ee1e2[m[33m ([m[1;31morigin/ModelIt1[m[33m)[m HEAD@{21}: clone: from https://gitlab.ulb.be/ulb-infof307/2026-groupe-05.git
