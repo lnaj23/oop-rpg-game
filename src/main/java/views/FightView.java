@@ -12,13 +12,15 @@ import java.util.List;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.layout.StackPane;
 import models.Bugemon.DTO.BugemonDTO;
-import java.util.List;
-import javafx.scene.image.Image;
-import models.Bugemon.DTO.BugemonDTO;
 import java.io.IOException;
+import javafx.stage.Popup;
+import javafx.scene.input.MouseEvent;
+
 
 public class FightView extends View<FightController> {
 
+    private final Popup statsPopup = new Popup();
+    private final Label statsLabel = new Label();
     // Adversaire
     @FXML private Label     enemyNameLabel;
     @FXML private Label     enemyHpLabel;
@@ -54,7 +56,10 @@ public class FightView extends View<FightController> {
     @FXML private GridPane teamGrid;
     public FightView() throws IOException {
         super("/fxml/fightview.fxml");
-
+        statsLabel.setMouseTransparent(true);
+        statsLabel.setStyle("-fx-background-color: rgba(0,0,0,0.8); -fx-text-fill: white; -fx-padding: 5; -fx-background-radius: 5;");
+        statsPopup.getContent().add(statsLabel);
+        statsPopup.setAutoHide(true);
         // le panel principal
         btnAttack.setOnAction(e -> showAttackandActionPanels(true)); //afficher attackPanel
         btnItem.setOnAction(e -> this.controller.onItemClicked());
@@ -85,8 +90,31 @@ public class FightView extends View<FightController> {
             imgView.setFitWidth(60);
             imgView.setPreserveRatio(true);
 
+            // SURVOL SOURIS
+            imgView.setOnMouseEntered(e -> showStats(e, bugemon, imgView));
+            imgView.setOnMouseMoved(this::updatePopupPosition);
+            imgView.setOnMouseExited(e -> statsPopup.hide());
+
             teamGrid.add(imgView, i % 3, i / 3);
         }
+    }
+    private void showStats(MouseEvent event, BugemonDTO bugemon, ImageView node) {
+
+        String text =
+                "PV: " + bugemon.getPv() + "\n" +
+                        "ATK: " + bugemon.getAttaque() + "\n" +
+                        "DEF: " + bugemon.getDefense() + "\n" +
+                        "INIT: " + bugemon.getInitiative() + "\n" +
+                        "Attaques: " + bugemon.getAttackNamesAsString();
+
+        statsLabel.setText(text);
+
+        statsPopup.show(node, event.getScreenX() + 15, event.getScreenY() + 15);
+    }
+
+    private void updatePopupPosition(MouseEvent event) {
+        statsPopup.setX(event.getScreenX() + 15);
+        statsPopup.setY(event.getScreenY() + 15);
     }
     public void showAttackandActionPanels(boolean showAttack) {
         attackPanel.setVisible(showAttack);
