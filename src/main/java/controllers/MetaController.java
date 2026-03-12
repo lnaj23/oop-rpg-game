@@ -18,14 +18,15 @@ public class MetaController {
     public enum Scenes {
         TITLE_SCREEN,
         PREBUILD_TEAM,
-        SELECTION
+        SELECTION,
+        FIGHT
     }
 
     private final Stage stage;
     private final TitleScreenController titleScreenController;
     private final PreBuildTeamController preBuildTeamController;
     private final SelectionController selectionController;
-
+    private final FightController fightController;
     /** Shared list of saved teams, passed to all controllers that need it. */
     private final List<TeamBugemon> teams = new ArrayList<>();
 
@@ -40,6 +41,7 @@ public class MetaController {
         this.titleScreenController = new TitleScreenController(this);
         this.preBuildTeamController = new PreBuildTeamController(this, teams);
         this.selectionController = new SelectionController(this, teams);
+        this.fightController = new FightController(this);
     }
 
     /**
@@ -68,6 +70,7 @@ public class MetaController {
                 this.preBuildTeamController.refreshView();
             }
             case SELECTION -> this.selectionController.show(stage);
+            case FIGHT -> this.fightController.show(stage);
             default -> throw new IllegalArgumentException("Invalid scene: " + scene);
         }
         if (stage.isShowing()) {
