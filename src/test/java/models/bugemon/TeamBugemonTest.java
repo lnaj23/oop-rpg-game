@@ -1,10 +1,10 @@
-package models.Bugemon;
+package models.bugemon;
 
 import junit.framework.TestCase;
 import org.junit.Test;
 import exceptions.BugemonNotFoundException;
 import exceptions.BugemonNotInTeamException;
-import services.BugemonProvider;
+import services.bugemon.BugemonProvider;
 
 import java.util.Arrays;
 import java.util.List;

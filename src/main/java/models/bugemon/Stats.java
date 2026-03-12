@@ -1,4 +1,4 @@
-package models.Bugemon;
+package models.bugemon;
 
 public class Stats {
     private int pv;

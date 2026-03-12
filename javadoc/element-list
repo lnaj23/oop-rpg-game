@@ -1,7 +1,7 @@
 unnamed package
 controllers
 exceptions
-models.Bugemon
-models.Bugemon.DTO
+models.bugemon
+models.bugemon.dto
 services
 views

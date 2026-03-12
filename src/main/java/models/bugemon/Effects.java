@@ -1,4 +1,4 @@
-package models.Bugemon;
+package models.bugemon;
 
 class Effects {
     private String type;

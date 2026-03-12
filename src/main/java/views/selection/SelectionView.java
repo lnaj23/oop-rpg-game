@@ -3,8 +3,8 @@ package views.selection;
 import controllers.SelectionController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import models.Bugemon.DTO.BugemonDTO;
-import models.Bugemon.DTO.TeamBugemonDTO;
+import models.bugemon.dto.BugemonDTO;
+import models.bugemon.dto.TeamBugemonDTO;
 import views.View;
 
 import java.io.IOException;

@@ -9,7 +9,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.StageStyle;
-import models.Bugemon.DTO.BugemonDTO;
+import models.bugemon.dto.BugemonDTO;
 
 import java.util.List;
 import java.util.Objects;

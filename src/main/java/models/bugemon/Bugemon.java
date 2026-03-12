@@ -1,7 +1,6 @@
-package models.Bugemon;
+package models.bugemon;
 
-import com.google.gson.annotations.SerializedName;
-import models.Bugemon.DTO.BugemonDTO;
+import models.bugemon.dto.BugemonDTO;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -4,7 +4,7 @@ import controllers.PreBuildTeamController;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.StageStyle;
-import models.Bugemon.DTO.TeamBugemonDTO;
+import models.bugemon.dto.TeamBugemonDTO;
 
 import java.io.IOException;
 import java.util.List;

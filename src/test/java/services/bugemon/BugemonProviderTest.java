@@ -1,15 +1,17 @@
-package services;
+package services.bugemon;
 
 import exceptions.BugemonNotFoundException;
 import junit.framework.TestCase;
-import models.Bugemon.Attack;
-import models.Bugemon.Bugemon;
+import models.bugemon.Attack;
+import models.bugemon.Bugemon;
+import models.bugemon.dto.BugemonDTO;
 import org.junit.Test;
 
 import java.util.Arrays;
 import java.util.List;
 
 public class BugemonProviderTest extends TestCase {
+
     @Test
     public void testGetListBugemonReturnsNotNull() {
         List<Bugemon> list = BugemonProvider.getListBugemon(Arrays.asList("florachu", "exceflam", "commitide"));
@@ -69,6 +71,7 @@ public class BugemonProviderTest extends TestCase {
         List<Bugemon> list = BugemonProvider.getListBugemon(Arrays.asList("florachu", "exceflam", "commitide", "rockachu"));
         assertEquals(4, list.size());
     }
+
     @Test
     public void testGetListBugemonHasAttacks() {
         List<Bugemon> list = BugemonProvider.getListBugemon(Arrays.asList("florachu", "exceflam", "commitide"));
@@ -87,10 +90,51 @@ public class BugemonProviderTest extends TestCase {
     }
 
     @Test
+    public void testGetAllBugemonsNotNull() {
+        List<Bugemon> list = BugemonProvider.getAllBugemons();
+        assertNotNull(list);
+    }
+
+    @Test
     public void testGetAllBugemonsHaveAttacks() {
         List<Bugemon> list = BugemonProvider.getAllBugemons();
         for (Bugemon bug : list) {
             assertFalse("Attacks should not be empty for " + bug.getId(), bug.getAttacks().isEmpty());
         }
     }
+
+    @Test
+    public void testGetAllBugemonsNoNullElements() {
+        List<Bugemon> list = BugemonProvider.getAllBugemons();
+        for (Bugemon bug : list) {
+            assertNotNull(bug);
+        }
+    }
+
+    @Test
+    public void testGetAllBugemonsNotEmpty() {
+        List<Bugemon> list = BugemonProvider.getAllBugemons();
+        assertFalse(list.isEmpty());
+    }
+
+    @Test
+    public void testGetAllBugemonsDTONotNull() {
+        List<BugemonDTO> list = BugemonProvider.getAllBugemonsDTO();
+        assertNotNull(list);
+    }
+
+    @Test
+    public void testGetAllBugemonsDTONotEmpty() {
+        List<BugemonDTO> list = BugemonProvider.getAllBugemonsDTO();
+        assertFalse(list.isEmpty());
+    }
+
+    @Test
+    public void testGetAllBugemonsDTONoNullElements() {
+        List<BugemonDTO> list = BugemonProvider.getAllBugemonsDTO();
+        for (BugemonDTO dto : list) {
+            assertNotNull(dto);
+        }
+    }
+
 }

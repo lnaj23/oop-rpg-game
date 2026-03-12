@@ -1,6 +1,6 @@
-package models.Bugemon.DTO;
+package models.bugemon.dto;
 
-import models.Bugemon.Attack;
+import models.bugemon.Attack;
 
 import java.util.List;
 

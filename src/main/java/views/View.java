@@ -13,7 +13,7 @@ import javafx.stage.Stage;
 
 import controllers.Controller;
 import javafx.stage.StageStyle;
-import models.Bugemon.DTO.TeamBugemonDTO;
+import models.bugemon.dto.TeamBugemonDTO;
 
 /**
  * Abstract base class for all views.

@@ -1,7 +1,7 @@
 package controllers;
 
 import javafx.stage.Stage;
-import models.Bugemon.TeamBugemon;
+import models.bugemon.TeamBugemon;
 import views.FatalErrorView;
 
 import java.io.IOException;
