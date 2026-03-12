@@ -12,7 +12,9 @@ import java.util.List;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.layout.StackPane;
 import models.Bugemon.DTO.BugemonDTO;
-
+import java.util.List;
+import javafx.scene.image.Image;
+import models.Bugemon.DTO.BugemonDTO;
 import java.io.IOException;
 
 public class FightView extends View<FightController> {
@@ -25,8 +27,8 @@ public class FightView extends View<FightController> {
     // Joueur
     @FXML private Label     playerNameLabel;
     @FXML private Label     playerHpLabel;
+    @FXML private Label playerEffectLabel;
     @FXML private Rectangle playerHpBarFill;
-
     // Message durant le combat
     @FXML private Label combatMessageLabel;
 
@@ -65,10 +67,6 @@ public class FightView extends View<FightController> {
         btnAttack3.setOnAction(e -> this.controller.onAttackSelected(2));
         btnBackFromAttack.setOnAction(e -> showAttackandActionPanels(false)); //Afficher ActionPanel
 
-        // Rendre l'ennemi 3 en noir et blanc
-        ColorAdjust grayscale = new ColorAdjust();
-        grayscale.setSaturation(-1); // -1 = noir et blanc
-        enemySprite3.setEffect(grayscale);
     }
 
     public void displayTeam(List<BugemonDTO> team) {
@@ -136,7 +134,32 @@ public class FightView extends View<FightController> {
             }
         }
     }
+    public void displayActiveBugemon(List<BugemonDTO> team) {
 
+        if (team == null || team.isEmpty()) {
+            return;
+        }
+
+        BugemonDTO bugemon = team.get(0);
+
+        // Nom
+        playerNameLabel.setText(bugemon.getNom());
+
+        // HP
+        playerHpLabel.setText("HP: " + bugemon.getPv() + "/" + bugemon.getPv());
+
+        // Effet
+        playerEffectLabel.setText("Effets : Aucun");
+
+        // Barre de vie
+        playerHpBarFill.setWidth(200);
+
+        // Image
+        String path = "/Assets/png/" + bugemon.getSprite();
+        Image img = new Image(getClass().getResourceAsStream(path));
+
+        playerSprite.setImage(img);
+    }
     @Override
     protected String getTitle() {
         return "Bugémon – Combat";

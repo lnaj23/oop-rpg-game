@@ -15,9 +15,10 @@ public class FightController extends Controller<FightView> {
 
     public void setPlayerTeam(TeamBugemonDTO team) {
         this.playerTeam = team;
-        view.displayTeam(playerTeam.getTeamDTO());
-    }
 
+        view.displayTeam(playerTeam.getTeamDTO());
+        view.displayActiveBugemon(playerTeam.getTeamDTO());
+    }
     public void goToTitleScreen() {
         this.metaController.switchScene(MetaController.Scenes.TITLE_SCREEN);
     }
