@@ -10,7 +10,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.shape.Rectangle;
 import java.util.List;
 import javafx.scene.effect.ColorAdjust;
-
+import javafx.scene.layout.StackPane;
 import java.io.IOException;
 
 public class FightView extends View<FightController> {
@@ -46,6 +46,8 @@ public class FightView extends View<FightController> {
     @FXML private ImageView playerSprite;
     @FXML private ImageView enemySprite;
 
+    // tableau 2x3
+    @FXML private GridPane teamGrid;
     public FightView() throws IOException {
         super("/fxml/fightview.fxml");
 
@@ -65,8 +67,31 @@ public class FightView extends View<FightController> {
         ColorAdjust grayscale = new ColorAdjust();
         grayscale.setSaturation(-1); // -1 = noir et blanc
         enemySprite3.setEffect(grayscale);
+
+        createEmptyGrid();
     }
 
+    // Création des 6 cases du tableau
+    private void createEmptyGrid() {
+
+        if (teamGrid == null) return;
+
+        teamGrid.getChildren().clear();
+
+        for (int i = 0; i < 6; i++) {
+
+            StackPane slot = new StackPane();
+            slot.setPrefSize(70, 70);
+
+            slot.setStyle(
+                    "-fx-border-color: black;" +
+                            "-fx-border-width: 2;" +
+                            "-fx-background-color: lightgray;"
+            );
+
+            teamGrid.add(slot, i % 3, i / 3);
+        }
+    }
     public void showAttackandActionPanels(boolean showAttack) {
         attackPanel.setVisible(showAttack);
         attackPanel.setManaged(showAttack);

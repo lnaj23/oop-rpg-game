@@ -126,7 +126,12 @@
                 </ImageView>
             </VBox>
         </GridPane>
-
+        <!-- ===== TABLEAU 2x3  ===== -->
+        <GridPane fx:id="teamGrid"
+                  AnchorPane.topAnchor="350"
+                  AnchorPane.rightAnchor="30"
+                  hgap="10"
+                  vgap="10"/>
         <!-- ===== PANEL D'ACTION (bas centre) ===== -->
         <VBox AnchorPane.bottomAnchor="20" AnchorPane.leftAnchor="10"
               AnchorPane.rightAnchor="10" spacing="10">
