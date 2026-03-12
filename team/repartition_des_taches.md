@@ -1,12 +1,13 @@
 # Répartition des tâches développeur
 
 - Groupe : 05
-- Date : 25/02/2026
+- Date : 12/03/2026
 
 ### Sommaire
 
 - [Itération 0](#itération-0)
 - [Itération 1](#itération-1)
+- [Itération 2](#itération-2)
 
 
 ## Itération 0
@@ -93,4 +94,141 @@ Nous avons eu du mal à séparer les tâches de manière équitable. Donc, on va
 
 À cause du peu d'histoire qu'on a eu pour cette itération en conséquence de la surestimation des points des histoires, on a séparé les histoires en trop petites histoires ce qui a conduit au fait que certaines personnes ont fait des taches qui ne l'était pas attribué en pensant faire la leur.
 Pour palier à celà, on va réduire les points sur notre histoire afin d'en avoir plus durant la prochaine itération et éviter de séparer les tâches en tâches futiles.
+___
+## Itération 2
+### Plan d'ensemble
+
+![Plan](gantt/plans/12_03_26.jpg)
+
+### Tâches
+<table>
+    <tbody>
+        <tr><td>Vélocité :</td><td>28</td></tr>
+        <tr><td>Total Points réel :</td><td></td></tr>
+        <tr><td>Total Points estimé :</td><td>28</td></tr>
+    </tbody>
+</table>
+
+<table>
+  <thead>
+    <tr>
+      <th colspan="5" style="text-align: center;">HISTOIRE 2</th>
+    </tr>
+    <tr>
+      <th>Tâches</th>
+      <th>Pilote</th>
+      <th>Copilote</th>
+      <th>Points réels</th>
+      <th>Points estimés</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Comportement SelectionView (à faire pour le 14/03 max) </td><td>Yanis</td><td>Zakaria</td><td></td><td>1,5</td></tr>
+    <tr><td>Persistance + test pour TeamRepository (à faire pour le 14/03 max)</td><td>Zakaria</td><td>Yanis</td><td></td><td>1,5</td></tr>
+  </tbody>
+</table>
+
+<table>
+  <thead>
+    <tr>
+      <th colspan="5" style="text-align: center;">HISTOIRE 4</th>
+    </tr>
+    <tr>
+      <th>Tâches</th>
+      <th>Pilote</th>
+      <th>Copilote</th>
+      <th>Points réels</th>
+      <th>Points estimés</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Initialiser FightView et FightController (12/03 10h-11h)</td><td>Luqman</td><td>Maxime</td><td></td><td>1</td></tr>
+    <tr><td>Initialiser FightView et FightController (12/03 12h-14h)</td><td>Louai</td><td>Luqman</td><td></td><td>2</td></tr>
+    <tr><td>Initialiser FightView et FightController (12/03 17h-18h)</td><td>Maxime</td><td>Yanis</td><td></td><td>1</td></tr>
+    <tr><td>Updates des models actuels (13/03 10h-12h)</td><td>Louai</td><td>Maxime</td><td></td><td>2</td></tr>
+    <tr><td>Updates des models actuels (13/03 17h-18h)</td><td>Alexandre</td><td>Luqman</td><td></td><td>1</td></tr>
+    <tr><td>Model à ajouter (15/03 16h-18h)</td><td>Enzo</td><td>Mohamed</td><td></td><td>2</td></tr>
+    <tr><td>Model à ajouter (15/03 18h-19h)</td><td>Yanis</td><td>Enzo</td><td></td><td>1</td></tr>
+    <tr><td>Base du lien models - controller - vue (16/03 17h-19h)</td><td>Sajid</td><td>Maxime</td><td></td><td>2</td></tr>
+    <tr><td>Base du lien models - controller - vue (16/03 19h-20h)</td><td>Harry</td><td>Sajid</td><td></td><td>1</td></tr>
+</tbody>
+</table>
+
+<table>
+  <thead>
+    <tr>
+      <th colspan="5" style="text-align: center;">HISTOIRE 5</th>
+    </tr>
+    <tr>
+      <th>Tâches</th>
+      <th>Pilote</th>
+      <th>Copilote</th>
+      <th>Points réels</th>
+      <th>Points estimés</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Amélioration lien models - controller - vue (17/03 08h-10h)</td><td>Alexandre</td><td>Harry</td><td></td><td>2</td></tr>
+    <tr><td>Amélioration lien models - controller - vue (18/03 10h-12h)</td><td>Louai</td><td>Harry</td><td></td><td>2</td></tr>
+    <tr><td>Amélioration lien models - controller - vue (18/03 14h-15h)</td><td>Mohamed</td><td>Alexandre</td><td></td><td>1</td></tr>
+
+  </tbody>
+</table>
+
+<table>
+  <thead>
+    <tr>
+      <th colspan="5" style="text-align: center;">HISTOIRE 6</th>
+    </tr>
+    <tr>
+      <th>Tâches</th>
+      <th>Pilote</th>
+      <th>Copilote</th>
+      <th>Points réels</th>
+      <th>Points estimés</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>TACHE 1</td><td>PILOTE 1</td><td>COPILOTE 1</td><td>RÉEL 1</td><td>ESTIMATION 1</td></tr>
+    <tr><td>TACHE 2</td><td>PILOTE 2</td><td>COPILOTE 2</td><td>RÉEL 2</td><td>ESTIMATION 2</td></tr>
+  </tbody>
+</table>
+
+<table>
+  <thead>
+    <tr>
+      <th colspan="5" style="text-align: center;">HISTOIRE 8</th>
+    </tr>
+    <tr>
+      <th>Tâches</th>
+      <th>Pilote</th>
+      <th>Copilote</th>
+      <th>Points réels</th>
+      <th>Points estimés</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>TACHE 1</td><td>PILOTE 1</td><td>COPILOTE 1</td><td>RÉEL 1</td><td>ESTIMATION 1</td></tr>
+    <tr><td>TACHE 2</td><td>PILOTE 2</td><td>COPILOTE 2</td><td>RÉEL 2</td><td>ESTIMATION 2</td></tr>
+  </tbody>
+</table>
+
+### Discussions de contenu
+
+À l'issue de la première itération, nous avons constaté que le concept de pair programming n'avait été que partiellement respecté.
+Ce concept n'a pas était bien réalisé parce que nous n'avons pas fait les paires pilote-copilote en fonction de la disponibilité de chacun.
+
+Pour mieux respecter le concept de pair programming sur cette deuxième itération, après le rendez-vous avec le client, nous nous sommes réunis pour établir un détaillé des taches et des sous-taches.
+Ensuite pour l'élaboration des paires pilotes copilotes, nous avons à nouveau fait un Google Forms avec une [Google Sheets](#disponibilité-itération-2) associé afin de recueillir les disponibilités de chacun sur cette itération et de faire les paires.
+Pour l'attribution des taches, on a fait en sorte de ne pas donner de tâche bien précise, mais de bien faire en sorte que la paire ne reste que 2h max dessus comme ce qu'il nous est demandé dans le concept de pair programming.
+Après ces 2 heures, on a fait en sorte de mettre un temps d'arrêt pour que la paire qui a fini puisse donner un état des lieux à la paire suivante afin que cette nouvelle paire reprenne là où la précédente s'est arrêté.
+
+Avec cette nouvelle méthode de travail, on peut bien alterner pilot copilote et en même temps faire en sorte d'avoir différente paire et que chacun puisse toucher à un peu tout dans le code.
+
+#### Disponibilité itération 2
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"><link type="text/css" rel="stylesheet" href="resources/sheet.css" >
+<style type="text/css">.ritz .waffle a { color: inherit; }.ritz .waffle .s12{border-bottom:1px SOLID #442f65;border-right:1px SOLID #f8f9fa;background-color:#f8f9fa;text-align:left;color:#434343;font-family:docs-Roboto,Arial;font-size:10pt;vertical-align:middle;white-space:nowrap;overflow:hidden;direction:ltr;padding:2px 8px 2px 8px;}.ritz .waffle .s9{border-bottom:1px SOLID #f8f9fa;border-right:1px SOLID #ffffff;background-color:#ffffff;}.ritz .waffle .s8{border-bottom:1px SOLID #f8f9fa;border-right:1px SOLID #ffffff;background-color:#ffffff;text-align:right;color:#434343;font-family:docs-Roboto,Arial;font-size:10pt;vertical-align:middle;white-space:nowrap;overflow:hidden;direction:ltr;padding:2px 8px 2px 8px;}.ritz .waffle .s2{border-bottom:1px SOLID #f8f9fa;border-right:1px SOLID #ffffff;background-color:#ffffff;text-align:left;color:#434343;font-family:docs-Roboto,Arial;font-size:10pt;vertical-align:middle;white-space:nowrap;overflow:hidden;direction:ltr;padding:2px 8px 2px 8px;}.ritz .waffle .s13{border-right:1px SOLID #f8f9fa;background-color:#f8f9fa;}.ritz .waffle .s1{border-bottom:1px SOLID #442f65;border-right:1px SOLID #442f65;background-color:#5b3f86;text-align:left;color:#ffffff;font-family:docs-Roboto,Arial;font-size:10pt;vertical-align:middle;white-space:nowrap;overflow:hidden;direction:ltr;padding:2px 8px 2px 8px;}.ritz .waffle .s0{border-bottom:1px SOLID #442f65;border-right:1px SOLID #5b3f86;background-color:#5b3f86;text-align:left;color:#ffffff;font-family:docs-Roboto,Arial;font-size:10pt;vertical-align:middle;white-space:nowrap;overflow:hidden;direction:ltr;padding:2px 8px 2px 8px;}.ritz .waffle .s6{border-bottom:1px SOLID #ffffff;border-right:1px SOLID #f8f9fa;background-color:#f8f9fa;}.ritz .waffle .s11{border-bottom:1px SOLID #442f65;border-right:1px SOLID #f8f9fa;background-color:#f8f9fa;text-align:right;color:#434343;font-family:docs-Roboto,Arial;font-size:10pt;vertical-align:middle;white-space:nowrap;overflow:hidden;direction:ltr;padding:2px 8px 2px 8px;}.ritz .waffle .s7{border-bottom:1px SOLID #ffffff;background-color:#f8f9fa;}.ritz .waffle .s10{border-bottom:1px SOLID #f8f9fa;background-color:#ffffff;}.ritz .waffle .s3{border-bottom:1px SOLID #f8f9fa;border-right:1px SOLID #442f65;background-color:#ffffff;text-align:left;color:#434343;font-family:docs-Roboto,Arial;font-size:10pt;vertical-align:middle;white-space:nowrap;overflow:hidden;direction:ltr;padding:2px 8px 2px 8px;}.ritz .waffle .s14{border-bottom:1px SOLID #442f65;border-right:1px SOLID #442f65;background-color:#f8f9fa;text-align:left;color:#434343;font-family:docs-Roboto,Arial;font-size:10pt;vertical-align:middle;white-space:nowrap;overflow:hidden;direction:ltr;padding:2px 8px 2px 8px;}.ritz .waffle .s4{border-bottom:1px SOLID #f8f9fa;border-right:1px SOLID #f8f9fa;background-color:#f8f9fa;text-align:right;color:#434343;font-family:docs-Roboto,Arial;font-size:10pt;vertical-align:middle;white-space:nowrap;overflow:hidden;direction:ltr;padding:2px 8px 2px 8px;}.ritz .waffle .s5{border-bottom:1px SOLID #f8f9fa;border-right:1px SOLID #f8f9fa;background-color:#f8f9fa;text-align:left;color:#434343;font-family:docs-Roboto,Arial;font-size:10pt;vertical-align:middle;white-space:nowrap;overflow:hidden;direction:ltr;padding:2px 8px 2px 8px;}</style><div class="ritz grid-container" dir="ltr"><table class="waffle" cellspacing="0" cellpadding="0"><thead><tr><th class="row-header freezebar-vertical-handle"></th><th id="2069790133C0" style="width:150px;" class="column-headers-background">A</th><th id="2069790133C1" style="width:150px;" class="column-headers-background">B</th><th id="2069790133C2" style="width:300px;" class="column-headers-background">C</th><th id="2069790133C3" style="width:281px;" class="column-headers-background">D</th><th id="2069790133C4" style="width:300px;" class="column-headers-background">E</th><th id="2069790133C5" style="width:293px;" class="column-headers-background">F</th><th id="2069790133C6" style="width:300px;" class="column-headers-background">G</th><th id="2069790133C7" style="width:281px;" class="column-headers-background">H</th><th id="2069790133C8" style="width:283px;" class="column-headers-background">I</th><th id="2069790133C9" style="width:300px;" class="column-headers-background">J</th><th id="2069790133C10" style="width:281px;" class="column-headers-background">K</th><th id="2069790133C11" style="width:300px;" class="column-headers-background">L</th><th id="2069790133C12" style="width:293px;" class="column-headers-background">M</th><th id="2069790133C13" style="width:300px;" class="column-headers-background">N</th><th id="2069790133C14" style="width:281px;" class="column-headers-background">O</th><th id="2069790133C15" style="width:283px;" class="column-headers-background">P</th><th id="2069790133C16" style="width:300px;" class="column-headers-background">Q</th><th id="2069790133C17" style="width:281px;" class="column-headers-background">R</th><th id="2069790133C18" style="width:300px;" class="column-headers-background">S</th><th id="2069790133C19" style="width:293px;" class="column-headers-background">T</th><th id="2069790133C20" style="width:300px;" class="column-headers-background">U</th><th id="2069790133C21" style="width:281px;" class="column-headers-background">V</th></tr></thead><tbody><tr style="height: 30px"><th id="2069790133R0" style="height: 30px;" class="row-headers-background"><div class="row-header-wrapper" style="line-height: 30px">1</div></th><td class="s0" dir="ltr">Horodateur</td><td class="s0" dir="ltr">Prénom</td><td class="s0" dir="ltr">Disponibilité sur l&#39;itération 2 [Mercredi 11/03]</td><td class="s0" dir="ltr">Disponibilité sur l&#39;itération 2 [Jeudi 12/03]</td><td class="s0" dir="ltr">Disponibilité sur l&#39;itération 2 [Vendredi 13/03]</td><td class="s0" dir="ltr">Disponibilité sur l&#39;itération 2 [Samedi 14/03]</td><td class="s0" dir="ltr">Disponibilité sur l&#39;itération 2 [Dimanche 15/03]</td><td class="s0" dir="ltr">Disponibilité sur l&#39;itération 2 [Lundi 16/03]</td><td class="s0" dir="ltr">Disponibilité sur l&#39;itération 2 [Mardi 17/03]</td><td class="s0" dir="ltr">Disponibilité sur l&#39;itération 2 [Mercredi 18/03]</td><td class="s0" dir="ltr">Disponibilité sur l&#39;itération 2 [Jeudi 19/03]</td><td class="s0" dir="ltr">Disponibilité sur l&#39;itération 2 [Vendredi 20/03]</td><td class="s0" dir="ltr">Disponibilité sur l&#39;itération 2 [Samedi 21/03]</td><td class="s0" dir="ltr">Disponibilité sur l&#39;itération 2 [Dimanche 22/03]</td><td class="s0" dir="ltr">Disponibilité sur l&#39;itération 2 [Lundi 23/03]</td><td class="s0" dir="ltr">Disponibilité sur l&#39;itération 2 [Mardi 24/03]</td><td class="s0" dir="ltr">Disponibilité sur l&#39;itération 2 [Mercredi 25/03]</td><td class="s0" dir="ltr">Disponibilité sur l&#39;itération 2 [Jeudi 26/03]</td><td class="s0" dir="ltr">Disponibilité sur l&#39;itération 2 [Vendredi 27/03]</td><td class="s0" dir="ltr">Disponibilité sur l&#39;itération 2 [Samedi 28/03]</td><td class="s0" dir="ltr">Disponibilité sur l&#39;itération 2 [Dimanche 29/03]</td><td class="s1" dir="ltr">Disponibilité sur l&#39;itération 2 [Lundi 30/03]</td></tr><tr><th style="height:3px;" class="freezebar-cell freezebar-horizontal-handle"></th><td class="freezebar-cell"></td><td class="freezebar-cell"></td><td class="freezebar-cell"></td><td class="freezebar-cell"></td><td class="freezebar-cell"></td><td class="freezebar-cell"></td><td class="freezebar-cell"></td><td class="freezebar-cell"></td><td class="freezebar-cell"></td><td class="freezebar-cell"></td><td class="freezebar-cell"></td><td class="freezebar-cell"></td><td class="freezebar-cell"></td><td class="freezebar-cell"></td><td class="freezebar-cell"></td><td class="freezebar-cell"></td><td class="freezebar-cell"></td><td class="freezebar-cell"></td><td class="freezebar-cell"></td><td class="freezebar-cell"></td><td class="freezebar-cell"></td><td class="freezebar-cell"></td></tr><tr style="height: 30px"><th id="2069790133R1" style="height: 30px;" class="row-headers-background"><div class="row-header-wrapper" style="line-height: 30px">2</div></th><td class="s2" dir="ltr"></td><td class="s2" dir="ltr"></td><td class="s2" dir="ltr"></td><td class="s2" dir="ltr"></td><td class="s2" dir="ltr"></td><td class="s2" dir="ltr"></td><td class="s2" dir="ltr"></td><td class="s2" dir="ltr"></td><td class="s2" dir="ltr"></td><td class="s2"></td><td class="s2"></td><td class="s2"></td><td class="s2"></td><td class="s2"></td><td class="s2"></td><td class="s2"></td><td class="s2"></td><td class="s2"></td><td class="s2"></td><td class="s2"></td><td class="s2"></td><td class="s3"></td></tr><tr style="height: 30px"><th id="2069790133R2" style="height: 30px;" class="row-headers-background"><div class="row-header-wrapper" style="line-height: 30px">3</div></th><td class="s4" dir="ltr">07/03/2026 17:01:23</td><td class="s5" dir="ltr">Yanis</td><td class="s5" dir="ltr">9h, 10h, 11h, 12h, 13h, 14h, 15h, 16h, 17h, 18h, 19h, 20h</td><td class="s5" dir="ltr">9h, 10h, 11h, 12h, 13h, 14h, 15h, 16h, 17h, 18h, 19h, 20h</td><td class="s5" dir="ltr">9h, 10h, 11h, 12h, 13h, 14h, 15h, 16h, 17h, 18h, 19h, 20h</td><td class="s5" dir="ltr">9h, 10h, 11h, 12h, 13h, 14h, 15h, 16h, 17h, 18h, 19h, 20h</td><td class="s5" dir="ltr">9h, 10h, 11h, 12h, 13h, 14h, 15h, 16h, 17h, 18h, 19h, 20h</td><td class="s5" dir="ltr">9h, 10h, 11h, 12h, 13h, 14h, 15h, 16h, 17h, 18h, 19h, 20h</td><td class="s5" dir="ltr">9h, 10h, 11h, 12h, 13h, 14h, 15h, 16h, 17h, 18h, 19h, 20h</td><td class="s6"></td><td class="s6"></td><td class="s6"></td><td class="s6"></td><td class="s6"></td><td class="s6"></td><td class="s6"></td><td class="s6"></td><td class="s6"></td><td class="s6"></td><td class="s6"></td><td class="s6"></td><td class="s7"></td></tr><tr style="height: 30px"><th id="2069790133R3" style="height: 30px;" class="row-headers-background"><div class="row-header-wrapper" style="line-height: 30px">4</div></th><td class="s8" dir="ltr">07/03/2026 22:36:45</td><td class="s2" dir="ltr">Sajid</td><td class="s2" dir="ltr">16h, 17h, 18h, 19h</td><td class="s2" dir="ltr">11h, 12h, 13h, 14h, 15h, 16h, 17h, 18h, 19h</td><td class="s2" dir="ltr">13h, 14h, 15h, 16h, 17h, 18h, 19h</td><td class="s2" dir="ltr">12h, 13h, 14h, 15h, 16h, 20h, 21h, 22h, 23h</td><td class="s2" dir="ltr">12h, 13h, 14h, 15h, 16h</td><td class="s2" dir="ltr">17h, 18h, 19h</td><td class="s9"></td><td class="s2" dir="ltr">16h, 17h, 18h, 19h</td><td class="s2" dir="ltr">13h, 14h, 15h, 16h</td><td class="s2" dir="ltr">15h, 16h, 17h, 18h, 19h</td><td class="s2" dir="ltr">15h, 16h, 17h, 18h, 19h, 20h</td><td class="s9"></td><td class="s9"></td><td class="s2" dir="ltr">14h, 15h, 16h, 17h, 18h</td><td class="s2" dir="ltr">14h, 15h, 16h, 17h, 18h</td><td class="s2" dir="ltr">14h, 15h, 16h</td><td class="s9"></td><td class="s9"></td><td class="s9"></td><td class="s10"></td></tr><tr style="height: 30px"><th id="2069790133R4" style="height: 30px;" class="row-headers-background"><div class="row-header-wrapper" style="line-height: 30px">5</div></th><td class="s4" dir="ltr">08/03/2026 12:19:03</td><td class="s5" dir="ltr">Harry</td><td class="s5" dir="ltr">11h, 19h, 20h, 21h, 22h</td><td class="s5" dir="ltr">10h, 11h, 12h, 13h, 14h, 15h, 16h, 17h, 18h, 19h, 20h, 21h, 22h</td><td class="s5" dir="ltr">8h, 9h, 10h, 11h, 14h, 17h, 18h, 19h, 20h, 21h, 22h</td><td class="s5" dir="ltr">8h, 9h, 10h, 11h, 12h, 13h, 14h, 15h, 16h, 17h, 18h, 19h, 20h, 21h, 22h</td><td class="s5" dir="ltr">8h, 9h, 10h, 11h, 12h, 13h, 14h, 15h, 16h, 17h, 18h, 19h, 20h, 21h, 22h</td><td class="s5" dir="ltr">8h, 9h, 12h, 13h, 16h, 17h, 18h, 19h, 20h, 21h, 22h</td><td class="s5" dir="ltr">8h, 9h, 12h, 17h, 18h, 19h, 20h, 21h, 22h</td><td class="s5" dir="ltr">8h, 9h, 10h, 11h, 12h, 13h, 16h, 17h, 18h, 19h, 20h, 21h, 22h</td><td class="s6"></td><td class="s6"></td><td class="s6"></td><td class="s6"></td><td class="s6"></td><td class="s6"></td><td class="s6"></td><td class="s6"></td><td class="s6"></td><td class="s6"></td><td class="s6"></td><td class="s7"></td></tr><tr style="height: 30px"><th id="2069790133R5" style="height: 30px;" class="row-headers-background"><div class="row-header-wrapper" style="line-height: 30px">6</div></th><td class="s8" dir="ltr">08/03/2026 15:30:03</td><td class="s2" dir="ltr">Luqman remplie jusqu&#39;au 20/3</td><td class="s9"></td><td class="s2" dir="ltr">8h, 9h, 10h, 11h, 12h, 13h, 14h, 15h, 16h</td><td class="s2" dir="ltr">15h, 16h, 17h, 18h</td><td class="s2" dir="ltr">8h, 9h, 10h, 11h, 12h</td><td class="s2" dir="ltr">14h, 15h, 16h, 17h, 18h</td><td class="s9"></td><td class="s9"></td><td class="s9"></td><td class="s2" dir="ltr">8h, 9h</td><td class="s2" dir="ltr">15h, 16h, 17h, 18h</td><td class="s9"></td><td class="s9"></td><td class="s9"></td><td class="s9"></td><td class="s9"></td><td class="s9"></td><td class="s9"></td><td class="s9"></td><td class="s9"></td><td class="s10"></td></tr><tr style="height: 30px"><th id="2069790133R6" style="height: 30px;" class="row-headers-background"><div class="row-header-wrapper" style="line-height: 30px">7</div></th><td class="s4" dir="ltr">08/03/2026 19:08:09</td><td class="s5" dir="ltr">Maxime</td><td class="s5" dir="ltr">10h, 11h, 12h, 18h, 19h, 20h, 21h, 22h</td><td class="s5" dir="ltr">10h, 11h, 17h, 18h, 19h, 20h, 21h, 22h</td><td class="s5" dir="ltr">10h, 11h</td><td class="s5" dir="ltr">12h, 13h, 14h, 15h</td><td class="s5" dir="ltr">12h, 13h, 14h, 20h, 21h, 22h</td><td class="s5" dir="ltr">10h, 11h, 12h, 16h, 17h, 18h, 19h, 20h, 21h, 22h</td><td class="s5" dir="ltr">10h, 11h, 12h, 13h, 18h, 19h, 20h, 21h, 22h</td><td class="s5" dir="ltr">10h, 11h, 12h, 13h, 19h, 20h, 21h</td><td class="s5" dir="ltr">10h, 11h, 12h, 13h, 14h, 15h, 19h, 20h, 21h</td><td class="s5" dir="ltr">10h, 11h</td><td class="s5" dir="ltr">12h, 13h, 14h, 15h</td><td class="s5" dir="ltr">12h, 13h, 14h, 15h, 20h, 21h, 22h</td><td class="s6"></td><td class="s6"></td><td class="s6"></td><td class="s6"></td><td class="s6"></td><td class="s6"></td><td class="s6"></td><td class="s7"></td></tr><tr style="height: 30px"><th id="2069790133R7" style="height: 30px;" class="row-headers-background"><div class="row-header-wrapper" style="line-height: 30px">8</div></th><td class="s8" dir="ltr">09/03/2026 15:50:11</td><td class="s2" dir="ltr">Louai</td><td class="s2" dir="ltr">19h, 20h, 21h</td><td class="s2" dir="ltr">12h, 13h</td><td class="s2" dir="ltr">10h, 11h, 12h</td><td class="s2" dir="ltr">10h, 11h, 12h, 13h, 14h</td><td class="s2" dir="ltr">10h, 11h, 12h</td><td class="s2" dir="ltr">10h, 11h, 12h, 13h, 14h</td><td class="s2" dir="ltr">10h, 11h, 12h, 13h, 14h</td><td class="s2" dir="ltr">10h, 11h, 12h</td><td class="s2" dir="ltr">10h, 11h, 12h, 13h, 14h</td><td class="s2" dir="ltr">10h, 11h, 12h, 13h, 14h</td><td class="s2" dir="ltr">10h, 11h, 12h, 13h, 14h</td><td class="s2" dir="ltr">10h, 11h, 12h</td><td class="s2" dir="ltr">10h, 11h, 12h, 13h, 14h</td><td class="s2" dir="ltr">10h, 11h, 12h, 13h, 14h</td><td class="s2" dir="ltr">10h, 11h, 12h</td><td class="s2" dir="ltr">10h, 11h, 12h, 13h, 14h</td><td class="s2" dir="ltr">10h, 11h, 12h, 13h, 14h</td><td class="s2" dir="ltr">10h, 11h, 12h, 13h, 14h</td><td class="s2" dir="ltr">10h, 11h</td><td class="s3" dir="ltr">10h, 11h, 12h, 13h, 14h</td></tr><tr style="height: 30px"><th id="2069790133R8" style="height: 30px;" class="row-headers-background"><div class="row-header-wrapper" style="line-height: 30px">9</div></th><td class="s4" dir="ltr">09/03/2026 19:57:35</td><td class="s5" dir="ltr">Mohamed</td><td class="s5" dir="ltr">14h, 15h, 16h, 17h</td><td class="s6"></td><td class="s6"></td><td class="s5" dir="ltr">13h, 14h</td><td class="s5" dir="ltr">16h, 17h</td><td class="s5" dir="ltr">14h, 15h, 16h, 17h</td><td class="s5" dir="ltr">14h, 15h, 16h, 17h</td><td class="s5" dir="ltr">14h, 15h, 16h, 17h</td><td class="s6"></td><td class="s5" dir="ltr">16h, 17h</td><td class="s5" dir="ltr">13h, 14h</td><td class="s5" dir="ltr">16h, 17h</td><td class="s6"></td><td class="s6"></td><td class="s6"></td><td class="s6"></td><td class="s6"></td><td class="s6"></td><td class="s6"></td><td class="s7"></td></tr><tr style="height: 30px"><th id="2069790133R9" style="height: 30px;" class="row-headers-background"><div class="row-header-wrapper" style="line-height: 30px">10</div></th><td class="s2" dir="ltr"></td><td class="s9"></td><td class="s9"></td><td class="s9"></td><td class="s9"></td><td class="s9"></td><td class="s9"></td><td class="s9"></td><td class="s9"></td><td class="s9"></td><td class="s9"></td><td class="s9"></td><td class="s9"></td><td class="s9"></td><td class="s9"></td><td class="s9"></td><td class="s9"></td><td class="s9"></td><td class="s9"></td><td class="s9"></td><td class="s9"></td><td class="s10"></td></tr><tr style="height: 30px"><th id="2069790133R10" style="height: 30px;" class="row-headers-background"><div class="row-header-wrapper" style="line-height: 30px">11</div></th><td class="s5" dir="ltr"></td><td class="s6"></td><td class="s6"></td><td class="s6"></td><td class="s6"></td><td class="s6"></td><td class="s6"></td><td class="s6"></td><td class="s6"></td><td class="s6"></td><td class="s6"></td><td class="s6"></td><td class="s6"></td><td class="s6"></td><td class="s6"></td><td class="s6"></td><td class="s6"></td><td class="s6"></td><td class="s6"></td><td class="s6"></td><td class="s6"></td><td class="s7"></td></tr><tr style="height: 30px"><th id="2069790133R11" style="height: 30px;" class="row-headers-background"><div class="row-header-wrapper" style="line-height: 30px">12</div></th><td class="s8" dir="ltr">11/03/2026 14:24:25</td><td class="s2" dir="ltr">enzo</td><td class="s9"></td><td class="s2" dir="ltr">20h, 21h, 22h, 23h</td><td class="s9"></td><td class="s2" dir="ltr">14h, 15h, 16h, 17h, 18h, 19h, 20h</td><td class="s2" dir="ltr">15h, 16h, 17h, 18h, 19h, 20h, 21h, 22h, 23h</td><td class="s9"></td><td class="s9"></td><td class="s9"></td><td class="s9"></td><td class="s9"></td><td class="s9"></td><td class="s9"></td><td class="s9"></td><td class="s9"></td><td class="s9"></td><td class="s9"></td><td class="s9"></td><td class="s9"></td><td class="s9"></td><td class="s10"></td></tr><tr style="height: 30px"><th id="2069790133R12" style="height: 30px;" class="row-headers-background"><div class="row-header-wrapper" style="line-height: 30px">13</div></th><td class="s11" dir="ltr">12/03/2026 08:54:18</td><td class="s12" dir="ltr">Alexandre</td><td class="s13"></td><td class="s12" dir="ltr">10h, 11h, 12h, 13h, 14h, 15h, 16h, 17h, 18h, 19h, 20h</td><td class="s12" dir="ltr">16h, 17h, 18h, 19h, 20h</td><td class="s12" dir="ltr">10h, 11h</td><td class="s12" dir="ltr">10h, 11h, 12h, 13h, 14h, 15h, 16h, 17h, 18h, 19h, 20h</td><td class="s12" dir="ltr">18h, 19h, 20h</td><td class="s12" dir="ltr">10h, 11h, 12h, 13h, 14h, 15h, 16h, 17h, 18h, 19h, 20h</td><td class="s12" dir="ltr">10h, 11h, 12h, 13h, 14h, 15h, 16h, 17h, 18h, 19h, 20h</td><td class="s13"></td><td class="s12" dir="ltr">10h, 11h, 12h, 13h, 14h, 15h, 16h, 17h, 18h, 19h, 20h</td><td class="s12" dir="ltr">10h, 11h, 12h, 13h, 14h, 15h, 16h, 17h, 18h, 19h, 20h</td><td class="s12" dir="ltr">10h, 11h, 12h, 13h, 14h, 15h, 16h, 17h, 18h, 19h, 20h</td><td class="s12" dir="ltr">18h, 19h, 20h</td><td class="s12" dir="ltr">10h, 11h, 12h, 13h, 14h, 15h, 16h, 17h, 18h, 19h, 20h</td><td class="s12" dir="ltr">10h, 11h, 12h, 13h, 14h, 15h, 16h, 17h, 18h, 19h, 20h</td><td class="s12" dir="ltr">16h, 17h, 18h, 19h, 20h</td><td class="s12" dir="ltr">10h, 11h, 12h, 13h, 14h, 15h, 16h, 17h, 18h, 19h, 20h</td><td class="s12" dir="ltr">10h, 11h, 12h, 13h, 14h, 15h, 16h, 17h, 18h, 19h, 20h</td><td class="s12" dir="ltr">10h, 11h, 12h, 13h, 14h, 15h, 16h, 17h, 18h, 19h, 20h</td><td class="s14" dir="ltr">18h, 19h, 20h</td></tr></tbody></table></div>
+
+### Risques et problèmes
+
 ___
