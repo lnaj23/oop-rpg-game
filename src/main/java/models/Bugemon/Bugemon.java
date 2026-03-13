@@ -50,6 +50,9 @@ public class Bugemon implements BugemonDTO {
     }
 
     @Override
+    public int getcurrenPv() {return stats.getCurrentPv();}
+
+    @Override
     public int getAttaque() {
         return stats.getAttaque();
     }
@@ -111,7 +114,7 @@ public class Bugemon implements BugemonDTO {
         return true;
     }
 
-    public boolean getIsPlayer() {
+    @Override public boolean getIsPlayer() {
         return isPlayer;
     }
 
@@ -122,4 +125,17 @@ public class Bugemon implements BugemonDTO {
     public void initPv(){
         this.stats.initCurrentPv();
     }
+
+    public Bugemon(Bugemon other) {
+        this.id = other.id;
+        this.nom = other.nom;
+        this.type = other.type;
+        this.stats = new Stats(other.stats);
+        this.attaques = other.attaques;
+        this.attacks = new ArrayList<>(other.attacks);
+        this.sprite = other.sprite;
+        this.starter = other.starter;
+        this.isPlayer = other.isPlayer;
+    }
+    public Bugemon() {}
 }

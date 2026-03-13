@@ -136,8 +136,8 @@ public class FightView extends View<FightController> {
 
     private void showHpPopup(MouseEvent event, BugemonDTO bugemon, ImageView node) {
 
-        String text = "HP : " + String.valueOf(bugemon.getPv()) + " / " + String.valueOf(bugemon.getPv());
-        //remplacer getPv par les current pv qd ça sera là
+        String text = "HP : " + String.valueOf(bugemon.getcurrenPv()) + " / " + String.valueOf(bugemon.getPv());
+
         HPLabel.setText(text);
 
         HPPopup.show(node, event.getScreenX() + 15, event.getScreenY() + 15);
@@ -160,14 +160,14 @@ public class FightView extends View<FightController> {
         combatMessageLabel.setText(message);
     }
 
-    public void updateActiveBugemonSprite(BugemonDTO bugemon, boolean isPlayer) {
+    public void updateActiveBugemonSprite(BugemonDTO bugemon) {
 
-        Label nameLabel   = isPlayer ? playerNameLabel   : enemyNameLabel;
-        Label hpLabel     = isPlayer ? playerHpLabel     : enemyHpLabel;
-        Label effectLabel = isPlayer ? playerEffectLabel : enemyEffectLabel;
-        ImageView sprite  = isPlayer ? playerSprite      : enemySprite;
+        Label nameLabel   = bugemon.getIsPlayer() ? playerNameLabel   : enemyNameLabel;
+        Label hpLabel     = bugemon.getIsPlayer() ? playerHpLabel     : enemyHpLabel;
+        Label effectLabel = bugemon.getIsPlayer() ? playerEffectLabel : enemyEffectLabel;
+        ImageView sprite  = bugemon.getIsPlayer() ? playerSprite      : enemySprite;
 
-        nameLabel.setText(bugemon.getNom() + (isPlayer ? " (Player)" : ""));
+        nameLabel.setText(bugemon.getNom() + (bugemon.getIsPlayer() ? " (Player)" : ""));
         hpLabel.setText("HP: " + bugemon.getPv() + "/" + bugemon.getPv()); //remplacer getPv par les current pv qd ça sera là
         effectLabel.setText("Effets : Aucun");
 
@@ -175,7 +175,7 @@ public class FightView extends View<FightController> {
         Image img = new Image(Objects.requireNonNull(getClass().getResourceAsStream(path)));
         sprite.setImage(img);
 
-        if (isPlayer) {
+        if (bugemon.getIsPlayer()) {
             updateAttackButtonName(bugemon);
         }
     }
@@ -211,26 +211,26 @@ public class FightView extends View<FightController> {
                 .toList();
     }
 
-    public void updateBugemonHP(BugemonDTO bugemon, boolean isPlayer, float currentHP){
-        updateHPBarFill(bugemon, isPlayer, currentHP);
-        updatehpLabel(bugemon, isPlayer, currentHP);
+    public void updateBugemonHP(BugemonDTO bugemon){
+        updateHPBarFill(bugemon);
+        updatehpLabel(bugemon);
     }
 
-    public void updateHPBarFill(BugemonDTO bugemon, boolean isPlayer, float currentHP) {
+    public void updateHPBarFill(BugemonDTO bugemon) {
 
-        ProgressBar hpbar = isPlayer ? playerHpBarFill : enemyHpBarFill;
+        ProgressBar hpbar = bugemon.getIsPlayer() ? playerHpBarFill : enemyHpBarFill;
 
         float maxHP = bugemon.getPv();
-        float ratio = Math.round((currentHP / maxHP) * 10000f) / 10000f;
+        float ratio = Math.round((bugemon.getcurrenPv() / maxHP) * 10000f) / 10000f;
 
         hpbar.setProgress(ratio);
     }
 
-    private void updatehpLabel(BugemonDTO bugemon, boolean isPlayer, float currentHP) {
+    private void updatehpLabel(BugemonDTO bugemon) {
 
-        Label hpLabel     = isPlayer ? playerHpLabel     : enemyHpLabel;
+        Label hpLabel     = bugemon.getIsPlayer() ? playerHpLabel     : enemyHpLabel;
 
-        hpLabel.setText("HP: " + currentHP + "/" + bugemon.getPv());
+        hpLabel.setText("HP: " + bugemon.getcurrenPv() + "/" + bugemon.getPv());
 
     }
 

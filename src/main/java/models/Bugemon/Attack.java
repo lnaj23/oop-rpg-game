@@ -22,4 +22,13 @@ public class Attack {
     public String getType() { return type; }
     public int getPuissance() { return puissance; }
     public String getDescription() { return description; }
+
+    public Attack(Attack other) {
+        this.id = other.id;
+        this.nom = other.nom;
+        this.type = other.type;
+        this.description = other.description;
+        this.puissance = other.puissance;
+        this.effets = other.effets == null ? null : other.effets.stream().map(Effects::new).toList();
+    }
 }

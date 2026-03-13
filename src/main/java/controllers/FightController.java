@@ -1,8 +1,10 @@
 package controllers;
 
 import models.Bugemon.Bugemon;
+import models.Game.Fight;
 import views.FightView;
 import java.io.IOException;
+import java.util.List;
 import java.util.Random;
 
 import models.Bugemon.TeamBugemon;
@@ -15,6 +17,8 @@ public class FightController extends Controller<FightView> {
     private Bugemon onFieldPlayerBugemon;
     private Bugemon onFieldEnemyBugemon;
 
+    private Fight fight;
+
     private boolean isPlayerTurn = true;
     Random random = new Random();
     public FightController(MetaController metaController) throws IOException {
@@ -23,19 +27,24 @@ public class FightController extends Controller<FightView> {
     }
 
     public void setPlayerTeam(TeamBugemon team) {
-        this.playerTeam = team;
-        this.cpuTeam = team;
+
+        //truc un peu bzr juste prc là les 2 equipe sont les même mais dcp faut faire une copie de lequipe
+        List<String> ids = team.getTeam().stream().map(Bugemon::getId).toList();
+        TeamBugemon cpuTeam = new TeamBugemon(ids);
+
+        fight = new Fight(team,cpuTeam);
+
+        this.playerTeam = fight.getTeamPlayer();
+        this.cpuTeam = fight.getTeamCPU();
 
         this.onFieldPlayerBugemon = playerTeam.getTeam().getFirst();
         this.onFieldEnemyBugemon = cpuTeam.getTeam().getLast();
 
         view.displayTeam(playerTeam.getTeamDTO());
-        view.updateActiveBugemonSprite(onFieldPlayerBugemon, true);
-        view.updateActiveBugemonSprite(onFieldEnemyBugemon, false);
+        view.updateActiveBugemonSprite(onFieldPlayerBugemon);
+        view.updateActiveBugemonSprite(onFieldEnemyBugemon);
         view.markPlayerBugemonAsFainted(playerTeam.getTeam().get(3));
         view.setCombatMessage("Un " + onFieldEnemyBugemon.getNom() + " sauvage apparaît !");
-        view.updateBugemonHP(onFieldPlayerBugemon,true, (float) (onFieldPlayerBugemon.getPv() - 45));
-        view.updateBugemonHP(onFieldEnemyBugemon,false, (float) (onFieldEnemyBugemon.getPv() - 23.23));
     }
 
     public void goToTitleScreen() {
@@ -52,8 +61,8 @@ public class FightController extends Controller<FightView> {
 
     public void onSwitchClicked() {
         Bugemon randomBug = playerTeam.getTeam().get(random.nextInt(playerTeam.getTeam().size()));
-        view.updateActiveBugemonSprite(randomBug, true);
-        view.updateBugemonHP(randomBug,true, randomBug.getPv());
+        view.updateActiveBugemonSprite(randomBug);
+        view.updateBugemonHP(randomBug);
     }
 
     public void onForfeitClicked() {

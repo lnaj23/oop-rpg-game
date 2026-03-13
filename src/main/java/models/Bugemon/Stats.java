@@ -38,4 +38,12 @@ public class Stats {
     public void initCurrentPv() {
         this.currentpv = this.pv;
     }
+
+    public Stats(Stats other) {
+        this.pv = other.pv;
+        this.currentpv = other.currentpv;
+        this.attaque = other.attaque;
+        this.defense = other.defense;
+        this.initiative = other.initiative;
+    }
 }

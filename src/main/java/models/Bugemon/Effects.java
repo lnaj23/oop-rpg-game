@@ -11,4 +11,12 @@ class Effects {
     private String stat;
     private String modifier;
     private String duration;
+
+    public Effects(Effects other) {
+        this.type = other.type;
+        this.target = other.target;
+        this.stat = other.stat;
+        this.modifier = other.modifier;
+        this.duration = other.duration;
+    }
 }

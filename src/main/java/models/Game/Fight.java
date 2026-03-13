@@ -80,4 +80,11 @@ public class Fight {
             }
         }
     }
+
+    public TeamBugemon getTeamPlayer() {
+        return teamPlayer;
+    }
+    public TeamBugemon getTeamCPU() {
+        return teamCPU;
+    }
 }
