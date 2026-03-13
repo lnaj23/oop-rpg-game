@@ -54,4 +54,9 @@ public interface BugemonDTO {
      * @return the attacks as a String
      */
     String getAttackNamesAsString();
+
+    /**
+     * @return the attacks as a List of String
+     */
+    List<String> getAttackNamesAsList();
 }

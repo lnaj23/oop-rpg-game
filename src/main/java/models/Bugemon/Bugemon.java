@@ -31,7 +31,7 @@ public class Bugemon implements BugemonDTO {
     @Override public int getDefense()          { return stats.getDefense(); }
     @Override public int getInitiative()       { return stats.getInitiative(); }
 
-    public List<String> getAttackNamesAsList() { return attaques; }
+    @Override public List<String> getAttackNamesAsList() { return attaques; }
     @Override public String getAttackNamesAsString() { return String.join(", ", attaques); }
     public void addAttacks(Attack attack)       { attacks.add(attack); }
 }
