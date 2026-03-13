@@ -7,6 +7,7 @@ import services.BugemonProvider;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Represents a named team of up to 6 Bugémons.
@@ -82,7 +83,47 @@ public class TeamBugemon implements TeamBugemonDTO {
             System.out.println(bug.getId());
         }
     }
+    private Bugemon onFieldBugemon = null;
 
+    public int chooseRandomAttack() {
+        Random rand = new Random();
+        return rand.nextInt(3) + 1; // retourne 1, 2 ou 3
+    }
+    public void attackTeamEnnemi(TeamBugemon target) {
+        if (onFieldBugemon == null) return;
+
+        int attackNumber = chooseRandomAttack();
+        System.out.println(onFieldBugemon.getId() + " utilise l'attaque #" + attackNumber);
+
+        // infliger des dégâts au Bugemon ennemi sur le terrain
+        if (target.getOnFieldBugemon() != null) {
+            target.getOnFieldBugemon().takeDamage(attackNumber);
+        }
+    }
+    //bugemon vivant ou non
+    public boolean isStillStanding() {
+        for (Bugemon bug : team) {
+            if (bug.getCurrentPv() > 0) return true;
+        }
+        return false;
+    }
+    //les bugemons vivants
+    public List<Bugemon> getAvailableBugemons() {
+        return team.stream().filter(b -> b.getCurrentPv() > 0).toList();
+    }
+    //changer de bugemon en combat
+    public void changeOnFieldBugemon(Bugemon bug) {
+        if (bug != null && bug.getPv() > 0 && team.contains(bug)) {
+            onFieldBugemon = bug;
+            System.out.println("Nouveau Bugemon sur le terrain : " + bug.getNom());
+        } else {
+            System.out.println("Impossible de changer pour ce Bugemon !");
+        }
+    }
+    //Le bugemon en combat
+    public Bugemon getOnFieldBugemon() {
+        return onFieldBugemon;
+    }
     @Override
     public void removeBugemonDTO(BugemonDTO bug) {
         team.remove((Bugemon) bug);

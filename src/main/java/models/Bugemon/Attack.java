@@ -12,4 +12,8 @@ public class Attack {
     private List<Effects> effets;
 
     public String getId() { return id; }
+    public String getNom() { return nom; }
+    public String getType() { return type; }
+    public int getPuissance() { return puissance; }
+    public String getDescription() { return description; }
 }
