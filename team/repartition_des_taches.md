@@ -1,7 +1,7 @@
 # Répartition des tâches développeur
 
 - Groupe : 05
-- Date : 12/03/2026
+- Date : 13/03/2026
 
 ### Sommaire
 
@@ -142,10 +142,10 @@ ___
     </tr>
   </thead>
   <tbody>
-    <tr><td>Initialiser FightView et FightController (12/03 10h-11h)</td><td>Luqman</td><td>Maxime</td><td></td><td>1</td></tr>
-    <tr><td>Initialiser FightView et FightController (12/03 12h-14h)</td><td>Louai</td><td>Luqman</td><td></td><td>2</td></tr>
-    <tr><td>Initialiser FightView et FightController (12/03 17h-18h)</td><td>Maxime</td><td>Yanis</td><td></td><td>1</td></tr>
-    <tr><td>Updates des models actuels (13/03 10h-12h)</td><td>Louai</td><td>Maxime</td><td></td><td>2</td></tr>
+    <tr><td>Initialiser FightView et FightController (12/03 10h-11h)</td><td>Luqman</td><td>Maxime</td><td>1</td><td>1</td></tr>
+    <tr><td>Initialiser FightView et FightController (12/03 12h-14h)</td><td>Louai</td><td>Luqman</td><td>2</td><td>2</td></tr>
+    <tr><td>Initialiser FightView et FightController (12/03 17h-18h)</td><td>Maxime</td><td>Yanis</td><td>2</td><td>1</td></tr>
+    <tr><td>Updates des models actuels (13/03 10h-12h)</td><td>Louai</td><td>Maxime</td><td>1</td><td>2</td></tr>
     <tr><td>Updates des models actuels (13/03 17h-18h)</td><td>Alexandre</td><td>Luqman</td><td></td><td>1</td></tr>
     <tr><td>Model à ajouter (15/03 16h-18h)</td><td>Enzo</td><td>Mohamed</td><td></td><td>2</td></tr>
     <tr><td>Model à ajouter (15/03 18h-19h)</td><td>Yanis</td><td>Enzo</td><td></td><td>1</td></tr>
