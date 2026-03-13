@@ -1,5 +1,15 @@
-package models.Bugemon;
+package models.Game;
 
+import models.Bugemon.Attack;
+import models.Bugemon.Bugemon;
+import models.Bugemon.TeamBugemon;
+
+
+/**
+ * Represents a fight between two Bugémon teams.
+ * The fight manages turn order, attacks and determines
+ * when the battle is finished and which team has won.
+ */
 public class Fight {
     final private TeamBugemon teamPlayer;
     final private TeamBugemon teamCPU;
@@ -9,8 +19,15 @@ public class Fight {
     public Fight(TeamBugemon teamPlayer, TeamBugemon teamCPU) {
         this.teamPlayer = teamPlayer;
         this.teamCPU = teamCPU;
-        for (Bugemon bug: this.teamPlayer.getTeam()) {
+
+        for (Bugemon bug : this.teamPlayer.getTeam()) {
             bug.setIsPlayer(true);
+            bug.initPv();
+        }
+
+        for (Bugemon bug : this.teamCPU.getTeam()) {
+            bug.setIsPlayer(false);
+            bug.initPv();
         }
     }
 
@@ -41,7 +58,7 @@ public class Fight {
             waitingTeam = teamCPU;
         }
         else {
-            waitingTeam = teamCPU;
+            waitingTeam = teamPlayer;
         }
         return waitingTeam.getTeam().stream()
                 .noneMatch(Bugemon::isStillStanding);

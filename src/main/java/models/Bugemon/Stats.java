@@ -1,5 +1,11 @@
 package models.Bugemon;
 
+/**
+ * Represents the statistics of a Bugémon.
+ * Stores its maximum health points, current health points,
+ * attack, defense and initiative.
+ * Provides methods to modify or reduce health during battles.
+ */
 public class Stats {
     private int pv;
     private int currentpv;
@@ -17,6 +23,10 @@ public class Stats {
         this.currentpv = value;
     }
 
+    /**
+     * Reduces the current HP by the specified damage amount.
+     * HP cannot go below zero.
+     */
     public void reducePv(int damage) {
         this.currentpv -= damage;
 

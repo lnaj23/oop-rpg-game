@@ -64,6 +64,7 @@ public class Bugemon implements BugemonDTO {
         return stats.getInitiative();
     }
 
+    @Override
     public List<String> getAttackNamesAsList() {
         return attaques;
     }
@@ -116,5 +117,9 @@ public class Bugemon implements BugemonDTO {
 
     public void setIsPlayer(boolean a) {
         isPlayer = a;
+    }
+
+    public void initPv(){
+        this.stats.initCurrentPv();
     }
 }
