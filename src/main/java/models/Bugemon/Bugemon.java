@@ -97,10 +97,15 @@ public class Bugemon implements BugemonDTO {
         return this.nom + " utilise " + attack.getNom() + " sur " + target.getNom();
     }
 
-    public int chooseRandomAttack() {
-
+    public Attack chooseRandomAttack() {
         Random rand = new Random();
-        int nombre = rand.nextInt(3) + 1;
-        return nombre;
+        return this.attacks.get(rand.nextInt(3));
+    }
+
+    public boolean isStillStanding() {
+        if (this.getCurrentPv() <= 0) {
+            return false;
+        }
+        return true;
     }
 }

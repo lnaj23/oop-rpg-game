@@ -17,6 +17,8 @@ public class TeamBugemon implements TeamBugemonDTO {
 
     private String name = null;
     private final List<Bugemon> team;
+    private Bugemon onFieldBugemon = null;
+
 
     @Override
     public String getName()          { return name; }
@@ -83,34 +85,30 @@ public class TeamBugemon implements TeamBugemonDTO {
             System.out.println(bug.getId());
         }
     }
-    private Bugemon onFieldBugemon = null;
 
-    public int chooseRandomAttack() {
-        Random rand = new Random();
-        return rand.nextInt(3) + 1; // retourne 1, 2 ou 3
-    }
-    public void attackTeamEnnemi(TeamBugemon target) {
+    public void attackEnnemyTeam(TeamBugemon target) {
         if (onFieldBugemon == null) return;
-
-        int attackNumber = chooseRandomAttack();
-        System.out.println(onFieldBugemon.getId() + " utilise l'attaque #" + attackNumber);
+        //
+        Attack randomAttack = onFieldBugemon.chooseRandomAttack();
+        System.out.println(onFieldBugemon.getId() + " utilise l'attaque #" + (onFieldBugemon.getAttacks().indexOf(randomAttack) + 1));
 
         // infliger des dégâts au Bugemon ennemi sur le terrain
         if (target.getOnFieldBugemon() != null) {
-            target.getOnFieldBugemon().takeDamage(attackNumber);
+            target.getOnFieldBugemon().takeDamage(randomAttack.getPuissance());
         }
     }
-    //bugemon vivant ou non
-    public boolean isStillStanding() {
-        for (Bugemon bug : team) {
-            if (bug.getCurrentPv() > 0) return true;
-        }
-        return false;
-    }
+
     //les bugemons vivants
     public List<Bugemon> getAvailableBugemons() {
-        return team.stream().filter(b -> b.getCurrentPv() > 0).toList();
+        List<Bugemon> availableBugemons = new ArrayList<>();
+        for (Bugemon bug: team) {
+            if (bug.isStillStanding()) {
+                availableBugemons.add(bug);
+            }
+        }
+        return availableBugemons;
     }
+
     //changer de bugemon en combat
     public void changeOnFieldBugemon(Bugemon bug) {
         if (bug != null && bug.getPv() > 0 && team.contains(bug)) {
