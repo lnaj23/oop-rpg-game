@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?><project name="Untitled Gantt Project" company="" webLink="http://" view-date="2026-02-16" view-index="0" gantt-divider-location="756" resource-divider-location="300" version="3.3.3322" locale="fr_FR">
+    <description/>
+    <view zooming-state="default:6" id="gantt-chart">
+        <field id="tpd3" name="Nom" width="346" order="0"/>
+        <field id="tpc0" name="Pilote" width="110" order="1"/>
+        <field id="tpd4" name="Date de début" width="99" order="3"/>
+        <field id="tpd5" name="Date de fin" width="98" order="4"/>
+        <field id="tpd15" name="Notes" width="20" order="4"/>
+        <field id="tpc1" name="Copilote" width="102" order="2"/>
+        <option id="taskLabelLeft" value="resources"/>
+        <option id="taskLabelRight" value=""/>
+        <option id="filter.completedTasks" value="false"/>
+        <option id="filter.dueTodayTasks" value="false"/>
+        <option id="filter.overdueTasks" value="false"/>
+        <option id="filter.inProgressTodayTasks" value="false"/>
+        <option id="color.recent"><![CDATA[#3399ff #ffff66 #66cc00 #99ff66 #0000ff #009999 #00ff00 #eeeeee #ff0000]]></option>
+    </view>
+    <view id="resource-table">
+        <field id="0" name="Nom" width="209" order="0"/>
+        <field id="1" name="Rôle par défaut" width="85" order="1"/>
+    </view>
+    <!-- -->
+    <calendars>
+        <day-types>
+            <day-type id="0"/>
+            <day-type id="1"/>
+            <default-week id="1" name="default" sun="1" mon="0" tue="0" wed="0" thu="0" fri="0" sat="1"/>
+            <only-show-weekends value="false"/>
+            <overriden-day-types/>
+            <days/>
+        </day-types>
+    </calendars>
+    <tasks empty-milestones="true">
+        <taskproperties>
+            <taskproperty id="tpd0" name="type" type="default" valuetype="icon"/>
+            <taskproperty id="tpd1" name="priority" type="default" valuetype="icon"/>
+            <taskproperty id="tpd2" name="info" type="default" valuetype="icon"/>
+            <taskproperty id="tpd3" name="name" type="default" valuetype="text"/>
+            <taskproperty id="tpd4" name="begindate" type="default" valuetype="date"/>
+            <taskproperty id="tpd5" name="enddate" type="default" valuetype="date"/>
+            <taskproperty id="tpd6" name="duration" type="default" valuetype="int"/>
+            <taskproperty id="tpd7" name="completion" type="default" valuetype="int"/>
+            <taskproperty id="tpd8" name="coordinator" type="default" valuetype="text"/>
+            <taskproperty id="tpd9" name="predecessorsr" type="default" valuetype="text"/>
+            <taskproperty id="tpc0" name="Pilote" type="custom" valuetype="text" defaultvalue=""/>
+            <taskproperty id="tpc1" name="Copilote" type="custom" valuetype="text" defaultvalue=""/>
+        </taskproperties>
+        <task id="1" uid="5d40d008545441eeaa5df17bb2e04ec1" name="Réunion pour la plannification des histoires" meeting="false" start="2026-02-11" duration="1" complete="0" expand="true"/>
+        <task id="0" uid="3f824e5fdb064d3db69fa53f6052d387" name="Soumettre les matricules des membres du groupe" color="#ff0000" meeting="false" start="2026-02-13" duration="1" complete="0" priority="4" expand="true"/>
+        <task id="11" uid="1eddebe1deae461f859174c008da1c70" name="Team Building : foot salle au City Five Molembeek" color="#ffff66" meeting="false" start="2026-02-19" duration="1" complete="0" expand="true"/>
+        <task id="4" uid="dcbf8be054b64bbb9856e35797fd19ae" name="Itération 1" color="#99ff66" meeting="false" start="2026-02-26" duration="9" complete="0" expand="true">
+            <task id="12" uid="3f594f3e43034755bb43947e38bb4d69" name="Création du modèle (Histoire 1)" color="#3399ff" meeting="false" start="2026-02-26" duration="2" complete="0" expand="true">
+                <depend id="13" type="2" difference="0" hardness="Strong"/>
+                <customproperty taskproperty-id="tpc0" value="Sajid"/>
+                <customproperty taskproperty-id="tpc1" value="Enzo"/>
+            </task>
+            <task id="13" uid="c44a5056f2c94ad987fbac383314d6b0" name="View (Histoire 1)" color="#3399ff" meeting="false" start="2026-03-02" duration="1" complete="0" expand="true">
+                <depend id="14" type="2" difference="0" hardness="Strong"/>
+                <customproperty taskproperty-id="tpc0" value="Harry"/>
+                <customproperty taskproperty-id="tpc1" value="Luqman"/>
+            </task>
+            <task id="14" uid="5596d509ecc34111acdfaa007e168a99" name="Controller (Histoire 1)" color="#3399ff" meeting="false" start="2026-03-03" duration="2" complete="0" expand="true">
+                <depend id="15" type="2" difference="0" hardness="Strong"/>
+                <customproperty taskproperty-id="tpc0" value="Alexendre"/>
+                <customproperty taskproperty-id="tpc1" value="Mohamed"/>
+            </task>
+            <task id="15" uid="97caa51c80314f22a62d42f875bc7a23" name="PreBuildTeamView (Histoire 3)" color="#3399ff" meeting="false" start="2026-03-05" duration="2" complete="0" expand="true">
+                <depend id="16" type="2" difference="0" hardness="Strong"/>
+                <customproperty taskproperty-id="tpc0" value="Zakaria"/>
+                <customproperty taskproperty-id="tpc1" value="Maxime"/>
+            </task>
+            <task id="16" uid="887eb7501f9843f2b6ceaf0657e474dc" name="ListView (Histoire 3)" color="#3399ff" meeting="false" start="2026-03-09" duration="2" complete="0" expand="true">
+                <customproperty taskproperty-id="tpc0" value="Louai"/>
+                <customproperty taskproperty-id="tpc1" value="Yanis"/>
+            </task>
+        </task>
+        <task id="8" uid="2694f004b77e4d2db929cfed94be51f0" name="Discution de l'itération 1" color="#66cc00" meeting="false" start="2026-03-17" duration="1" complete="0" expand="true"/>
+        <task id="5" uid="941c5a71f4954bd4b21ad3ffa46d0a2a" name="Itération 2" color="#99ff66" meeting="false" start="2026-03-10" duration="16" complete="0" expand="true"/>
+        <task id="9" uid="53bc84cf10a4403eb951f1c7df297c5c" name="Discution de l'itération 2" color="#66cc00" meeting="false" start="2026-04-07" duration="1" complete="0" expand="true"/>
+        <task id="6" uid="496471a4c1b14edcb27e622a35c6ba6f" name="Itération 3" color="#99ff66" meeting="false" start="2026-03-31" duration="11" complete="0" expand="true"/>
+        <task id="10" uid="e26628a495094fd0bf59c1f6a60ed16a" name="Discution de l'itération 3" color="#66cc00" meeting="false" start="2026-05-05" duration="1" complete="0" expand="true"/>
+        <task id="7" uid="0c9cda133b9a4aa5b5604f70003380c4" name="Itération 4" color="#99ff66" meeting="false" start="2026-04-14" duration="21" complete="0" expand="true"/>
+    </tasks>
+    <resources>
+        <resource id="0" name="Harry" function="Default:0" contacts="" phone=""/>
+        <resource id="1" name="Sajid" function="Default:0" contacts="" phone=""/>
+        <resource id="2" name="Luqman" function="Default:0" contacts="" phone=""/>
+        <resource id="3" name="Enzo" function="Default:0" contacts="" phone=""/>
+        <resource id="4" name="Alexendre" function="Default:0" contacts="" phone=""/>
+        <resource id="5" name="Mohamed" function="Default:0" contacts="" phone=""/>
+        <resource id="6" name="Maxime" function="Default:0" contacts="" phone=""/>
+        <resource id="7" name="Yanis" function="Default:0" contacts="" phone=""/>
+        <resource id="8" name="Zakaria" function="Default:0" contacts="" phone=""/>
+        <resource id="9" name="Louai" function="Default:0" contacts="" phone=""/>
+    </resources>
+    <allocations>
+        <allocation task-id="13" resource-id="0" function="Default:0" responsible="true" load="71.43"/>
+        <allocation task-id="12" resource-id="1" function="Default:0" responsible="true" load="114.28"/>
+        <allocation task-id="13" resource-id="2" function="Default:0" responsible="false" load="71.43"/>
+        <allocation task-id="12" resource-id="3" function="Default:0" responsible="false" load="114.28"/>
+        <allocation task-id="14" resource-id="4" function="Default:0" responsible="true" load="114.3"/>
+        <allocation task-id="14" resource-id="5" function="Default:0" responsible="false" load="114.3"/>
+        <allocation task-id="15" resource-id="6" function="Default:0" responsible="false" load="85.7"/>
+        <allocation task-id="16" resource-id="7" function="Default:0" responsible="false" load="100.0"/>
+        <allocation task-id="15" resource-id="8" function="Default:0" responsible="true" load="85.7"/>
+        <allocation task-id="16" resource-id="9" function="Default:0" responsible="true" load="100.0"/>
+    </allocations>
+    <vacations/>
+    <previous/>
+    <roles roleset-name="Default"/>
+</project>
