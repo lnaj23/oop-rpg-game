@@ -37,6 +37,11 @@ public class TeamBugemon implements TeamBugemonDTO {
         this.team = BugemonProvider.getListBugemon(TeamId);
     }
 
+    public TeamBugemon(TeamBugemon other) {
+        this.name = other.name;
+        this.team = other.team.stream().map(Bugemon::new).toList();
+        this.onFieldBugemon = null; // pas de bugemon sur le terrain au début
+    }
     public void addBugemon(Bugemon bug) {
         team.add(bug);
     }
@@ -127,4 +132,5 @@ public class TeamBugemon implements TeamBugemonDTO {
     public void removeBugemonDTO(BugemonDTO bug) {
         team.remove((Bugemon) bug);
     }
+
 }

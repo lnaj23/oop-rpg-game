@@ -20,6 +20,9 @@ public class Fight {
         this.teamPlayer = teamPlayer;
         this.teamCPU = teamCPU;
 
+        teamPlayer.changeOnFieldBugemon(teamPlayer.getTeam().getFirst());
+        teamCPU.changeOnFieldBugemon(teamCPU.getTeam().getLast());
+
         for (Bugemon bug : this.teamPlayer.getTeam()) {
             bug.setIsPlayer(true);
             bug.initPv();
@@ -86,5 +89,18 @@ public class Fight {
     }
     public TeamBugemon getTeamCPU() {
         return teamCPU;
+    }
+    public Bugemon getOnFieldPlayerBugemon() {
+        return teamPlayer.getOnFieldBugemon();
+    }
+    public Bugemon getOnFieldEnemyBugemon() {
+        return teamCPU.getOnFieldBugemon();
+    }
+    public Bugemon getPlayerBugemon(int index) {
+        return teamPlayer.getTeam().get(index);
+    }
+
+    public Bugemon getEnemyBugemon(int index) {
+        return teamCPU.getTeam().get(index);
     }
 }

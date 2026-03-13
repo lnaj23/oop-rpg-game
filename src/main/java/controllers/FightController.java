@@ -11,15 +11,10 @@ import models.Bugemon.TeamBugemon;
 
 public class FightController extends Controller<FightView> {
 
-    private TeamBugemon playerTeam;
-    private TeamBugemon cpuTeam;
-
-    private Bugemon onFieldPlayerBugemon;
-    private Bugemon onFieldEnemyBugemon;
-
     private Fight fight;
 
     private boolean isPlayerTurn = true;
+
     Random random = new Random();
     public FightController(MetaController metaController) throws IOException {
         super(metaController, new FightView());
@@ -28,23 +23,14 @@ public class FightController extends Controller<FightView> {
 
     public void setPlayerTeam(TeamBugemon team) {
 
-        //truc un peu bzr juste prc là les 2 equipe sont les même mais dcp faut faire une copie de lequipe
-        List<String> ids = team.getTeam().stream().map(Bugemon::getId).toList();
-        TeamBugemon cpuTeam = new TeamBugemon(ids);
+        fight = new Fight(team,new TeamBugemon(team));
 
-        fight = new Fight(team,cpuTeam);
 
-        this.playerTeam = fight.getTeamPlayer();
-        this.cpuTeam = fight.getTeamCPU();
-
-        this.onFieldPlayerBugemon = playerTeam.getTeam().getFirst();
-        this.onFieldEnemyBugemon = cpuTeam.getTeam().getLast();
-
-        view.displayTeam(playerTeam.getTeamDTO());
-        view.updateActiveBugemonSprite(onFieldPlayerBugemon);
-        view.updateActiveBugemonSprite(onFieldEnemyBugemon);
-        view.markPlayerBugemonAsFainted(playerTeam.getTeam().get(3));
-        view.setCombatMessage("Un " + onFieldEnemyBugemon.getNom() + " sauvage apparaît !");
+        view.displayTeam(fight.getTeamPlayer().getTeamDTO());
+        view.updateActiveBugemonSprite(fight.getOnFieldPlayerBugemon());
+        view.updateActiveBugemonSprite(fight.getOnFieldEnemyBugemon());
+        view.markPlayerBugemonAsFainted(fight.getOnFieldPlayerBugemon());
+        view.setCombatMessage("Un " + fight.getOnFieldEnemyBugemon().getNom() + " sauvage apparaît !");
     }
 
     public void goToTitleScreen() {
@@ -60,7 +46,9 @@ public class FightController extends Controller<FightView> {
     }
 
     public void onSwitchClicked() {
-        Bugemon randomBug = playerTeam.getTeam().get(random.nextInt(playerTeam.getTeam().size()));
+        List<Bugemon> available = fight.getTeamPlayer().getAvailableBugemons();
+        Bugemon randomBug = available.get(random.nextInt(available.size()));
+        fight.getTeamPlayer().changeOnFieldBugemon(randomBug);
         view.updateActiveBugemonSprite(randomBug);
         view.updateBugemonHP(randomBug);
     }
