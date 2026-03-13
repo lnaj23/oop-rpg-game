@@ -109,4 +109,12 @@ public class Bugemon implements BugemonDTO {
         }
         return true;
     }
+
+    public boolean getIsPlayer() {
+        return isPlayer;
+    }
+
+    public void setIsPlayer(boolean a) {
+        isPlayer = a;
+    }
 }
