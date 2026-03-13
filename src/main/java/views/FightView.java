@@ -11,6 +11,7 @@ import javafx.scene.shape.Rectangle;
 import java.util.List;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.layout.StackPane;
+import models.Bugemon.Bugemon;
 import models.Bugemon.DTO.BugemonDTO;
 import java.io.IOException;
 import javafx.stage.Popup;
@@ -180,13 +181,37 @@ public class FightView extends View<FightController> {
         playerEffectLabel.setText("Effets : Aucun");
 
         // Barre de vie
-        playerHpBarFill.setWidth(200);
-
+        //playerHpBarFill.setWidth(200);
+        // Barre de vie et label
+        updatePlayerHpBar(bugemon);
         // Image
         String path = "/Assets/png/" + bugemon.getSprite();
         Image img = new Image(getClass().getResourceAsStream(path));
 
         playerSprite.setImage(img);
+    }
+
+    public void updatePlayerHpBar(BugemonDTO bugemon) {
+        Bugemon bug = (Bugemon) bugemon;  // cast en Bugemon concret
+        int current = 30; //bug.getCurrentPv();       // PV actuels
+        int max = bug.getPv();           // Ici bugemon.getPv() donne max ? Si tu as getCurrentPv(), utiliser ça
+
+        double proportion = (double) current / max;
+
+        // Ajuster largeur du rectangle
+        playerHpBarFill.setWidth(200 * proportion); // 200 = largeur max
+
+        // Mettre à jour le label
+        playerHpLabel.setText(current + " / " + max);
+
+        // Changer couleur selon PV
+        if (proportion > 0.5) {
+            playerHpBarFill.setStyle("-fx-fill: green;");
+        } else if (proportion > 0.2) {
+            playerHpBarFill.setStyle("-fx-fill: orange;");
+        } else {
+            playerHpBarFill.setStyle("-fx-fill: red;");
+        }
     }
     @Override
     protected String getTitle() {
