@@ -8,6 +8,7 @@
 - [Suivi de planification du projet](#suivi-de-planification-du-projet)
   - [Analyse de l'écart (Prévu vs Réalisé)](#analyse-de-lécart-prévu-vs-réalisé)
   - [Gestion des risques (R1, R2, R3)](#gestion-des-risques-r1-r2-r3)
+  - [Commentaires sur la Burndown Chart](#commentaires-sur-la-burndown-chart)
 - [Motivation des choix pris lors de la conception](#motivation-des-choix-pris-lors-de-la-conception)
   - [Structure du code](#structure-du-code)
   - [Justification du modèle MVC](#justification-du-modèle-mvc)
@@ -30,9 +31,16 @@
 
 Nous avons initialement alloué une période importante à la découverte de notre environnement de travail (IntelliJ, Java, JUnit…,). Finalement, l'utilisation de ces outils s’est révélée moins complexe que nous l'avions imaginé.
 
+Dans notre nouvelle méthode de travail de la seconde itération, en limitant les sous-taches (qui ne sont pas définies explicitement) à 2h max, certain membre se rendent compte qu'ils finissent la tâche en entier sans pouvoir laisser de travail pour la prochaine paire pilote copilote.
+Ce qui explique pourquoi il y a 0 point pour certaines sous-tâches.
+
 ### Gestion des risques (R1, R2, R3)
 
 Pour l'histoire 1, nous avons attribué un risque R2 ce qui s'est ressenti après le TP3 car nous avons remarqué que nous ne respections pas correctement le modèle MVC comme ce qui est présenté dans le TP. Nous avons donc effectué un grand refactoring afin de garantir d'avoir une base solide respectant le MVC pour les itérations suivants.
+
+### Commentaires sur la Burndown Chart
+Lors de la [répartition des tâches](repartition_des_taches.md#itération-2) sur la deuxième itération, on a fait en sorte d'enchainer 1 à 2h de travail par paire de pilote copilote avec certains jours où plusieurs paires peuvent travailler sur la même journée.
+Cette méthodologie fait qu'en théorie, la courbe réelle de la burndown chart sera forcément en moyenne en dessous de la droite idéale.
 
 ## Motivation des choix pris lors de la conception
 
@@ -44,8 +52,11 @@ Tout d'abord, la structure de nos packages est claire et logique et chaque packa
 <br>`models/Bugemon/DTO/`
 <br>`controllers/`
 <br>`views/`
+<br>`views/selestion/`
 <br>`services/`
 <br>`exceptions/`
+<br>`persistance/`
+<br>`repositories/`
 
 Ensuite, chaque classe a une responsabilité unique et claire avec des noms explicite. Cependant, il existe tout de même des classes inutiles pour l'instant comme `Effects.java` ou `Attack.java`, mais qui nous serviront pour d'autres potentielles histoires.
 
@@ -58,7 +69,7 @@ Dès la première itération, nous avons implémenté nos codes afin de respecte
 Le modèle, comprenant des classes comme `Bugemon`, `Attack`, `Stats` et `TeamBugemon`, gère exclusivement les données et la logique métier de l'application. Conformément aux principes du cours, ces classes sont totalement indépendantes de l'interface graphique et ne contiennent aucune référence à JavaFX, ce qui permet de les tester ou de les réutiliser facilement sans modifier l'affichage.
 
 #### Vue
-La vue ne doit pas contenir de logiques métiers et ne modifie pas directement les données. Elle délègue toute action au contrôleur. Dans le projet, `TitleScreenView`, `SelectionView` et `PreBuildTeamView` héritent toutes de la classe abstraite View qui centralise le chargement FXML, et communiquent uniquement avec leur contrôleur dédié via des appels.
+La vue ne doit pas contenir de logiques métiers et ne modifie pas directement les données. Elle délègue toute action au contrôleur. Dans le projet, `TitleScreenView`, `SelectionView`, `PreBuildTeamView` et `FightView` héritent toutes de la classe abstraite View qui centralise le chargement FXML, et communiquent uniquement avec leur contrôleur dédié via des appels.
 Les vues n'accèdent aux modèles qu'à travers les interfaces DTO `BugemonDTO` et `TeamBugemonDTO`.
 
 #### Contrôleur
