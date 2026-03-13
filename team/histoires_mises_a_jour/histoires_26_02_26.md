@@ -2,6 +2,7 @@
 
 - Groupe : 5
 - Date : 26/02/2026
+- Itération 1
 
 ## Risque et heures de travail
 |             | Risque | Points          |
@@ -35,7 +36,7 @@
 | Histoire 27 | 3      | 2               |
 | Histoire 28 | 2      | 13              |
 
-Au total, on estime 318 heures pour les 28 histoires
+
 
 ## Sous-histoires
 - Histoire 4
