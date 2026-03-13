@@ -3,6 +3,7 @@ package controllers;
 import models.Bugemon.Bugemon;
 import views.FightView;
 import java.io.IOException;
+import java.util.Random;
 
 import models.Bugemon.TeamBugemon;
 
@@ -15,7 +16,7 @@ public class FightController extends Controller<FightView> {
     private Bugemon onFieldEnemyBugemon;
 
     private boolean isPlayerTurn = true;
-
+    Random random = new Random();
     public FightController(MetaController metaController) throws IOException {
         super(metaController, new FightView());
         this.view.setController(this);
@@ -50,7 +51,9 @@ public class FightController extends Controller<FightView> {
     }
 
     public void onSwitchClicked() {
-        // changer de Bugémon
+        Bugemon randomBug = playerTeam.getTeam().get(random.nextInt(playerTeam.getTeam().size()));
+        view.updateActiveBugemonSprite(randomBug, true);
+        view.updateBugemonHP(randomBug,true, randomBug.getPv());
     }
 
     public void onForfeitClicked() {

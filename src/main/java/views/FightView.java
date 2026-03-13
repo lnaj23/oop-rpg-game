@@ -113,7 +113,7 @@ public class FightView extends View<FightController> {
             imgView.setOnMouseClicked(e -> {
                 if (statsPopup.isShowing()) {
                     statsPopup.hide();
-                    showHpPopup(e, bugemon, imgView); // remet le HP popup
+                    showHpPopup(e, bugemon, imgView);
                 } else {
                     HPPopup.hide();
                     showStatsPopup(e.getScreenX(), e.getScreenY(), bugemon, imgView);
