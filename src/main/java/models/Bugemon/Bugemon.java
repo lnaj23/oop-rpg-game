@@ -22,6 +22,7 @@ public class Bugemon implements BugemonDTO {
     private List<Attack> attacks = new ArrayList<>();
     private String sprite;
     private boolean starter;
+    private boolean isPlayer = false;
 
     @Override
     public String getId() {

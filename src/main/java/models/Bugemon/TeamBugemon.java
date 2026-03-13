@@ -118,6 +118,7 @@ public class TeamBugemon implements TeamBugemonDTO {
             System.out.println("Impossible de changer pour ce Bugemon !");
         }
     }
+
     //Le bugemon en combat
     public Bugemon getOnFieldBugemon() {
         return onFieldBugemon;
