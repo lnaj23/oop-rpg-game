@@ -3,13 +3,9 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox xmlns="http://javafx.com/javafx/17.0.12"
-      xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="views.selection.TeamPanelView"
-      alignment="CENTER" spacing="10.0">
+<VBox alignment="CENTER" spacing="10.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.selection.TeamPanelView">
 
-    <VBox fx:id="teamRectangle" alignment="TOP_CENTER"
-          maxHeight="220.0" prefHeight="220.0" prefWidth="350.0" spacing="10.0">
+    <VBox fx:id="teamRectangle" alignment="TOP_CENTER" maxHeight="220.0" prefHeight="220.0" prefWidth="350.0" spacing="10.0">
         <children>
             <Label fx:id="teamLabel" text="Ton équipe" />
             <GridPane fx:id="teamGrid" alignment="CENTER" hgap="10.0" vgap="10.0">
@@ -26,16 +22,14 @@
         </children>
     </VBox>
 
-    <Label fx:id="bugemonStatsLabel"
-           prefWidth="350.0"
-           text="Clique sur un Bugémon pour voir ses statistiques"
-           wrapText="true" />
+    <Label fx:id="bugemonStatsLabel" prefWidth="350.0" text="Clique sur un Bugémon pour voir ses statistiques" wrapText="true" />
 
     <HBox alignment="CENTER" spacing="10.0">
         <children>
-            <Button fx:id="confirmButton" styleClass="small-button" text="Valider" />
-            <Button fx:id="newButton"     styleClass="small-button" text="???" />
-            <Button fx:id="backButton"    styleClass="small-button" text="Retour" />
+            <Button fx:id="confirmButton" styleClass="small-button" text="Sauvegarder équipe" />
+            <Button fx:id="loadTeamButton" styleClass="small-button" text="Charger équipe" />
+            <Button fx:id="playButton" styleClass="small-button" text="Jouer" />
+            <Button fx:id="backButton" styleClass="small-button" text="Retour" />
         </children>
     </HBox>
 

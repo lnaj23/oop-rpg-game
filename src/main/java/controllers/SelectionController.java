@@ -55,6 +55,9 @@ public class SelectionController extends Controller<SelectionView> {
         this.metaController.switchScene(MetaController.Scenes.TITLE_SCREEN);
     }
 
+    public void goToPrebuildTeam(){
+        this.metaController.switchScene(MetaController.Scenes.PREBUILD_TEAM);
+    }
     /**
      * Enters edit mode for an existing team and pre-selects its Bugémons in the view.
      *
@@ -65,6 +68,7 @@ public class SelectionController extends Controller<SelectionView> {
         // Populate playerTeam so it matches the visually pre-selected buttons
         team.getTeamDTO().forEach(bug -> this.playerTeam.addBugemonDTO(bug));
         this.view.preSelectTeam(team);
+        this.view.setEditMode(true);
     }
 
     /** Resets the selection screen to its initial empty state. */
@@ -72,6 +76,7 @@ public class SelectionController extends Controller<SelectionView> {
         this.teamBeingEdited = null;
         this.playerTeam = new TeamBugemon();
         this.view.reset(BugemonProvider.getAllBugemonsDTO());
+        view.setEditMode(false);
     }
 
     /**
@@ -129,7 +134,7 @@ public class SelectionController extends Controller<SelectionView> {
      * @param playerTeamDTO the team built by the player
      * @param teamName      the name for the new team (ignored in edit mode)
      */
-    public void confirmSelection(TeamBugemonDTO playerTeamDTO, String teamName) {
+    public void saveSelection(TeamBugemonDTO playerTeamDTO, String teamName) {
         TeamBugemon team = (TeamBugemon) playerTeamDTO;
 
         if (this.teamBeingEdited != null) {
@@ -142,6 +147,11 @@ public class SelectionController extends Controller<SelectionView> {
         }
         // Persist changes to disk
         TeamService.saveTeams(this.teams);
-        this.metaController.switchScene(MetaController.Scenes.PREBUILD_TEAM);
     }
+
+    public void goToFight() {
+        this.metaController.goToFight(playerTeam);
+    }
+
+
 }

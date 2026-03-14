@@ -6,6 +6,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.StageStyle;
@@ -32,6 +33,8 @@ public class TeamPanelView {
     @FXML private Label bugemonStatsLabel;
     @FXML private Button confirmButton;
     @FXML private Button backButton;
+    @FXML private Button playButton;
+    @FXML private Button loadTeamButton;
 
     private static final int MIN_TEAM_SIZE = 1;
 
@@ -43,6 +46,16 @@ public class TeamPanelView {
     public void initialize() {
         backButton.setOnAction(e -> controller.goToTitleScreen());
         confirmButton.setOnAction(e -> onConfirmClicked());
+        playButton.setOnAction(e -> onPlayClicked());
+        loadTeamButton.setOnAction(e-> this.controller.goToPrebuildTeam());
+        //right click to unselect every bugemon
+        for (Button btn : List.of(confirmButton, loadTeamButton, playButton, backButton)) {
+            btn.setOnMouseClicked(e -> {
+                if (e.getButton() == MouseButton.SECONDARY) {
+                    controller.reset();
+                }
+            });
+        }
     }
 
     /**
@@ -114,13 +127,22 @@ public class TeamPanelView {
         bugemonStatsLabel.setText("Clique sur un Bugémon pour voir ses statistiques");
     }
 
+    private void onPlayClicked() {
+        if (controller.getPlayerTeam().getSize() < MIN_TEAM_SIZE) {
+            showError("Aucun Bugémon", "Sélectionnez au moins 1 Bugémon avant de jouer.");
+            return;
+        }
+        controller.goToFight();
+    }
+
     private void onConfirmClicked() {
         if (controller.getPlayerTeam().getSize() < MIN_TEAM_SIZE) {
             showError("Aucun Bugémon", "Sélectionnez au moins 1 Bugémon avant de valider.");
             return;
         }
         if (controller.isEditing()) {
-            controller.confirmSelection(controller.getPlayerTeam(), null);
+            controller.saveSelection(controller.getPlayerTeam(), null);
+            controller.goToPrebuildTeam();
         } else {
             confirmCreation();
         }
@@ -138,7 +160,7 @@ public class TeamPanelView {
         );
         Optional<String> result = dialog.showAndWait();
         if (result.isEmpty() || result.get().trim().isEmpty()) return;
-        controller.confirmSelection(controller.getPlayerTeam(), result.get().trim());
+        controller.saveSelection(controller.getPlayerTeam(), result.get().trim());
     }
 
     void showError(String title, String message) {
@@ -152,5 +174,11 @@ public class TeamPanelView {
         alert.initStyle(StageStyle.UNDECORATED);
         alert.setGraphic(null);
         alert.showAndWait();
+    }
+
+    public void setEditMode(boolean editing) {
+        loadTeamButton.setVisible(!editing);
+        playButton.setVisible(!editing);
+        backButton.setVisible(!editing);
     }
 }

@@ -1,0 +1,22 @@
+{
+  "teams": [
+    {
+      "name": "lmklm",
+      "bugemonIds": [
+        "rockachu",
+        "granitron"
+      ]
+    },
+    {
+      "name": "qdsd",
+      "bugemonIds": [
+        "exceflam",
+        "finalboss",
+        "verdurion",
+        "loopine",
+        "mergeau",
+        "rockachu"
+      ]
+    }
+  ]
+}

@@ -36,6 +36,11 @@ public interface BugemonDTO {
     int getPv();
 
     /**
+     * @return the current HP of the Bugémon
+     */
+    int getcurrenPv();
+
+    /**
      * @return the attack stat of the Bugémon
      */
     int getAttaque();
@@ -54,4 +59,14 @@ public interface BugemonDTO {
      * @return the attacks as a String
      */
     String getAttackNamesAsString();
+
+    /**
+     * @return the attacks as a List of String
+     */
+    List<String> getAttackNamesAsList();
+
+    /**
+     * @return tell if the bugemon is from the player team
+     */
+    boolean getIsPlayer();
 }

@@ -19,31 +19,29 @@ public class MetaController {
     public enum Scenes {
         TITLE_SCREEN,
         PREBUILD_TEAM,
-        SELECTION
+        SELECTION,
+        FIGHT
     }
 
     private final Stage stage;
     private final TitleScreenController titleScreenController;
     private final PreBuildTeamController preBuildTeamController;
     private final SelectionController selectionController;
-
+    private final FightController fightController;
     /** Shared list of saved teams, passed to all controllers that need it. */
-    private final List<TeamBugemon> teams;
-
+    private final List<TeamBugemon> teams = new ArrayList<>(TeamService.loadTeams());
     /**
      * Initializes all controllers and views.
-     * Loads saved teams from persistent storage.
      *
      * @param stage the primary JavaFX stage
      * @throws IOException if any FXML file fails to load
      */
     public MetaController(Stage stage) throws IOException {
         this.stage = stage;
-        this.teams = new ArrayList<>();
-        this.teams.addAll(TeamService.loadTeams());
         this.titleScreenController = new TitleScreenController(this);
         this.preBuildTeamController = new PreBuildTeamController(this, teams);
         this.selectionController = new SelectionController(this, teams);
+        this.fightController = new FightController(this);
     }
 
     /**
@@ -72,6 +70,7 @@ public class MetaController {
                 this.preBuildTeamController.refreshView();
             }
             case SELECTION -> this.selectionController.show(stage);
+            case FIGHT -> this.fightController.show(stage);
             default -> throw new IllegalArgumentException("Invalid scene: " + scene);
         }
         if (stage.isShowing()) {
@@ -101,6 +100,11 @@ public class MetaController {
         this.switchScene(Scenes.SELECTION);
     }
 
+    public void goToFight(TeamBugemon team) {
+        this.fightController.setPlayerTeam(team);
+        this.switchScene(Scenes.FIGHT);
+    }
+
     /**
      * Displays a fatal error message and exits the application.
      *
@@ -109,5 +113,9 @@ public class MetaController {
     public void fatalError(String reason) {
         FatalErrorView.show("Fatal error, closing the application.\nReason: " + reason);
         System.exit(1);
+    }
+
+    public FightController getFightController() {
+        return fightController;
     }
 }

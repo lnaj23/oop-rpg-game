@@ -7,6 +7,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Popup;
@@ -81,6 +82,12 @@ public class BugemonGridView {
             btn.setOnMouseExited(event -> statsPopup.hide());
             final int index = i;
             btn.setOnAction(e -> bugemonOnClick(btn, index));
+            //right click to unselect every bugemon
+            btn.setOnMouseClicked(e -> {
+                if (e.getButton() == MouseButton.SECONDARY) {
+                    controller.reset();
+                }
+            });
         }
     }
 

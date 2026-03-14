@@ -3,6 +3,7 @@ package views.selection;
 import controllers.SelectionController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.input.MouseButton;
 import models.bugemon.dto.BugemonDTO;
 import models.bugemon.dto.TeamBugemonDTO;
 import views.View;
@@ -29,6 +30,12 @@ public class SelectionView extends View<SelectionController> {
      */
     public SelectionView() throws IOException {
         super("/fxml/selection/selectionview.fxml");
+        //right click to unselect every bugemon
+        root.setOnMouseClicked(e -> {
+            if (e.getButton() == MouseButton.SECONDARY) {
+                controller.reset();
+            }
+        });
     }
 
     /**
@@ -135,6 +142,10 @@ public class SelectionView extends View<SelectionController> {
     public void showTeamFullError() {
         teamPanelController.showError("Équipe pleine",
                 "Vous ne pouvez sélectionner que 6 Bugémons maximum.");
+    }
+
+    public void setEditMode(boolean editing) {
+        teamPanelController.setEditMode(editing);
     }
 
     @Override

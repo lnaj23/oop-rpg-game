@@ -16,6 +16,8 @@ public class TeamBugemon implements TeamBugemonDTO {
 
     private String name = null;
     private final List<Bugemon> team;
+    private Bugemon onFieldBugemon = null;
+
 
     @Override
     public String getName()          { return name; }
@@ -34,6 +36,11 @@ public class TeamBugemon implements TeamBugemonDTO {
         this.team = BugemonProvider.getListBugemon(TeamId);
     }
 
+    public TeamBugemon(TeamBugemon other) {
+        this.name = other.name;
+        this.team = other.team.stream().map(Bugemon::new).toList();
+        this.onFieldBugemon = null; // pas de bugemon sur le terrain au début
+    }
     public void addBugemon(Bugemon bug) {
         team.add(bug);
     }
@@ -83,8 +90,46 @@ public class TeamBugemon implements TeamBugemonDTO {
         }
     }
 
+    public void attackEnnemyTeam(TeamBugemon target) {
+        if (onFieldBugemon == null) return;
+        //
+        Attack randomAttack = onFieldBugemon.chooseRandomAttack();
+        System.out.println(onFieldBugemon.getId() + " utilise l'attaque #" + (onFieldBugemon.getAttacks().indexOf(randomAttack) + 1));
+
+        // infliger des dégâts au Bugemon ennemi sur le terrain
+        if (target.getOnFieldBugemon() != null) {
+            target.getOnFieldBugemon().takeDamage(randomAttack.getPuissance());
+        }
+    }
+
+    //les bugemons vivants
+    public List<Bugemon> getAvailableBugemons() {
+        List<Bugemon> availableBugemons = new ArrayList<>();
+        for (Bugemon bug: team) {
+            if (bug.isStillStanding()) {
+                availableBugemons.add(bug);
+            }
+        }
+        return availableBugemons;
+    }
+
+    //changer de bugemon en combat
+    public void changeOnFieldBugemon(Bugemon bug) {
+        if (bug != null && bug.getPv() > 0 && team.contains(bug)) {
+            onFieldBugemon = bug;
+            System.out.println("Nouveau Bugemon sur le terrain : " + bug.getNom());
+        } else {
+            System.out.println("Impossible de changer pour ce Bugemon !");
+        }
+    }
+
+    //Le bugemon en combat
+    public Bugemon getOnFieldBugemon() {
+        return onFieldBugemon;
+    }
     @Override
     public void removeBugemonDTO(BugemonDTO bug) {
         team.remove((Bugemon) bug);
     }
+
 }

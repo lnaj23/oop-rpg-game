@@ -1,0 +1,129 @@
+.root {
+    -fx-background-color: #0d1b2a;
+}
+
+.bugemon-name-label {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+}
+
+.hp-text-label {
+    -fx-font-size: 13px;
+    -fx-text-fill: #dddddd;
+    -fx-font-family: "Arial";
+}
+
+/* Fond de la barre HP : gris clair pour être visible sur noir */
+.hp-bar-bg {
+    -fx-fill: #444444;
+    -fx-arc-width: 6;
+    -fx-arc-height: 6;
+}
+
+/* La barre HP verte */
+.hp-bar-fill {
+    -fx-fill: #2ecc71;
+    -fx-arc-width: 6;
+    -fx-arc-height: 6;
+}
+
+.combat-message-label {
+    -fx-font-size: 15px;
+    -fx-text-fill: white;
+    -fx-font-family: "Arial";
+    -fx-padding: 8 12 8 12;
+    -fx-background-color: #2a2a2a;
+    -fx-background-radius: 6;
+    -fx-min-height: 40px;
+    -fx-border-color: #555555;
+    -fx-border-radius: 6;
+    -fx-border-width: 1;
+}
+
+/* Fond du panel de boutons : gris foncé pour contraster avec le fond noir */
+.action-panel {
+    -fx-background-color: #2a2a2a;
+    -fx-background-radius: 8;
+    -fx-padding: 15;
+    -fx-border-color: #555555;
+    -fx-border-radius: 8;
+    -fx-border-width: 1;
+}
+
+.btn-attack {
+    -fx-background-color: #c0392b;
+    -fx-text-fill: white;
+    -fx-font-size: 18px;
+    -fx-font-family: "Arial";
+    -fx-background-radius: 4;
+    -fx-pref-width: 340px;
+    -fx-pref-height: 60px;
+    -fx-cursor: hand;
+}
+.btn-attack:hover { -fx-background-color: #a93226; }
+
+.btn-item {
+    -fx-background-color: #e67e22;
+    -fx-text-fill: white;
+    -fx-font-size: 18px;
+    -fx-font-family: "Arial";
+    -fx-background-radius: 4;
+    -fx-pref-width: 340px;
+    -fx-pref-height: 60px;
+    -fx-cursor: hand;
+}
+.btn-item:hover { -fx-background-color: #ca6f1e; }
+
+.btn-switch {
+    -fx-background-color: #2980b9;
+    -fx-text-fill: white;
+    -fx-font-size: 18px;
+    -fx-font-family: "Arial";
+    -fx-background-radius: 4;
+    -fx-pref-width: 340px;
+    -fx-pref-height: 60px;
+    -fx-cursor: hand;
+}
+.btn-switch:hover { -fx-background-color: #2471a3; }
+
+.btn-forfeit {
+    -fx-background-color: #7f8c8d;
+    -fx-text-fill: white;
+    -fx-font-size: 18px;
+    -fx-font-family: "Arial";
+    -fx-background-radius: 4;
+    -fx-pref-width: 340px;
+    -fx-pref-height: 60px;
+    -fx-cursor: hand;
+}
+.btn-forfeit:hover { -fx-background-color: #707b7c; }
+
+.btn-attack-move {
+    -fx-background-color: #27ae60;
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-font-family: "Arial";
+    -fx-background-radius: 4;
+    -fx-pref-width: 340px;
+    -fx-pref-height: 60px;
+    -fx-cursor: hand;
+}
+.btn-attack-move:hover { -fx-background-color: #1e8449; }
+
+.progress-bar {
+    -fx-background-color: #cc0000;
+    -fx-background-radius: 0;
+}
+
+.progress-bar .bar {
+    -fx-background-color: #00cc00;
+    -fx-background-radius: 0;
+    -fx-background-insets: 0;
+}
+
+.progress-bar .track {
+    -fx-background-color: #cc0000;
+    -fx-background-radius: 0;
+    -fx-background-insets: 0;
+}

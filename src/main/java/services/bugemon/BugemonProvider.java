@@ -55,7 +55,7 @@ public abstract class BugemonProvider {
      */
     private static Bugemon getBugemon(String id) {
         for (Bugemon bug : BugemonRepository.getAllBugemons()) {
-            if (bug.getId().equals(id)) return bug;
+            if (bug.getId().equals(id)) return new Bugemon(bug);
         }
         throw new BugemonNotFoundException(id);
     }
