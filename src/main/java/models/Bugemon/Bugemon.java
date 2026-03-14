@@ -99,7 +99,7 @@ public class Bugemon implements BugemonDTO {
 
         target.takeDamage(damage);
 
-        return this.nom + " utilise " + attack.getNom() + " sur " + target.getNom();
+        return this.nom + " utilise " + attack.getNom() + "! " + target.getNom() + " perd " + damage + " PV ! " + (target.isKO() ? target.getNom() + " est mit KO" : "");
     }
 
     public Attack chooseRandomAttack() {
