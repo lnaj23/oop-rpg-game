@@ -1,21 +1,16 @@
 {
   "teams": [
     {
-      "name": "lmklm",
+      "name": "Mon équipe 1",
       "bugemonIds": [
-        "rockachu",
-        "granitron"
+        "florachu",
+        "exceflam"
       ]
     },
     {
-      "name": "qdsd",
+      "name": "Mon équipe 2",
       "bugemonIds": [
-        "exceflam",
-        "finalboss",
-        "verdurion",
-        "loopine",
-        "mergeau",
-        "rockachu"
+        "moussil"
       ]
     }
   ]
