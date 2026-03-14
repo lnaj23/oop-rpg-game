@@ -182,6 +182,7 @@ public class FightController extends Controller<FightView> {
                 PauseTransition pauseKO = new PauseTransition(Duration.seconds(DISPLAY_PLAYER_DEATH_NOTE_TIME));
                 pauseKO.setOnFinished(e2 -> {
                     switchPlayerBugemon();
+                    endIfBattleOver();
                     view.setButtonsDisabled(false);
                 });
                 pauseKO.play();
