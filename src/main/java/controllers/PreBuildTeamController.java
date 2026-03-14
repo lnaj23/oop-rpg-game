@@ -2,6 +2,7 @@ package controllers;
 
 import models.bugemon.dto.TeamBugemonDTO;
 import models.bugemon.TeamBugemon;
+import services.bugemon.TeamService;
 import views.PreBuildTeamView;
 
 import java.io.IOException;
@@ -54,6 +55,7 @@ public class PreBuildTeamController extends Controller<PreBuildTeamView> {
      */
     public void deleteTeam(TeamBugemonDTO teamDTO) {
         this.teams.remove((TeamBugemon) teamDTO);
+        TeamService.saveTeams(teams);
         this.view.refreshTeams(teams);
     }
 
@@ -65,6 +67,7 @@ public class PreBuildTeamController extends Controller<PreBuildTeamView> {
      */
     public void renameTeam(TeamBugemonDTO teamDTO, String newName) {
         ((TeamBugemon) teamDTO).setName(newName);
+        TeamService.saveTeams(teams);
         this.view.refreshTeamList();
     }
 

@@ -2,6 +2,7 @@ package controllers;
 
 import javafx.stage.Stage;
 import models.bugemon.TeamBugemon;
+import services.bugemon.TeamService;
 import views.FatalErrorView;
 
 import java.io.IOException;
@@ -27,16 +28,19 @@ public class MetaController {
     private final SelectionController selectionController;
 
     /** Shared list of saved teams, passed to all controllers that need it. */
-    private final List<TeamBugemon> teams = new ArrayList<>();
+    private final List<TeamBugemon> teams;
 
     /**
      * Initializes all controllers and views.
+     * Loads saved teams from persistent storage.
      *
      * @param stage the primary JavaFX stage
      * @throws IOException if any FXML file fails to load
      */
     public MetaController(Stage stage) throws IOException {
         this.stage = stage;
+        this.teams = new ArrayList<>();
+        this.teams.addAll(TeamService.loadTeams());
         this.titleScreenController = new TitleScreenController(this);
         this.preBuildTeamController = new PreBuildTeamController(this, teams);
         this.selectionController = new SelectionController(this, teams);

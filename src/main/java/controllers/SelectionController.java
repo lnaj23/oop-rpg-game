@@ -3,6 +3,7 @@ package controllers;
 import models.bugemon.dto.BugemonDTO;
 import models.bugemon.dto.TeamBugemonDTO;
 import models.bugemon.TeamBugemon;
+import services.bugemon.TeamService;
 import services.bugemon.BugemonProvider;
 import views.selection.SelectionView;
 import javafx.scene.control.Button;
@@ -123,7 +124,7 @@ public class SelectionController extends Controller<SelectionView> {
 
     /**
      * Confirms the current selection. Updates the existing team if editing,
-     * or adds a new named team to the shared list.
+     * or adds a new named team to the shared list and persists it to disk.
      *
      * @param playerTeamDTO the team built by the player
      * @param teamName      the name for the new team (ignored in edit mode)
@@ -139,6 +140,8 @@ public class SelectionController extends Controller<SelectionView> {
             team.setName(teamName);
             this.teams.add(team);
         }
+        // Persist changes to disk
+        TeamService.saveTeams(this.teams);
         this.metaController.switchScene(MetaController.Scenes.PREBUILD_TEAM);
     }
 }
