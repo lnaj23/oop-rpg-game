@@ -1,4 +1,4 @@
-package models.Bugemon.DTO;
+package models.bugemon.dto;
 
 import java.util.List;
 
@@ -26,7 +26,7 @@ public interface TeamBugemonDTO {
     /**
      * Adds a Bugémon to the team.
      *
-     * @param bug the Bugémon to add, cast internally to {@link models.Bugemon.Bugemon}
+     * @param bug the Bugémon to add, cast internally to {@link models.bugemon.Bugemon}
      */
     void addBugemonDTO(BugemonDTO bug);
 

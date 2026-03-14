@@ -1,8 +1,8 @@
-package models.Game;
+package models.game;
 
 import junit.framework.TestCase;
-import models.Bugemon.Bugemon;
-import models.Bugemon.TeamBugemon;
+import models.bugemon.Bugemon;
+import models.bugemon.TeamBugemon;
 import org.junit.Before;
 import org.junit.Test;
 

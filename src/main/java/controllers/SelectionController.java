@@ -1,12 +1,11 @@
 package controllers;
 
-import models.Bugemon.DTO.BugemonDTO;
-import models.Bugemon.DTO.TeamBugemonDTO;
-import models.Bugemon.TeamBugemon;
+import models.bugemon.dto.BugemonDTO;
+import models.bugemon.dto.TeamBugemonDTO;
+import models.bugemon.TeamBugemon;
 import services.BugemonProvider;
 import views.selection.SelectionView;
 import javafx.scene.control.Button;
-import controllers.FightController;
 
 import java.io.IOException;
 import java.util.List;

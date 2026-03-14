@@ -2,8 +2,8 @@ package services;
 
 import exceptions.BugemonNotFoundException;
 import junit.framework.TestCase;
-import models.Bugemon.Attack;
-import models.Bugemon.Bugemon;
+import models.bugemon.Attack;
+import models.bugemon.Bugemon;
 import org.junit.Test;
 
 import java.util.Arrays;

@@ -14,7 +14,7 @@ import javafx.scene.layout.GridPane;
 import java.util.Arrays;
 import java.util.List;
 
-import models.Bugemon.DTO.BugemonDTO;
+import models.bugemon.dto.BugemonDTO;
 import java.io.IOException;
 import java.util.Objects;
 import java.util.stream.Collectors;

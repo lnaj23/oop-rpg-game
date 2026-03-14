@@ -1,8 +1,8 @@
-package models.Game;
+package models.game;
 
-import models.Bugemon.Attack;
-import models.Bugemon.Bugemon;
-import models.Bugemon.TeamBugemon;
+import models.bugemon.Attack;
+import models.bugemon.Bugemon;
+import models.bugemon.TeamBugemon;
 
 import java.util.List;
 

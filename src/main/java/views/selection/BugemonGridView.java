@@ -11,7 +11,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Popup;
 import javafx.scene.control.Label;
-import models.Bugemon.DTO.BugemonDTO;
+import models.bugemon.dto.BugemonDTO;
 
 import java.util.ArrayList;
 import java.util.List;

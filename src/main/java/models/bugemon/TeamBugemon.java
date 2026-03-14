@@ -1,13 +1,12 @@
-package models.Bugemon;
+package models.bugemon;
 
-import models.Bugemon.DTO.BugemonDTO;
-import models.Bugemon.DTO.TeamBugemonDTO;
+import models.bugemon.dto.BugemonDTO;
+import models.bugemon.dto.TeamBugemonDTO;
 import exceptions.BugemonNotInTeamException;
 import services.BugemonProvider;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 /**
  * Represents a named team of up to 6 Bugémons.

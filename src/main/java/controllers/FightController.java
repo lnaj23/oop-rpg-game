@@ -2,14 +2,14 @@ package controllers;
 
 import javafx.animation.PauseTransition;
 import javafx.util.Duration;
-import models.Bugemon.Bugemon;
-import models.Game.Fight;
+import models.bugemon.Bugemon;
+import models.game.Fight;
 import views.FightView;
 import java.io.IOException;
 import java.util.List;
 import java.util.Random;
 
-import models.Bugemon.TeamBugemon;
+import models.bugemon.TeamBugemon;
 
 /**
  * Controller for the fight screen.

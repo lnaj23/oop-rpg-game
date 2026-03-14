@@ -1,4 +1,4 @@
-package models.Bugemon;
+package models.bugemon;
 
 /**
  * Represents the statistics of a Bugémon.

@@ -1,4 +1,4 @@
-package models.Bugemon;
+package models.bugemon;
 
 /**
  * Represents a secondary effect that can be applied by an attack.

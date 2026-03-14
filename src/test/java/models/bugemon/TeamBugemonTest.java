@@ -1,4 +1,4 @@
-package models.Bugemon;
+package models.bugemon;
 
 import junit.framework.TestCase;
 import org.junit.Test;

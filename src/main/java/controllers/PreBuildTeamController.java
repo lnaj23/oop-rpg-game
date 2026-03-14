@@ -1,7 +1,7 @@
 package controllers;
 
-import models.Bugemon.DTO.TeamBugemonDTO;
-import models.Bugemon.TeamBugemon;
+import models.bugemon.dto.TeamBugemonDTO;
+import models.bugemon.TeamBugemon;
 import views.PreBuildTeamView;
 
 import java.io.IOException;

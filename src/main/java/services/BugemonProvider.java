@@ -1,11 +1,11 @@
 package services;
 
 import com.google.gson.Gson;
-import models.Bugemon.DTO.BugemonDTO;
+import models.bugemon.dto.BugemonDTO;
 import exceptions.AttackNotFoundException;
 import exceptions.BugemonNotFoundException;
-import models.Bugemon.Attack;
-import models.Bugemon.Bugemon;
+import models.bugemon.Attack;
+import models.bugemon.Bugemon;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
