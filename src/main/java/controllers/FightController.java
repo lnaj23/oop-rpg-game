@@ -85,10 +85,6 @@ public class FightController extends Controller<FightView> {
         view.showAttackandActionPanels(false);
 
         playerAttackEnemy(attackIndex);
-
-        enemyAttackPlayer();
-
-        endIfBattleOver();
     }
 
     /**
@@ -156,7 +152,16 @@ public class FightController extends Controller<FightView> {
         viewReactToAttack(fight.getOnFieldEnemyBugemon());
         if (fight.isOnFieldEnemyBugemonKO()) {
             view.markBugemonAsFainted(fight.getOnFieldEnemyBugemon());
-            switchDisplayEnemyBugemon();
+            PauseTransition pauseKO = new PauseTransition(Duration.seconds(DISPLAY_PLAYER_DEATH_NOTE_TIME));
+            pauseKO.setOnFinished(e -> {
+                switchDisplayEnemyBugemon();
+                if (!fight.isBattleOver()) enemyAttackPlayer();
+                else endIfBattleOver();
+            });
+            pauseKO.play();
+        } else {
+            if (!fight.isBattleOver()) enemyAttackPlayer();
+            else endIfBattleOver();
         }
     }
 
@@ -205,6 +210,7 @@ public class FightController extends Controller<FightView> {
      */
     private void endIfBattleOver() {
         if (fight.isBattleOver()) {
+            view.setButtonsDisabled(true);
             if (fight.playerWon()) { view.updateCombatMessage("VICTORY"); }
             else                   { view.updateCombatMessage("DEFEAT");  }
         }
