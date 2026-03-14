@@ -1,14 +1,23 @@
 {
   "teams": [
     {
-      "name": "Mon equipe",
+      "name": "sdqd",
+      "bugemonIds": [
+        "granitron",
+        "rockachu",
+        "inferlin",
+        "crasheon"
+      ]
+    },
+    {
+      "name": "qsdqd",
       "bugemonIds": [
         "refaquix",
         "mergeau",
-        "inferlin",
+        "rockachu",
+        "granitron",
         "crasheon",
-        "lichenox",
-        "loopine"
+        "inferlin"
       ]
     }
   ]

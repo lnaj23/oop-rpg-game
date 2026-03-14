@@ -163,7 +163,7 @@ public class TeamBugemon implements TeamBugemonDTO {
 
     @Override
     public void removeBugemonDTO(BugemonDTO bug) {
-        team.remove((Bugemon) bug);
+        team.removeIf(b -> b.getId().equals(bug.getId()));
     }
 
     /**
