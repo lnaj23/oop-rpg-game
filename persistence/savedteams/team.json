@@ -1,0 +1,13 @@
+{
+  "teams": [
+    {
+      "name": "Mon ‚quipe",
+      "bugemonIds": [
+        "mergeau",
+        "commitide",
+        "pyricore",
+        "inferlin"
+      ]
+    }
+  ]
+}

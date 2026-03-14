@@ -34,6 +34,7 @@
     <HBox alignment="CENTER" spacing="10.0">
         <children>
             <Button fx:id="confirmButton" styleClass="small-button" text="Valider" />
+            <Button fx:id="newButton"     styleClass="small-button" text="???" />
             <Button fx:id="backButton"    styleClass="small-button" text="Retour" />
         </children>
     </HBox>
