@@ -57,7 +57,7 @@ public class PreBuildTeamView extends View <PreBuildTeamController> {
         teamListView.getSelectionModel().selectedItemProperty().addListener((obs, oldV, newV) -> {
             bugemonListView.getItems().clear();
             if (newV != null)
-                newV.getTeamDTO().forEach(b -> bugemonListView.getItems().add(b.getNom()));
+                newV.getTeamDTO().forEach(b -> bugemonListView.getItems().add(b.getName()));
         });
     }
 

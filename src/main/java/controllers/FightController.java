@@ -28,9 +28,10 @@ public class FightController extends Controller<FightView> {
     private final Random random = new Random();
 
     /** Delay in seconds before the enemy reacts after the player's attack. */
-    private final int ENEMY_REACT_TIME = 2;
+    private static final int ENEMY_REACT_TIME = 2;
 
-    private final double DISPLAY_PLAYER_DEATH_NOTE_TIME = 1.5;
+    /** Delay in seconds before switching out a fainted Bugémon. */
+    private static final double DISPLAY_PLAYER_DEATH_NOTE_TIME = 1.5;
 
     /**
      * Constructs the controller and initialises the associated {@link FightView}.
@@ -50,15 +51,18 @@ public class FightController extends Controller<FightView> {
      * @param team the player's team
      */
     public void setPlayerTeam(TeamBugemon team) {
+        view.resetDisplay();
         fight = new Fight(team, new TeamBugemon(List.of("pyricore", "moussil", "pebblit")));
-
         view.displayTeam(fight.getTeamPlayer().getTeamDTO());
         view.displayTeam(fight.getTeamEnemy().getTeamDTO());
         view.updateActiveBugemonSprite(fight.getOnFieldPlayerBugemon());
         view.updateActiveBugemonSprite(fight.getOnFieldEnemyBugemon());
-        String startFightMessage = "Un " + fight.getOnFieldEnemyBugemon().getNom() + " sauvage apparaît ! " + (!fight.playerCanStart() ? "L'adversaire a plus d'initiative, il lance les hostilités !": "L'adversaire a moins d'initiative, vous lancez les hostilités !" );
+        String startFightMessage = "Un " + fight.getOnFieldEnemyBugemon().getName() + " sauvage apparaît ! "
+                + (!fight.playerCanStart()
+                ? "L'adversaire a plus d'initiative, il lance les hostilités !"
+                : "L'adversaire a moins d'initiative, vous lancez les hostilités !");
         view.updateCombatMessage(startFightMessage);
-        if (!fight.playerCanStart()){
+        if (!fight.playerCanStart()) {
             forceEnemyToAttack();
         }
     }
@@ -106,34 +110,6 @@ public class FightController extends Controller<FightView> {
     }
 
     /**
-     * Switches the player's on-field Bugémon to a random available one (forced, no turn cost).
-     */
-    private void switchPlayerBugemon() {
-        String switchmessage = fight.getOnFieldPlayerBugemon().getNom() + ", reviens !\n";
-        List<Bugemon> available = fight.getAvailablePlayerBugemons();
-        if (available.isEmpty()) return;
-        Bugemon randomBug = available.get(random.nextInt(available.size()));
-        fight.changePlayerOnField(randomBug);
-        view.updateBugemonHPDisplay(randomBug);
-        switchmessage = switchmessage + randomBug.getNom() + " entre en jeu !";
-        view.updateActiveBugemonSprite(fight.getOnFieldPlayerBugemon());
-        view.updateCombatMessage(switchmessage);
-    }
-
-    /**
-     * Switches the enemy's on-field Bugémon to a random available one
-     * and updates the view accordingly.
-     */
-    private void switchDisplayEnemyBugemon() {
-        List<Bugemon> available = fight.getAvailableEnemyBugemons();
-        if (available.isEmpty()) return;
-        Bugemon randomBug = available.get(random.nextInt(available.size()));
-        fight.changeEnemyOnField(randomBug);
-        view.updateActiveBugemonSprite(fight.getOnFieldEnemyBugemon());
-        view.updateCombatMessage("L'adversaire envoie " + randomBug.getNom() + " !");
-    }
-
-    /**
      * Called when the player clicks the forfeit button.
      * Immediately navigates back to the title screen.
      */
@@ -148,7 +124,7 @@ public class FightController extends Controller<FightView> {
      * @param attackIndex the index of the attack to use
      */
     private void playerAttackEnemy(int attackIndex) {
-        fight.playingAttackWaiting(fight.getPlayingBugemonAttack(attackIndex));
+        fight.playerAttack(attackIndex);
         viewReactToAttack(fight.getOnFieldEnemyBugemon());
         if (fight.isOnFieldEnemyBugemonKO()) {
             view.markBugemonAsFainted(fight.getOnFieldEnemyBugemon());
@@ -175,7 +151,7 @@ public class FightController extends Controller<FightView> {
         PauseTransition pause = new PauseTransition(Duration.seconds(ENEMY_REACT_TIME));
         pause.setOnFinished(e -> {
             Bugemon target = fight.getOnFieldPlayerBugemon();
-            fight.playingAttackWaiting(fight.getPlayingBugemonRandomAttack());
+            fight.enemyAttack();
             viewReactToAttack(target);
             if (fight.isOnFieldPlayerBugemonKO()) {
                 view.markBugemonAsFainted(target);
@@ -193,7 +169,37 @@ public class FightController extends Controller<FightView> {
         pause.play();
     }
 
+    /**
+     * Switches the player's on-field Bugémon to a random available one (forced, no turn cost).
+     */
+    private void switchPlayerBugemon() {
+        String switchmessage = fight.getOnFieldPlayerBugemon().getName() + ", reviens !\n";
+        List<Bugemon> available = fight.getAvailablePlayerBugemons();
+        if (available.isEmpty()) return;
+        Bugemon randomBug = available.get(random.nextInt(available.size()));
+        fight.changePlayerOnField(randomBug);
+        view.updateBugemonHPDisplay(randomBug);
+        switchmessage = switchmessage + randomBug.getName() + " entre en jeu !";
+        view.updateActiveBugemonSprite(fight.getOnFieldPlayerBugemon());
+        view.updateCombatMessage(switchmessage);
+    }
 
+    /**
+     * Switches the enemy's on-field Bugémon to a random available one
+     * and updates the view accordingly.
+     */
+    private void switchDisplayEnemyBugemon() {
+        List<Bugemon> available = fight.getAvailableEnemyBugemons();
+        if (available.isEmpty()) return;
+        Bugemon randomBug = available.get(random.nextInt(available.size()));
+        fight.changeEnemyOnField(randomBug);
+        view.updateActiveBugemonSprite(fight.getOnFieldEnemyBugemon());
+        view.updateCombatMessage("L'adversaire envoie " + randomBug.getName() + " !");
+    }
+
+    /**
+     * Forces the enemy to take a turn immediately, disabling player buttons in the meantime.
+     */
     private void forceEnemyToAttack() {
         view.setButtonsDisabled(true);
         fight.forceEnemyTurn();
@@ -201,10 +207,16 @@ public class FightController extends Controller<FightView> {
         endIfBattleOver();
     }
 
+    /**
+     * Updates the HP display and combat message in the view after an attack lands on the given Bugémon.
+     *
+     * @param bug the Bugémon that received the attack
+     */
     private void viewReactToAttack(Bugemon bug) {
         view.updateBugemonHPDisplay(bug);
         view.updateCombatMessage(fight.getActionResultText());
     }
+
     /**
      * Checks if the battle is over and, if so, displays the outcome message
      * then navigates to the title screen after a short delay.

@@ -1,5 +1,6 @@
 package models.bugemon;
 
+import com.google.gson.annotations.SerializedName;
 import models.bugemon.dto.BugemonDTO;
 
 import java.util.ArrayList;
@@ -9,19 +10,59 @@ import java.util.Random;
 /**
  * Represents a Bugémon with its stats, attacks and sprite.
  * Implements {@link BugemonDTO} to expose read-only data to views.
- * Fields are final and populated via an explicit constructor used by Gson.
+ * Fields are populated via Gson deserialization or the copy constructor.
  */
 public class Bugemon implements BugemonDTO {
 
+    /** Unique identifier of this Bugémon. */
     private String id;
-    private String nom;
+
+    /** Display name of this Bugémon. */
+    @SerializedName("nom")
+    private String name;
+
+    /** Type of this Bugémon (e.g. fire, water). */
     private String type;
+
+    /** Stats bundle holding HP, attack, defense and initiative values. */
     private Stats stats;
-    private List<String> attaques;
+
+    /** Raw list of attack names used for deserialization. */
+    @SerializedName("attaques")
+    private List<String> attackNames;
+
+    /** Resolved list of {@link Attack} objects populated after deserialization. */
     private List<Attack> attacks = new ArrayList<>();
+
+    /** Path or identifier of the sprite image for this Bugémon. */
     private String sprite;
+
+    /** Whether this Bugémon is a starter Bugémon. */
     private boolean starter;
+
+    /** Whether this Bugémon belongs to the player's team. */
     private boolean isPlayer = false;
+
+    /** No-arg constructor used by Gson for deserialization. */
+    public Bugemon() {}
+
+    /**
+     * Copy constructor. Creates a deep copy of the given Bugémon.
+     * Used by the BugemonProvider so two teams don't share the same Bugémon in memory.
+     *
+     * @param other the Bugémon to copy
+     */
+    public Bugemon(Bugemon other) {
+        this.id       = other.id;
+        this.name = other.name;
+        this.type     = other.type;
+        this.stats    = new Stats(other.stats);
+        this.attackNames = other.attackNames;
+        this.attacks  = new ArrayList<>(other.attacks);
+        this.sprite   = other.sprite;
+        this.starter  = other.starter;
+        this.isPlayer = other.isPlayer;
+    }
 
     @Override
     public String getId() {
@@ -29,8 +70,13 @@ public class Bugemon implements BugemonDTO {
     }
 
     @Override
-    public String getNom() {
-        return nom;
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public String getType() {
+        return type;
     }
 
     @Override
@@ -43,13 +89,28 @@ public class Bugemon implements BugemonDTO {
         return attacks;
     }
 
+    public Attack getAttackFromIndex(int attackIndex){
+        return attacks.get(attackIndex);
+    }
+
     @Override
     public int getPv() {
         return stats.getPv();
     }
 
     @Override
-    public int getcurrenPv() {return stats.getCurrentPv();}
+    public int getcurrenPv() {
+        return stats.getCurrentPv();
+    }
+
+    /**
+     * Returns the current HP of this Bugémon.
+     *
+     * @return current HP
+     */
+    public int getCurrentPv() {
+        return stats.getCurrentPv();
+    }
 
     @Override
     public int getAttaque() {
@@ -68,73 +129,93 @@ public class Bugemon implements BugemonDTO {
 
     @Override
     public List<String> getAttackNamesAsList() {
-        return attaques;
+        return attackNames;
     }
 
     @Override
     public String getAttackNamesAsString() {
-        return String.join(", ", attaques);
+        return String.join(", ", attackNames);
     }
 
+    @Override
+    public boolean getIsPlayer() {
+        return isPlayer;
+    }
+
+    /**
+     * Marks whether this Bugémon belongs to the player's team.
+     *
+     * @param isPlayer true if this Bugémon belongs to the player
+     */
+    public void setIsPlayer(boolean isPlayer) {
+        this.isPlayer = isPlayer;
+    }
+
+    /**
+     * Adds an attack to this Bugémon's attack list.
+     *
+     * @param attack the attack to add
+     */
     public void addAttacks(Attack attack) {
         attacks.add(attack);
     }
 
-    public int getCurrentPv() {
-        return stats.getCurrentPv();
-    }
-
+    /**
+     * Reduces this Bugémon's current HP by the given amount.
+     *
+     * @param damage the amount of damage to apply
+     */
     public void takeDamage(int damage) {
         stats.reducePv(damage);
     }
 
+    /**
+     * Returns whether this Bugémon is knocked out.
+     *
+     * @return true if current HP is 0
+     */
     public boolean isKO() {
         return stats.getCurrentPv() == 0;
     }
 
-    public String attack(Attack attack, Bugemon target) {
-
-        int damage = attack.getPuissance();
-
-        target.takeDamage(damage);
-
-        return this.nom + " utilise " + attack.getNom() + "! " + target.getNom() + " perd " + damage + " PV ! " + (target.isKO() ? target.getNom() + " est mit KO" : "");
-    }
-
-    public Attack chooseRandomAttack() {
-        Random rand = new Random();
-        return this.attacks.get(rand.nextInt(3));
-    }
-
+    /**
+     * Returns whether this Bugémon is still able to fight.
+     *
+     * @return true if current HP is greater than 0
+     */
     public boolean isStillStanding() {
-        if (this.getCurrentPv() <= 0) {
-            return false;
-        }
-        return true;
+        return this.getCurrentPv() > 0;
     }
 
-    @Override public boolean getIsPlayer() {
-        return isPlayer;
-    }
-
-    public void setIsPlayer(boolean a) {
-        isPlayer = a;
-    }
-
-    public void initPv(){
+    /**
+     * Initialises the current HP to the maximum HP.
+     * Should be called at the start of each fight.
+     */
+    public void initPv() {
         this.stats.initCurrentPv();
     }
 
-    public Bugemon(Bugemon other) {
-        this.id = other.id;
-        this.nom = other.nom;
-        this.type = other.type;
-        this.stats = new Stats(other.stats);
-        this.attaques = other.attaques;
-        this.attacks = new ArrayList<>(other.attacks);
-        this.sprite = other.sprite;
-        this.starter = other.starter;
-        this.isPlayer = other.isPlayer;
+    /**
+     * Executes an attack against a target Bugémon and returns a description of the action.
+     *
+     * @param attack the attack to use
+     * @param target the Bugémon receiving the damage
+     * @return a message describing the attack result
+     */
+    public String attack(Attack attack, Bugemon target) {
+        int damage = attack.getPower();
+        target.takeDamage(damage);
+        return this.name + " utilise " + attack.getName() + "! "
+                + target.getName() + " perd " + damage + " PV ! "
+                + (target.isKO() ? target.getName() + " est mit KO" : "");
     }
-    public Bugemon() {}
+
+    /**
+     * Chooses a random attack from the first three available attacks.
+     *
+     * @return a randomly selected attack
+     */
+    public Attack chooseRandomAttack() {
+        return this.attacks.get(new Random().nextInt(3));
+    }
 }

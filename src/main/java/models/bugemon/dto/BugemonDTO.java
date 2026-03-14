@@ -18,7 +18,7 @@ public interface BugemonDTO {
     /**
      * @return the name of the Bugémon
      */
-    String getNom();
+    String getName();
 
     /**
      * @return the filename of the Bugémon's sprite image
@@ -69,4 +69,9 @@ public interface BugemonDTO {
      * @return tell if the bugemon is from the player team
      */
     boolean getIsPlayer();
+
+    /**
+     * @return the type fo the Bugémon
+     */
+    String getType();
 }

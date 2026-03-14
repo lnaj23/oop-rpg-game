@@ -75,7 +75,7 @@ public class BugemonGridView {
             BugemonDTO bugemon = allBugemons.get(i);
             Button btn = (Button) buttons.get(i);
             displayedBugemons.add(bugemon);
-            btn.setText(bugemon.getNom());
+            btn.setText(bugemon.getName());
             initImage(bugemon, btn);
             btn.setOnMouseEntered(event -> refreshLabel(event, bugemon, btn));
             btn.setOnMouseMoved(this::labelUpdatePosition);

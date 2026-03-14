@@ -1,16 +1,14 @@
 {
   "teams": [
     {
-      "name": "Mon équipe 1",
+      "name": "Mon equipe",
       "bugemonIds": [
-        "florachu",
-        "exceflam"
-      ]
-    },
-    {
-      "name": "Mon équipe 2",
-      "bugemonIds": [
-        "moussil"
+        "refaquix",
+        "mergeau",
+        "inferlin",
+        "crasheon",
+        "lichenox",
+        "loopine"
       ]
     }
   ]

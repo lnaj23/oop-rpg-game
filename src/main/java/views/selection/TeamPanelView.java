@@ -95,7 +95,7 @@ public class TeamPanelView {
     public void showBugemonStats(BugemonDTO bugemon) {
         bugemonStatsLabel.setText(String.format(
                 "%s | PV: %s | ATK: %s | DEF: %s | INIT: %s",
-                bugemon.getNom(),
+                bugemon.getName(),
                 bugemon.getPv(),
                 bugemon.getAttaque(),
                 bugemon.getDefense(),
@@ -149,7 +149,7 @@ public class TeamPanelView {
     }
 
     private void confirmCreation() {
-        TextInputDialog dialog = new TextInputDialog("Mon équipe");
+        TextInputDialog dialog = new TextInputDialog("Mon equipe");
         dialog.setTitle("Sauvegarder l'équipe");
         dialog.setHeaderText("Donnez un nom à votre équipe (" + controller.getPlayerTeam().getSize() + " Bugémon(s))");
         dialog.setContentText("Nom :");

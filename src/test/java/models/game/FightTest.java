@@ -62,7 +62,7 @@ public class FightTest extends TestCase {
         int hpBefore = original.getTeam().getFirst().getPv();
 
         Fight fight = new Fight(original, new TeamBugemon(List.of("pyricore", "moussil", "pebblit")));
-        fight.playingAttackWaiting(fight.getPlayingBugemonAttack(0));
+        fight.playerAttack(0);
 
         assertEquals(hpBefore, original.getTeam().getFirst().getPv());
     }
@@ -82,15 +82,15 @@ public class FightTest extends TestCase {
     @Test
     public void testTurnSwitchesAfterPlayerAttack() {
         assertTrue(fightPlayerHighInitiative.isPlayerTurn());
-        fightPlayerHighInitiative.playingAttackWaiting(fightPlayerHighInitiative.getPlayingBugemonAttack(0));
+        fightPlayerHighInitiative.playerAttack(0);
         assertFalse(fightPlayerHighInitiative.isPlayerTurn());
     }
 
     @Test
     public void testTurnSwitchesBackAfterEnemyAttack() {
-        fightPlayerHighInitiative.playingAttackWaiting(fightPlayerHighInitiative.getPlayingBugemonAttack(0));
+        fightPlayerHighInitiative.playerAttack(0);
         assertFalse(fightPlayerHighInitiative.isPlayerTurn());
-        fightPlayerHighInitiative.playingAttackWaiting(fightPlayerHighInitiative.getPlayingBugemonRandomAttack());
+        fightPlayerHighInitiative.enemyAttack();
         assertTrue(fightPlayerHighInitiative.isPlayerTurn());
     }
 
@@ -106,7 +106,7 @@ public class FightTest extends TestCase {
     public void testPlayerAttackReducesEnemyHp() {
         Bugemon enemy = fightPlayerHighInitiative.getOnFieldEnemyBugemon();
         int hpBefore = enemy.getcurrenPv();
-        fightPlayerHighInitiative.playingAttackWaiting(fightPlayerHighInitiative.getPlayingBugemonAttack(0));
+        fightPlayerHighInitiative.playerAttack(0);
         assertTrue(enemy.getcurrenPv() < hpBefore);
     }
 
@@ -115,23 +115,17 @@ public class FightTest extends TestCase {
         fightPlayerHighInitiative.forceEnemyTurn();
         Bugemon player = fightPlayerHighInitiative.getOnFieldPlayerBugemon();
         int hpBefore = player.getcurrenPv();
-        fightPlayerHighInitiative.playingAttackWaiting(fightPlayerHighInitiative.getPlayingBugemonRandomAttack());
+        fightPlayerHighInitiative.enemyAttack();
         assertTrue(player.getcurrenPv() < hpBefore);
     }
 
     @Test
     public void testActionResultTextNotNullAfterAttack() {
-        fightPlayerHighInitiative.playingAttackWaiting(fightPlayerHighInitiative.getPlayingBugemonAttack(0));
+        fightPlayerHighInitiative.playerAttack(0);
         assertNotNull(fightPlayerHighInitiative.getActionResultText());
     }
 
-    @Test
-    public void testGetPlayingBugemonAttackReturnsCorrectAttack() {
-        Bugemon onField = fightPlayerHighInitiative.getOnFieldPlayerBugemon();
-        assertEquals(onField.getAttacks().get(0), fightPlayerHighInitiative.getPlayingBugemonAttack(0));
-        assertEquals(onField.getAttacks().get(1), fightPlayerHighInitiative.getPlayingBugemonAttack(1));
-        assertEquals(onField.getAttacks().get(2), fightPlayerHighInitiative.getPlayingBugemonAttack(2));
-    }
+
 
 
     @Test

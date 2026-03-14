@@ -140,7 +140,7 @@ public class SelectionView extends View<SelectionController> {
      * Shows a team full error dialog in the team panel.
      */
     public void showTeamFullError() {
-        teamPanelController.showError("Équipe pleine",
+        teamPanelController.showError("Equipe pleine",
                 "Vous ne pouvez sélectionner que 6 Bugémons maximum.");
     }
 

@@ -20,10 +20,10 @@ import java.util.List;
  */
 public class Fight {
 
-    /** The player's team . */
+    /** The player's team. */
     private final TeamBugemon teamPlayer;
 
-    /** The enemy team . */
+    /** The enemy team. */
     private final TeamBugemon teamEnemy;
 
     /** {@code true} if it is currently the player's turn, {@code false} if it is the enemy's. */
@@ -35,7 +35,7 @@ public class Fight {
     /**
      * Constructs a fight between two teams.
      * Initialises each Bugémon's HP, marks ownership, and places
-     * the first Bugémon of the player's team and the last of the enemy's
+     * the first Bugémon of the player's team and the first of the enemy's
      * team on the field.
      *
      * @param teamPlayer the player's team
@@ -55,6 +55,78 @@ public class Fight {
     }
 
     /**
+     * Returns whether it is currently the player's turn.
+     *
+     * @return {@code true} if it is the player's turn
+     */
+    public boolean isPlayerTurn() {
+        return isPlayerTurn;
+    }
+
+    /**
+     * Returns the player's team.
+     *
+     * @return the player's {@link TeamBugemon}
+     */
+    public TeamBugemon getTeamPlayer() {
+        return teamPlayer;
+    }
+
+    /**
+     * Returns the enemy team.
+     *
+     * @return the enemy {@link TeamBugemon}
+     */
+    public TeamBugemon getTeamEnemy() {
+        return teamEnemy;
+    }
+
+    /**
+     * Returns the player's currently active on-field Bugémon.
+     *
+     * @return the player's on-field Bugémon
+     */
+    public Bugemon getOnFieldPlayerBugemon() {
+        return teamPlayer.getOnFieldBugemon();
+    }
+
+    /**
+     * Returns the enemy's currently active on-field Bugémon.
+     *
+     * @return the enemy's on-field Bugémon
+     */
+    public Bugemon getOnFieldEnemyBugemon() {
+        return teamEnemy.getOnFieldBugemon();
+    }
+
+    /**
+     * Returns the text describing the result of the last attack.
+     *
+     * @return the action result text
+     */
+    public String getActionResultText() {
+        return actionResulText;
+    }
+
+    /**
+     * Returns the list of available (non-KO) Bugémons in the player's team.
+     *
+     * @return list of available player Bugémons
+     */
+    public List<Bugemon> getAvailablePlayerBugemons() {
+        return teamPlayer.getAvailableBugemons();
+    }
+
+    /**
+     * Returns the list of available (non-KO) Bugémons in the enemy's team.
+     *
+     * @return list of available enemy Bugémons
+     */
+    public List<Bugemon> getAvailableEnemyBugemons() {
+        return teamEnemy.getAvailableBugemons();
+    }
+
+    /**
      * Determines whether the player should go first by comparing
      * the total initiative of both teams.
      *
@@ -71,25 +143,13 @@ public class Fight {
     }
 
     /**
-     * Flips the current turn.
-     * Called automatically at the end of {@link #playingAttackWaiting(Attack)}.
-     */
-    private void switchRole() {
-        isPlayerTurn = !isPlayerTurn;
-    }
-
-    /** Forces the turn to the enemy side (used when the player switches without attacking). */
-    public void forceEnemyTurn() {
-        isPlayerTurn = false;
-    }
-    /**
-     * The active Bugémon of the current turn's side attacks
-     * the active Bugémon of the opposing side.
+     * Executes an attack from the active Bugémon of the current turn's side
+     * against the active Bugémon of the opposing side.
      * The turn is automatically passed to the other side after the attack.
      *
      * @param attack the attack to use
      */
-    public void playingAttackWaiting(Attack attack) {
+    private void attackerAttackDefender(Attack attack) {
         Bugemon attacker = isPlayerTurn ? teamPlayer.getOnFieldBugemon() : teamEnemy.getOnFieldBugemon();
         Bugemon defender = isPlayerTurn ? teamEnemy.getOnFieldBugemon()  : teamPlayer.getOnFieldBugemon();
 
@@ -97,6 +157,28 @@ public class Fight {
 
         switchRole();
     }
+
+    /**
+     * Executes the player's attack at the given index against the enemy's on-field Bugémon.
+     * Delegates to {@link #attackerAttackDefender(Attack)}.
+     *
+     * @param attackIndex the index of the attack in the player's on-field Bugémon's attack list
+     */
+    public void playerAttack(int attackIndex){
+        Attack attack = getAttack(attackIndex);
+        attackerAttackDefender(attack);
+    }
+
+    /**
+     * Executes a random attack from the enemy's on-field Bugémon against the player's on-field Bugémon.
+     * Delegates to {@link #attackerAttackDefender(Attack)}.
+     */
+    public void enemyAttack(){
+        Attack attack = getRandomAttack();
+        attackerAttackDefender(attack);
+    }
+
+
 
     /**
      * Replaces the player's active on-field Bugémon.
@@ -116,6 +198,11 @@ public class Fight {
         teamEnemy.changeOnFieldBugemon(bugemon);
     }
 
+    /** Forces the turn to the enemy side (used when the player switches without attacking). */
+    public void forceEnemyTurn() {
+        isPlayerTurn = false;
+    }
+
     /**
      * Returns whether the battle is over, i.e. all Bugémon
      * of at least one team are KO.
@@ -123,8 +210,7 @@ public class Fight {
      * @return {@code true} if the battle is over
      */
     public boolean isBattleOver() {
-        return teamEnemy.getTeam().stream().noneMatch(Bugemon::isStillStanding)
-                || teamPlayer.getTeam().stream().noneMatch(Bugemon::isStillStanding);
+        return teamEnemy.isTeamStillStanding() || teamPlayer.isTeamStillStanding();
     }
 
     /**
@@ -134,57 +220,53 @@ public class Fight {
      * @return {@code true} if all enemy Bugémon are KO
      */
     public boolean playerWon() {
-        return teamEnemy.getTeam().stream().noneMatch(Bugemon::isStillStanding);
+        return teamEnemy.isTeamStillStanding();
     }
 
     /**
-     * Returns the attack at the given index of the current turn's active Bugémon.
+     * Returns whether the player's on-field Bugémon is KO.
+     *
+     * @return {@code true} if the player's on-field Bugémon has no HP left
+     */
+    public boolean isOnFieldPlayerBugemonKO() {
+        return teamPlayer.isOnFieldBugemonKO();
+    }
+
+    /**
+     * Returns whether the enemy's on-field Bugémon is KO.
+     *
+     * @return {@code true} if the enemy's on-field Bugémon has no HP left
+     */
+    public boolean isOnFieldEnemyBugemonKO() {
+        return teamEnemy.isOnFieldBugemonKO();
+    }
+
+    /**
+     * Returns the attack at the given index of the Player of the Enemy's team.
      *
      * @param index the index of the attack in the Bugémon's attack list
      * @return the corresponding attack
      */
-    public Attack getPlayingBugemonAttack(int index) {
+    private Attack getAttack(int index) {
         Bugemon attacker = isPlayerTurn ? teamPlayer.getOnFieldBugemon() : teamEnemy.getOnFieldBugemon();
-        return attacker.getAttacks().get(index);
+        return attacker.getAttackFromIndex(index);
     }
 
     /**
-     * Returns a random attack from the current turn's active Bugémon.
+     * Returns a random attack from the Player or the Enemy
      *
      * @return a randomly chosen attack
      */
-    public Attack getPlayingBugemonRandomAttack() {
+    private Attack getRandomAttack() {
         Bugemon attacker = isPlayerTurn ? teamPlayer.getOnFieldBugemon() : teamEnemy.getOnFieldBugemon();
         return attacker.chooseRandomAttack();
     }
 
-    /** @return {@code true} if it is the player's turn */
-    public boolean isPlayerTurn()                     { return isPlayerTurn; }
-
-    /** @return the player's team */
-    public TeamBugemon getTeamPlayer()                { return teamPlayer; }
-
-    /** @return the enemy team */
-    public TeamBugemon getTeamEnemy()                 { return teamEnemy; }
-
-    /** @return the player's currently active on-field Bugémon */
-    public Bugemon getOnFieldPlayerBugemon()          { return teamPlayer.getOnFieldBugemon(); }
-
-    /** @return the enemy's currently active on-field Bugémon */
-    public Bugemon getOnFieldEnemyBugemon()           { return teamEnemy.getOnFieldBugemon(); }
-
-    /** @return {@code true} if the player's on-field Bugémon is KO */
-    public boolean isOnFieldPlayerBugemonKO()         { return teamPlayer.getOnFieldBugemon().isKO(); }
-
-    /** @return {@code true} if the enemy's on-field Bugémon is KO */
-    public boolean isOnFieldEnemyBugemonKO()          { return teamEnemy.getOnFieldBugemon().isKO(); }
-
-    /** @return the text describing the result of the last attack */
-    public String getActionResultText()               { return actionResulText; }
-
-    /** @return the list of available (non-KO) Bugémon in the player's team */
-    public List<Bugemon> getAvailablePlayerBugemons() { return teamPlayer.getAvailableBugemons(); }
-
-    /** @return the list of available (non-KO) Bugémon in the enemy's team */
-    public List<Bugemon> getAvailableEnemyBugemons()  { return teamEnemy.getAvailableBugemons(); }
+    /**
+     * Flips the current turn.
+     * Called automatically at the end of {@link #attackerAttackDefender(Attack)}.
+     */
+    private void switchRole() {
+        isPlayerTurn = !isPlayerTurn;
+    }
 }

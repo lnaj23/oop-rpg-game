@@ -111,6 +111,7 @@ public class FightView extends View<FightController> {
     /** 2×3 grid displaying the player's team sprites. */
     @FXML private GridPane teamGrid;
 
+    /** 2×3 grid displaying the enemy's team sprites. */
     @FXML private GridPane enemyGrid;
 
     /**
@@ -135,28 +136,23 @@ public class FightView extends View<FightController> {
     }
 
     /**
-     * Initialises a popup with the given label, applying a dark tooltip style.
+     * Returns the title of the fight scene.
      *
-     * @param popup the popup to initialise
-     * @param label the label to add inside the popup
+     * @return the window title
      */
-    private void initPopup(Popup popup, Label label) {
-        label.setMouseTransparent(true);
-        label.setStyle("-fx-background-color: rgba(0,0,0,0.8); -fx-text-fill: white; -fx-padding: 5; -fx-background-radius: 5;");
-        popup.getContent().add(label);
-        popup.setAutoHide(true);
+    @Override
+    protected String getTitle() {
+        return "Bugémon – Combat";
     }
 
     /**
      * Populates the player's or enemy's team grid with sprites for each Bugémon in the given list.
-     * If {@code isPlayer} is {@code true}, each sprite shows an HP popup on hover and a stats popup on click.
+     * If the Bugémon belongs to the player, each sprite shows an HP popup on hover and a stats popup on click.
      *
-     * @param team     the list of Bugémon DTOs to display
+     * @param team the list of Bugémon DTOs to display
      */
     public void displayTeam(List<BugemonDTO> team) {
-
         boolean isPlayer = team.get(0).getIsPlayer();
-
         GridPane grid = isPlayer ? teamGrid : enemyGrid;
         grid.getChildren().clear();
 
@@ -192,69 +188,6 @@ public class FightView extends View<FightController> {
     }
 
     /**
-     * Shows a popup with the full stats of the given Bugémon at the given screen position.
-     *
-     * @param x      the screen X position
-     * @param y      the screen Y position
-     * @param bugemon the Bugémon whose stats to display
-     * @param node   the node to anchor the popup to
-     */
-    private void showStatsPopup(double x, double y, BugemonDTO bugemon, ImageView node) {
-        String text = "PV: " + bugemon.getPv() + "\n" +
-                "ATK: " + bugemon.getAttaque() + "\n" +
-                "DEF: " + bugemon.getDefense() + "\n" +
-                "INIT: " + bugemon.getInitiative() + "\n" +
-                "Attaques: " + bugemon.getAttackNamesAsString();
-        statsLabel.setText(text);
-        statsPopup.show(node, x + 15, y + 15);
-    }
-
-    /**
-     * Shows a popup with the current and maximum HP of the given Bugémon.
-     *
-     * @param event  the mouse event providing the screen position
-     * @param bugemon the Bugémon whose HP to display
-     * @param node   the node to anchor the popup to
-     */
-    private void showHpPopup(MouseEvent event, BugemonDTO bugemon, ImageView node) {
-        String text = "HP : " + bugemon.getcurrenPv() + " / " + bugemon.getPv();
-        HPLabel.setText(text);
-        HPPopup.show(node, event.getScreenX() + 15, event.getScreenY() + 15);
-    }
-
-    /**
-     * Updates the position of the HP popup to follow the mouse cursor.
-     *
-     * @param event the mouse move event
-     */
-    private void updatePopupPosition(MouseEvent event) {
-        HPPopup.setX(event.getScreenX() + 15);
-        HPPopup.setY(event.getScreenY() + 15);
-    }
-
-    /**
-     * Toggles between the attack panel and the action panel.
-     *
-     * @param showAttack {@code true} to show the attack panel, {@code false} to show the action panel
-     */
-    public void showAttackandActionPanels(boolean showAttack) {
-        attackPanel.setVisible(showAttack);
-        attackPanel.setManaged(showAttack);
-
-        actionPanel.setVisible(!showAttack);
-        actionPanel.setManaged(!showAttack);
-    }
-
-    /**
-     * Updates the combat message label with the given text.
-     *
-     * @param message the message to display
-     */
-    public void updateCombatMessage(String message) {
-        combatMessageLabel.setText(message);
-    }
-
-    /**
      * Updates the sprite, name, HP, effect label, and attack buttons
      * for the given Bugémon (player or enemy depending on {@code bugemon.getIsPlayer()}).
      *
@@ -268,7 +201,7 @@ public class FightView extends View<FightController> {
         Label effectLabel = bugemon.getIsPlayer() ? playerEffectLabel : enemyEffectLabel;
         ImageView sprite  = bugemon.getIsPlayer() ? playerSprite      : enemySprite;
 
-        nameLabel.setText(bugemon.getNom());
+        nameLabel.setText(bugemon.getName());
         hpLabel.setText("HP: " + bugemon.getcurrenPv() + "/" + bugemon.getPv());
         effectLabel.setText("Effets : Aucun");
 
@@ -280,6 +213,50 @@ public class FightView extends View<FightController> {
             updateAttackButtonName(bugemon);
         }
         sprite.setVisible(true);
+    }
+
+    /**
+     * Updates both the HP progress bar and the HP label for the given Bugémon.
+     *
+     * @param bugemon the Bugémon DTO whose HP to update
+     */
+    public void updateBugemonHPDisplay(BugemonDTO bugemon) {
+        ProgressBar hpBar = bugemon.getIsPlayer() ? playerHpBarFill : enemyHpBarFill;
+        Label hpLabel     = bugemon.getIsPlayer() ? playerHpLabel   : enemyHpLabel;
+
+        float maxHP = bugemon.getPv();
+        float ratio = Math.round((bugemon.getcurrenPv() / maxHP) * 10000f) / 10000f;
+        hpBar.setProgress(ratio);
+        hpLabel.setText("HP: " + bugemon.getcurrenPv() + "/" + bugemon.getPv());
+    }
+
+    /**
+     * Updates the combat message label with the given text.
+     *
+     * @param message the message to display
+     */
+    public void updateCombatMessage(String message) {
+        combatMessageLabel.setText(message);
+    }
+
+    /**
+     * Updates the attack button labels to match the attacks of the given Bugémon.
+     * Hides buttons for which no attack exists.
+     *
+     * @param bugemon the Bugémon whose attacks to display
+     */
+    public void updateAttackButtonName(BugemonDTO bugemon) {
+        List<String> attackname = formatAttackNames(bugemon.getAttackNamesAsList());
+        List<Button> btns = List.of(btnAttack1, btnAttack2, btnAttack3);
+
+        for (int i = 0; i < btns.size(); i++) {
+            if (i < attackname.size()) {
+                btns.get(i).setText(attackname.get(i));
+                btns.get(i).setVisible(true);
+            } else {
+                btns.get(i).setVisible(false);
+            }
+        }
     }
 
     /**
@@ -336,25 +313,121 @@ public class FightView extends View<FightController> {
         }
     }
 
+    /**
+     * Toggles between the attack panel and the action panel.
+     *
+     * @param showAttack {@code true} to show the attack panel, {@code false} to show the action panel
+     */
+    public void showAttackandActionPanels(boolean showAttack) {
+        attackPanel.setVisible(showAttack);
+        attackPanel.setManaged(showAttack);
+
+        actionPanel.setVisible(!showAttack);
+        actionPanel.setManaged(!showAttack);
+    }
 
     /**
-     * Updates the attack button labels to match the attacks of the given Bugémon.
-     * Hides buttons for which no attack exists.
+     * Enables or disables all main action buttons.
      *
-     * @param bugemon the Bugémon whose attacks to display
+     * @param disabled {@code true} to disable the buttons, {@code false} to enable them
      */
-    public void updateAttackButtonName(BugemonDTO bugemon) {
-        List<String> attackname = formatAttackNames(bugemon.getAttackNamesAsList());
-        List<Button> btns = List.of(btnAttack1, btnAttack2, btnAttack3);
+    public void setButtonsDisabled(boolean disabled) {
+        btnAttack.setDisable(disabled);
+        btnItem.setDisable(disabled);
+        btnSwitch.setDisable(disabled);
+        btnForfeit.setDisable(disabled);
+    }
 
-        for (int i = 0; i < btns.size(); i++) {
-            if (i < attackname.size()) {
-                btns.get(i).setText(attackname.get(i));
-                btns.get(i).setVisible(true);
-            } else {
-                btns.get(i).setVisible(false);
-            }
+    /**
+     * Resets the entire fight display to its initial blank state.
+     * Clears sprites, labels, HP bars, attack buttons, and hides all popups.
+     */
+    public void resetDisplay() {
+        showAttackandActionPanels(false);
+        setButtonsDisabled(false);
+
+        teamGrid.getChildren().clear();
+        enemyGrid.getChildren().clear();
+
+        playerSprite.setImage(null);
+        playerSprite.setVisible(false);
+        enemySprite.setImage(null);
+        enemySprite.setVisible(false);
+
+        playerNameLabel.setText("");
+        playerHpLabel.setText("");
+        playerEffectLabel.setText("");
+        playerHpBarFill.setProgress(1.0);
+
+        enemyNameLabel.setText("");
+        enemyHpLabel.setText("");
+        enemyEffectLabel.setText("");
+        enemyHpBarFill.setProgress(1.0);
+
+        combatMessageLabel.setText("");
+
+        List<Button> attackBtns = List.of(btnAttack1, btnAttack2, btnAttack3);
+        for (Button btn : attackBtns) {
+            btn.setText("");
+            btn.setVisible(false);
         }
+
+        HPPopup.hide();
+        statsPopup.hide();
+    }
+
+    /**
+     * Initialises a popup with the given label, applying a dark tooltip style.
+     *
+     * @param popup the popup to initialise
+     * @param label the label to add inside the popup
+     */
+    private void initPopup(Popup popup, Label label) {
+        label.setMouseTransparent(true);
+        label.setStyle("-fx-background-color: rgba(0,0,0,0.8); -fx-text-fill: white; -fx-padding: 5; -fx-background-radius: 5;");
+        popup.getContent().add(label);
+        popup.setAutoHide(true);
+    }
+
+    /**
+     * Shows a popup with the full stats of the given Bugémon at the given screen position.
+     *
+     * @param x       the screen X position
+     * @param y       the screen Y position
+     * @param bugemon the Bugémon whose stats to display
+     * @param node    the node to anchor the popup to
+     */
+    private void showStatsPopup(double x, double y, BugemonDTO bugemon, ImageView node) {
+        String text = "PV: " + bugemon.getPv() + "\n" +
+                "ATK: " + bugemon.getAttaque() + "\n" +
+                "DEF: " + bugemon.getDefense() + "\n" +
+                "INIT: " + bugemon.getInitiative() + "\n" +
+                "Attaques: " + bugemon.getAttackNamesAsString();
+        statsLabel.setText(text);
+        statsPopup.show(node, x + 15, y + 15);
+    }
+
+    /**
+     * Shows a popup with the current and maximum HP of the given Bugémon.
+     *
+     * @param event   the mouse event providing the screen position
+     * @param bugemon the Bugémon whose HP to display
+     * @param node    the node to anchor the popup to
+     */
+    private void showHpPopup(MouseEvent event, BugemonDTO bugemon, ImageView node) {
+        String text = "HP : " + bugemon.getcurrenPv() + " / " + bugemon.getPv();
+        HPLabel.setText(text);
+        HPPopup.show(node, event.getScreenX() + 15, event.getScreenY() + 15);
+    }
+
+    /**
+     * Updates the position of the HP popup to follow the mouse cursor.
+     *
+     * @param event the mouse move event
+     */
+    private void updatePopupPosition(MouseEvent event) {
+        HPPopup.setX(event.getScreenX() + 15);
+        HPPopup.setY(event.getScreenY() + 15);
     }
 
     /**
@@ -370,32 +443,5 @@ public class FightView extends View<FightController> {
                         .map(word -> Character.toUpperCase(word.charAt(0)) + word.substring(1))
                         .collect(Collectors.joining(" ")))
                 .toList();
-    }
-
-    /**
-     * Updates both the HP progress bar and the HP label for the given Bugémon.
-     *
-     * @param bugemon the Bugémon DTO whose HP to update
-     */
-    public void updateBugemonHPDisplay(BugemonDTO bugemon) {
-        ProgressBar hpBar = bugemon.getIsPlayer() ? playerHpBarFill : enemyHpBarFill;
-        Label hpLabel     = bugemon.getIsPlayer() ? playerHpLabel   : enemyHpLabel;
-
-        float maxHP = bugemon.getPv();
-        float ratio = Math.round((bugemon.getcurrenPv() / maxHP) * 10000f) / 10000f;
-        hpBar.setProgress(ratio);
-        hpLabel.setText("HP: " + bugemon.getcurrenPv() + "/" + bugemon.getPv());
-    }
-
-    public void setButtonsDisabled(boolean disabled) {
-        btnAttack.setDisable(disabled);
-        btnItem.setDisable(disabled);
-        btnSwitch.setDisable(disabled);
-        btnForfeit.setDisable(disabled);
-    }
-
-    @Override
-    protected String getTitle() {
-        return "Bugémon – Combat";
     }
 }

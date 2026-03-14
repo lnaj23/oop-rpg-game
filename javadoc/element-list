@@ -3,5 +3,9 @@ controllers
 exceptions
 models.bugemon
 models.bugemon.dto
+models.game
+repositories
 services
+services.bugemon
 views
+views.selection
