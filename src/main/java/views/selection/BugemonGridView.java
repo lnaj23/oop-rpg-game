@@ -144,7 +144,6 @@ public class BugemonGridView {
     public void selectButton(Button btn, BugemonDTO bugemon) {
         selectedButtons.add(btn);
 
-        // Récupère la couleur du type via le service
         String typeColor = TypeEffectivenessService.getTypeColor((Bugemon) bugemon);
 
         btn.setStyle(

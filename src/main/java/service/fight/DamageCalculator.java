@@ -14,14 +14,12 @@ public abstract class DamageCalculator {
 
         double damage = attack.getPower() * attackFactor * reductionFactor;
 
-        // ── Multiplicateur de type ────────────────────────────
         double typeMultiplier = TypeEffectivenessService.getTypeMultiplier(
                 attack.getType(),
                 target.getType()
         );
         damage *= typeMultiplier;
 
-        // ── Coup critique (10% → x1.5) ────────────────────────
         boolean isCritical = new java.util.Random().nextInt(100) < 10;
         if (isCritical) damage *= 1.5;
 
