@@ -14,7 +14,7 @@ public class TeamRepositoryTest {
 
     @Before
     public void cleanup() {
-        File f = new File("persistence/savedteam/team.json");
+        File f = new File("src/main/java/persistence/savedteam/team.json");
         if (f.exists()) {
             f.delete();
         }

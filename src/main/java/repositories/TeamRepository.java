@@ -17,7 +17,7 @@ import java.util.List;
  */
 public class TeamRepository {
 
-    private static final String TEAMS_FILE = "persistence/savedteam/team.json";
+    private static final String TEAMS_FILE = "src/main/java/persistence/savedteam/team.json";
     private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
     /**
