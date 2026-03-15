@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import static service.fight.TypeEffectivenessService.getEffectivenessMessage;
+
 /**
  * Represents a Bugémon with its stats, attacks and sprite.
  * Implements {@link BugemonDTO} to expose read-only data to views.
@@ -205,7 +207,9 @@ public class Bugemon implements BugemonDTO {
     public String attack(Attack attack, Bugemon target) {
         int damage = attack.getPower();
         target.takeDamage(damage);
+
         return this.name + " utilise " + attack.getName() + "! "
+                + getEffectivenessMessage(attack.getType(), target.getType()) + ""
                 + target.getName() + " perd " + damage + " PV ! "
                 + (target.isKO() ? target.getName() + " est mit KO" : "");
     }

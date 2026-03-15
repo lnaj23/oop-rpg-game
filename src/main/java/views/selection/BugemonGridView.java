@@ -12,7 +12,9 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Popup;
 import javafx.scene.control.Label;
+import models.bugemon.Bugemon;
 import models.bugemon.dto.BugemonDTO;
+import service.fight.TypeEffectivenessService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -104,7 +106,13 @@ public class BugemonGridView {
             if (teamBugemons.stream().anyMatch(b -> b.getId().equals(currentBug.getId()))) {
                 Button btn = (Button) buttons.get(i);
                 selectedButtons.add(btn);
-                btn.setStyle("-fx-background-color: #e8a8a8; -fx-border-color: #c0392b; -fx-border-width: 2;");
+
+                String typeColor = TypeEffectivenessService.getTypeColor((Bugemon) currentBug);
+                btn.setStyle(
+                        "-fx-background-color: " + typeColor + "; " +
+                                "-fx-border-color: derive(" + typeColor + ", -30%); " +
+                                "-fx-border-width: 2;"
+                );
                 listener.onBugemonAdded(currentBug);
             }
         }
@@ -133,9 +141,17 @@ public class BugemonGridView {
      *
      * @param btn the button to select
      */
-    public void selectButton(Button btn) {
+    public void selectButton(Button btn, BugemonDTO bugemon) {
         selectedButtons.add(btn);
-        btn.setStyle("-fx-background-color: #e8a8a8; -fx-border-color: #c0392b; -fx-border-width: 2;");
+
+        // Récupère la couleur du type via le service
+        String typeColor = TypeEffectivenessService.getTypeColor((Bugemon) bugemon);
+
+        btn.setStyle(
+                "-fx-background-color: " + typeColor + "; " +
+                        "-fx-border-color: derive(" + typeColor + ", -30%); " +
+                        "-fx-border-width: 2;"
+        );
     }
 
     /**

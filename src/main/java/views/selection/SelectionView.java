@@ -96,8 +96,8 @@ public class SelectionView extends View<SelectionController> {
      *
      * @param btn the button to select
      */
-    public void selectButton(Button btn) {
-        bugemonGridController.selectButton(btn);
+    public void selectButton(Button btn,BugemonDTO bugemon) {
+        bugemonGridController.selectButton(btn,bugemon);
     }
 
     /**

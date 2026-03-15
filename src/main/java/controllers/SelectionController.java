@@ -121,7 +121,7 @@ public class SelectionController extends Controller<SelectionView> {
                 return;
             }
             playerTeam.addBugemonDTO(bugemon);
-            this.view.selectButton(btn);
+            this.view.selectButton(btn, bugemon);
             this.view.onBugemonAdded(bugemon);
             this.view.showBugemonStats(bugemon);
         }
