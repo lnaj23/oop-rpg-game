@@ -1,15 +1,33 @@
 package controllers;
 
 import javafx.animation.PauseTransition;
+import javafx.application.Platform;
+import javafx.geometry.Pos;
+import javafx.scene.control.Alert;
+import javafx.scene.effect.ColorAdjust;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Region;
 import javafx.util.Duration;
 import models.bugemon.Bugemon;
+import models.bugemon.dto.BugemonDTO;
 import models.game.Fight;
 import views.FightView;
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 
 import models.bugemon.TeamBugemon;
+import javafx.application.Platform;
+import views.SwitchBugemonView;
+import java.util.Objects;
+import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.layout.StackPane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 /**
  * Controller for the fight screen.
@@ -105,8 +123,9 @@ public class FightController extends Controller<FightView> {
      * and updates the view accordingly.
      */
     public void onSwitchDisplaeyPlayerClicked() {
-        switchPlayerBugemon();
-        forceEnemyToAttack();
+        view.setButtonsDisabled(true);
+        showSwitchWindow(true);
+        //forceEnemyToAttack();
     }
 
     /**
@@ -114,7 +133,11 @@ public class FightController extends Controller<FightView> {
      * Immediately navigates back to the title screen.
      */
     public void onForfeitClicked() {
-        this.metaController.switchScene(MetaController.Scenes.TITLE_SCREEN);
+        this.view.showMessageReturnTitle(
+                "Abandon",
+                "Vous avez abandonné le combat.",
+                () -> this.metaController.switchScene(MetaController.Scenes.TITLE_SCREEN)
+        );
     }
 
     /**
@@ -153,36 +176,28 @@ public class FightController extends Controller<FightView> {
             Bugemon target = fight.getOnFieldPlayerBugemon();
             fight.enemyAttack();
             viewReactToAttack(target);
+
             if (fight.isOnFieldPlayerBugemonKO()) {
                 view.markBugemonAsFainted(target);
+
                 PauseTransition pauseKO = new PauseTransition(Duration.seconds(DISPLAY_PLAYER_DEATH_NOTE_TIME));
                 pauseKO.setOnFinished(e2 -> {
-                    switchPlayerBugemon();
-                    endIfBattleOver();
-                    view.setButtonsDisabled(false);
+                    if (fight.getAvailablePlayerBugemons().isEmpty()) {
+                        endIfBattleOver();
+                    } else {
+                        Platform.runLater(() -> showSwitchWindow(false));
+                    }
                 });
                 pauseKO.play();
             } else {
                 view.setButtonsDisabled(false);
             }
         });
+
         pause.play();
     }
 
-    /**
-     * Switches the player's on-field Bugémon to a random available one (forced, no turn cost).
-     */
-    private void switchPlayerBugemon() {
-        String switchmessage = fight.getOnFieldPlayerBugemon().getName() + ", reviens !\n";
-        List<Bugemon> available = fight.getAvailablePlayerBugemons();
-        if (available.isEmpty()) return;
-        Bugemon randomBug = available.get(random.nextInt(available.size()));
-        fight.changePlayerOnField(randomBug);
-        view.updateBugemonHPDisplay(randomBug);
-        switchmessage = switchmessage + randomBug.getName() + " entre en jeu !";
-        view.updateActiveBugemonSprite(fight.getOnFieldPlayerBugemon());
-        view.updateCombatMessage(switchmessage);
-    }
+
 
     /**
      * Switches the enemy's on-field Bugémon to a random available one
@@ -225,11 +240,63 @@ public class FightController extends Controller<FightView> {
         if (!fight.isBattleOver()) return;
 
         view.setButtonsDisabled(true);
-        if (fight.playerWon()) { view.updateCombatMessage("VICTORY"); }
-        else                   { view.updateCombatMessage("DEFEAT");  }
 
-        PauseTransition pause = new PauseTransition(Duration.seconds(3));
-        pause.setOnFinished(e -> goToTitleScreen());
-        pause.play();
+        if (fight.playerWon()) {
+            view.showMessageReturnTitle(
+                    "Victoire",
+                    "Vous avez gagné le combat !",
+                    () -> goToTitleScreen()
+            );
+        } else {
+            view.showMessageReturnTitle(
+                    "Défaite",
+                    "Vous avez perdu le combat.",
+                    () -> goToTitleScreen()
+            );
+        }
+    }
+
+    //TESTTTTTTTTTT
+    /**
+     * Switches the player's on-field Bugémon to a random available one (forced, no turn cost).
+     */
+    private void switchPlayerBugemon(Bugemon selectedBugemon) {
+        String switchmessage = fight.getOnFieldPlayerBugemon().getName() + ", reviens !\n";
+
+        fight.changePlayerOnField(selectedBugemon);
+
+        switchmessage = switchmessage + selectedBugemon.getName() + " entre en jeu !";
+
+        view.updateActiveBugemonSprite(fight.getOnFieldPlayerBugemon());
+        view.updateCombatMessage(switchmessage);
+    }
+
+    private Bugemon findAvailablePlayerBugemonById(Object id) {
+        for (Bugemon bugemon : fight.getAvailablePlayerBugemons()) {
+            if (Objects.equals(bugemon.getId(), id)) {
+                return bugemon;
+            }
+        }
+        throw new IllegalArgumentException("Bugémon introuvable");
+    }
+
+
+
+    private void showSwitchWindow(boolean enemyAttacksAfterSwitch) {
+        SwitchBugemonView switchView = new SwitchBugemonView(
+                fight.getTeamPlayer().getTeamDTO(),
+                selectedId -> {
+                    Bugemon selectedBugemon = findAvailablePlayerBugemonById(selectedId);
+                    switchPlayerBugemon(selectedBugemon);
+
+                    if (enemyAttacksAfterSwitch) {
+                        forceEnemyToAttack();
+                    } else {
+                        view.setButtonsDisabled(false);
+                    }
+                }
+        );
+
+        switchView.show();
     }
 }
