@@ -106,13 +106,6 @@ public class BugemonGridView {
             if (teamBugemons.stream().anyMatch(b -> b.getId().equals(currentBug.getId()))) {
                 Button btn = (Button) buttons.get(i);
                 selectedButtons.add(btn);
-
-                String typeColor = TypeEffectivenessService.getTypeColorofBUG((Bugemon) currentBug);
-                btn.setStyle(
-                        "-fx-background-color: " + typeColor + "; " +
-                                "-fx-border-color: derive(" + typeColor + ", -30%); " +
-                                "-fx-border-width: 2;"
-                );
                 listener.onBugemonAdded(currentBug);
             }
         }
@@ -143,14 +136,6 @@ public class BugemonGridView {
      */
     public void selectButton(Button btn, BugemonDTO bugemon) {
         selectedButtons.add(btn);
-
-        String typeColor = TypeEffectivenessService.getTypeColorofBUG((Bugemon) bugemon);
-
-        btn.setStyle(
-                "-fx-background-color: " + typeColor + "; " +
-                        "-fx-border-color: derive(" + typeColor + ", -30%); " +
-                        "-fx-border-width: 2;"
-        );
     }
 
     /**
@@ -172,6 +157,13 @@ public class BugemonGridView {
         imgView.setPreserveRatio(true);
         btn.setGraphic(imgView);
         btn.setContentDisplay(ContentDisplay.TOP);
+        String typeColor = TypeEffectivenessService.getTypeColorofBUG((Bugemon) bugemon);
+
+        btn.setStyle(
+                "-fx-background-color: " + typeColor + "; " +
+                        "-fx-border-color: derive(" + typeColor + ", -30%); " +
+                        "-fx-border-width: 2;"
+        );
     }
 
     private void refreshLabel(MouseEvent event, BugemonDTO bugemon, Button btn) {

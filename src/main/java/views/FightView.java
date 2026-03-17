@@ -429,6 +429,7 @@ public class FightView extends View<FightController> {
         HPPopup.show(node, event.getScreenX() + 15, event.getScreenY() + 15);
     }
 
+
     /**
      * Updates the position of the HP popup to follow the mouse cursor.
      *
