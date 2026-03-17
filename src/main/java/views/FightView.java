@@ -21,6 +21,7 @@ import java.util.stream.Collectors;
 
 import javafx.stage.Popup;
 import javafx.scene.input.MouseEvent;
+import service.fight.TypeEffectivenessService;
 
 /**
  * View for the fight screen.
@@ -253,6 +254,14 @@ public class FightView extends View<FightController> {
             if (i < attackname.size()) {
                 btns.get(i).setText(attackname.get(i));
                 btns.get(i).setVisible(true);
+                Button btn = btns.get(i);
+                String attackType = bugemon.getAttacks().get(i).getType();
+                String typeColor = TypeEffectivenessService.getTypeColorofaAttack(attackType);
+                btn.setStyle(
+                        "-fx-background-color: " + typeColor + "; " +
+                                "-fx-text-fill: white; "                    +
+                                "-fx-background-radius: 5;"
+                );
             } else {
                 btns.get(i).setVisible(false);
             }

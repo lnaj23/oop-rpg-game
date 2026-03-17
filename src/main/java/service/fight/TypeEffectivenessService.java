@@ -24,7 +24,7 @@ public abstract class TypeEffectivenessService{
         };
     }
 
-    public static String getTypeColor(Bugemon bug) {
+    public static String getTypeColorofBUG(Bugemon bug) {
         if (bug.getType() == null) return "#AAAAAA";
 
         return switch (bug.getType().toLowerCase()) {
@@ -34,6 +34,18 @@ public abstract class TypeEffectivenessService{
             case "litho" -> "#A0522D";
             default      -> "#AAAAAA";
         };
+    }
+
+    public static String getTypeColorofaAttack(String attackType){
+        return switch (attackType.toLowerCase()) {
+            case "pyro"  -> "#FF4500";
+            case "aqua"  -> "#1E90FF";
+            case "flora" -> "#32CD32";
+            case "litho" -> "#A0522D";
+            default      -> "#AAAAAA";
+        };
+
+
     }
     public static String getEffectivenessMessage(String attackType, String targetType){
         String Attack_type = attackType;

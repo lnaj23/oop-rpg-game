@@ -107,7 +107,7 @@ public class BugemonGridView {
                 Button btn = (Button) buttons.get(i);
                 selectedButtons.add(btn);
 
-                String typeColor = TypeEffectivenessService.getTypeColor((Bugemon) currentBug);
+                String typeColor = TypeEffectivenessService.getTypeColorofBUG((Bugemon) currentBug);
                 btn.setStyle(
                         "-fx-background-color: " + typeColor + "; " +
                                 "-fx-border-color: derive(" + typeColor + ", -30%); " +
@@ -144,7 +144,7 @@ public class BugemonGridView {
     public void selectButton(Button btn, BugemonDTO bugemon) {
         selectedButtons.add(btn);
 
-        String typeColor = TypeEffectivenessService.getTypeColor((Bugemon) bugemon);
+        String typeColor = TypeEffectivenessService.getTypeColorofBUG((Bugemon) bugemon);
 
         btn.setStyle(
                 "-fx-background-color: " + typeColor + "; " +
