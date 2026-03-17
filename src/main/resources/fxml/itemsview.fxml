@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox spacing="10" alignment="CENTER" prefWidth="300" prefHeight="400"
+      style="-fx-padding: 20; -fx-background-color: #2b2b2b;"
+      xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+    <Label text="Sac d'objets" style="-fx-text-fill: white; -fx-font-size: 18;"/>
+    <ListView fx:id="itemListView" VBox.vgrow="ALWAYS" />
+    <HBox spacing="10" alignment="CENTER">
+        <Button fx:id="btnUse" text="Utiliser" />
+        <Button fx:id="btnClose" text="Fermer" />
+    </HBox>
+</VBox>

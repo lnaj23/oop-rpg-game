@@ -86,4 +86,9 @@ public class PreBuildTeamController extends Controller<PreBuildTeamView> {
     public void play(TeamBugemonDTO teamDTO) {
         this.metaController.goToFight((TeamBugemon) teamDTO);
     }
+
+    @Override
+    public void onItemClicked() {
+
+    }
 }

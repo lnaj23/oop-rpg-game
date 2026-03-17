@@ -1,4 +1,4 @@
-package views;
+package views.fight;
 
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -8,7 +8,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import models.bugemon.dto.BugemonDTO;
 
 import java.util.List;

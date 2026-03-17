@@ -2,32 +2,19 @@ package controllers;
 
 import javafx.animation.PauseTransition;
 import javafx.application.Platform;
-import javafx.geometry.Pos;
-import javafx.scene.control.Alert;
-import javafx.scene.effect.ColorAdjust;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Region;
 import javafx.util.Duration;
 import models.bugemon.Bugemon;
-import models.bugemon.dto.BugemonDTO;
 import models.game.Fight;
-import views.FightView;
+import models.game.Item;
+import views.fight.FightView;
 import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 import java.util.Random;
 
 import models.bugemon.TeamBugemon;
-import javafx.application.Platform;
-import views.SwitchBugemonView;
-import java.util.Objects;
-import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.layout.StackPane;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
+import views.fight.ItemsView;
+import views.fight.SwitchBugemonView;
 
 /**
  * Controller for the fight screen.
@@ -111,10 +98,40 @@ public class FightController extends Controller<FightView> {
 
     /**
      * Called when the player clicks the item button.
-     * Not yet implemented.
+     * Opens a window with a list of hardcoded items.
      */
+    @Override
     public void onItemClicked() {
-        // choisir objet
+        // Hardcoded items list as requested
+        List<Item> hardcodedItems = List.of(
+                new Item("potion", "Une potion", "soigne 20 HP"),
+                new Item("super_potion", "Une super potion", "soigne 50 HP"),
+                new Item("revive", "La réanimation", "réanime un Bugémon KO")
+        );
+
+        ItemsView itemsView = new ItemsView(hardcodedItems, item -> {
+            useItem(item);
+        });
+
+        itemsView.show();
+    }
+
+    /**
+     * Uses the selected item, displays a combat message, and ends the player's turn.
+     * * @param item The item to be used.
+     */
+    private void useItem(Item item) {
+        view.setButtonsDisabled(true);
+
+        // Display combat message
+        String message = "Tu utilise " + item.getName() + "!";
+        view.updateCombatMessage(message);
+
+        // Note: Effect logic on the 'fight' model would be added here.
+
+        // Using an item costs a turn, forcing the enemy to attack.
+        // Similar logic to onSwitchDisplaeyPlayerClicked().
+        forceEnemyToAttack();
     }
 
     /**

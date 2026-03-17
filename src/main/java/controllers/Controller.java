@@ -33,4 +33,6 @@ public abstract class Controller<T extends View> {
     public void show(Stage stage) {
         this.view.show(stage);
     }
+
+    public abstract void onItemClicked();
 }
