@@ -1,8 +1,8 @@
-package service.fight;
+package services.fight;
 
 import models.bugemon.Attack;
 import models.bugemon.Bugemon;
-import service.fight.TypeEffectivenessService;
+import services.fight.TypeEffectivenessService;
 
 public abstract class DamageCalculator {
 

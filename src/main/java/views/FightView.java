@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 
 import javafx.stage.Popup;
 import javafx.scene.input.MouseEvent;
-import service.fight.TypeEffectivenessService;
+import services.fight.TypeEffectivenessService;
 
 /**
  * View for the fight screen.
