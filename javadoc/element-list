@@ -1,11 +1,17 @@
 unnamed package
 controllers
+controllers.fight
+controllers.teamchoice
 exceptions
+listener
 models.bugemon
 models.bugemon.dto
 models.game
 repositories
-services
+services.color
 services.dataprovider
+services.fight
 views
-views.selection
+views.fight
+views.teamchoice
+views.teamchoice.selection

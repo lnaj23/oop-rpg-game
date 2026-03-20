@@ -103,7 +103,7 @@ public class BugemonGridView {
             BugemonDTO currentBug = displayedBugemons.get(i);
             if (teamBugemons.stream().anyMatch(b -> b.getId().equals(currentBug.getId()))) {
                 Button btn = (Button) buttons.get(i);
-                selectedButtons.add(btn);
+                selectButton(btn, currentBug);
                 listener.onBugemonAdded(currentBug);
             }
         }
