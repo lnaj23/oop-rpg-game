@@ -1,11 +1,9 @@
-package views;
+package views.fight;
 
 import controllers.FightController;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ProgressBar;
+import javafx.scene.control.*;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -14,6 +12,7 @@ import javafx.scene.layout.GridPane;
 import java.util.Arrays;
 import java.util.List;
 
+import javafx.stage.StageStyle;
 import models.bugemon.dto.BugemonDTO;
 import java.io.IOException;
 import java.util.Objects;
@@ -21,6 +20,7 @@ import java.util.stream.Collectors;
 
 import javafx.stage.Popup;
 import javafx.scene.input.MouseEvent;
+import views.View;
 
 /**
  * View for the fight screen.
@@ -133,6 +133,22 @@ public class FightView extends View<FightController> {
         btnAttack2.setOnAction(e -> this.controller.onAttackSelected(1));
         btnAttack3.setOnAction(e -> this.controller.onAttackSelected(2));
         btnBackFromAttack.setOnAction(e -> showAttackandActionPanels(false));
+    }
+
+    // NOUVEAU CODE À PARTIR D'ICI
+
+    public void showMessageReturnTitle(String title, String message, Runnable onClose) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.getDialogPane().getStylesheets().add(
+                Objects.requireNonNull(getClass().getResource("/css/common.css")).toExternalForm()
+        );
+        alert.initStyle(StageStyle.UNDECORATED);
+        alert.setGraphic(null);
+        alert.setOnHidden(e -> onClose.run());
+        alert.show();
     }
 
     /**

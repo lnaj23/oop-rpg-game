@@ -28,4 +28,9 @@ public class TitleScreenController extends Controller<TitleScreenView> {
     public void goToPreBuildTeam() {
         this.metaController.switchScene(MetaController.Scenes.PREBUILD_TEAM);
     }
+
+    @Override
+    public void onItemClicked() {
+
+    }
 }
