@@ -139,7 +139,7 @@ public class BugemonGridView {
         String typeColor = bugemon.getColor();
 
         btn.setStyle(
-                "-fx-background-color: derive(" + typeColor + ", -60%)" +
+                "-fx-background-color: derive(" + typeColor + ", -50%); " +
                         "-fx-border-color: derive(" + typeColor + ", -80%); " +
                         "-fx-border-width: 2;"
         );
