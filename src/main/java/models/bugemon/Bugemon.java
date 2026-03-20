@@ -55,6 +55,8 @@ public class Bugemon implements BugemonDTO {
     /** Color to display in the selectionView */
     private String Color;
 
+    private List<String> actifEffectNames = List.of("Effet 1", "Effet 2", "Effet 3", "Effet 4");
+
     /**
      * Copy constructor. Creates a deep copy of the given Bugémon.
      * Used by the BugemonProvider so two teams don't share the same Bugémon in memory.
@@ -160,6 +162,15 @@ public class Bugemon implements BugemonDTO {
     @Override
     public String getAttackColor(int index) {
         return attacks.get(index).getColor();
+    }
+
+    @Override
+    public List<String> getActifEffectNames() {
+        return actifEffectNames;
+    }
+
+    public void addActifEffectName(String effectName) {
+        actifEffectNames.add(effectName);
     }
     /**
      * Marks whether this Bugémon belongs to the player's team.

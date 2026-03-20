@@ -164,9 +164,6 @@ public class FightView extends View<Controller> {
         this.listener = listener;
     }
 
-    // -------------------------------------------------------------------------
-    // Public API called by the controller
-    // -------------------------------------------------------------------------
 
     public void showMessageReturnTitle(String title, String message, Runnable onClose) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -270,11 +267,14 @@ public class FightView extends View<Controller> {
     public void updateBugemonHPDisplay(BugemonDTO bugemon) {
         ProgressBar hpBar = bugemon.getIsPlayer() ? playerHpBarFill : enemyHpBarFill;
         Label hpLabel     = bugemon.getIsPlayer() ? playerHpLabel   : enemyHpLabel;
+        Label effectLabel = bugemon.getIsPlayer() ? playerEffectLabel : enemyEffectLabel;
 
         float maxHP = bugemon.getPv();
         float ratio = Math.round((bugemon.getcurrenPv() / maxHP) * 10000f) / 10000f;
         hpBar.setProgress(ratio);
         hpLabel.setText("HP: " + bugemon.getcurrenPv() + "/" + bugemon.getPv());
+        List<String> effects = bugemon.getActifEffectNames();
+        effectLabel.setText("Effets : " + (effects.isEmpty() ? "Aucun" : String.join(", ", effects)));
     }
 
     /**
@@ -458,10 +458,6 @@ public class FightView extends View<Controller> {
         HPPopup.hide();
         statsPopup.hide();
     }
-
-    // -------------------------------------------------------------------------
-    // Private helpers
-    // -------------------------------------------------------------------------
 
     /**
      * Initialises a popup with the given label, applying a dark tooltip style.

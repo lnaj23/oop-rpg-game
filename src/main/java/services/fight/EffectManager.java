@@ -13,7 +13,7 @@ public abstract class EffectManager {
                                     Attack attack){
         //TODO
         //est déjà appelé à chaque tour, mtn faut gerer les effects comme décrit ds l'énoncé
-        //bonne chance
+        //bonne chance, regarder aussi getActifEffectNames() et addActifEffectName de Bugemon pour afficher les nom des effets actifs
     }
 
 }
