@@ -74,4 +74,8 @@ public interface BugemonDTO {
      * @return the type fo the Bugémon
      */
     String getType();
+    /**
+     * @return the color fo the Bugémon
+     */
+    String getColor();
 }

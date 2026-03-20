@@ -20,6 +20,7 @@ public abstract class BugemonProvider {
      */
     static {
         BugemonRepository.getAllBugemons().forEach(BugemonProvider::assignAttacks);
+        BugemonRepository.getAllBugemons().forEach(Bugemon::initColor);
     }
 
     /**

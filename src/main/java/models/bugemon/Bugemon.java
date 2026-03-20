@@ -7,6 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import services.fight.TypeEffectivenessService;
+
+
 /**
  * Represents a Bugémon with its stats, attacks and sprite.
  * Implements {@link BugemonDTO} to expose read-only data to views.
@@ -46,6 +49,8 @@ public class Bugemon implements BugemonDTO {
     /** No-arg constructor used by Gson for deserialization. */
     public Bugemon() {}
 
+    private String Color;
+
     /**
      * Copy constructor. Creates a deep copy of the given Bugémon.
      * Used by the BugemonProvider so two teams don't share the same Bugémon in memory.
@@ -62,7 +67,10 @@ public class Bugemon implements BugemonDTO {
         this.sprite   = other.sprite;
         this.starter  = other.starter;
         this.isPlayer = other.isPlayer;
+        this.Color = other.Color;
+
     }
+
 
     @Override
     public String getId() {
@@ -142,6 +150,9 @@ public class Bugemon implements BugemonDTO {
         return isPlayer;
     }
 
+    @Override
+    public String getColor() { return Color; }
+
     /**
      * Marks whether this Bugémon belongs to the player's team.
      *
@@ -205,11 +216,14 @@ public class Bugemon implements BugemonDTO {
     public String attack(Attack attack, Bugemon target) {
         int damage = attack.getPower();
         target.takeDamage(damage);
+
         return this.name + " utilise " + attack.getName() + "! "
+                + TypeEffectivenessService.getEffectivenessMessage(
+                attack.getType(),
+                target.getType()) + "\n"
                 + target.getName() + " perd " + damage + " PV ! "
                 + (target.isKO() ? target.getName() + " est mit KO" : "");
     }
-
     /**
      * Chooses a random attack from the first three available attacks.
      *
@@ -217,5 +231,16 @@ public class Bugemon implements BugemonDTO {
      */
     public Attack chooseRandomAttack() {
         return this.attacks.get(new Random().nextInt(3));
+    }
+
+    public void initColor() {
+        if (this.type == null) { this.Color = "#AAAAAA"; return; }
+        this.Color = switch (this.type.toLowerCase()) {
+            case "pyro"  -> "#FF4500";
+            case "aqua"  -> "#1E90FF";
+            case "flora" -> "#32CD32";
+            case "litho" -> "#A0522D";
+            default      -> "#AAAAAA";
+        };
     }
 }

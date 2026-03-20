@@ -12,7 +12,9 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Popup;
 import javafx.scene.control.Label;
+import models.bugemon.Bugemon;
 import models.bugemon.dto.BugemonDTO;
+import services.fight.TypeEffectivenessService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -104,7 +106,6 @@ public class BugemonGridView {
             if (teamBugemons.stream().anyMatch(b -> b.getId().equals(currentBug.getId()))) {
                 Button btn = (Button) buttons.get(i);
                 selectedButtons.add(btn);
-                btn.setStyle("-fx-background-color: #e8a8a8; -fx-border-color: #c0392b; -fx-border-width: 2;");
                 listener.onBugemonAdded(currentBug);
             }
         }
@@ -133,9 +134,16 @@ public class BugemonGridView {
      *
      * @param btn the button to select
      */
-    public void selectButton(Button btn) {
+    public void selectButton(Button btn, BugemonDTO bugemon) {
         selectedButtons.add(btn);
-        btn.setStyle("-fx-background-color: #e8a8a8; -fx-border-color: #c0392b; -fx-border-width: 2;");
+        String typeColor = bugemon.getColor();
+
+        btn.setStyle(
+                "-fx-background-color: derive(" + typeColor + ", -60%)" +
+                        "-fx-border-color: derive(" + typeColor + ", -80%); " +
+                        "-fx-border-width: 2;"
+        );
+
     }
 
     /**
@@ -145,7 +153,17 @@ public class BugemonGridView {
      */
     public void deselectButton(Button btn) {
         selectedButtons.remove(btn);
-        btn.setStyle("");
+        BugemonDTO bugemon = (BugemonDTO) btn.getUserData();
+
+        if (bugemon != null) {
+            String typeColor = bugemon.getColor();
+
+            btn.setStyle(
+                    "-fx-background-color: " + typeColor + "; " +
+                            "-fx-border-color: derive(" + typeColor + ", -30%); " +
+                            "-fx-border-width: 2;"
+            );
+        }
     }
 
     private void initImage(BugemonDTO bugemon, Button btn) {
@@ -157,6 +175,13 @@ public class BugemonGridView {
         imgView.setPreserveRatio(true);
         btn.setGraphic(imgView);
         btn.setContentDisplay(ContentDisplay.TOP);
+        String typeColor = bugemon.getColor();
+
+        btn.setStyle(
+                "-fx-background-color: " + typeColor + "; " +
+                        "-fx-border-color: derive(" + typeColor + ", -30%); " +
+                        "-fx-border-width: 2;"
+        );
     }
 
     private void refreshLabel(MouseEvent event, BugemonDTO bugemon, Button btn) {
