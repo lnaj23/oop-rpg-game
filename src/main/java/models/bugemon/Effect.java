@@ -7,7 +7,7 @@ import com.google.gson.annotations.SerializedName;
  * Effects may modify a stat, apply a status or have a duration.
  * This class is mainly used when loading attack data from JSON.
  */
-class Effect {
+public class Effect {
 
     /** Category of this effect (e.g. status, stat-modifier). */
     private String type;

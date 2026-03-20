@@ -1,9 +1,11 @@
-package controllers;
+package controllers.teamchoice;
 
+import controllers.Controller;
+import controllers.MetaController;
 import models.bugemon.dto.TeamBugemonDTO;
 import models.bugemon.TeamBugemon;
-import services.bugemon.TeamService;
-import views.PreBuildTeamView;
+import services.dataprovider.TeamService;
+import views.teamchoice.PreBuildTeamView;
 
 import java.io.IOException;
 import java.util.List;

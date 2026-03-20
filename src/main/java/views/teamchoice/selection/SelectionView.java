@@ -1,6 +1,6 @@
-package views.selection;
+package views.teamchoice.selection;
 
-import controllers.SelectionController;
+import controllers.teamchoice.SelectionController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseButton;
@@ -29,7 +29,7 @@ public class SelectionView extends View<SelectionController> {
      * @throws IOException if the FXML file cannot be loaded
      */
     public SelectionView() throws IOException {
-        super("/fxml/selection/selectionview.fxml");
+        super("/fxml/teamchoice/selection/selectionview.fxml");
         //right click to unselect every bugemon
         root.setOnMouseClicked(e -> {
             if (e.getButton() == MouseButton.SECONDARY) {

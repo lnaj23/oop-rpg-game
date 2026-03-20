@@ -6,6 +6,6 @@ models.bugemon.dto
 models.game
 repositories
 services
-services.bugemon
+services.dataprovider
 views
 views.selection

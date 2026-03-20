@@ -1,10 +1,11 @@
-package views;
+package views.teamchoice;
 
-import controllers.PreBuildTeamController;
+import controllers.teamchoice.PreBuildTeamController;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.StageStyle;
 import models.bugemon.dto.TeamBugemonDTO;
+import views.View;
 
 import java.io.IOException;
 import java.util.List;
@@ -15,7 +16,7 @@ import java.util.Optional;
  * View for the team management screen.
  * Displays the list of saved teams and their Bugémons, and provides actions to play, modify, rename, or delete them.
  */
-public class PreBuildTeamView extends View <PreBuildTeamController> {
+public class PreBuildTeamView extends View<PreBuildTeamController> {
 
     @FXML private ListView<TeamBugemonDTO> teamListView;
     @FXML private ListView<String> bugemonListView;
@@ -34,7 +35,7 @@ public class PreBuildTeamView extends View <PreBuildTeamController> {
      * @throws IOException if the FXML file cannot be loaded
      */
     public PreBuildTeamView() throws IOException {
-        super("/fxml/prebuildteam.fxml");
+        super("/fxml/teamchoice/prebuildteam.fxml");
         binButtons();
         initTeamListView();
         setActionButtons();

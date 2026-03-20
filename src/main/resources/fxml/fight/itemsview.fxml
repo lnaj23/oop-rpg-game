@@ -2,13 +2,18 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox spacing="10" alignment="CENTER" prefWidth="300" prefHeight="400"
+<?import java.net.URL?>
+<VBox spacing="10" alignment="CENTER" prefWidth="450" prefHeight="400"
       style="-fx-padding: 20; -fx-background-color: #2b2b2b;"
       xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+    <stylesheets>
+        <URL value="@/css/common.css" />
+        <URL value="@/css/teamchoice/prebuildteam.css" />
+    </stylesheets>
     <Label text="Sac d'objets" style="-fx-text-fill: white; -fx-font-size: 18;"/>
     <ListView fx:id="itemListView" VBox.vgrow="ALWAYS" />
     <HBox spacing="10" alignment="CENTER">
-        <Button fx:id="btnUse" text="Utiliser" />
         <Button fx:id="btnClose" text="Fermer" />
+        <Button fx:id="btnUse" text="Utiliser" disable="true" />
     </HBox>
 </VBox>

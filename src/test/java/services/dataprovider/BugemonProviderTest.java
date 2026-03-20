@@ -1,4 +1,4 @@
-package services.bugemon;
+package services.dataprovider;
 
 import exceptions.BugemonNotFoundException;
 import junit.framework.TestCase;

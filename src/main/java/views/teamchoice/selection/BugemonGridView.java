@@ -1,6 +1,6 @@
-package views.selection;
+package views.teamchoice.selection;
 
-import controllers.SelectionController;
+import controllers.teamchoice.SelectionController;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -12,9 +12,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Popup;
 import javafx.scene.control.Label;
-import models.bugemon.Bugemon;
 import models.bugemon.dto.BugemonDTO;
-import services.fight.TypeEffectivenessService;
 
 import java.util.ArrayList;
 import java.util.List;

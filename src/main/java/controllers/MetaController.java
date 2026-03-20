@@ -1,8 +1,11 @@
 package controllers;
 
+import controllers.fight.FightController;
+import controllers.teamchoice.PreBuildTeamController;
+import controllers.teamchoice.SelectionController;
 import javafx.stage.Stage;
 import models.bugemon.TeamBugemon;
-import services.bugemon.TeamService;
+import services.dataprovider.TeamService;
 import views.FatalErrorView;
 
 import java.io.IOException;
@@ -113,9 +116,5 @@ public class MetaController {
     public void fatalError(String reason) {
         FatalErrorView.show("Fatal error, closing the application.\nReason: " + reason);
         System.exit(1);
-    }
-
-    public FightController getFightController() {
-        return fightController;
     }
 }

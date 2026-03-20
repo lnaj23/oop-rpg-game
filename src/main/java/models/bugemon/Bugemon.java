@@ -8,7 +8,10 @@ import java.util.List;
 import java.util.Random;
 
 import services.fight.TypeEffectivenessService;
+import services.color.TypeColorService;
 
+import static services.fight.DamageCalculator.computeDamage;
+import static services.color.TypeColorService.getTypeColorOfBugemon;
 
 /**
  * Represents a Bugémon with its stats, attacks and sprite.
@@ -49,6 +52,7 @@ public class Bugemon implements BugemonDTO {
     /** No-arg constructor used by Gson for deserialization. */
     public Bugemon() {}
 
+    /** Color to display in the selectionView */
     private String Color;
 
     /**
@@ -68,7 +72,7 @@ public class Bugemon implements BugemonDTO {
         this.starter  = other.starter;
         this.isPlayer = other.isPlayer;
         this.Color = other.Color;
-
+        initAttackColors();
     }
 
 
@@ -153,6 +157,10 @@ public class Bugemon implements BugemonDTO {
     @Override
     public String getColor() { return Color; }
 
+    @Override
+    public String getAttackColor(int index) {
+        return attacks.get(index).getColor();
+    }
     /**
      * Marks whether this Bugémon belongs to the player's team.
      *
@@ -209,14 +217,13 @@ public class Bugemon implements BugemonDTO {
     /**
      * Executes an attack against a target Bugémon and returns a description of the action.
      *
-     * @param attack the attack to use
      * @param target the Bugémon receiving the damage
+     * @param attack the attack to use
      * @return a message describing the attack result
      */
-    public String attack(Attack attack, Bugemon target) {
-        int damage = attack.getPower();
+    public String attack(Bugemon target, Attack attack) {
+        int damage = computeDamage(this, target, attack);
         target.takeDamage(damage);
-
         return this.name + " utilise " + attack.getName() + "! "
                 + TypeEffectivenessService.getEffectivenessMessage(
                 attack.getType(),
@@ -234,13 +241,13 @@ public class Bugemon implements BugemonDTO {
     }
 
     public void initColor() {
-        if (this.type == null) { this.Color = "#AAAAAA"; return; }
-        this.Color = switch (this.type.toLowerCase()) {
-            case "pyro"  -> "#FF4500";
-            case "aqua"  -> "#1E90FF";
-            case "flora" -> "#32CD32";
-            case "litho" -> "#A0522D";
-            default      -> "#AAAAAA";
-        };
+        this.Color = TypeColorService.getTypeColorOfBugemon(this);
+    }
+
+    /** Associates each attack with its type colour. */
+    private void initAttackColors() {
+        for (Attack attack : this.attacks) {
+            attack.setColor(getTypeColorOfBugemon(attack));
+        }
     }
 }

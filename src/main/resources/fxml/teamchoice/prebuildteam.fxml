@@ -6,8 +6,8 @@
 
 <StackPane alignment="CENTER" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1">
     <stylesheets>
-        <URL value="@../css/prebuildteam.css" />
-        <URL value="@../css/common.css" />
+        <URL value="@../../css/teamchoice/prebuildteam.css" />
+        <URL value="@../../css/common.css" />
     </stylesheets>
 
     <VBox alignment="CENTER" spacing="20.0">

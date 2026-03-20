@@ -1,11 +1,13 @@
-package controllers;
+package controllers.teamchoice;
 
+import controllers.Controller;
+import controllers.MetaController;
 import models.bugemon.dto.BugemonDTO;
 import models.bugemon.dto.TeamBugemonDTO;
 import models.bugemon.TeamBugemon;
-import services.bugemon.TeamService;
-import services.bugemon.BugemonProvider;
-import views.selection.SelectionView;
+import services.dataprovider.TeamService;
+import services.dataprovider.BugemonProvider;
+import views.teamchoice.selection.SelectionView;
 import javafx.scene.control.Button;
 
 import java.io.IOException;

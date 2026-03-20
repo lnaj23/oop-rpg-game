@@ -33,6 +33,7 @@ public class Attack {
     @SerializedName("effets")
     private List<Effect> effects;
 
+    private String color;
     /**
      * Copy constructor. Creates a deep copy of the given attack.
      *
@@ -45,6 +46,15 @@ public class Attack {
         this.description = other.description;
         this.power = other.power;
         this.effects = other.effects == null ? null : other.effects.stream().map(Effect::new).toList();
+    }
+
+    /**
+     * Sets the display colour for this attack.
+     *
+     * @param color a CSS hex colour string
+     */
+    public void setColor(String color) {
+        this.color = color;
     }
 
     /**
@@ -100,4 +110,10 @@ public class Attack {
     public List<Effect> getEffects() {
         return effects;
     }
+
+    public String getColor() {
+        return color;
+    }
+
+
 }

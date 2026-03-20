@@ -8,8 +8,8 @@
 <StackPane prefHeight="892.0" prefWidth="1288.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1">
 
     <stylesheets>
-        <URL value="@../css/common.css" />
-        <URL value="@../css/fightview.css" />
+        <URL value="@../../css/common.css" />
+        <URL value="@../../css/fightview.css" />
     </stylesheets>
 
     <AnchorPane prefHeight="892.0" prefWidth="1288.0">

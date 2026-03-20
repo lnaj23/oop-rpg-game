@@ -1,4 +1,4 @@
-package services.bugemon;
+package services.dataprovider;
 
 import exceptions.AttackNotFoundException;
 import models.bugemon.Attack;
@@ -22,7 +22,7 @@ public abstract class AttackProvider {
      */
     public static Attack getAttackById(String id) {
         for (Attack attack : AttackRepository.getAllAttacks()) {
-            if (attack.getId().equals(id)) return attack;
+            if (attack.getId().equals(id)) return new Attack(attack);
         }
         throw new AttackNotFoundException(id);
     }

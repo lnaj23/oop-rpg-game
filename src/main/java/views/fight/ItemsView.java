@@ -13,6 +13,7 @@ import models.game.Item;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Consumer;
 
 /**
@@ -36,15 +37,20 @@ public class ItemsView {
         this.stage = new Stage();
 
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/itemsview.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/fight/itemsview.fxml"));
             loader.setController(this);
             Scene scene = new Scene(loader.load());
+            scene.getStylesheets().add(
+                    Objects.requireNonNull(getClass().getResource("/css/common.css")).toExternalForm()
+            );
             stage.setScene(scene);
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.initStyle(StageStyle.UNDECORATED);
 
             itemListView.setItems(FXCollections.observableArrayList(items));
-
+            itemListView.getSelectionModel().selectedItemProperty().addListener(
+                    (obs, oldVal, newVal) -> btnUse.setDisable(newVal == null)
+            );
             btnUse.setOnAction(e -> {
                 Item selected = itemListView.getSelectionModel().getSelectedItem();
                 if (selected != null) {

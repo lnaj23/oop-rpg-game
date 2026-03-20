@@ -1,6 +1,6 @@
 package views.fight;
 
-import controllers.FightController;
+import controllers.Controller;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
@@ -12,6 +12,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -23,7 +24,7 @@ import java.util.stream.Collectors;
 
 import javafx.stage.Popup;
 import javafx.scene.input.MouseEvent;
-import services.fight.TypeEffectivenessService;
+import listener.FightListener;
 import views.View;
 
 /**
@@ -32,10 +33,17 @@ import views.View;
  * Displays the battle UI: Bugémon sprites, HP bars, combat messages,
  * action/attack panels, and the player's team grid.
  * Handles mouse hover and click popups on team sprites.
- * All visual updates are triggered by {@link FightController}.
+ * All user interactions are forwarded to a {@link FightListener};
+ * this view has no direct dependency on any concrete controller.
  * </p>
  */
-public class FightView extends View<FightController> {
+public class FightView extends View<Controller> {
+
+    /**
+     * The listener that receives all fight-related user actions.
+     * Set via {@link #setListener(FightListener)}.
+     */
+    private FightListener listener;
 
     /** Popup shown on mouse hover over a team sprite, displaying current HP. */
     private final Popup HPPopup = new Popup();
@@ -118,28 +126,47 @@ public class FightView extends View<FightController> {
     /** 2×3 grid displaying the enemy's team sprites. */
     @FXML private GridPane enemyGrid;
 
+    /** Effectiveness message per attack slot, updated by {@link #updatePredictedEffectiveness(List)}. */
+    private List<String> predictedEffectiveness = new ArrayList<>();
+
     /**
      * Constructs the view by loading the FXML and binding all button actions.
+     * <p>
+     * Note: button handlers reference {@link #listener} via lambda — the listener
+     * must be set with {@link #setListener(FightListener)} before any button is clicked.
+     * </p>
      *
      * @throws IOException if the FXML file cannot be loaded
      */
     public FightView() throws IOException {
-        super("/fxml/fightview.fxml");
+        super("/fxml/fight/fightview.fxml");
         initPopup(HPPopup, HPLabel);
         initPopup(statsPopup, statsLabel);
 
         btnAttack.setOnAction(e -> showAttackandActionPanels(true));
-        btnItem.setOnAction(e -> this.controller.onItemClicked());
-        btnSwitch.setOnAction(e -> this.controller.onSwitchDisplaeyPlayerClicked());
-        btnForfeit.setOnAction(e -> this.controller.onForfeitClicked());
+        btnItem.setOnAction(e -> this.listener.onItemClicked());
+        btnSwitch.setOnAction(e -> this.listener.onSwitchDisplaeyPlayerClicked());
+        btnForfeit.setOnAction(e -> this.listener.onForfeitClicked());
 
-        btnAttack1.setOnAction(e -> this.controller.onAttackSelected(0));
-        btnAttack2.setOnAction(e -> this.controller.onAttackSelected(1));
-        btnAttack3.setOnAction(e -> this.controller.onAttackSelected(2));
+        btnAttack1.setOnAction(e -> this.listener.onAttackSelected(0));
+        btnAttack2.setOnAction(e -> this.listener.onAttackSelected(1));
+        btnAttack3.setOnAction(e -> this.listener.onAttackSelected(2));
         btnBackFromAttack.setOnAction(e -> showAttackandActionPanels(false));
     }
 
-    // NOUVEAU CODE À PARTIR D'ICI
+    /**
+     * Registers the listener that will receive all fight-related user actions.
+     * Must be called before any button interaction occurs.
+     *
+     * @param listener the {@link FightListener} implementation (typically the controller)
+     */
+    public void setListener(FightListener listener) {
+        this.listener = listener;
+    }
+
+    // -------------------------------------------------------------------------
+    // Public API called by the controller
+    // -------------------------------------------------------------------------
 
     public void showMessageReturnTitle(String title, String message, Runnable onClose) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -230,7 +257,7 @@ public class FightView extends View<FightController> {
         sprite.setImage(img);
 
         if (bugemon.getIsPlayer()) {
-            updateAttackButtonName(bugemon);
+            updateAttackButtonAttack(bugemon);
         }
         sprite.setVisible(true);
     }
@@ -265,26 +292,54 @@ public class FightView extends View<FightController> {
      *
      * @param bugemon the Bugémon whose attacks to display
      */
-    public void updateAttackButtonName(BugemonDTO bugemon) {
-        List<String> attackname = formatAttackNames(bugemon.getAttackNamesAsList());
+    private void updateAttackButtonAttack(BugemonDTO bugemon) {
+        List<String> attackNames = formatAttackNames(bugemon.getAttackNamesAsList());
         List<Button> btns = List.of(btnAttack1, btnAttack2, btnAttack3);
 
         for (int i = 0; i < btns.size(); i++) {
-            if (i < attackname.size()) {
-                btns.get(i).setText(attackname.get(i));
-                btns.get(i).setVisible(true);
+            if (i < attackNames.size()) {
                 Button btn = btns.get(i);
-                String attackType = bugemon.getAttacks().get(i).getType();
-                String typeColor = TypeEffectivenessService.getTypeColorofaAttack(attackType);
+                btn.setText(attackNames.get(i) + "\n" + predictedEffectiveness.get(i));
+                btn.setVisible(true);
+
+                String typeColor  = bugemon.getAttackColor(i);
+                String borderColor = getEffectivenessColor(predictedEffectiveness.get(i));
+
                 btn.setStyle(
                         "-fx-background-color: " + typeColor + "; " +
-                                "-fx-text-fill: white; "                    +
-                                "-fx-background-radius: 5;"
+                                "-fx-text-fill: white; " +
+                                "-fx-background-radius: 5; " +
+                                "-fx-border-color: " + borderColor + "; " +
+                                "-fx-border-width: 5; " +
+                                "-fx-border-radius: 5;"
                 );
             } else {
                 btns.get(i).setVisible(false);
             }
         }
+    }
+
+    /**
+     * Returns the border colour matching the effectiveness message.
+     *
+     * @param effectiveness the effectiveness message
+     * @return green, red, or transparent
+     */
+    private String getEffectivenessColor(String effectiveness) {
+        return switch (effectiveness) {
+            case "Super efficace !"  -> "rgb(0,152,0)";
+            case "Peu efficace..."   -> "#FF0000";
+            default                  -> "transparent";
+        };
+    }
+
+    /**
+     * Updates the cached effectiveness messages used to label attack buttons.
+     *
+     * @param predictedEffectivenessFromFightModels messages from the fight model given by the controller
+     */
+    public void updatePredictedEffectiveness(List<String> predictedEffectivenessFromFightModels) {
+        this.predictedEffectiveness = predictedEffectivenessFromFightModels;
     }
 
     /**
@@ -404,11 +459,12 @@ public class FightView extends View<FightController> {
         statsPopup.hide();
     }
 
+    // -------------------------------------------------------------------------
+    // Private helpers
+    // -------------------------------------------------------------------------
+
     /**
      * Initialises a popup with the given label, applying a dark tooltip style.
-     *
-     * @param popup the popup to initialise
-     * @param label the label to add inside the popup
      */
     private void initPopup(Popup popup, Label label) {
         label.setMouseTransparent(true);
@@ -419,11 +475,6 @@ public class FightView extends View<FightController> {
 
     /**
      * Shows a popup with the full stats of the given Bugémon at the given screen position.
-     *
-     * @param x       the screen X position
-     * @param y       the screen Y position
-     * @param bugemon the Bugémon whose stats to display
-     * @param node    the node to anchor the popup to
      */
     private void showStatsPopup(double x, double y, BugemonDTO bugemon, ImageView node) {
         String text = "PV: " + bugemon.getPv() + "\n" +
@@ -437,10 +488,6 @@ public class FightView extends View<FightController> {
 
     /**
      * Shows a popup with the current and maximum HP of the given Bugémon.
-     *
-     * @param event   the mouse event providing the screen position
-     * @param bugemon the Bugémon whose HP to display
-     * @param node    the node to anchor the popup to
      */
     private void showHpPopup(MouseEvent event, BugemonDTO bugemon, ImageView node) {
         String text = "HP : " + bugemon.getcurrenPv() + " / " + bugemon.getPv();
@@ -450,8 +497,6 @@ public class FightView extends View<FightController> {
 
     /**
      * Updates the position of the HP popup to follow the mouse cursor.
-     *
-     * @param event the mouse move event
      */
     private void updatePopupPosition(MouseEvent event) {
         HPPopup.setX(event.getScreenX() + 15);
@@ -461,9 +506,6 @@ public class FightView extends View<FightController> {
     /**
      * Formats a list of raw snake_case attack names into capitalised display names.
      * Example: {@code "fire_blast"} → {@code "Fire Blast"}.
-     *
-     * @param raw the list of raw attack name strings
-     * @return the list of formatted attack name strings
      */
     private List<String> formatAttackNames(List<String> raw) {
         return raw.stream()

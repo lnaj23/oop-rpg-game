@@ -3,7 +3,7 @@ package models.bugemon;
 import models.bugemon.dto.BugemonDTO;
 import models.bugemon.dto.TeamBugemonDTO;
 import exceptions.BugemonNotInTeamException;
-import services.bugemon.BugemonProvider;
+import services.dataprovider.BugemonProvider;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -127,7 +127,6 @@ public class TeamBugemon implements TeamBugemonDTO {
      *
      * @return list of Bugémons with HP greater than 0
      */
-    //les bugemons vivants
     public List<Bugemon> getAvailableBugemons() {
         List<Bugemon> availableBugemons = new ArrayList<>();
         for (Bugemon bug : team) {
@@ -168,18 +167,19 @@ public class TeamBugemon implements TeamBugemonDTO {
 
     /**
      * Sets the Bugémon currently active on the battlefield.
-     * The Bugémon must be alive and present in the team.
+     * The Bugémon must be present in the team.
      *
      * @param bug the Bugémon to send on the field
+     * @throws BugemonNotInTeamException if the Bugémon is not found in the team
      */
-    //changer de bugemon en combat
     public void changeOnFieldBugemon(Bugemon bug) {
-        if (bug != null && bug.getPv() > 0 && team.contains(bug)) {
-            onFieldBugemon = bug;
-            System.out.println("Nouveau Bugemon sur le terrain : " + bug.getName());
-        } else {
-            System.out.println("Impossible de changer pour ce Bugemon !");
+        for (Bugemon bug2 : team) {
+            if (bug2.getId().equals(bug.getId())) {
+                onFieldBugemon = bug2;
+                return;
+            }
         }
+        throw new BugemonNotInTeamException(bug.getId());
     }
 
     public boolean isOnFieldBugemonKO() {
@@ -187,25 +187,7 @@ public class TeamBugemon implements TeamBugemonDTO {
     }
 
     public boolean isTeamStillStanding() {
-        return team.stream().noneMatch(Bugemon::isStillStanding);
-    }
-    /**
-     * Makes the on-field Bugémon attack the on-field Bugémon of the target team
-     * using a randomly chosen attack.
-     * Does nothing if this team has no on-field Bugémon.
-     *
-     * @param target the enemy team to attack
-     */
-    public void attackEnnemyTeam(TeamBugemon target) {
-        if (onFieldBugemon == null) return;
-        //
-        Attack randomAttack = onFieldBugemon.chooseRandomAttack();
-        System.out.println(onFieldBugemon.getId() + " utilise l'attaque #" + (onFieldBugemon.getAttacks().indexOf(randomAttack) + 1));
-
-        // infliger des dégâts au Bugemon ennemi sur le terrain
-        if (target.getOnFieldBugemon() != null) {
-            target.getOnFieldBugemon().takeDamage(randomAttack.getPower());
-        }
+        return team.stream().anyMatch(Bugemon::isStillStanding);
     }
 
     /**
@@ -218,12 +200,5 @@ public class TeamBugemon implements TeamBugemonDTO {
             if (attack == null) return true;
         }
         return false;
-    }
-
-    /** Prints the ID of each Bugémon in the team to standard output. */
-    public void printTeam() {
-        for (Bugemon bug : team) {
-            System.out.println(bug.getId());
-        }
     }
 }

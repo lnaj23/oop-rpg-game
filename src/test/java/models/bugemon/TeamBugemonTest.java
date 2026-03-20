@@ -4,7 +4,7 @@ import junit.framework.TestCase;
 import org.junit.Test;
 import exceptions.BugemonNotFoundException;
 import exceptions.BugemonNotInTeamException;
-import services.bugemon.BugemonProvider;
+import services.dataprovider.BugemonProvider;
 
 import java.util.Arrays;
 import java.util.List;
@@ -143,12 +143,6 @@ public class TeamBugemonTest extends TestCase {
         } catch (BugemonNotInTeamException e) {
             assertTrue(e.getMessage().contains("unknown_id"));
         }
-    }
-
-    @Test
-    public void testPrintTeamDoesNotThrow() {
-        TeamBugemon team = new TeamBugemon("test",Arrays.asList("florachu", "exceflam"));
-        team.printTeam();
     }
 
     @Test

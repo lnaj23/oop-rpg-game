@@ -1,8 +1,8 @@
-package services.bugemon;
+package services.dataprovider;
 
 import models.bugemon.TeamBugemon;
 import repositories.TeamRepository;
-import java.util.ArrayList;
+
 import java.util.List;
 
 /**

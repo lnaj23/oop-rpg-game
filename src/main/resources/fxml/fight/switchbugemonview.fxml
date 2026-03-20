@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import java.net.URL?>
+<VBox spacing="10" alignment="CENTER"
+      style="-fx-background-color: #2b2b2b; -fx-padding: 20;"
+      xmlns="http://javafx.com/javafx/8"
+      xmlns:fx="http://javafx.com/fxml/1">
+
+    <stylesheets>
+        <URL value="@/css/common.css"/>
+    </stylesheets>
+
+    <Label fx:id="titleLabel" text="Sélectionner un Bugémon"
+           style="-fx-text-fill: white; -fx-font-size: 14; -fx-font-weight: bold;"/>
+
+    <GridPane fx:id="grid" hgap="10" vgap="10" style="-fx-alignment: center;"/>
+
+    <Button fx:id="btnCancel" text="Annuler"
+            maxWidth="Infinity"
+            visible="false" managed="false"/>
+
+</VBox>

@@ -1,6 +1,6 @@
-package views.selection;
+package views.teamchoice.selection;
 
-import controllers.SelectionController;
+import controllers.teamchoice.SelectionController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;

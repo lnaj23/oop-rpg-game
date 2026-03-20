@@ -5,7 +5,7 @@ import junit.framework.TestCase;
 import models.bugemon.Attack;
 import models.bugemon.Bugemon;
 import org.junit.Test;
-import services.bugemon.BugemonProvider;
+import services.dataprovider.BugemonProvider;
 
 import java.util.Arrays;
 import java.util.List;

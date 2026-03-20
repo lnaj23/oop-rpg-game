@@ -4,11 +4,13 @@ import com.google.gson.Gson;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.List;
-import java.util.function.Function;
 
 /**
  * Abstract base repository providing a generic JSON deserialization utility.
- * Subclasses use {@link #readJSON} to load their respective data files.
+ * <p>
+ * Subclasses must define an inner wrapper class implementing {@link JsonWrapper}
+ * in order to use {@link #readJSON}.
+ * </p>
  */
 public abstract class JsonRepository {
 
@@ -16,23 +18,39 @@ public abstract class JsonRepository {
     protected static final String JSON_PREFIX = "/Assets/json/";
 
     /**
-     * Reads a JSON file from the classpath, deserializes it into the given wrapper class,
-     * and extracts the list using the provided extractor function.
+     * Contract imposed on every wrapper class used for JSON deserialization.
+     * <p>
+     * Each wrapper must expose its list via {@link #getItems()}, allowing
+     * {@link #readJSON} to extract the content without an external extractor.
+     * </p>
      *
-     * @param path          the classpath-relative path to the JSON file
-     * @param wrapperClass  the class mirroring the JSON structure
-     * @param extractor     function to extract the list from the deserialized wrapper
-     * @param <W>           the wrapper type
-     * @param <T>           the element type
-     * @return the extracted list
-     * @throws IllegalStateException if the file is not found
+     * @param <T> the type of the elements contained in the list
      */
-    protected static <W, T> List<T> readJSON(String path, Class<W> wrapperClass, Function<W, List<T>> extractor) {
+    protected interface JsonWrapper<T> {
+        /**
+         * Returns the list extracted from the deserialized wrapper.
+         *
+         * @return the list of elements
+         */
+        List<T> getItems();
+    }
+
+    /**
+     * Reads a JSON file from the classpath, deserializes it into the given wrapper class,
+     * and returns the list exposed by that wrapper via {@link JsonWrapper#getItems()}.
+     *
+     * @param path         the classpath-relative path to the JSON file
+     * @param wrapperClass the wrapper class mirroring the JSON structure,
+     *                     must implement {@link JsonWrapper}
+     * @param <W>          the wrapper type
+     * @param <T>          the element type
+     * @return the list extracted from the JSON file
+     * @throws IllegalStateException if the file is not found in the classpath
+     */
+    protected static <W extends JsonWrapper<T>, T> List<T> readJSON(String path, Class<W> wrapperClass) {
         Gson gson = new Gson();
         InputStream stream = JsonRepository.class.getResourceAsStream(path);
-
         if (stream == null) throw new IllegalStateException("Resource not found: " + path);
-
-        return extractor.apply(gson.fromJson(new InputStreamReader(stream), wrapperClass));
+        return gson.fromJson(new InputStreamReader(stream), wrapperClass).getItems();
     }
 }

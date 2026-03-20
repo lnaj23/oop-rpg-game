@@ -3,7 +3,11 @@ package models.game;
 import models.bugemon.Attack;
 import models.bugemon.Bugemon;
 import models.bugemon.TeamBugemon;
+import services.fight.EffectManager;
+import services.fight.TypeEffectivenessService;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -33,17 +37,23 @@ public class Fight {
     private String actionResulText;
 
     /**
+     * List of predicted effectiveness messages for each attack of the player's
+     * on-field Bugémon against the enemy's on-field Bugémon.
+     */
+    private List<String> predictedEffectiveness = new ArrayList<>();
+
+    /**
      * Constructs a fight between two teams.
      * Initialises each Bugémon's HP, marks ownership, and places
      * the first Bugémon of the player's team and the first of the enemy's
      * team on the field.
      *
      * @param teamPlayer the player's team
-     * @param teamCPU    the enemy team
+     * @param teamEnemy    the enemy team
      */
-    public Fight(TeamBugemon teamPlayer, TeamBugemon teamCPU) {
+    public Fight(TeamBugemon teamPlayer, TeamBugemon teamEnemy) {
         this.teamPlayer = new TeamBugemon(teamPlayer);
-        this.teamEnemy  = new TeamBugemon(teamCPU);
+        this.teamEnemy  = new TeamBugemon(teamEnemy);
 
         this.teamPlayer.getTeam().forEach(b -> { b.setIsPlayer(true);  b.initPv(); });
         this.teamEnemy.getTeam().forEach(b  -> { b.setIsPlayer(false); b.initPv(); });
@@ -91,6 +101,26 @@ public class Fight {
     }
 
     /**
+     * Returns the name of player's currently active on-field Bugémon.
+     *
+     * @return the name of the player's on-field Bugémon
+     */
+    public String getOnFieldPlayerBugemonName() {
+        Bugemon bug = teamPlayer.getOnFieldBugemon();
+        return bug.getName();
+    }
+
+    /**
+     * Returns the id of player's currently active on-field Bugémon.
+     *
+     * @return the id of the player's on-field Bugémon
+     */
+    public String getOnFieldPlayerBugemonId() {
+        Bugemon bug = teamPlayer.getOnFieldBugemon();
+        return bug.getId();
+    }
+
+    /**
      * Returns the enemy's currently active on-field Bugémon.
      *
      * @return the enemy's on-field Bugémon
@@ -98,6 +128,18 @@ public class Fight {
     public Bugemon getOnFieldEnemyBugemon() {
         return teamEnemy.getOnFieldBugemon();
     }
+
+    /**
+     * Returns the name of enemy's currently active on-field Bugémon.
+     *
+     * @return the name of the enemy's on-field Bugémon
+     */
+    public String getOnFieldEnemyBugemonName() {
+        Bugemon bug = teamEnemy.getOnFieldBugemon();
+        return bug.getName();
+    }
+
+
 
     /**
      * Returns the text describing the result of the last attack.
@@ -134,12 +176,12 @@ public class Fight {
      */
     public boolean playerCanStart() {
         int initiativeTeamPlayer = 0;
-        int initiativeTeamCPU    = 0;
+        int initiativeTeamEnemy    = 0;
 
         for (Bugemon bug : this.teamPlayer.getTeam()) initiativeTeamPlayer += bug.getInitiative();
-        for (Bugemon bug : this.teamEnemy.getTeam())  initiativeTeamCPU    += bug.getInitiative();
+        for (Bugemon bug : this.teamEnemy.getTeam())  initiativeTeamEnemy    += bug.getInitiative();
 
-        return initiativeTeamPlayer > initiativeTeamCPU;
+        return initiativeTeamPlayer > initiativeTeamEnemy;
     }
 
     /**
@@ -152,9 +194,11 @@ public class Fight {
     private void attackerAttackDefender(Attack attack) {
         Bugemon attacker = isPlayerTurn ? teamPlayer.getOnFieldBugemon() : teamEnemy.getOnFieldBugemon();
         Bugemon defender = isPlayerTurn ? teamEnemy.getOnFieldBugemon()  : teamPlayer.getOnFieldBugemon();
+        TeamBugemon attackerTeam = isPlayerTurn ? teamPlayer : teamEnemy;
+        TeamBugemon defenderTeam = isPlayerTurn ? teamEnemy  : teamPlayer;
 
-        actionResulText = attacker.attack(attack, defender);
-
+        actionResulText = attacker.attack(defender, attack);
+        EffectManager.handleEffect(attacker, defender, attackerTeam, defenderTeam, attack);
         switchRole();
     }
 
@@ -210,7 +254,7 @@ public class Fight {
      * @return {@code true} if the battle is over
      */
     public boolean isBattleOver() {
-        return teamEnemy.isTeamStillStanding() || teamPlayer.isTeamStillStanding();
+        return !teamEnemy.isTeamStillStanding() || !teamPlayer.isTeamStillStanding();
     }
 
     /**
@@ -220,7 +264,7 @@ public class Fight {
      * @return {@code true} if all enemy Bugémon are KO
      */
     public boolean playerWon() {
-        return teamEnemy.isTeamStillStanding();
+        return !teamEnemy.isTeamStillStanding();
     }
 
     /**
@@ -268,5 +312,40 @@ public class Fight {
      */
     private void switchRole() {
         isPlayerTurn = !isPlayerTurn;
+    }
+
+    /**
+     * Computes and returns the predicted type-effectiveness message for each
+     * attack of the player's on-field Bugémon against the enemy's on-field Bugémon.
+     * <p>
+     * The list is rebuilt on every call to reflect any change of on-field Bugémon.
+     * The order of entries matches the order of attacks returned by
+     * {@link models.bugemon.Bugemon#getAttacks()}.
+     * </p>
+     *
+     * @return a list of effectiveness messages, one per attack, in attack-list order
+     * @see TypeEffectivenessService#getTypeMultiplier(String, String)
+     */
+    public void computePredictedEffectiveness() {
+        predictedEffectiveness.clear();
+        String targetType = teamEnemy.getOnFieldBugemon().getType();
+
+        for (Attack attack : teamPlayer.getOnFieldBugemon().getAttacks()) {
+            double multiplier = TypeEffectivenessService.getTypeMultiplier(
+                    attack.getType(), targetType
+            );
+
+            if (multiplier > 1.0) {
+                predictedEffectiveness.add("Super efficace !");
+            } else if (multiplier < 1.0) {
+                predictedEffectiveness.add("Peu efficace...");
+            } else {
+                predictedEffectiveness.add("Rien de spécial");
+            }
+        }
+    }
+
+    public List<String> getPredictedEffectiveness() {
+        return Collections.unmodifiableList(predictedEffectiveness);
     }
 }

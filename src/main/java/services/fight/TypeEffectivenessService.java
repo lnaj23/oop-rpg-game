@@ -2,7 +2,21 @@ package services.fight;
 
 import models.bugemon.Bugemon;
 
+/**
+ * Utility service for type-based calculations and colour mappings.
+ * Type chart: Flora > Aqua > Pyro > Litho > Flora ; Flora = Pyro ; Aqua = Litho.
+ */
 public abstract class TypeEffectivenessService{
+
+    /**
+     * Returns the damage multiplier for an attack type against a target type.
+     * Returns {@code 1.5} (super effective), {@code 0.75} (not very effective),
+     * or {@code 1.0} (neutral / null input).
+     *
+     * @param attackType the attack's type
+     * @param targetType the target Bugémon's type
+     * @return the type multiplier
+     */
     public static double getTypeMultiplier(String attackType, String targetType) {
         if (attackType == null || targetType == null) return 1.0;
 
@@ -24,33 +38,17 @@ public abstract class TypeEffectivenessService{
         };
     }
 
-    public static String getTypeColorofBUG(Bugemon bug) {
-        if (bug.getType() == null) return "#AAAAAA";
-
-        return switch (bug.getType().toLowerCase()) {
-            case "pyro"  -> "#FF4500";
-            case "aqua"  -> "#1E90FF";
-            case "flora" -> "#32CD32";
-            case "litho" -> "#A0522D";
-            default      -> "#AAAAAA";
-        };
-    }
-
-    public static String getTypeColorofaAttack(String attackType){
-        return switch (attackType.toLowerCase()) {
-            case "pyro"  -> "#FF4500";
-            case "aqua"  -> "#1E90FF";
-            case "flora" -> "#32CD32";
-            case "litho" -> "#A0522D";
-            default      -> "#AAAAAA";
-        };
-
-
-    }
+    /**
+     * Returns the in-combat effectiveness message shown after an attack lands.
+     *
+     * @param attackType the attack's type
+     * @param targetType the target's type
+     * @return {@code "C'est super efficace !"}, {@code "Ce n'est pas très efficace..."}, or {@code ""}
+     */
     public static String getEffectivenessMessage(String attackType, String targetType){
-        String Attack_type = attackType;
-        String Target_type = targetType;
-        double score = getTypeMultiplier(Attack_type, Target_type);
+
+        double score = getTypeMultiplier(attackType, targetType);
+
         if (score == 1.5)  return "C'est super efficace !";
         if (score == 0.75) return "Ce n'est pas très efficace...";
         return "";

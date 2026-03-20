@@ -78,4 +78,12 @@ public interface BugemonDTO {
      * @return the color fo the Bugémon
      */
     String getColor();
+
+    /**
+     * Returns the display colour of the attack at the given index.
+     *
+     * @param index the attack index
+     * @return a CSS hex colour string
+     */
+    public String getAttackColor(int index);
 }

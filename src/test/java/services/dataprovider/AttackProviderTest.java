@@ -1,4 +1,4 @@
-package services.bugemon;
+package services.dataprovider;
 
 import exceptions.AttackNotFoundException;
 import junit.framework.TestCase;
