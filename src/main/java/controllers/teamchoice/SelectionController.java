@@ -156,8 +156,4 @@ public class SelectionController extends Controller<SelectionView> {
     }
 
 
-    @Override
-    public void onItemClicked() {
-
-    }
 }

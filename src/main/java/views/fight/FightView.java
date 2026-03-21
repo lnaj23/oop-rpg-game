@@ -124,7 +124,6 @@ public class FightView extends View<Controller> {
      */
     public FightView() throws IOException {
         super("/fxml/fight/fightview.fxml");
-        // popup is initialised automatically by PopupHelper — no initPopup() calls needed
 
         btnAttack.setOnAction(e -> showAttackandActionPanels(true));
         btnItem.setOnAction(e -> this.listener.onItemClicked());

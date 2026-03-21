@@ -26,8 +26,7 @@ import views.utils.PopupManager;
  * <p>
  * Popup logic is delegated to a {@link PopupManager} instance.
  * Subclasses can call the convenience methods directly, or access
- * {@link #popup} for finer control (e.g. {@code popup.isStatsShowing()}).
- * </p>
+ * {@link #popup} for finer control. {@link PopupManager} is user by View and SubView classes.
  *
  * @param <T> the type of controller associated with this view
  */

@@ -34,8 +34,5 @@ public class TitleScreenController extends Controller<TitleScreenView> {
         System.exit(0);
     }
 
-    @Override
-    public void onItemClicked() {
 
-    }
 }
