@@ -14,6 +14,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.stage.Window;
 
 import controllers.Controller;
 import models.bugemon.dto.BugemonDTO;
@@ -85,6 +86,18 @@ public abstract class View<T extends Controller> {
         stage.setTitle(this.getTitle());
         if (!stage.isShowing()) {
             stage.show();
+        }
+    }
+
+    public void attachTo(Stage stage) {
+        stage.setScene(this.scene);
+        stage.setTitle(this.getTitle());
+    }
+
+    public void closeWindow() {
+        Window window = scene.getWindow();
+        if (window instanceof Stage stage) {
+            stage.close();
         }
     }
 

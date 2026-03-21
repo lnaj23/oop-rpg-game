@@ -1,5 +1,6 @@
 package views.fight;
 
+import controllers.fight.SwitchBugemonController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.HPos;
@@ -15,6 +16,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import models.bugemon.dto.BugemonDTO;
+import views.View;
 import views.utils.PopupManager;
 
 import java.io.IOException;
@@ -26,62 +28,39 @@ import java.util.function.Consumer;
  * Modal window for selecting the next on-field Bugémon.
  * Hover shows current HP via {@link PopupManager}, left-click selects.
  */
-public class SwitchBugemonSubView {
+public class SwitchBugemonSubView extends View<SwitchBugemonController> {
 
     @FXML private GridPane grid;
     @FXML private Button   btnCancel;
     @FXML private Label    titleLabel;
 
-    private final Stage        stage;
-    private final PopupManager popup = new PopupManager();
-
-    /**
-     * Constructs the switch window.
-     *
-     * @param team              the player's team to display
-     * @param onPurpose         {@code true} if the player opened the window voluntarily
-     * @param currentOnFieldId  id of the Bugémon currently on the field
-     * @param onBugemonSelected callback triggered with the selected Bugémon's id
-     * @param onCancel          callback triggered when the player cancels (no turn cost)
-     */
-    public SwitchBugemonSubView(List<BugemonDTO> team, boolean onPurpose,
-                                Object currentOnFieldId,
-                                Consumer<Object> onBugemonSelected, Runnable onCancel) {
-        this.stage = new Stage();
-        if (!loadFxml(onPurpose)) return;
-        initStage();
-        populateGrid(team, currentOnFieldId, onBugemonSelected);
-        if (onPurpose) initCancelButton(team.size(), onCancel);
+    public SwitchBugemonSubView() throws IOException {
+        super("/fxml/fight/switchbugemonview.fxml");
     }
 
-
-    private boolean loadFxml(boolean showCancel) {
-        try {
-            FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("/fxml/fight/switchbugemonview.fxml"));
-            loader.setController(this);
-            Scene scene = new Scene(loader.load(), 320, showCancel ? 310 : 260);
-            stage.setScene(scene);
-            return true;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return false;
-        }
+    @Override
+    protected String getTitle() {
+        return "Changer de Bugemon";
     }
 
-    private void initStage() {
-        stage.initStyle(StageStyle.UNDECORATED);
-        stage.initModality(Modality.APPLICATION_MODAL);
-    }
+    public void displayTeam(List<BugemonDTO> team, boolean showCancel, Object currentOnFieldId) {
+        grid.getChildren().clear();
 
-
-    private void populateGrid(List<BugemonDTO> team, Object currentOnFieldId,
-                              Consumer<Object> onBugemonSelected) {
         for (int i = 0; i < team.size(); i++) {
             BugemonDTO bugemon = team.get(i);
-            ImageView  imgView = createSprite(bugemon);
-            bindEvents(imgView, bugemon, currentOnFieldId, onBugemonSelected);
+            ImageView imgView = createSprite(bugemon);
+            bindEvents(imgView, bugemon, currentOnFieldId);
             grid.add(imgView, i % 3, i / 3);
+        }
+
+        btnCancel.setVisible(showCancel);
+        btnCancel.setManaged(showCancel);
+
+        if (showCancel) {
+            btnCancel.setOnAction(e -> controller.onCancelClicked());
+            int row = (team.size() - 1) / 3 + 1;
+            grid.add(btnCancel, 1, row);
+            GridPane.setHalignment(btnCancel, HPos.CENTER);
         }
     }
 
@@ -98,35 +77,12 @@ public class SwitchBugemonSubView {
         return view;
     }
 
-    private void bindEvents(ImageView imgView, BugemonDTO bugemon,
-                            Object currentOnFieldId, Consumer<Object> onBugemonSelected) {
-        imgView.setOnMouseEntered(e -> popup.showHpPopup(e, bugemon, imgView));
-        imgView.setOnMouseMoved(popup::updateHpPosition);
+    private void bindEvents(ImageView imgView, BugemonDTO bugemon, Object currentOnFieldId) {
+        imgView.setOnMouseEntered(e -> showHpPopup(e, bugemon, imgView));
+        imgView.setOnMouseMoved(this::updatePopupPosition);
         imgView.setOnMouseExited(e -> popup.hideHp());
-        imgView.setOnMouseClicked(e -> handleClick(bugemon, currentOnFieldId, onBugemonSelected));
+        imgView.setOnMouseClicked(e -> controller.onBugemonClicked(bugemon));
     }
-
-    private void handleClick(BugemonDTO bugemon, Object currentOnFieldId,
-                             Consumer<Object> onBugemonSelected) {
-        if (bugemon.getcurrenPv() <= 0) {
-            showMessageKO("Erreur", "Ce Bugémon est KO.");
-        } else if (bugemon.getId().equals(currentOnFieldId)) {
-            showMessageKO("Erreur", "Ce Bugémon est déjà sur le terrain !");
-        } else {
-            stage.close();
-            onBugemonSelected.accept(bugemon.getId());
-        }
-    }
-
-    private void initCancelButton(int teamSize, Runnable onCancel) {
-        btnCancel.setVisible(true);
-        btnCancel.setManaged(true);
-        btnCancel.setOnAction(e -> { stage.close(); onCancel.run(); });
-        int row = (teamSize - 1) / 3 + 1;
-        grid.add(btnCancel, 1, row);
-        GridPane.setHalignment(btnCancel, HPos.CENTER);
-    }
-
 
     /**
      * Shows an alert when the player clicks a KO or already on-field Bugémon.
@@ -147,8 +103,4 @@ public class SwitchBugemonSubView {
         alert.showAndWait();
     }
 
-    /** Displays the modal window. */
-    public void show() {
-        stage.show();
-    }
 }

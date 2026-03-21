@@ -3,10 +3,13 @@ package controllers;
 import controllers.fight.FightController;
 import controllers.teamchoice.PreBuildTeamController;
 import controllers.teamchoice.SelectionController;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import models.bugemon.TeamBugemon;
 import services.dataprovider.TeamService;
 import views.FatalErrorView;
+import views.View;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -84,6 +87,20 @@ public class MetaController {
         }
     }
 
+    public void openSubScene(View<?> view, boolean wait) {
+        Stage subStage = new Stage();
+        subStage.initOwner(stage);
+        subStage.initModality(Modality.APPLICATION_MODAL);
+        subStage.initStyle(StageStyle.UNDECORATED);
+
+        view.attachTo(subStage);
+
+        if (wait) {
+            subStage.showAndWait();
+        } else {
+            subStage.show();
+        }
+    }
     /**
      * Resets the selection view and navigates to it for creating a new team.
      */

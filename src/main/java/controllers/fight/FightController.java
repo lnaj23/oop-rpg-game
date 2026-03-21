@@ -16,8 +16,6 @@ import java.util.Objects;
 import java.util.Random;
 
 import models.bugemon.TeamBugemon;
-import views.fight.ItemsSubView;
-import views.fight.SwitchBugemonSubView;
 
 /**
  * Controller for the fight screen.
@@ -116,11 +114,16 @@ public class FightController extends Controller<FightView> implements FightListe
         List<Item> hardcodedItems = List.of(
                 new Item("potion", "Une potion", "soigne 20 HP"),
                 new Item("super_potion", "Une super potion", "soigne 50 HP"),
-                new Item("revive", "La réanimation", "réanime un Bugémon KO")
+                new Item("revive", "La reanimation", "reanime un Bugemon KO")
         );
 
-        ItemsSubView itemsView = new ItemsSubView(hardcodedItems, item -> useItem(item));
-        itemsView.show();
+        try {
+            controllers.fight.ItemChoiceController itemChoiceController =
+                    new controllers.fight.ItemChoiceController(metaController, hardcodedItems, this::useItem);
+            metaController.openSubScene(itemChoiceController.getView(), true);
+        } catch (IOException e) {
+            metaController.fatalError("Impossible d'ouvrir la vue des objets : " + e.getMessage());
+        }
     }
 
     /**
@@ -315,18 +318,27 @@ public class FightController extends Controller<FightView> implements FightListe
      *                  (costs a turn), {@code false} if forced after a KO
      */
     private void showSwitchWindow(boolean onPurpose) {
-        SwitchBugemonSubView switchView = new SwitchBugemonSubView(
-                fight.getTeamPlayer().getTeamDTO(),
-                onPurpose,
-                fight.getOnFieldPlayerBugemonId(),
-                selectedId -> {
-                    Bugemon selectedBugemon = findAvailablePlayerBugemonById(selectedId);
-                    switchPlayerBugemon(selectedBugemon);
-                    if (onPurpose) forceEnemyToAttack();
-                    else view.setButtonsDisabled(false);
-                },
-                () -> view.setButtonsDisabled(false)
-        );
-        switchView.show();
+        try {
+            controllers.fight.SwitchBugemonController switchController = new controllers.fight.SwitchBugemonController(
+                    metaController,
+                    fight.getTeamPlayer().getTeamDTO(),
+                    onPurpose,
+                    fight.getOnFieldPlayerBugemonId(),
+                    selectedId -> {
+                        Bugemon selectedBugemon = findAvailablePlayerBugemonById(selectedId);
+                        switchPlayerBugemon(selectedBugemon);
+                        if (onPurpose) {
+                            forceEnemyToAttack();
+                        } else {
+                            view.setButtonsDisabled(false);
+                        }
+                    },
+                    () -> view.setButtonsDisabled(false)
+            );
+
+            metaController.openSubScene(switchController.getView(), !onPurpose);
+        } catch (IOException e) {
+            metaController.fatalError("Impossible d'ouvrir la vue de changement : " + e.getMessage());
+        }
     }
 }
