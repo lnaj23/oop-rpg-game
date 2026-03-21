@@ -72,7 +72,7 @@ public class FightController extends Controller<FightView> implements FightListe
         view.updatePredictedEffectiveness(fight.getPredictedEffectiveness());
         view.updateActiveBugemonSprite(fight.getOnFieldPlayerBugemon());
         view.updateActiveBugemonSprite(fight.getOnFieldEnemyBugemon());
-        String startFightMessage = "Un " + fight.getOnFieldEnemyBugemonName() + " sauvage apparaît ! "
+        String startFightMessage = "L'adversaire envoie " + fight.getOnFieldEnemyBugemonName() + " ! "
                 + (!fight.playerCanStart()
                 ? "L'adversaire a plus d'initiative, il lance les hostilités !"
                 : "L'adversaire a moins d'initiative, vous lancez les hostilités !");

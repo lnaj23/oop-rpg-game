@@ -10,6 +10,8 @@ import java.util.Random;
 import services.fight.TypeEffectivenessService;
 import services.color.TypeColorService;
 
+import javax.annotation.processing.Generated;
+
 import static services.fight.DamageCalculator.computeDamage;
 import static services.color.TypeColorService.getTypeColorOfBugemon;
 
@@ -44,7 +46,8 @@ public class Bugemon implements BugemonDTO {
     private String sprite;
 
     /** Whether this Bugémon is a starter Bugémon. */
-    private boolean starter;
+    public boolean starter;
+
 
     /** Whether this Bugémon belongs to the player's team. */
     private boolean isPlayer = false;

@@ -29,6 +29,11 @@ public class TitleScreenController extends Controller<TitleScreenView> {
         this.metaController.switchScene(MetaController.Scenes.PREBUILD_TEAM);
     }
 
+    /** Quit the application */
+    public void quit() {
+        System.exit(0);
+    }
+
     @Override
     public void onItemClicked() {
 

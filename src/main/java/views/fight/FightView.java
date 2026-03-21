@@ -11,28 +11,24 @@ import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
+import javafx.stage.StageStyle;
+import listener.FightListener;
+import models.bugemon.dto.BugemonDTO;
+import views.View;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import javafx.stage.StageStyle;
-import models.bugemon.dto.BugemonDTO;
-import java.io.IOException;
 import java.util.Objects;
 import java.util.stream.Collectors;
-
-import javafx.stage.Popup;
-import javafx.scene.input.MouseEvent;
-import listener.FightListener;
-import views.View;
 
 /**
  * View for the fight screen.
  * <p>
  * Displays the battle UI: Bugémon sprites, HP bars, combat messages,
  * action/attack panels, and the player's team grid.
- * Handles mouse hover and click popups on team sprites.
+ * Handles mouse hover and click popups on team sprites via the inherited {@link #popup} helper.
  * All user interactions are forwarded to a {@link FightListener};
  * this view has no direct dependency on any concrete controller.
  * </p>
@@ -44,18 +40,6 @@ public class FightView extends View<Controller> {
      * Set via {@link #setListener(FightListener)}.
      */
     private FightListener listener;
-
-    /** Popup shown on mouse hover over a team sprite, displaying current HP. */
-    private final Popup HPPopup = new Popup();
-
-    /** Label inside {@link #HPPopup} displaying the HP text. */
-    private final Label HPLabel = new Label();
-
-    /** Popup shown on click over a team sprite, displaying full stats. */
-    private final Popup statsPopup = new Popup();
-
-    /** Label inside {@link #statsPopup} displaying the stats text. */
-    private final Label statsLabel = new Label();
 
     /** Label displaying the enemy Bugémon's name. */
     @FXML private Label enemyNameLabel;
@@ -140,8 +124,7 @@ public class FightView extends View<Controller> {
      */
     public FightView() throws IOException {
         super("/fxml/fight/fightview.fxml");
-        initPopup(HPPopup, HPLabel);
-        initPopup(statsPopup, statsLabel);
+        // popup is initialised automatically by PopupHelper — no initPopup() calls needed
 
         btnAttack.setOnAction(e -> showAttackandActionPanels(true));
         btnItem.setOnAction(e -> this.listener.onItemClicked());
@@ -164,7 +147,13 @@ public class FightView extends View<Controller> {
         this.listener = listener;
     }
 
-
+    /**
+     * Shows a non-blocking alert, then calls {@code onClose} when the user dismisses it.
+     *
+     * @param title   the alert title
+     * @param message the alert body
+     * @param onClose callback invoked when the dialog is hidden
+     */
     public void showMessageReturnTitle(String title, String message, Runnable onClose) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);
@@ -179,51 +168,33 @@ public class FightView extends View<Controller> {
         alert.show();
     }
 
-    /**
-     * Returns the title of the fight scene.
-     *
-     * @return the window title
-     */
     @Override
     protected String getTitle() {
         return "Bugémon – Combat";
     }
 
+
     /**
-     * Populates the player's or enemy's team grid with sprites for each Bugémon in the given list.
-     * If the Bugémon belongs to the player, each sprite shows an HP popup on hover and a stats popup on click.
+     * Populates the player's or enemy's team grid with sprites for each Bugémon.
+     * Player sprites show an HP popup on hover and toggle a stats popup on click.
      *
      * @param team the list of Bugémon DTOs to display
      */
     public void displayTeam(List<BugemonDTO> team) {
-        boolean isPlayer = team.get(0).getIsPlayer();
-        GridPane grid = isPlayer ? teamGrid : enemyGrid;
+        boolean  isPlayer = team.get(0).getIsPlayer();
+        GridPane grid     = isPlayer ? teamGrid : enemyGrid;
         grid.getChildren().clear();
 
         for (int i = 0; i < team.size(); i++) {
             BugemonDTO bugemon = team.get(i);
+            String     path    = isPlayer
+                    ? "/Assets/png/" + bugemon.getSprite()
+                    : "/Assets/png/nobugemon/ulb.png";
 
-            String path = isPlayer ? "/Assets/png/" + bugemon.getSprite() : "/Assets/png/nobugemon/ulb.png";
-            Image img = new Image(Objects.requireNonNull(getClass().getResourceAsStream(path)));
-
-            ImageView imgView = new ImageView(img);
-            imgView.setFitHeight(60);
-            imgView.setFitWidth(60);
-            imgView.setPreserveRatio(true);
+            ImageView imgView = createSprite(path, 60);
 
             if (isPlayer) {
-                imgView.setOnMouseEntered(e -> showHpPopup(e, bugemon, imgView));
-                imgView.setOnMouseMoved(this::updatePopupPosition);
-                imgView.setOnMouseExited(e -> HPPopup.hide());
-                imgView.setOnMouseClicked(e -> {
-                    if (statsPopup.isShowing()) {
-                        statsPopup.hide();
-                        showHpPopup(e, bugemon, imgView);
-                    } else {
-                        HPPopup.hide();
-                        showStatsPopup(e.getScreenX(), e.getScreenY(), bugemon, imgView);
-                    }
-                });
+                bindTeamSpriteEvents(imgView, bugemon);
                 imgView.setUserData(bugemon);
             }
 
@@ -231,31 +202,45 @@ public class FightView extends View<Controller> {
         }
     }
 
+    private void bindTeamSpriteEvents(ImageView imgView, BugemonDTO bugemon) {
+        imgView.setOnMouseEntered(e -> showHpPopup(e, bugemon, imgView));
+        imgView.setOnMouseMoved(this::updatePopupPosition);
+        imgView.setOnMouseExited(e -> HPPopup.hide());
+        imgView.setOnMouseClicked(e -> {
+            if (popup.isStatsShowing()) {
+                popup.hideStats();
+                showHpPopup(e, bugemon, imgView);
+            } else {
+                HPPopup.hide();
+                showStatsPopup(e.getScreenX(), e.getScreenY(), bugemon, imgView);
+            }
+        });
+    }
+
+
     /**
-     * Updates the sprite, name, HP, effect label, and attack buttons
-     * for the given Bugémon (player or enemy depending on {@code bugemon.getIsPlayer()}).
+     * Updates the sprite, name, HP, effect label, and (for the player) attack buttons
+     * for the given Bugémon.
      *
      * @param bugemon the Bugémon DTO to display
      */
     public void updateActiveBugemonSprite(BugemonDTO bugemon) {
         updateBugemonHPDisplay(bugemon);
 
-        Label nameLabel   = bugemon.getIsPlayer() ? playerNameLabel   : enemyNameLabel;
-        Label hpLabel     = bugemon.getIsPlayer() ? playerHpLabel     : enemyHpLabel;
-        Label effectLabel = bugemon.getIsPlayer() ? playerEffectLabel : enemyEffectLabel;
-        ImageView sprite  = bugemon.getIsPlayer() ? playerSprite      : enemySprite;
+        Label     nameLabel   = bugemon.getIsPlayer() ? playerNameLabel   : enemyNameLabel;
+        Label     hpLabel     = bugemon.getIsPlayer() ? playerHpLabel     : enemyHpLabel;
+        Label     effectLabel = bugemon.getIsPlayer() ? playerEffectLabel : enemyEffectLabel;
+        ImageView sprite      = bugemon.getIsPlayer() ? playerSprite      : enemySprite;
 
         nameLabel.setText(bugemon.getName());
         hpLabel.setText("HP: " + bugemon.getcurrenPv() + "/" + bugemon.getPv());
         effectLabel.setText("Effets : Aucun");
 
-        String path = "/Assets/png/" + bugemon.getSprite();
-        Image img = new Image(Objects.requireNonNull(getClass().getResourceAsStream(path)));
+        Image img = new Image(Objects.requireNonNull(
+                getClass().getResourceAsStream("/Assets/png/" + bugemon.getSprite())));
         sprite.setImage(img);
 
-        if (bugemon.getIsPlayer()) {
-            updateAttackButtonAttack(bugemon);
-        }
+        if (bugemon.getIsPlayer()) updateAttackButtons(bugemon);
         sprite.setVisible(true);
     }
 
@@ -265,20 +250,20 @@ public class FightView extends View<Controller> {
      * @param bugemon the Bugémon DTO whose HP to update
      */
     public void updateBugemonHPDisplay(BugemonDTO bugemon) {
-        ProgressBar hpBar = bugemon.getIsPlayer() ? playerHpBarFill : enemyHpBarFill;
-        Label hpLabel     = bugemon.getIsPlayer() ? playerHpLabel   : enemyHpLabel;
-        Label effectLabel = bugemon.getIsPlayer() ? playerEffectLabel : enemyEffectLabel;
+        ProgressBar hpBar       = bugemon.getIsPlayer() ? playerHpBarFill  : enemyHpBarFill;
+        Label       hpLabel     = bugemon.getIsPlayer() ? playerHpLabel    : enemyHpLabel;
+        Label       effectLabel = bugemon.getIsPlayer() ? playerEffectLabel : enemyEffectLabel;
 
-        float maxHP = bugemon.getPv();
-        float ratio = Math.round((bugemon.getcurrenPv() / maxHP) * 10000f) / 10000f;
+        float ratio = Math.round((bugemon.getcurrenPv() / (float) bugemon.getPv()) * 10000f) / 10000f;
         hpBar.setProgress(ratio);
         hpLabel.setText("HP: " + bugemon.getcurrenPv() + "/" + bugemon.getPv());
+
         List<String> effects = bugemon.getActifEffectNames();
         effectLabel.setText("Effets : " + (effects.isEmpty() ? "Aucun" : String.join(", ", effects)));
     }
 
     /**
-     * Updates the combat message label with the given text.
+     * Updates the combat message label.
      *
      * @param message the message to display
      */
@@ -286,76 +271,62 @@ public class FightView extends View<Controller> {
         combatMessageLabel.setText(message);
     }
 
-    /**
-     * Updates the attack button labels to match the attacks of the given Bugémon.
-     * Hides buttons for which no attack exists.
-     *
-     * @param bugemon the Bugémon whose attacks to display
-     */
-    private void updateAttackButtonAttack(BugemonDTO bugemon) {
-        List<String> attackNames = formatAttackNames(bugemon.getAttackNamesAsList());
-        List<Button> btns = List.of(btnAttack1, btnAttack2, btnAttack3);
-
-        for (int i = 0; i < btns.size(); i++) {
-            if (i < attackNames.size()) {
-                Button btn = btns.get(i);
-                btn.setText(attackNames.get(i) + "\n" + predictedEffectiveness.get(i));
-                btn.setVisible(true);
-
-                String typeColor  = bugemon.getAttackColor(i);
-                String borderColor = getEffectivenessColor(predictedEffectiveness.get(i));
-
-                btn.setStyle(
-                        "-fx-background-color: " + typeColor + "; " +
-                                "-fx-text-fill: white; " +
-                                "-fx-background-radius: 5; " +
-                                "-fx-border-color: " + borderColor + "; " +
-                                "-fx-border-width: 5; " +
-                                "-fx-border-radius: 5;"
-                );
-            } else {
-                btns.get(i).setVisible(false);
-            }
-        }
-    }
-
-    /**
-     * Returns the border colour matching the effectiveness message.
-     *
-     * @param effectiveness the effectiveness message
-     * @return green, red, or transparent
-     */
-    private String getEffectivenessColor(String effectiveness) {
-        return switch (effectiveness) {
-            case "Super efficace !"  -> "rgb(0,152,0)";
-            case "Peu efficace..."   -> "#FF0000";
-            default                  -> "transparent";
-        };
-    }
 
     /**
      * Updates the cached effectiveness messages used to label attack buttons.
      *
-     * @param predictedEffectivenessFromFightModels messages from the fight model given by the controller
+     * @param predictedEffectivenessFromFightModels messages from the fight model
      */
     public void updatePredictedEffectiveness(List<String> predictedEffectivenessFromFightModels) {
         this.predictedEffectiveness = predictedEffectivenessFromFightModels;
     }
 
+    private void updateAttackButtons(BugemonDTO bugemon) {
+        List<String> attackNames = formatAttackNames(bugemon.getAttackNamesAsList());
+        List<Button> btns        = List.of(btnAttack1, btnAttack2, btnAttack3);
+
+        for (int i = 0; i < btns.size(); i++) {
+            Button btn = btns.get(i);
+            if (i < attackNames.size()) {
+                String typeColor   = bugemon.getAttackColor(i);
+                String borderColor = getEffectivenessColor(predictedEffectiveness.get(i));
+                btn.setText(attackNames.get(i) + "\n" + predictedEffectiveness.get(i));
+                btn.setStyle(
+                        "-fx-background-color: " + typeColor    + "; " +
+                                "-fx-text-fill: white; "                        +
+                                "-fx-background-radius: 5; "                    +
+                                "-fx-border-color: "     + borderColor  + "; " +
+                                "-fx-border-width: 5; "                         +
+                                "-fx-border-radius: 5;"
+                );
+                btn.setVisible(true);
+            } else {
+                btn.setVisible(false);
+            }
+        }
+    }
+
+    private String getEffectivenessColor(String effectiveness) {
+        return switch (effectiveness) {
+            case "Super efficace !" -> "rgb(0,152,0)";
+            case "Peu efficace..."  -> "#FF0000";
+            default                 -> "transparent";
+        };
+    }
+
+
     /**
-     * Applies a greyscale effect to the team grid sprite matching the given Bugémon,
-     * visually indicating it has fainted.
+     * Applies a greyscale effect to the team grid sprite of the given fainted Bugémon.
      *
      * @param bugemon the fainted Bugémon DTO
      */
     public void markBugemonAsFainted(BugemonDTO bugemon) {
         GridPane grid = bugemon.getIsPlayer() ? teamGrid : enemyGrid;
-
         for (Node node : grid.getChildren()) {
             if (bugemon.getIsPlayer()) {
-                if (node instanceof ImageView imgView &&
-                        Objects.equals(bugemon.getId(), ((BugemonDTO) imgView.getUserData()).getId())) {
-                    imgView.setEffect(new ColorAdjust(0, -1, 0, 0));
+                if (node instanceof ImageView iv &&
+                        Objects.equals(bugemon.getId(), ((BugemonDTO) iv.getUserData()).getId())) {
+                    iv.setEffect(new ColorAdjust(0, -1, 0, 0));
                     break;
                 }
             } else {
@@ -368,19 +339,18 @@ public class FightView extends View<Controller> {
     }
 
     /**
-     * Removes the greyscale effect from the team grid sprite matching the given Bugémon.
-     * For the enemy grid, removes the effect from the last marked sprite.
+     * Removes the greyscale effect from the team grid sprite of the given Bugémon.
+     * For the enemy grid, targets the last greyed-out sprite.
      *
      * @param bugemon the Bugémon DTO to unmark
      */
     public void unMarkBugemonAsFainted(BugemonDTO bugemon) {
         GridPane grid = bugemon.getIsPlayer() ? teamGrid : enemyGrid;
-
         if (bugemon.getIsPlayer()) {
             for (Node node : grid.getChildren()) {
-                if (node instanceof ImageView imgView &&
-                        Objects.equals(bugemon.getId(), ((BugemonDTO) imgView.getUserData()).getId())) {
-                    imgView.setEffect(null);
+                if (node instanceof ImageView iv &&
+                        Objects.equals(bugemon.getId(), ((BugemonDTO) iv.getUserData()).getId())) {
+                    iv.setEffect(null);
                     break;
                 }
             }
@@ -396,6 +366,7 @@ public class FightView extends View<Controller> {
         }
     }
 
+
     /**
      * Toggles between the attack panel and the action panel.
      *
@@ -404,7 +375,6 @@ public class FightView extends View<Controller> {
     public void showAttackandActionPanels(boolean showAttack) {
         attackPanel.setVisible(showAttack);
         attackPanel.setManaged(showAttack);
-
         actionPanel.setVisible(!showAttack);
         actionPanel.setManaged(!showAttack);
     }
@@ -412,7 +382,7 @@ public class FightView extends View<Controller> {
     /**
      * Enables or disables all main action buttons.
      *
-     * @param disabled {@code true} to disable the buttons, {@code false} to enable them
+     * @param disabled {@code true} to disable, {@code false} to enable
      */
     public void setButtonsDisabled(boolean disabled) {
         btnAttack.setDisable(disabled);
@@ -432,75 +402,38 @@ public class FightView extends View<Controller> {
         teamGrid.getChildren().clear();
         enemyGrid.getChildren().clear();
 
-        playerSprite.setImage(null);
-        playerSprite.setVisible(false);
-        enemySprite.setImage(null);
-        enemySprite.setVisible(false);
+        playerSprite.setImage(null);  playerSprite.setVisible(false);
+        enemySprite.setImage(null);   enemySprite.setVisible(false);
 
-        playerNameLabel.setText("");
-        playerHpLabel.setText("");
-        playerEffectLabel.setText("");
-        playerHpBarFill.setProgress(1.0);
+        playerNameLabel.setText("");  playerHpLabel.setText("");
+        playerEffectLabel.setText(""); playerHpBarFill.setProgress(1.0);
 
-        enemyNameLabel.setText("");
-        enemyHpLabel.setText("");
-        enemyEffectLabel.setText("");
-        enemyHpBarFill.setProgress(1.0);
+        enemyNameLabel.setText("");   enemyHpLabel.setText("");
+        enemyEffectLabel.setText(""); enemyHpBarFill.setProgress(1.0);
 
         combatMessageLabel.setText("");
 
-        List<Button> attackBtns = List.of(btnAttack1, btnAttack2, btnAttack3);
-        for (Button btn : attackBtns) {
+        List.of(btnAttack1, btnAttack2, btnAttack3).forEach(btn -> {
             btn.setText("");
             btn.setVisible(false);
-        }
+        });
 
-        HPPopup.hide();
-        statsPopup.hide();
+        popup.hideHp();
+        popup.hideStats();
+    }
+
+
+    private ImageView createSprite(String resourcePath, int size) {
+        Image     img  = new Image(Objects.requireNonNull(getClass().getResourceAsStream(resourcePath)));
+        ImageView view = new ImageView(img);
+        view.setFitHeight(size);
+        view.setFitWidth(size);
+        view.setPreserveRatio(true);
+        return view;
     }
 
     /**
-     * Initialises a popup with the given label, applying a dark tooltip style.
-     */
-    private void initPopup(Popup popup, Label label) {
-        label.setMouseTransparent(true);
-        label.setStyle("-fx-background-color: rgba(0,0,0,0.8); -fx-text-fill: white; -fx-padding: 5; -fx-background-radius: 5;");
-        popup.getContent().add(label);
-        popup.setAutoHide(true);
-    }
-
-    /**
-     * Shows a popup with the full stats of the given Bugémon at the given screen position.
-     */
-    private void showStatsPopup(double x, double y, BugemonDTO bugemon, ImageView node) {
-        String text = "PV: " + bugemon.getPv() + "\n" +
-                "ATK: " + bugemon.getAttaque() + "\n" +
-                "DEF: " + bugemon.getDefense() + "\n" +
-                "INIT: " + bugemon.getInitiative() + "\n" +
-                "Attaques: " + bugemon.getAttackNamesAsString();
-        statsLabel.setText(text);
-        statsPopup.show(node, x + 15, y + 15);
-    }
-
-    /**
-     * Shows a popup with the current and maximum HP of the given Bugémon.
-     */
-    private void showHpPopup(MouseEvent event, BugemonDTO bugemon, ImageView node) {
-        String text = "HP : " + bugemon.getcurrenPv() + " / " + bugemon.getPv();
-        HPLabel.setText(text);
-        HPPopup.show(node, event.getScreenX() + 15, event.getScreenY() + 15);
-    }
-
-    /**
-     * Updates the position of the HP popup to follow the mouse cursor.
-     */
-    private void updatePopupPosition(MouseEvent event) {
-        HPPopup.setX(event.getScreenX() + 15);
-        HPPopup.setY(event.getScreenY() + 15);
-    }
-
-    /**
-     * Formats a list of raw snake_case attack names into capitalised display names.
+     * Formats raw snake_case attack names into capitalised display names.
      * Example: {@code "fire_blast"} → {@code "Fire Blast"}.
      */
     private List<String> formatAttackNames(List<String> raw) {

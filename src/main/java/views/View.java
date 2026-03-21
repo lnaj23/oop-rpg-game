@@ -8,29 +8,58 @@ import java.util.Optional;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.TextInputDialog;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.stage.Popup;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import controllers.Controller;
-import javafx.stage.StageStyle;
+import models.bugemon.dto.BugemonDTO;
 import models.bugemon.dto.TeamBugemonDTO;
+import views.util.PopupManager;
 
 /**
  * Abstract base class for all views.
  * Loads an FXML file, sets itself as the controller, and wraps the result in a {@link Scene}.
+ * <p>
+ * Popup logic is delegated to a {@link PopupManager} instance.
+ * Subclasses can call the convenience methods directly, or access
+ * {@link #popup} for finer control (e.g. {@code popup.isStatsShowing()}).
+ * </p>
  *
  * @param <T> the type of controller associated with this view
  */
-public abstract class View <T extends Controller> {
+public abstract class View<T extends Controller> {
 
-    /** the Controller */
+
+    /** Shared popup helper — use its methods or access raw popups via getters. */
+    protected final PopupManager popup = new PopupManager();
+
+    /**
+     * Convenience alias kept for backward compatibility with subclasses
+     * that reference {@code HPPopup} directly (e.g. {@code HPPopup.hide()}).
+     */
+    protected final Popup HPPopup    = popup.getHpPopup();
+
+    /**
+     * Convenience alias kept for backward compatibility with subclasses
+     * that reference {@code statsPopup} directly.
+     */
+    protected final Popup statsPopup = popup.getStatsPopup();
+
+
+    /** The controller associated with this view. */
     protected T controller;
+
 
     /** The root layout pane loaded from FXML. */
     protected final Pane root;
 
     /** The JavaFX scene containing the root pane. */
     protected final Scene scene;
+
 
     /**
      * Loads the FXML at the given path and sets this instance as its controller.
@@ -41,10 +70,11 @@ public abstract class View <T extends Controller> {
     public View(String fxmlPath) throws IOException {
         URL url = View.class.getResource(fxmlPath);
         FXMLLoader loader = new FXMLLoader(url);
-        loader.setController((Object) this);
-        this.root = loader.load();
+        loader.setController(this);
+        this.root  = loader.load();
         this.scene = new Scene(root);
     }
+
 
     /**
      * Sets this view's scene on the given stage and shows it if not already visible.
@@ -59,14 +89,61 @@ public abstract class View <T extends Controller> {
         }
     }
 
-    /**
-     * @param controller the controller to delegate actions to
-     */
+    /** @return the window title to display when this view is shown */
+    protected abstract String getTitle();
+
+
+    /** @param controller the controller to delegate actions to */
     public void setController(T controller) {
         this.controller = controller;
     }
 
-    protected Optional<String> showAndWaitTextInputDialog(TeamBugemonDTO selected, String title, String headerText, String contentText) {
+
+    /**
+     * Shows the HP popup next to the cursor for the given Bugémon.
+     *
+     * @param event  the mouse event carrying screen coordinates
+     * @param bugemon the Bugémon whose HP to display
+     * @param node   the node used as owner for the popup
+     */
+    protected void showHpPopup(MouseEvent event, BugemonDTO bugemon, ImageView node) {
+        popup.showHpPopup(event, bugemon, node);
+    }
+
+    /**
+     * Moves the HP popup to follow the cursor.
+     *
+     * @param event the latest mouse-moved event
+     */
+    protected void updatePopupPosition(MouseEvent event) {
+        popup.updateHpPosition(event);
+    }
+
+    /**
+     * Shows the stats popup at the given screen position for the given Bugémon.
+     *
+     * @param x      screen X of the triggering event
+     * @param y      screen Y of the triggering event
+     * @param bugemon the Bugémon whose stats to display
+     * @param node   the node used as owner for the popup
+     */
+    protected void showStatsPopup(double x, double y, BugemonDTO bugemon, ImageView node) {
+        popup.showStatsPopup(x, y, bugemon, node);
+    }
+
+
+    /**
+     * Shows a styled {@link TextInputDialog} pre-filled with the team's current name.
+     *
+     * @param selected    the team being renamed
+     * @param title       dialog title
+     * @param headerText  dialog header
+     * @param contentText label before the text field
+     * @return the string entered by the user, or empty if cancelled
+     */
+    protected Optional<String> showAndWaitTextInputDialog(
+            TeamBugemonDTO selected, String title, String headerText, String contentText) {
+
         TextInputDialog dialog = new TextInputDialog(selected.getName());
         dialog.setTitle(title);
         dialog.setHeaderText(headerText);
@@ -78,9 +155,4 @@ public abstract class View <T extends Controller> {
         );
         return dialog.showAndWait();
     }
-
-    /**
-     * @return the window title to display when this view is shown
-     */
-    protected abstract String getTitle();
 }

@@ -16,6 +16,7 @@ public class TitleScreenView extends View <TitleScreenController> {
     @FXML private Label titelLabel;
     @FXML private Button btnNewGame;
     @FXML private Button btnPreBuildTeam;
+    @FXML private Button btnQuit;
 
     /**
      * Loads the title screen FXML and wires button actions.
@@ -26,6 +27,7 @@ public class TitleScreenView extends View <TitleScreenController> {
         super("/fxml/titlescreenview.fxml");
         this.btnNewGame.setOnAction(e -> this.controller.goToSelection());
         this.btnPreBuildTeam.setOnAction(e -> this.controller.goToPreBuildTeam());
+        this.btnQuit.setOnAction(e -> this.controller.quit());
     }
 
     @Override
