@@ -10,21 +10,34 @@ import views.View;
 
 import java.io.IOException;
 import java.util.List;
-
 /**
- * View for the item selection screen.
- * Displays a list of items and handles the selection through a callback.
+ * View for the item selection sub-window displayed during a fight.
+ * <p>
+ * This view displays the list of available items and forwards user actions
+ * to its associated {@link ItemChoiceController}.
+ * </p>
  */
 public class ItemsSubView extends View<ItemChoiceController> {
 
     @FXML private ListView<Item> itemListView;
     @FXML private Button btnUse;
     @FXML private Button btnClose;
-
+    /**
+     * Creates the item selection sub-view and loads its FXML layout.
+     *
+     * @throws IOException if the FXML file cannot be loaded
+     */
     public ItemsSubView() throws IOException {
         super("/fxml/fight/itemsview.fxml");
     }
 
+    /**
+     * Initializes the view after FXML loading.
+     * <p>
+     * Binds button actions to the controller and updates the state of the
+     * "Use" button depending on the current selection.
+     * </p>
+     */
     @FXML
     public void initialize() {
         btnUse.setOnAction(e -> controller.onUseClicked());
@@ -34,16 +47,30 @@ public class ItemsSubView extends View<ItemChoiceController> {
                 (obs, oldVal, newVal) -> btnUse.setDisable(newVal == null)
         );
     }
-
+    /**
+     * Returns the title of the item selection sub-window.
+     *
+     * @return the window title
+     */
     @Override
     protected String getTitle() {
         return "Sac d'objets";
     }
 
+    /**
+     * Populates the list view with the given items.
+     *
+     * @param items the items to display
+     */
     public void setItems(List<Item> items) {
         itemListView.setItems(FXCollections.observableArrayList(items));
     }
 
+    /**
+     * Returns the currently selected item in the list.
+     *
+     * @return the selected item, or {@code null} if none is selected
+     */
     public Item getSelectedItem() {
         return itemListView.getSelectionModel().getSelectedItem();
     }

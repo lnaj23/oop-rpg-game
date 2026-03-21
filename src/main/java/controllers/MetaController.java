@@ -87,6 +87,17 @@ public class MetaController {
         }
     }
 
+    /**
+     * Opens the given view in a secondary modal window.
+     * <p>
+     * The created stage is owned by the primary application stage and uses
+     * an undecorated style. Depending on the value of {@code wait}, the method
+     * either blocks until the window is closed or returns immediately.
+     * </p>
+     *
+     * @param view the view to display in the sub-window
+     * @param wait {@code true} to use {@code showAndWait()}, {@code false} to use {@code show()}
+     */
     public void openSubScene(View<?> view, boolean wait) {
         Stage subStage = new Stage();
         subStage.initOwner(stage);

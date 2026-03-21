@@ -25,8 +25,12 @@ import java.util.Objects;
 import java.util.function.Consumer;
 
 /**
- * Modal window for selecting the next on-field Bugémon.
- * Hover shows current HP via {@link PopupManager}, left-click selects.
+ * View for the Bugemon switch sub-window displayed during a fight.
+ * <p>
+ * This view renders the player's team, shows HP popups on hover,
+ * and forwards selection and cancellation events to its associated
+ * {@link SwitchBugemonController}.
+ * </p>
  */
 public class SwitchBugemonSubView extends View<SwitchBugemonController> {
 
@@ -34,22 +38,39 @@ public class SwitchBugemonSubView extends View<SwitchBugemonController> {
     @FXML private Button   btnCancel;
     @FXML private Label    titleLabel;
 
+    /**
+     * Creates the Bugemon switch sub-view and loads its FXML layout.
+     *
+     * @throws IOException if the FXML file cannot be loaded
+     */
     public SwitchBugemonSubView() throws IOException {
         super("/fxml/fight/switchbugemonview.fxml");
     }
 
+    /**
+     * Returns the title of the Bugemon switch sub-window.
+     *
+     * @return the window title
+     */
     @Override
     protected String getTitle() {
         return "Changer de Bugemon";
     }
 
-    public void displayTeam(List<BugemonDTO> team, boolean showCancel, Object currentOnFieldId) {
+    /**
+     * Displays the given team in the switch grid and configures the cancel button.
+     *
+     * @param team the player's team to display
+     * @param showCancel {@code true} if the cancel button should be visible,
+     *                   {@code false} otherwise
+     */
+    public void displayTeam(List<BugemonDTO> team, boolean showCancel) {
         grid.getChildren().clear();
 
         for (int i = 0; i < team.size(); i++) {
             BugemonDTO bugemon = team.get(i);
             ImageView imgView = createSprite(bugemon);
-            bindEvents(imgView, bugemon, currentOnFieldId);
+            bindEvents(imgView, bugemon);
             grid.add(imgView, i % 3, i / 3);
         }
 
@@ -77,7 +98,17 @@ public class SwitchBugemonSubView extends View<SwitchBugemonController> {
         return view;
     }
 
-    private void bindEvents(ImageView imgView, BugemonDTO bugemon, Object currentOnFieldId) {
+    /**
+     * Binds hover and click events to a Bugemon sprite.
+     * <p>
+     * Hover displays the HP popup, while clicking delegates the selection
+     * to the associated controller.
+     * </p>
+     *
+     * @param imgView the sprite node
+     * @param bugemon the Bugemon represented by the sprite
+     */
+    private void bindEvents(ImageView imgView, BugemonDTO bugemon) {
         imgView.setOnMouseEntered(e -> showHpPopup(e, bugemon, imgView));
         imgView.setOnMouseMoved(this::updatePopupPosition);
         imgView.setOnMouseExited(e -> popup.hideHp());

@@ -107,7 +107,10 @@ public class FightController extends Controller<FightView> implements FightListe
 
     /**
      * Called when the player clicks the item button.
-     * Opens a window with a list of hardcoded items.
+     * <p>
+     * Opens the item selection sub-window through the meta-controller
+     * using a dedicated {@link ItemChoiceController}.
+     * </p>
      */
     @Override
     public void onItemClicked() {
@@ -313,9 +316,14 @@ public class FightController extends Controller<FightView> implements FightListe
 
     /**
      * Opens the switch window for the player.
+     * <p>
+     * The switch selection is handled by a dedicated
+     * {@link SwitchBugemonController}, while window creation is delegated
+     * to the meta-controller.
+     * </p>
      *
-     * @param onPurpose {@code true} if the player chose to switch voluntarily
-     *                  (costs a turn), {@code false} if forced after a KO
+     * @param onPurpose {@code true} if the player chose to switch voluntarily,
+     *                  {@code false} if forced after a KO
      */
     private void showSwitchWindow(boolean onPurpose) {
         try {
