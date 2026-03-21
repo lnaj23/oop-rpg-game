@@ -16,8 +16,8 @@ import java.util.Objects;
 import java.util.Random;
 
 import models.bugemon.TeamBugemon;
-import views.fight.ItemsView;
-import views.fight.SwitchBugemonView;
+import views.fight.ItemsSubView;
+import views.fight.SwitchBugemonSubView;
 
 /**
  * Controller for the fight screen.
@@ -119,7 +119,7 @@ public class FightController extends Controller<FightView> implements FightListe
                 new Item("revive", "La réanimation", "réanime un Bugémon KO")
         );
 
-        ItemsView itemsView = new ItemsView(hardcodedItems, item -> useItem(item));
+        ItemsSubView itemsView = new ItemsSubView(hardcodedItems, item -> useItem(item));
         itemsView.show();
     }
 
@@ -315,7 +315,7 @@ public class FightController extends Controller<FightView> implements FightListe
      *                  (costs a turn), {@code false} if forced after a KO
      */
     private void showSwitchWindow(boolean onPurpose) {
-        SwitchBugemonView switchView = new SwitchBugemonView(
+        SwitchBugemonSubView switchView = new SwitchBugemonSubView(
                 fight.getTeamPlayer().getTeamDTO(),
                 onPurpose,
                 fight.getOnFieldPlayerBugemonId(),

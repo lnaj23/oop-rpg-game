@@ -10,7 +10,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.GridPane;
 import models.bugemon.dto.BugemonDTO;
-import views.util.PopupManager;
+import views.utils.PopupManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +24,7 @@ import java.util.Objects;
  * Popup functionality is provided by a {@link PopupManager} instance (composition).
  * </p>
  */
-public class BugemonGridView {
+public class BugemonGridSubView {
 
     private SelectionController controller;
 
@@ -75,7 +75,7 @@ public class BugemonGridView {
      * @param teamBugemons the team to pre-select
      * @param listener     the panel that listens for team changes
      */
-    public void preSelectTeam(List<BugemonDTO> teamBugemons, TeamPanelView listener) {
+    public void preSelectTeam(List<BugemonDTO> teamBugemons, TeamPanelSubView listener) {
         List<Node> buttons = gridPane.getChildren().filtered(n -> n instanceof Button);
         for (int i = 0; i < displayedBugemons.size() && i < buttons.size(); i++) {
             BugemonDTO current = displayedBugemons.get(i);

@@ -20,8 +20,8 @@ import java.util.List;
  */
 public class SelectionView extends View<SelectionController> {
 
-    @FXML private BugemonGridView bugemonGridController;
-    @FXML private TeamPanelView   teamPanelController;
+    @FXML private BugemonGridSubView bugemonGridController;
+    @FXML private TeamPanelSubView teamPanelController;
 
     /**
      * Loads the main FXML which includes bugemon_grid.fxml and team_panel.fxml.

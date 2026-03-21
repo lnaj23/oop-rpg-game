@@ -24,7 +24,7 @@ import javafx.scene.control.TextInputDialog;
  * Displays the current team, stats label, and action buttons.
  * Included in selectionview.fxml via fx:include.
  */
-public class TeamPanelView {
+public class TeamPanelSubView {
 
     private SelectionController controller;
 

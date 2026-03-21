@@ -20,7 +20,7 @@ import java.util.function.Consumer;
  * View for the item selection screen.
  * Displays a list of items and handles the selection through a callback.
  */
-public class ItemsView {
+public class ItemsSubView {
 
     @FXML private ListView<Item> itemListView;
     @FXML private Button btnUse;
@@ -33,7 +33,7 @@ public class ItemsView {
      * * @param items The list of available items to display.
      * @param onItemSelected Callback triggered when an item is used.
      */
-    public ItemsView(List<Item> items, Consumer<Item> onItemSelected) {
+    public ItemsSubView(List<Item> items, Consumer<Item> onItemSelected) {
         this.stage = new Stage();
 
         try {

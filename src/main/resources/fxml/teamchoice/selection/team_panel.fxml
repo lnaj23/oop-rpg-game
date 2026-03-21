@@ -3,7 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox alignment="CENTER" spacing="10.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.teamchoice.selection.TeamPanelView">
+<VBox alignment="CENTER" spacing="10.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.teamchoice.selection.TeamPanelSubView">
 
     <VBox fx:id="teamRectangle" alignment="TOP_CENTER" maxHeight="220.0" prefHeight="220.0" prefWidth="350.0" spacing="10.0">
         <children>

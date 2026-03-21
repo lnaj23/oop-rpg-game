@@ -5,7 +5,7 @@
 
 <StackPane xmlns="http://javafx.com/javafx/17.0.12"
            xmlns:fx="http://javafx.com/fxml/1"
-           fx:controller="views.teamchoice.selection.BugemonGridView">
+           fx:controller="views.teamchoice.selection.BugemonGridSubView">
 
     <GridPane fx:id="gridPane" hgap="10.0" prefHeight="450.0" prefWidth="650.0" vgap="10.0">
         <columnConstraints>

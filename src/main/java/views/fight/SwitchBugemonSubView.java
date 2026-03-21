@@ -15,7 +15,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import models.bugemon.dto.BugemonDTO;
-import views.util.PopupManager;
+import views.utils.PopupManager;
 
 import java.io.IOException;
 import java.util.List;
@@ -26,7 +26,7 @@ import java.util.function.Consumer;
  * Modal window for selecting the next on-field Bugémon.
  * Hover shows current HP via {@link PopupManager}, left-click selects.
  */
-public class SwitchBugemonView {
+public class SwitchBugemonSubView {
 
     @FXML private GridPane grid;
     @FXML private Button   btnCancel;
@@ -44,9 +44,9 @@ public class SwitchBugemonView {
      * @param onBugemonSelected callback triggered with the selected Bugémon's id
      * @param onCancel          callback triggered when the player cancels (no turn cost)
      */
-    public SwitchBugemonView(List<BugemonDTO> team, boolean onPurpose,
-                             Object currentOnFieldId,
-                             Consumer<Object> onBugemonSelected, Runnable onCancel) {
+    public SwitchBugemonSubView(List<BugemonDTO> team, boolean onPurpose,
+                                Object currentOnFieldId,
+                                Consumer<Object> onBugemonSelected, Runnable onCancel) {
         this.stage = new Stage();
         if (!loadFxml(onPurpose)) return;
         initStage();
