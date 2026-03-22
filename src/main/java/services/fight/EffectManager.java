@@ -14,6 +14,17 @@ public abstract class EffectManager {
         //TODO
         //est déjà appelé à chaque tour, mtn faut gerer les effects comme décrit ds l'énoncé
         //bonne chance, regarder aussi getActifEffectNames() et addActifEffectName de Bugemon pour afficher les nom des effets actifs
+        for(Effect effet : attack.getEffects()){
+            Bugemon finalTarget = null;
+            if (effet.getTarget().equals("lanceur")) {
+                finalTarget = attacker;
+            }else if(effet.getTarget().equals("adversaire")){
+                finalTarget = target;
+            }
+        }
     }
 
+    public static void applyStatModifier(Bugemon target, Effect effect){
+
+    }
 }

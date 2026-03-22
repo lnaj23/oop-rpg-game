@@ -58,7 +58,7 @@ public class Bugemon implements BugemonDTO {
     /** Color to display in the selectionView */
     private String Color;
 
-    private List<String> actifEffectNames = List.of("Effet 1", "Effet 2", "Effet 3", "Effet 4");
+    private List<ActiveEffect> ongoingEffects = new ArrayList<>();
 
     /**
      * Copy constructor. Creates a deep copy of the given Bugémon.
@@ -169,11 +169,19 @@ public class Bugemon implements BugemonDTO {
 
     @Override
     public List<String> getActifEffectNames() {
-        return actifEffectNames;
+        List<String> names = new ArrayList<>();
+
+        for (ActiveEffect active : ongoingEffects) {
+            Effect effect = active.getEffect();
+            String texte = effect.getStat() + " " + effect.getModifier();
+            names.add(texte);
+        }
+
+        return names;
     }
 
-    public void addActifEffectName(String effectName) {
-        actifEffectNames.add(effectName);
+    public void addOngoingEffect(Effect effect) {
+        this.ongoingEffects.add(new ActiveEffect(effect));
     }
     /**
      * Marks whether this Bugémon belongs to the player's team.
