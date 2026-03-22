@@ -183,6 +183,11 @@ public class Bugemon implements BugemonDTO {
     public void addOngoingEffect(Effect effect) {
         this.ongoingEffects.add(new ActiveEffect(effect));
     }
+
+    public List<ActiveEffect> getOngoingEffects(){
+        return ongoingEffects;
+    }
+
     /**
      * Marks whether this Bugémon belongs to the player's team.
      *
