@@ -144,6 +144,10 @@ public class Bugemon implements BugemonDTO {
         return stats.getInitiative();
     }
 
+    public Stats getStats(){
+        return stats;
+    }
+
     @Override
     public List<String> getAttackNamesAsList() {
         return attackNames;
@@ -167,6 +171,12 @@ public class Bugemon implements BugemonDTO {
         return attacks.get(index).getColor();
     }
 
+    /**
+     * Returns a list of strings representing the names and values
+     * of all currently active effects on this Bugémon.
+     *
+     * @return a list of active effect descriptions
+     */
     @Override
     public List<String> getActifEffectNames() {
         List<String> names = new ArrayList<>();
@@ -180,12 +190,31 @@ public class Bugemon implements BugemonDTO {
         return names;
     }
 
+    /**
+     * Adds a new active effect to this Bugémon's ongoing effects list.
+     *
+     * @param effect the effect to be added
+     */
     public void addOngoingEffect(Effect effect) {
         this.ongoingEffects.add(new ActiveEffect(effect));
     }
 
-    public List<ActiveEffect> getOngoingEffects(){
+    /**
+     * Returns the list of all ongoing effects currently affecting this Bugémon.
+     *
+     * @return the list of active effects
+     */
+    public List<ActiveEffect> getOngoingEffects() {
         return ongoingEffects;
+    }
+
+    /**
+     * Resets all stat modifiers and clears the list of ongoing effects.
+     * Typically used at the end of a battle or when applying a recovery item.
+     */
+    public void resetAllModifiers() {
+        stats.resetModifiers();
+        ongoingEffects.clear();
     }
 
     /**
