@@ -23,6 +23,15 @@ public class Stats {
     /** Initiative stat determining turn order in battle. */
     private int initiative;
 
+    /** Cumulative modifier applied to the attack stat during battle. */
+    private int attaqueModifier = 0;
+
+    /** Cumulative modifier applied to the defense stat during battle. */
+    private int defenseModifier = 0;
+
+    /** Cumulative modifier applied to the initiative stat during battle. */
+    private int initiativeModifier = 0;
+
     /**
      * Copy constructor. Creates a deep copy of the given stats.
      *
@@ -34,6 +43,9 @@ public class Stats {
         this.attaque    = other.attaque;
         this.defense    = other.defense;
         this.initiative = other.initiative;
+        this.attaqueModifier = other.attaqueModifier;
+        this.defenseModifier = other.defenseModifier;
+        this.initiativeModifier = other.initiativeModifier;
     }
 
     /**
@@ -60,7 +72,7 @@ public class Stats {
      * @return attack stat
      */
     public int getAttaque() {
-        return attaque;
+        return attaque + attaqueModifier;
     }
 
     /**
@@ -69,7 +81,7 @@ public class Stats {
      * @return defense stat
      */
     public int getDefense() {
-        return defense;
+        return defense + defenseModifier;
     }
 
     /**
@@ -78,7 +90,7 @@ public class Stats {
      * @return initiative stat
      */
     public int getInitiative() {
-        return initiative;
+        return initiative + initiativeModifier;
     }
 
     /**
@@ -91,6 +103,30 @@ public class Stats {
     }
 
     /**
+     * Modifies the attack stat by the specified delta.
+     * The modifier is cumulative and persists during the battle.
+     *
+     * @param delta the amount to add to or subtract from the attack modifier
+     */
+    public void modifyAttaque(int delta) {this.attaqueModifier += delta;}
+
+    /**
+     * Modifies the defense stat by the specified delta.
+     * The modifier is cumulative and persists during the battle.
+     *
+     * @param delta the amount to add to or subtract from the defense modifier
+     */
+    public void modifyDefense(int delta) {this.defenseModifier += delta;}
+
+    /**
+     * Modifies the initiative stat by the specified delta.
+     * The modifier is cumulative and persists during the battle.
+     *
+     * @param delta the amount to add to or subtract from the initiative modifier
+     */
+    public void modifyInitiative(int delta) {this.initiativeModifier += delta;}
+
+    /**
      * Reduces the current HP by the specified damage amount.
      * HP cannot go below zero.
      *
@@ -101,6 +137,26 @@ public class Stats {
         if (this.currentpv < 0) {
             this.currentpv = 0;
         }
+    }
+
+    /**
+     * Increases the current HP by the specified heal amount.
+     * HP cannot exceed the maximum HP (pv).
+     *
+     * @param healAmount the amount of health to restore
+     */
+    public void heal(int healAmount){
+        this.currentpv = Math.min(this.currentpv + healAmount, this.pv);
+    }
+
+    /**
+     * Resets all the modifiers to zero.
+     * Should be called at the end of each fight.
+     */
+    public void resetModifiers() {
+        attaqueModifier = 0;
+        defenseModifier = 0;
+        initiativeModifier = 0;
     }
 
     /**
