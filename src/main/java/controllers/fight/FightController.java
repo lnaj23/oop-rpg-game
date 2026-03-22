@@ -120,13 +120,7 @@ public class FightController extends Controller<FightView> implements FightListe
                 new Item("revive", "La reanimation", "reanime un Bugemon KO")
         );
 
-        try {
-            controllers.fight.ItemChoiceController itemChoiceController =
-                    new controllers.fight.ItemChoiceController(metaController, hardcodedItems, this::useItem);
-            metaController.openSubScene(itemChoiceController.getView(), true);
-        } catch (IOException e) {
-            metaController.fatalError("Impossible d'ouvrir la vue des objets : " + e.getMessage());
-        }
+        metaController.openItemChoiceWindow(hardcodedItems);
     }
 
     /**
@@ -152,6 +146,38 @@ public class FightController extends Controller<FightView> implements FightListe
         );
     }
 
+    /**
+     * Receives the item selected in the item choice sub-window.
+     *
+     * @param item the item chosen by the player
+     */
+    public void onItemChosen(Item item) {
+        useItem(item);
+    }
+
+    /**
+     * Receives the Bugemon selected in the switch sub-window.
+     *
+     * @param selectedId the identifier of the selected Bugemon
+     * @param onPurpose {@code true} if the switch was voluntary,
+     *                  {@code false} if it was forced after a KO
+     */
+    public void onSwitchBugemonChosen(Object selectedId, boolean onPurpose) {
+        Bugemon selectedBugemon = findAvailablePlayerBugemonById(selectedId);
+        switchPlayerBugemon(selectedBugemon);
+        if (onPurpose) {
+            forceEnemyToAttack();
+        } else {
+            view.setButtonsDisabled(false);
+        }
+    }
+
+    /**
+     * Handles the cancellation of the switch sub-window.
+     */
+    public void onSwitchCancelled() {
+        view.setButtonsDisabled(false);
+    }
     /**
      * Uses the selected item, displays a combat message, and ends the player's turn.
      *
@@ -315,38 +341,16 @@ public class FightController extends Controller<FightView> implements FightListe
     }
 
     /**
-     * Opens the switch window for the player.
-     * <p>
-     * The switch selection is handled by a dedicated
-     * {@link SwitchBugemonController}, while window creation is delegated
-     * to the meta-controller.
-     * </p>
+     * Opens the Bugemon switch sub-window for the player.
      *
      * @param onPurpose {@code true} if the player chose to switch voluntarily,
      *                  {@code false} if forced after a KO
      */
     private void showSwitchWindow(boolean onPurpose) {
-        try {
-            controllers.fight.SwitchBugemonController switchController = new controllers.fight.SwitchBugemonController(
-                    metaController,
-                    fight.getTeamPlayer().getTeamDTO(),
-                    onPurpose,
-                    fight.getOnFieldPlayerBugemonId(),
-                    selectedId -> {
-                        Bugemon selectedBugemon = findAvailablePlayerBugemonById(selectedId);
-                        switchPlayerBugemon(selectedBugemon);
-                        if (onPurpose) {
-                            forceEnemyToAttack();
-                        } else {
-                            view.setButtonsDisabled(false);
-                        }
-                    },
-                    () -> view.setButtonsDisabled(false)
-            );
-
-            metaController.openSubScene(switchController.getView(), !onPurpose);
-        } catch (IOException e) {
-            metaController.fatalError("Impossible d'ouvrir la vue de changement : " + e.getMessage());
-        }
+        metaController.openSwitchWindow(
+                fight.getTeamPlayer().getTeamDTO(),
+                onPurpose,
+                fight.getOnFieldPlayerBugemonId()
+        );
     }
 }
