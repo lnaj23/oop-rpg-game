@@ -4,7 +4,6 @@ import controllers.Controller;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.effect.ColorAdjust;
@@ -17,11 +16,8 @@ import models.bugemon.dto.BugemonDTO;
 import views.View;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 /**
  * View for the fight screen.
@@ -41,6 +37,7 @@ public class FightView extends View<Controller> {
      */
     private FightListener listener;
 
+    @FXML private FightChoicePanelView choicePanelController;
     /** Label displaying the enemy Bugémon's name. */
     @FXML private Label enemyNameLabel;
 
@@ -65,39 +62,6 @@ public class FightView extends View<Controller> {
     /** Progress bar representing the player Bugémon's HP ratio. */
     @FXML private ProgressBar playerHpBarFill;
 
-    /** Label displaying the latest combat event message. */
-    @FXML private Label combatMessageLabel;
-
-    /** Panel containing the four main action buttons (Attack, Item, Switch, Forfeit). */
-    @FXML private GridPane actionPanel;
-
-    /** Button to open the attack selection panel. */
-    @FXML private Button btnAttack;
-
-    /** Button to use an item. */
-    @FXML private Button btnItem;
-
-    /** Button to switch the active Bugémon. */
-    @FXML private Button btnSwitch;
-
-    /** Button to forfeit the battle and return to the title screen. */
-    @FXML private Button btnForfeit;
-
-    /** Panel containing the attack buttons and the back button. */
-    @FXML private GridPane attackPanel;
-
-    /** Button to use the first attack. */
-    @FXML private Button btnAttack1;
-
-    /** Button to use the second attack. */
-    @FXML private Button btnAttack2;
-
-    /** Button to use the third attack. */
-    @FXML private Button btnAttack3;
-
-    /** Button to go back from the attack panel to the action panel. */
-    @FXML private Button btnBackFromAttack;
-
     /** Sprite image of the player's active Bugémon. */
     @FXML private ImageView playerSprite;
 
@@ -110,8 +74,6 @@ public class FightView extends View<Controller> {
     /** 2×3 grid displaying the enemy's team sprites. */
     @FXML private GridPane enemyGrid;
 
-    /** Effectiveness message per attack slot, updated by {@link #updatePredictedEffectiveness(List)}. */
-    private List<String> predictedEffectiveness = new ArrayList<>();
 
     /**
      * Constructs the view by loading the FXML and binding all button actions.
@@ -124,16 +86,6 @@ public class FightView extends View<Controller> {
      */
     public FightView() throws IOException {
         super("/fxml/fight/fightview.fxml");
-
-        btnAttack.setOnAction(e -> showAttackandActionPanels(true));
-        btnItem.setOnAction(e -> this.listener.onItemClicked());
-        btnSwitch.setOnAction(e -> this.listener.onSwitchDisplaeyPlayerClicked());
-        btnForfeit.setOnAction(e -> this.listener.onForfeitClicked());
-
-        btnAttack1.setOnAction(e -> this.listener.onAttackSelected(0));
-        btnAttack2.setOnAction(e -> this.listener.onAttackSelected(1));
-        btnAttack3.setOnAction(e -> this.listener.onAttackSelected(2));
-        btnBackFromAttack.setOnAction(e -> showAttackandActionPanels(false));
     }
 
     /**
@@ -144,6 +96,7 @@ public class FightView extends View<Controller> {
      */
     public void setListener(FightListener listener) {
         this.listener = listener;
+        choicePanelController.setListener(listener);
     }
 
     /**
@@ -201,6 +154,13 @@ public class FightView extends View<Controller> {
         }
     }
 
+    /**
+     * Binds mouse events (enter, move, exit, click) to a team sprite ImageView.
+     * Shows HP popup on hover and toggles stats popup on click.
+     *
+     * @param imgView the ImageView to bind events to
+     * @param bugemon the Bugémon DTO associated with this sprite
+     */
     private void bindTeamSpriteEvents(ImageView imgView, BugemonDTO bugemon) {
         imgView.setOnMouseEntered(e -> showHpPopup(e, bugemon, imgView));
         imgView.setOnMouseMoved(this::updatePopupPosition);
@@ -239,7 +199,7 @@ public class FightView extends View<Controller> {
                 getClass().getResourceAsStream("/Assets/png/" + bugemon.getSprite())));
         sprite.setImage(img);
 
-        if (bugemon.getIsPlayer()) updateAttackButtons(bugemon);
+        if (bugemon.getIsPlayer()) choicePanelController.updateAttackButtons(bugemon);
         sprite.setVisible(true);
     }
 
@@ -267,7 +227,7 @@ public class FightView extends View<Controller> {
      * @param message the message to display
      */
     public void updateCombatMessage(String message) {
-        combatMessageLabel.setText(message);
+        choicePanelController.updateCombatMessage(message);
     }
 
 
@@ -277,40 +237,7 @@ public class FightView extends View<Controller> {
      * @param predictedEffectivenessFromFightModels messages from the fight model
      */
     public void updatePredictedEffectiveness(List<String> predictedEffectivenessFromFightModels) {
-        this.predictedEffectiveness = predictedEffectivenessFromFightModels;
-    }
-
-    private void updateAttackButtons(BugemonDTO bugemon) {
-        List<String> attackNames = formatAttackNames(bugemon.getAttackNamesAsList());
-        List<Button> btns        = List.of(btnAttack1, btnAttack2, btnAttack3);
-
-        for (int i = 0; i < btns.size(); i++) {
-            Button btn = btns.get(i);
-            if (i < attackNames.size()) {
-                String typeColor   = bugemon.getAttackColor(i);
-                String borderColor = getEffectivenessColor(predictedEffectiveness.get(i));
-                btn.setText(attackNames.get(i) + "\n" + predictedEffectiveness.get(i));
-                btn.setStyle(
-                        "-fx-background-color: " + typeColor    + "; " +
-                                "-fx-text-fill: white; "                        +
-                                "-fx-background-radius: 5; "                    +
-                                "-fx-border-color: "     + borderColor  + "; " +
-                                "-fx-border-width: 5; "                         +
-                                "-fx-border-radius: 5;"
-                );
-                btn.setVisible(true);
-            } else {
-                btn.setVisible(false);
-            }
-        }
-    }
-
-    private String getEffectivenessColor(String effectiveness) {
-        return switch (effectiveness) {
-            case "Super efficace !" -> "rgb(0,152,0)";
-            case "Peu efficace..."  -> "#FF0000";
-            default                 -> "transparent";
-        };
+        choicePanelController.updatePredictedEffectiveness(predictedEffectivenessFromFightModels);
     }
 
 
@@ -372,10 +299,7 @@ public class FightView extends View<Controller> {
      * @param showAttack {@code true} to show the attack panel, {@code false} to show the action panel
      */
     public void showAttackandActionPanels(boolean showAttack) {
-        attackPanel.setVisible(showAttack);
-        attackPanel.setManaged(showAttack);
-        actionPanel.setVisible(!showAttack);
-        actionPanel.setManaged(!showAttack);
+        choicePanelController.showAttackandActionPanels(showAttack);
     }
 
     /**
@@ -384,10 +308,7 @@ public class FightView extends View<Controller> {
      * @param disabled {@code true} to disable, {@code false} to enable
      */
     public void setButtonsDisabled(boolean disabled) {
-        btnAttack.setDisable(disabled);
-        btnItem.setDisable(disabled);
-        btnSwitch.setDisable(disabled);
-        btnForfeit.setDisable(disabled);
+        choicePanelController.setButtonsDisabled(disabled);
     }
 
     /**
@@ -395,9 +316,7 @@ public class FightView extends View<Controller> {
      * Clears sprites, labels, HP bars, attack buttons, and hides all popups.
      */
     public void resetDisplay() {
-        showAttackandActionPanels(false);
-        setButtonsDisabled(false);
-
+        choicePanelController.reset();
         teamGrid.getChildren().clear();
         enemyGrid.getChildren().clear();
 
@@ -410,18 +329,21 @@ public class FightView extends View<Controller> {
         enemyNameLabel.setText("");   enemyHpLabel.setText("");
         enemyEffectLabel.setText(""); enemyHpBarFill.setProgress(1.0);
 
-        combatMessageLabel.setText("");
 
-        List.of(btnAttack1, btnAttack2, btnAttack3).forEach(btn -> {
-            btn.setText("");
-            btn.setVisible(false);
-        });
 
         popup.hideHp();
         popup.hideStats();
     }
 
 
+    /**
+     * Creates an ImageView sprite from a resource path with the specified size.
+     * Preserves the aspect ratio of the image.
+     *
+     * @param resourcePath the classpath resource path to the image file
+     * @param size the width and height to fit the image to
+     * @return a configured ImageView with the loaded sprite
+     */
     private ImageView createSprite(String resourcePath, int size) {
         Image     img  = new Image(Objects.requireNonNull(getClass().getResourceAsStream(resourcePath)));
         ImageView view = new ImageView(img);
@@ -431,15 +353,4 @@ public class FightView extends View<Controller> {
         return view;
     }
 
-    /**
-     * Formats raw snake_case attack names into capitalised display names.
-     * Example: {@code "fire_blast"} → {@code "Fire Blast"}.
-     */
-    private List<String> formatAttackNames(List<String> raw) {
-        return raw.stream()
-                .map(s -> Arrays.stream(s.split("_"))
-                        .map(word -> Character.toUpperCase(word.charAt(0)) + word.substring(1))
-                        .collect(Collectors.joining(" ")))
-                .toList();
-    }
 }
