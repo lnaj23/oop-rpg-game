@@ -3,7 +3,7 @@ package controllers.fight;
 import controllers.Controller;
 import controllers.MetaController;
 import models.bugemon.dto.BugemonDTO;
-import views.fight.SwitchBugemonSubView;
+import views.fight.SwitchBugemonView;
 
 import java.io.IOException;
 import java.util.List;
@@ -12,12 +12,12 @@ import java.util.function.Consumer;
 /**
  * Controller for the Bugemon switch sub-view used during a fight.
  * <p>
- * This controller initializes the {@link SwitchBugemonSubView}, displays the
+ * This controller initializes the {@link SwitchBugemonView}, displays the
  * player's team, validates switch choices, and delegates the selected Bugemon
  * through a callback. It also handles cancellation when switching is optional.
  * </p>
  */
-public class SwitchBugemonController extends Controller<SwitchBugemonSubView> {
+public class SwitchBugemonController extends Controller<SwitchBugemonView> {
 
     private final Object currentOnFieldId;
     private final Consumer<Object> onBugemonSelected;
@@ -41,7 +41,7 @@ public class SwitchBugemonController extends Controller<SwitchBugemonSubView> {
                                    Object currentOnFieldId,
                                    Consumer<Object> onBugemonSelected,
                                    Runnable onCancel) throws IOException {
-        super(metaController, new SwitchBugemonSubView());
+        super(metaController, new SwitchBugemonView());
         this.currentOnFieldId = currentOnFieldId;
         this.onBugemonSelected = onBugemonSelected;
         this.onCancel = onCancel;
@@ -89,7 +89,7 @@ public class SwitchBugemonController extends Controller<SwitchBugemonSubView> {
      *
      * @return the Bugemon switch sub-view
      */
-    public SwitchBugemonSubView getView() {
+    public SwitchBugemonView getView() {
         return view;
     }
 }

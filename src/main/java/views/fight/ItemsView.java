@@ -6,7 +6,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import models.bugemon.dto.ItemDTO;
-import models.game.Item;
 import views.View;
 
 import java.io.IOException;
@@ -18,7 +17,7 @@ import java.util.List;
  * to its associated {@link ItemChoiceController}.
  * </p>
  */
-public class ItemsSubView extends View<ItemChoiceController> {
+public class ItemsView extends View<ItemChoiceController> {
 
     @FXML private ListView<ItemDTO> itemListView;
     @FXML private Button btnUse;
@@ -28,7 +27,7 @@ public class ItemsSubView extends View<ItemChoiceController> {
      *
      * @throws IOException if the FXML file cannot be loaded
      */
-    public ItemsSubView() throws IOException {
+    public ItemsView() throws IOException {
         super("/fxml/fight/itemsview.fxml");
     }
 

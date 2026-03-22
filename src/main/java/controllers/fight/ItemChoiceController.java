@@ -4,7 +4,7 @@ import controllers.Controller;
 import controllers.MetaController;
 import models.game.Item;
 import models.bugemon.dto.ItemDTO;
-import views.fight.ItemsSubView;
+import views.fight.ItemsView;
 
 import java.io.IOException;
 import java.util.List;
@@ -12,13 +12,13 @@ import java.util.function.Consumer;
 /**
  * Controller for the item selection sub-view used during a fight.
  * <p>
- * This controller initializes the {@link ItemsSubView}, provides it with the list
+ * This controller initializes the {@link ItemsView}, provides it with the list
  * of available items, and handles user actions coming from the sub-view.
  * It delegates the selected item through a callback and closes the sub-window
  * when the interaction is complete.
  * </p>
  */
-public class ItemChoiceController extends Controller<ItemsSubView> {
+public class ItemChoiceController extends Controller<ItemsView> {
     private final Consumer<Item> onItemSelected;
 
     /**
@@ -32,7 +32,7 @@ public class ItemChoiceController extends Controller<ItemsSubView> {
     public ItemChoiceController(MetaController metaController,
                                 List<Item> items,
                                 Consumer<Item> onItemSelected) throws IOException {
-        super(metaController, new ItemsSubView());
+        super(metaController, new ItemsView());
         this.onItemSelected = onItemSelected;
         this.view.setController(this);
         this.view.setItems(items.stream().map(item -> (ItemDTO) item).toList());
@@ -72,7 +72,7 @@ public class ItemChoiceController extends Controller<ItemsSubView> {
      *
      * @return the item selection sub-view
      */
-    public ItemsSubView getView() {
+    public ItemsView getView() {
         return view;
     }
 

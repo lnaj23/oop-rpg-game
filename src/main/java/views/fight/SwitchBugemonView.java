@@ -2,9 +2,7 @@ package views.fight;
 
 import controllers.fight.SwitchBugemonController;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.HPos;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -12,17 +10,13 @@ import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import models.bugemon.dto.BugemonDTO;
 import views.View;
-import views.utils.PopupManager;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
-import java.util.function.Consumer;
 
 /**
  * View for the Bugemon switch sub-window displayed during a fight.
@@ -32,7 +26,7 @@ import java.util.function.Consumer;
  * {@link SwitchBugemonController}.
  * </p>
  */
-public class SwitchBugemonSubView extends View<SwitchBugemonController> {
+public class SwitchBugemonView extends View<SwitchBugemonController> {
 
     @FXML private GridPane grid;
     @FXML private Button   btnCancel;
@@ -43,7 +37,7 @@ public class SwitchBugemonSubView extends View<SwitchBugemonController> {
      *
      * @throws IOException if the FXML file cannot be loaded
      */
-    public SwitchBugemonSubView() throws IOException {
+    public SwitchBugemonView() throws IOException {
         super("/fxml/fight/switchbugemonview.fxml");
     }
 
