@@ -1,6 +1,6 @@
 package views.fight;
 
-import controllers.fight.SwitchBugemonController;
+import controllers.Controller;
 import javafx.fxml.FXML;
 import javafx.geometry.HPos;
 import javafx.scene.control.Alert;
@@ -11,6 +11,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.stage.StageStyle;
+import listener.SelectBugemonFromTeamListener;
 import models.bugemon.dto.BugemonDTO;
 import views.View;
 
@@ -23,14 +24,15 @@ import java.util.Objects;
  * <p>
  * This view renders the player's team, shows HP popups on hover,
  * and forwards selection and cancellation events to its associated
- * {@link SwitchBugemonController}.
+ * {@link Controller}.
  * </p>
  */
-public class SwitchBugemonView extends View<SwitchBugemonController> {
+public class SwitchBugemonView extends View<Controller> {
 
     @FXML private GridPane grid;
     @FXML private Button   btnCancel;
     @FXML private Label    titleLabel;
+    private SelectBugemonFromTeamListener listener;
 
     /**
      * Creates the Bugemon switch sub-view and loads its FXML layout.
@@ -49,6 +51,11 @@ public class SwitchBugemonView extends View<SwitchBugemonController> {
     @Override
     protected String getTitle() {
         return "Changer de Bugemon";
+    }
+
+
+    public void setListener(SelectBugemonFromTeamListener listener) {
+        this.listener = listener;
     }
 
     /**
@@ -72,7 +79,7 @@ public class SwitchBugemonView extends View<SwitchBugemonController> {
         btnCancel.setManaged(showCancel);
 
         if (showCancel) {
-            btnCancel.setOnAction(e -> controller.onCancelClicked());
+            btnCancel.setOnAction(e -> this.listener.onCancelClickedRequest());
             int row = (team.size() - 1) / 3 + 1;
             grid.add(btnCancel, 1, row);
             GridPane.setHalignment(btnCancel, HPos.CENTER);
@@ -106,7 +113,7 @@ public class SwitchBugemonView extends View<SwitchBugemonController> {
         imgView.setOnMouseEntered(e -> showHpPopup(e, bugemon, imgView));
         imgView.setOnMouseMoved(this::updatePopupPosition);
         imgView.setOnMouseExited(e -> popup.hideHp());
-        imgView.setOnMouseClicked(e -> controller.onBugemonClicked(bugemon));
+        imgView.setOnMouseClicked(e -> this.listener.onBugemonClickedRequest(bugemon));
     }
 
     /**

@@ -4,7 +4,7 @@ import controllers.Controller;
 import controllers.MetaController;
 import models.bugemon.dto.BugemonDTO;
 import views.fight.SwitchBugemonView;
-
+import listener.SelectBugemonFromTeamListener;
 import java.io.IOException;
 import java.util.List;
 import java.util.function.Consumer;
@@ -17,7 +17,7 @@ import java.util.function.Consumer;
  * through a callback. It also handles cancellation when switching is optional.
  * </p>
  */
-public class SwitchBugemonController extends Controller<SwitchBugemonView> {
+public class SwitchBugemonController extends Controller<SwitchBugemonView> implements SelectBugemonFromTeamListener {
 
     private final Object currentOnFieldId;
     private final Consumer<Object> onBugemonSelected;
@@ -47,6 +47,7 @@ public class SwitchBugemonController extends Controller<SwitchBugemonView> {
         this.onCancel = onCancel;
 
         this.view.setController(this);
+        this.view.setListener(this);
         this.view.displayTeam(team, onPurpose);
     }
 
@@ -82,6 +83,15 @@ public class SwitchBugemonController extends Controller<SwitchBugemonView> {
     public void onCancelClicked() {
         view.closeWindow();
         onCancel.run();
+    }
+
+    @Override
+    public void onBugemonClickedRequest(BugemonDTO bugemon) {
+        onBugemonClicked(bugemon);
+    }
+    @Override
+    public void onCancelClickedRequest() {
+        onCancelClicked();
     }
 
     /**
