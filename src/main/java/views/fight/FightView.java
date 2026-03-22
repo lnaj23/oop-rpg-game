@@ -163,7 +163,7 @@ public class FightView extends View<Controller> {
         );
         alert.initStyle(StageStyle.UNDECORATED);
         alert.setGraphic(null);
-        alert.setOnHidden(e -> onClose.run());
+        alert.setOnHidden(e -> this.listener.onReturnToTitleRequested());
         alert.show();
     }
 

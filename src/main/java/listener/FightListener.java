@@ -11,6 +11,7 @@ import controllers.fight.FightController;
  * </p>
  */
 public interface FightListener {
+    void onReturnToTitleRequested();
 
     /**
      * Called when the player selects an attack.

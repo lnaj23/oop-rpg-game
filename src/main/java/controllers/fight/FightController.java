@@ -54,6 +54,10 @@ public class FightController extends Controller<FightView> implements FightListe
         super(metaController, new FightView());
         this.view.setListener(this);
     }
+    @Override
+    public void onReturnToTitleRequested() {
+        gotoTitleScreen();
+    }
 
     /**
      * Initialises the fight with the given player team and a hardcoded enemy team,
@@ -79,10 +83,14 @@ public class FightController extends Controller<FightView> implements FightListe
             forceEnemyToAttack();
         }
     }
+    public void gotoTitleScreen() {
+        this.metaController.switchScene(MetaController.Scenes.TITLE_SCREEN);
+    }
 
     /**
      * Navigates back to the title screen.
      */
+
     public void goToTitleScreen() {
         this.metaController.switchScene(MetaController.Scenes.TITLE_SCREEN);
     }
