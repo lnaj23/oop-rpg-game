@@ -5,6 +5,7 @@ import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
+import models.bugemon.dto.ItemDTO;
 import models.game.Item;
 import views.View;
 
@@ -19,7 +20,7 @@ import java.util.List;
  */
 public class ItemsSubView extends View<ItemChoiceController> {
 
-    @FXML private ListView<Item> itemListView;
+    @FXML private ListView<ItemDTO> itemListView;
     @FXML private Button btnUse;
     @FXML private Button btnClose;
     /**
@@ -62,7 +63,7 @@ public class ItemsSubView extends View<ItemChoiceController> {
      *
      * @param items the items to display
      */
-    public void setItems(List<Item> items) {
+    public void setItems(List<ItemDTO> items) {
         itemListView.setItems(FXCollections.observableArrayList(items));
     }
 
@@ -71,7 +72,7 @@ public class ItemsSubView extends View<ItemChoiceController> {
      *
      * @return the selected item, or {@code null} if none is selected
      */
-    public Item getSelectedItem() {
+    public ItemDTO getSelectedItem() {
         return itemListView.getSelectionModel().getSelectedItem();
     }
 }

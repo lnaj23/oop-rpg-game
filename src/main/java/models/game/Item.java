@@ -1,9 +1,11 @@
 package models.game;
 
+import models.bugemon.dto.ItemDTO;
+
 /**
  * Represents an item that can be used during a fight.
  */
-public class Item {
+public class Item implements ItemDTO {
     private final String id;
     private final String name;
     private final String description;

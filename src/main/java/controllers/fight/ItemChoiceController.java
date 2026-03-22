@@ -3,6 +3,7 @@ package controllers.fight;
 import controllers.Controller;
 import controllers.MetaController;
 import models.game.Item;
+import models.bugemon.dto.ItemDTO;
 import views.fight.ItemsSubView;
 
 import java.io.IOException;
@@ -34,7 +35,8 @@ public class ItemChoiceController extends Controller<ItemsSubView> {
         super(metaController, new ItemsSubView());
         this.onItemSelected = onItemSelected;
         this.view.setController(this);
-        this.view.setItems(items);
+        this.view.setItems(items.stream().map(item -> (ItemDTO) item).toList());
+        this.items = items;
     }
 
     /**
@@ -45,12 +47,17 @@ public class ItemChoiceController extends Controller<ItemsSubView> {
      * </p>
      */
     public void onUseClicked() {
-        Item selected = view.getSelectedItem();
+        ItemDTO selected = view.getSelectedItem();
         if (selected == null) {
             return;
         }
-        onItemSelected.accept(selected);
-        view.closeWindow();
+        for (Item item : items) {
+            if (item.getId().equals(selected.getId())) {
+                onItemSelected.accept(item);
+                view.closeWindow();
+                return;
+            }
+        }
     }
 
     /**
@@ -68,4 +75,6 @@ public class ItemChoiceController extends Controller<ItemsSubView> {
     public ItemsSubView getView() {
         return view;
     }
+
+    private final List<Item> items;
 }
