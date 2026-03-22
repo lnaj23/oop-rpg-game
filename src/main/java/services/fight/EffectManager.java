@@ -20,6 +20,8 @@ public abstract class EffectManager {
                 finalTarget = attacker;
             }else if(effet.getTarget().equals("adversaire")){
                 finalTarget = target;
+            }else if(effet.getTarget().equals("equipe")){
+                //TODO Ici faut faire avec la TeamBugemon dcp c un peu différent
             }
         }
     }
