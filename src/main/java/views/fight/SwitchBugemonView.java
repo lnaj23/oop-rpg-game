@@ -18,7 +18,6 @@ import views.View;
 import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
-
 /**
  * View for the Bugemon switch sub-window displayed during a fight.
  * <p>
@@ -54,6 +53,12 @@ public class SwitchBugemonView extends View<Controller> {
     }
 
 
+    /**
+     * Sets the listener for Bugemon selection and cancellation events.
+     *
+     * @param listener the {@link SelectBugemonFromTeamListener} that will handle
+     *                 user interactions (Bugemon clicks and cancel button clicks)
+     */
     public void setListener(SelectBugemonFromTeamListener listener) {
         this.listener = listener;
     }
@@ -86,6 +91,16 @@ public class SwitchBugemonView extends View<Controller> {
         }
     }
 
+    /**
+     * Creates and configures a sprite ImageView for a Bugemon.
+     * <p>
+     * Loads the Bugemon's sprite image from the assets directory, sets fixed
+     * dimensions (80x80), and applies a grayscale effect if the Bugemon is KO.
+     * </p>
+     *
+     * @param bugemon the Bugemon for which to create the sprite
+     * @return a configured ImageView displaying the Bugemon sprite
+     */
     private ImageView createSprite(BugemonDTO bugemon) {
         Image     img  = new Image(Objects.requireNonNull(
                 getClass().getResourceAsStream("/Assets/png/" + bugemon.getSprite())));

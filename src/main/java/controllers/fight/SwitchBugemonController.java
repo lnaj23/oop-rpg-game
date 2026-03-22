@@ -85,10 +85,21 @@ public class SwitchBugemonController extends Controller<SwitchBugemonView> imple
         onCancel.run();
     }
 
+    /**
+     * Implements the listener interface method for Bugemon selection.
+     * Delegates the selection request to the internal handler.
+     *
+     * @param bugemon the Bugemon selected by the user
+     */
     @Override
     public void onBugemonClickedRequest(BugemonDTO bugemon) {
         onBugemonClicked(bugemon);
     }
+
+    /**
+     * Implements the listener interface method for cancellation.
+     * Delegates the cancellation request to the internal handler.
+     */
     @Override
     public void onCancelClickedRequest() {
         onCancelClicked();
