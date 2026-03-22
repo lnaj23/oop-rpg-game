@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
  * All user interactions are forwarded to a {@link FightListener}.
  * </p>
  */
-public class FightChoicePanelView {
+public class FightChoicePanelSubView {
 
     /** The listener that receives fight-related user actions. */
     private FightListener listener;

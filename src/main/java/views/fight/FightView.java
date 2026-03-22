@@ -37,7 +37,7 @@ public class FightView extends View<Controller> {
      */
     private FightListener listener;
 
-    @FXML private FightChoicePanelView choicePanelController;
+    @FXML private FightChoicePanelSubView choicePanelController;
     /** Label displaying the enemy Bugémon's name. */
     @FXML private Label enemyNameLabel;
 
