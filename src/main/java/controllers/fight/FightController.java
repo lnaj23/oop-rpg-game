@@ -16,8 +16,6 @@ import java.util.Objects;
 import java.util.Random;
 
 import models.bugemon.TeamBugemon;
-import views.fight.ItemsSubView;
-import views.fight.SwitchBugemonSubView;
 
 /**
  * Controller for the fight screen.
@@ -56,6 +54,10 @@ public class FightController extends Controller<FightView> implements FightListe
         super(metaController, new FightView());
         this.view.setListener(this);
     }
+    @Override
+    public void onReturnToTitleRequested() {
+        gotoTitleScreen();
+    }
 
     /**
      * Initialises the fight with the given player team and a hardcoded enemy team,
@@ -81,10 +83,14 @@ public class FightController extends Controller<FightView> implements FightListe
             forceEnemyToAttack();
         }
     }
+    public void gotoTitleScreen() {
+        this.metaController.switchScene(MetaController.Scenes.TITLE_SCREEN);
+    }
 
     /**
      * Navigates back to the title screen.
      */
+
     public void goToTitleScreen() {
         this.metaController.switchScene(MetaController.Scenes.TITLE_SCREEN);
     }
@@ -109,18 +115,20 @@ public class FightController extends Controller<FightView> implements FightListe
 
     /**
      * Called when the player clicks the item button.
-     * Opens a window with a list of hardcoded items.
+     * <p>
+     * Opens the item selection sub-window through the meta-controller
+     * using a dedicated {@link ItemChoiceController}.
+     * </p>
      */
     @Override
     public void onItemClicked() {
         List<Item> hardcodedItems = List.of(
                 new Item("potion", "Une potion", "soigne 20 HP"),
                 new Item("super_potion", "Une super potion", "soigne 50 HP"),
-                new Item("revive", "La réanimation", "réanime un Bugémon KO")
+                new Item("revive", "La reanimation", "reanime un Bugemon KO")
         );
 
-        ItemsSubView itemsView = new ItemsSubView(hardcodedItems, item -> useItem(item));
-        itemsView.show();
+        metaController.openItemChoiceWindow(hardcodedItems);
     }
 
     /**
@@ -146,6 +154,38 @@ public class FightController extends Controller<FightView> implements FightListe
         );
     }
 
+    /**
+     * Receives the item selected in the item choice sub-window.
+     *
+     * @param item the item chosen by the player
+     */
+    public void onItemChosen(Item item) {
+        useItem(item);
+    }
+
+    /**
+     * Receives the Bugemon selected in the switch sub-window.
+     *
+     * @param selectedId the identifier of the selected Bugemon
+     * @param onPurpose {@code true} if the switch was voluntary,
+     *                  {@code false} if it was forced after a KO
+     */
+    public void onSwitchBugemonChosen(Object selectedId, boolean onPurpose) {
+        Bugemon selectedBugemon = findAvailablePlayerBugemonById(selectedId);
+        switchPlayerBugemon(selectedBugemon);
+        if (onPurpose) {
+            forceEnemyToAttack();
+        } else {
+            view.setButtonsDisabled(false);
+        }
+    }
+
+    /**
+     * Handles the cancellation of the switch sub-window.
+     */
+    public void onSwitchCancelled() {
+        view.setButtonsDisabled(false);
+    }
     /**
      * Uses the selected item, displays a combat message, and ends the player's turn.
      *
@@ -309,24 +349,16 @@ public class FightController extends Controller<FightView> implements FightListe
     }
 
     /**
-     * Opens the switch window for the player.
+     * Opens the Bugemon switch sub-window for the player.
      *
-     * @param onPurpose {@code true} if the player chose to switch voluntarily
-     *                  (costs a turn), {@code false} if forced after a KO
+     * @param onPurpose {@code true} if the player chose to switch voluntarily,
+     *                  {@code false} if forced after a KO
      */
     private void showSwitchWindow(boolean onPurpose) {
-        SwitchBugemonSubView switchView = new SwitchBugemonSubView(
+        metaController.openSwitchWindow(
                 fight.getTeamPlayer().getTeamDTO(),
                 onPurpose,
-                fight.getOnFieldPlayerBugemonId(),
-                selectedId -> {
-                    Bugemon selectedBugemon = findAvailablePlayerBugemonById(selectedId);
-                    switchPlayerBugemon(selectedBugemon);
-                    if (onPurpose) forceEnemyToAttack();
-                    else view.setButtonsDisabled(false);
-                },
-                () -> view.setButtonsDisabled(false)
+                fight.getOnFieldPlayerBugemonId()
         );
-        switchView.show();
     }
 }

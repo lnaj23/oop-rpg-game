@@ -14,6 +14,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.stage.Window;
 
 import controllers.Controller;
 import models.bugemon.dto.BugemonDTO;
@@ -85,6 +86,34 @@ public abstract class View<T extends Controller> {
         stage.setTitle(this.getTitle());
         if (!stage.isShowing()) {
             stage.show();
+        }
+    }
+
+    /**
+     * Attaches this view's scene and title to the given stage without showing it.
+     * <p>
+     * This method is mainly used by the meta-controller when opening sub-scenes
+     * in secondary windows.
+     * </p>
+     *
+     * @param stage the stage to configure with this view
+     */
+    public void attachTo(Stage stage) {
+        stage.setScene(this.scene);
+        stage.setTitle(this.getTitle());
+    }
+
+    /**
+     * Closes the window currently displaying this view, if any.
+     * <p>
+     * This is typically used by sub-view controllers to close modal windows
+     * without directly manipulating the stage.
+     * </p>
+     */
+    public void closeWindow() {
+        Window window = scene.getWindow();
+        if (window instanceof Stage stage) {
+            stage.close();
         }
     }
 

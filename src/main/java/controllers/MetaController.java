@@ -1,12 +1,19 @@
 package controllers;
 
 import controllers.fight.FightController;
+import controllers.fight.ItemChoiceController;
+import controllers.fight.SwitchBugemonController;
 import controllers.teamchoice.PreBuildTeamController;
 import controllers.teamchoice.SelectionController;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import models.bugemon.TeamBugemon;
+import models.bugemon.dto.BugemonDTO;
+import models.game.Item;
 import services.dataprovider.TeamService;
 import views.FatalErrorView;
+import views.View;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -81,6 +88,74 @@ public class MetaController {
             stage.setHeight(height);
             stage.setX(x);
             stage.setY(y);
+        }
+    }
+
+    /**
+     * Opens the given view in a secondary modal window.
+     *
+     * @param view the view to display in the sub-window
+     * @param wait {@code true} to use {@code showAndWait()}, {@code false} to use {@code show()}
+     */
+    public void openSubScene(View<?> view, boolean wait) {
+        Stage subStage = new Stage();
+        subStage.initOwner(stage);
+        subStage.initModality(Modality.APPLICATION_MODAL);
+        subStage.initStyle(StageStyle.UNDECORATED);
+
+        view.attachTo(subStage);
+
+        if (wait) {
+            subStage.showAndWait();
+        } else {
+            subStage.show();
+        }
+    }
+
+    /**
+     * Opens the item selection sub-window for the fight scene.
+     * <p>
+     * The corresponding sub-controller is created here and the selected item
+     * is sent back to the fight controller through the meta-controller.
+     * </p>
+     *
+     * @param items the list of available items to display
+     */
+    public void openItemChoiceWindow(List<Item> items) {
+        try {
+            ItemChoiceController itemChoiceController =
+                    new ItemChoiceController(this, items, fightController::onItemChosen);
+            openSubScene(itemChoiceController.getView(), true);
+        } catch (IOException e) {
+            fatalError("Impossible d'ouvrir la vue des objets : " + e.getMessage());
+        }
+    }
+
+    /**
+     * Opens the Bugemon switch sub-window for the fight scene.
+     * <p>
+     * The corresponding sub-controller is created here and the selected Bugemon
+     * is sent back to the fight controller through the meta-controller.
+     * </p>
+     *
+     * @param team the player's team to display in the switch window
+     * @param onPurpose {@code true} if the player opened the switch window voluntarily,
+     *                  {@code false} if the switch is forced
+     * @param currentOnFieldId the identifier of the Bugemon currently on the field
+     */
+    public void openSwitchWindow(List<BugemonDTO> team, boolean onPurpose, Object currentOnFieldId) {
+        try {
+            SwitchBugemonController switchController = new SwitchBugemonController(
+                    this,
+                    team,
+                    onPurpose,
+                    currentOnFieldId,
+                    selectedId -> fightController.onSwitchBugemonChosen(selectedId, onPurpose),
+                    fightController::onSwitchCancelled
+            );
+            openSubScene(switchController.getView(), !onPurpose);
+        } catch (IOException e) {
+            fatalError("Impossible d'ouvrir la vue de changement : " + e.getMessage());
         }
     }
 

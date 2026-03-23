@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx/17.0.12"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="views.fight.FightChoicePanelSubView"
+      spacing="10">
+
+    <Label fx:id="combatMessageLabel"
+           styleClass="combat-message-label"
+           text="Message Combat"
+           wrapText="true" />
+
+    <GridPane fx:id="actionPanel" hgap="15" styleClass="action-panel" vgap="15">
+        <columnConstraints>
+            <ColumnConstraints percentWidth="50" />
+            <ColumnConstraints percentWidth="50" />
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints minHeight="60" />
+            <RowConstraints minHeight="60" />
+        </rowConstraints>
+
+        <Button fx:id="btnAttack" maxWidth="Infinity" styleClass="btn-attack" text="Attaquer" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+        <Button fx:id="btnItem" maxWidth="Infinity" styleClass="btn-item" text="Objet" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+        <Button fx:id="btnSwitch" maxWidth="Infinity" styleClass="btn-switch" text="Changer Bugémon" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+        <Button fx:id="btnForfeit" maxWidth="Infinity" styleClass="btn-forfeit" text="Abandonner" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+    </GridPane>
+
+    <GridPane fx:id="attackPanel" hgap="15" managed="false" styleClass="action-panel" vgap="15" visible="false">
+        <columnConstraints>
+            <ColumnConstraints percentWidth="50" />
+            <ColumnConstraints percentWidth="50" />
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints minHeight="60" />
+            <RowConstraints minHeight="60" />
+        </rowConstraints>
+
+        <Button fx:id="btnAttack1" maxWidth="Infinity" styleClass="btn-attack-move" text="Attaque 1" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+        <Button fx:id="btnAttack2" maxWidth="Infinity" styleClass="btn-attack-move" text="Attaque 2" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+        <Button fx:id="btnAttack3" maxWidth="Infinity" styleClass="btn-attack-move" text="Attaque 3" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+        <Button fx:id="btnBackFromAttack" maxWidth="Infinity" styleClass="btn-forfeit" text="Retour" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+    </GridPane>
+
+</VBox>
