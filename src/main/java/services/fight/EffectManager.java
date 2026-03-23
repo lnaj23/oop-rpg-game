@@ -28,7 +28,7 @@ public abstract class EffectManager {
 
         for (Effect effet : attack.getEffects()) {
             if (effet.getType().equals("soin")) {
-                int valeur = Integer.parseInt(effet.getValeur());
+                int valeur = effet.getValeur();
                 if (effet.getTarget().equals("equipe")) {
                     for (Bugemon membre : attackerTeam.getTeam()) {
                         membre.getStats().heal(valeur);
