@@ -86,8 +86,10 @@ public class SwitchBugemonView extends View<Controller> {
         if (showCancel) {
             btnCancel.setOnAction(e -> this.listener.onCancelClickedRequest());
             int row = (team.size() - 1) / 3 + 1;
-            grid.add(btnCancel, 1, row);
+            grid.add(btnCancel, 0, row);
+            GridPane.setColumnSpan(btnCancel, 3);
             GridPane.setHalignment(btnCancel, HPos.CENTER);
+            btnCancel.setMaxWidth(150);
         }
     }
 
@@ -102,7 +104,7 @@ public class SwitchBugemonView extends View<Controller> {
      * @return a configured ImageView displaying the Bugemon sprite
      */
     private ImageView createSprite(BugemonDTO bugemon) {
-        Image     img  = new Image(Objects.requireNonNull(
+        Image img  = new Image(Objects.requireNonNull(
                 getClass().getResourceAsStream("/Assets/png/" + bugemon.getSprite())));
         ImageView view = new ImageView(img);
         view.setFitHeight(80);
