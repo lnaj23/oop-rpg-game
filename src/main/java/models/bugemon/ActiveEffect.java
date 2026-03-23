@@ -7,7 +7,7 @@ public class ActiveEffect {
     public ActiveEffect(Effect effect) {
         this.effect = effect;
         if ("1_tour".equals(effect.getDuration())) {
-            this.turnsLeft = 1;
+            this.turnsLeft = 2;
         } else {
             this.turnsLeft = null;
         }
