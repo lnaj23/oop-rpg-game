@@ -4,29 +4,107 @@ import models.bugemon.Attack;
 import models.bugemon.Bugemon;
 import models.bugemon.Effect;
 import models.bugemon.TeamBugemon;
+import models.bugemon.ActiveEffect;
 
 import java.util.Objects;
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class EffectManager {
-
+    /**
+     * Applies the effects of an attack on the attacker and/or the target,
+     * then ticks all ongoing temporary effects on both combatants.
+     *
+     * @param attacker     the Bugémon using the attack
+     * @param target       the Bugémon receiving the attack
+     * @param attackerTeam the team of the attacker
+     * @param targetTeam   the team of the target
+     * @param attack       the attack being used
+     */
     public static void handleEffect(Bugemon attacker, Bugemon target, TeamBugemon attackerTeam, TeamBugemon targetTeam,
                                     Attack attack){
-        //TODO
-        //est déjà appelé à chaque tour, mtn faut gerer les effects comme décrit ds l'énoncé
-        //bonne chance, regarder aussi getActifEffectNames() et addActifEffectName de Bugemon pour afficher les nom des effets actifs
-        for(Effect effet : attack.getEffects()){
-            Bugemon finalTarget = null;
-            if (effet.getTarget().equals("lanceur")) {
-                finalTarget = attacker;
-            }else if(effet.getTarget().equals("adversaire")){
-                finalTarget = target;
-            }else if(effet.getTarget().equals("equipe")){
-                //TODO Ici faut faire avec la TeamBugemon dcp c un peu différent
+        if (attack.getEffects() == null) return;
+
+        for (Effect effet : attack.getEffects()) {
+
+            // Soin
+            if (effet.getType().equals("soin")) {
+                int valeur = Integer.parseInt(effet.getValeur());
+                if (effet.getTarget().equals("equipe")) {
+                    // Soigne tous les membres de l'équipe du lanceur
+                    for (Bugemon membre : attackerTeam.getTeam()) {
+                        membre.getStats().heal(valeur);
+                    }
+                } else if (effet.getTarget().equals("lanceur")) {
+                    attacker.getStats().heal(valeur);
+                }
+
+                //  Modificateur de stat
+            } else if (effet.getType().equals("stat_modifier")) {
+                Bugemon finalTarget = switch (effet.getTarget()) {
+                    case "lanceur"    -> attacker;
+                    case "adversaire" -> target;
+                    default           -> null;
+                };
+                if (finalTarget != null) {
+                    applyStatModifier(finalTarget, effet);
+                    finalTarget.addOngoingEffect(effet);
+                }
             }
+        }
+
+        // Tick les effets temporaires des deux combattants
+        tickEffects(attacker);
+        tickEffects(target);
+    }
+    /**
+     * Applies a stat modifier effect to the given Bugémon.
+     *
+     * @param target the Bugémon to apply the modifier to
+     * @param effect the effect containing the stat and modifier value
+     */
+    public static void applyStatModifier(Bugemon target, Effect effect) {
+        int delta = Integer.parseInt(effect.getModifier());
+        switch (effect.getStat()) {
+            case "attaque"    -> target.getStats().modifyAttaque(delta);
+            case "defense"    -> target.getStats().modifyDefense(delta);
+            case "initiative" -> target.getStats().modifyInitiative(delta);
         }
     }
 
-    public static void applyStatModifier(Bugemon target, Effect effect){
+    /**
+     * Decrements all temporary effects on a Bugémon.
+     * Reverses and removes any effect that has expired.
+     *
+     * @param bugemon the Bugémon whose effects should be ticked
+     */
+    private static void tickEffects(Bugemon bugemon) {
+        List<ActiveEffect> toRemove = new ArrayList<>();
+        for (ActiveEffect ae : bugemon.getOngoingEffects()) {
+            if (ae.getTurnsLeft() == null) continue;
 
+            ae.decrementTurns();
+
+            if (ae.isExpired()) {
+                reverseStatModifier(bugemon, ae.getEffect());
+                toRemove.add(ae);
+            }
+        }
+        bugemon.getOngoingEffects().removeAll(toRemove);
+    }
+
+    /**
+     * Reverses a stat modifier by applying the opposite delta.
+     *
+     * @param target the Bugémon to reverse the modifier on
+     * @param effect the effect to reverse
+     */
+    private static void reverseStatModifier(Bugemon target, Effect effect) {
+        int delta = Integer.parseInt(effect.getModifier());
+        switch (effect.getStat()) {
+            case "attaque"    -> target.getStats().modifyAttaque(-delta);
+            case "defense"    -> target.getStats().modifyDefense(-delta);
+            case "initiative" -> target.getStats().modifyInitiative(-delta);
+        }
     }
 }

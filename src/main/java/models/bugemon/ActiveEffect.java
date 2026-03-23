@@ -18,4 +18,9 @@ public class ActiveEffect {
     public Integer getTurnsLeft() { return turnsLeft; }
 
     public void decrementTurns() { if (turnsLeft != null) turnsLeft--; }
+
+    public boolean isExpired() {
+        return turnsLeft != null && turnsLeft <= 0;
+    }
 }
+

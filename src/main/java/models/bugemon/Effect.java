@@ -27,6 +27,10 @@ public class Effect {
     @SerializedName("duree")
     private String duration;
 
+    /** Heal value applied by this effect (only used when type is "soin"). */
+    @SerializedName("valeur")
+    private String valeur;
+
     /**
      * Copy constructor. Creates a deep copy of the given effect.
      *
@@ -84,4 +88,10 @@ public class Effect {
     public String getDuration() {
         return duration;
     }
+    /**
+     * Returns the heal value of this effect.
+     *
+     * @return the heal value, or null if this effect is not a heal
+     */
+    public String getValeur() { return valeur; }
 }
