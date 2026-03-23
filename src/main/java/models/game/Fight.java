@@ -55,8 +55,7 @@ public class Fight {
         this.teamPlayer = new TeamBugemon(teamPlayer);
         this.teamEnemy  = new TeamBugemon(teamEnemy);
 
-        this.teamPlayer.getTeam().forEach(b -> { b.setIsPlayer(true);  b.initPv(); });
-        this.teamEnemy.getTeam().forEach(b  -> { b.setIsPlayer(false); b.initPv(); });
+        this.teamPlayer.getTeam().forEach(b -> { b.setIsPlayer(true);});
 
         this.teamPlayer.changeOnFieldBugemon(this.teamPlayer.getTeam().getFirst());
         this.teamEnemy.changeOnFieldBugemon(this.teamEnemy.getTeam().getFirst());
@@ -197,7 +196,8 @@ public class Fight {
         TeamBugemon attackerTeam = isPlayerTurn ? teamPlayer : teamEnemy;
         TeamBugemon defenderTeam = isPlayerTurn ? teamEnemy  : teamPlayer;
 
-        actionResulText = attacker.attack(defender, attack) + EffectManager.handleEffect(attacker, defender, attackerTeam, defenderTeam, attack);
+        actionResulText = attacker.attack(defender, attack) + "\n" +
+                EffectManager.handleEffect(attacker, defender, attackerTeam, defenderTeam, attack);
 
         switchRole();
     }

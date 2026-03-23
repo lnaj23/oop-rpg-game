@@ -93,14 +93,6 @@ public class Stats {
         return initiative + initiativeModifier;
     }
 
-    /**
-     * Sets the current HP to the given value.
-     *
-     * @param value the new current HP
-     */
-    public void setCurrentPv(int value) {
-        this.currentpv = value;
-    }
 
     /**
      * Modifies the attack stat by the specified delta.
@@ -166,5 +158,10 @@ public class Stats {
     //Pv au début = Pv max
     public void initCurrentPv() {
         this.currentpv = this.pv;
+    }
+
+    String getActifModifierAsStringToDisplay() {
+        return "Effets :" + "\n attaque : " + this.attaqueModifier + "\n defense : " + this.defenseModifier
+                + "\n initiative : " + this.initiativeModifier;
     }
 }

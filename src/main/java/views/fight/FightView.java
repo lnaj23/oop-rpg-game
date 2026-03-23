@@ -184,7 +184,7 @@ public class FightView extends View<Controller> {
      * @param bugemon the Bugémon DTO to display
      */
     public void updateActiveBugemonSprite(BugemonDTO bugemon) {
-        updateBugemonHPDisplay(bugemon);
+        updateBugemonHPAndEffectDisplay(bugemon);
 
         Label     nameLabel   = bugemon.getIsPlayer() ? playerNameLabel   : enemyNameLabel;
         Label     hpLabel     = bugemon.getIsPlayer() ? playerHpLabel     : enemyHpLabel;
@@ -193,7 +193,7 @@ public class FightView extends View<Controller> {
 
         nameLabel.setText(bugemon.getName());
         hpLabel.setText("HP: " + bugemon.getcurrenPv() + "/" + bugemon.getPv());
-        effectLabel.setText("Effets : Aucun");
+        effectLabel.setText(bugemon.getActifModifierAsStringToDisplay() );
 
         Image img = new Image(Objects.requireNonNull(
                 getClass().getResourceAsStream("/Assets/png/" + bugemon.getSprite())));
@@ -208,7 +208,7 @@ public class FightView extends View<Controller> {
      *
      * @param bugemon the Bugémon DTO whose HP to update
      */
-    public void updateBugemonHPDisplay(BugemonDTO bugemon) {
+    public void updateBugemonHPAndEffectDisplay(BugemonDTO bugemon) {
         ProgressBar hpBar       = bugemon.getIsPlayer() ? playerHpBarFill  : enemyHpBarFill;
         Label       hpLabel     = bugemon.getIsPlayer() ? playerHpLabel    : enemyHpLabel;
         Label       effectLabel = bugemon.getIsPlayer() ? playerEffectLabel : enemyEffectLabel;
@@ -217,8 +217,7 @@ public class FightView extends View<Controller> {
         hpBar.setProgress(ratio);
         hpLabel.setText("HP: " + bugemon.getcurrenPv() + "/" + bugemon.getPv());
 
-        List<String> effects = bugemon.getActifEffectNames();
-        effectLabel.setText("Effets : " + (effects.isEmpty() ? "Aucun" : String.join(", ", effects)));
+        effectLabel.setText(bugemon.getActifModifierAsStringToDisplay() );
     }
 
     /**

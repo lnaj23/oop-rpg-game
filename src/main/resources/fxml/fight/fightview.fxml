@@ -14,9 +14,9 @@
 
     <AnchorPane prefHeight="892.0" prefWidth="1288.0">
 
-        <VBox id="enemy" alignment="CENTER" layoutX="791.0" layoutY="199.0" prefWidth="220" spacing="8" AnchorPane.rightAnchor="277.0" AnchorPane.topAnchor="199.0">
+        <VBox id="enemy" alignment="CENTER" layoutX="783.0" layoutY="135.0" prefHeight="516.0" prefWidth="220" spacing="8" AnchorPane.rightAnchor="285.0" AnchorPane.topAnchor="135.0">
             <Label fx:id="enemyNameLabel" styleClass="bugemon-name-label" text="Enemy" />
-            <Label fx:id="enemyEffectLabel" prefHeight="18.0" prefWidth="221.0" styleClass="effect-label" text="EnemyEffect" />
+            <Label fx:id="enemyEffectLabel" prefHeight="77.0" prefWidth="220.0" styleClass="effect-label" text="EnemyEffect" />
             <Label fx:id="enemyHpLabel" styleClass="hp-text-label" text="EnemyHP" />
             <ProgressBar fx:id="enemyHpBarFill" prefWidth="200.0" progress="1.0" />
             <ImageView fx:id="enemySprite" fitHeight="180" preserveRatio="true" />
@@ -38,9 +38,9 @@
          </VBox>
         </VBox>
 
-        <VBox id="player" alignment="CENTER" layoutX="375.0" layoutY="207.0" prefWidth="220" spacing="8" AnchorPane.leftAnchor="375.0" AnchorPane.topAnchor="207.0">
+        <VBox id="player" alignment="CENTER" layoutX="373.0" layoutY="135.0" prefHeight="537.0" prefWidth="220" spacing="8" AnchorPane.leftAnchor="373.0" AnchorPane.topAnchor="135.0">
             <Label fx:id="playerNameLabel" styleClass="bugemon-name-label" text="player" />
-            <Label fx:id="playerEffectLabel" prefHeight="18.0" prefWidth="220.0" styleClass="effect-label" text="PlayerEffect" />
+            <Label fx:id="playerEffectLabel" prefHeight="77.0" prefWidth="220.0" styleClass="effect-label" text="PlayerEffect" />
             <Label fx:id="playerHpLabel" styleClass="hp-text-label" text="PlayerHP" />
             <ProgressBar fx:id="playerHpBarFill" prefWidth="210.0" progress="1.0" />
             <ImageView fx:id="playerSprite" fitHeight="180" preserveRatio="true" />

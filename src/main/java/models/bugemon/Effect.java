@@ -42,6 +42,7 @@ public class Effect {
         this.stat     = other.stat;
         this.modifier = other.modifier;
         this.duration = other.duration;
+        this.valeur = other.valeur;
     }
 
     /**

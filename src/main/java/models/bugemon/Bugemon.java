@@ -178,16 +178,8 @@ public class Bugemon implements BugemonDTO {
      * @return a list of active effect descriptions
      */
     @Override
-    public List<String> getActifEffectNames() {
-        List<String> names = new ArrayList<>();
-
-        for (ActiveEffect active : ongoingEffects) {
-            Effect effect = active.getEffect();
-            String texte = effect.getStat() + " " + effect.getModifier();
-            names.add(texte);
-        }
-
-        return names;
+    public String getActifModifierAsStringToDisplay() {
+        return this.stats.getActifModifierAsStringToDisplay();
     }
 
     /**

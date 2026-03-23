@@ -90,6 +90,6 @@ public interface BugemonDTO {
     /**
      * @return the effects currently affecting this Bugémon
      */
-    List<String> getActifEffectNames();
+    String getActifModifierAsStringToDisplay();
 
 }

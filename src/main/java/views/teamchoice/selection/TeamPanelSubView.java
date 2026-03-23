@@ -124,7 +124,7 @@ public class TeamPanelSubView {
     /** Resets the panel to its initial state. */
     public void reset() {
         teamGrid.getChildren().clear();
-        bugemonStatsLabel.setText("Clique sur un Bugémon pour voir ses statistiques");
+        bugemonStatsLabel.setText("Cliquez sur un Bugémon pour voir ses statistiques");
     }
 
     private void onPlayClicked() {

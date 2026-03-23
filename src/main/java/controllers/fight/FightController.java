@@ -207,8 +207,7 @@ public class FightController extends Controller<FightView> implements FightListe
      */
     private void playerAttackEnemy(int attackIndex) {
         fight.playerAttack(attackIndex);
-        viewReactToAttack(fight.getOnFieldEnemyBugemon());
-
+        viewReactToAttack();
         if (fight.isOnFieldEnemyBugemonKO()) {
             view.markBugemonAsFainted(fight.getOnFieldEnemyBugemon());
             PauseTransition pauseKO = new PauseTransition(Duration.seconds(DISPLAY_PLAYER_DEATH_NOTE_TIME));
@@ -238,7 +237,7 @@ public class FightController extends Controller<FightView> implements FightListe
         pause.setOnFinished(e -> {
             Bugemon target = fight.getOnFieldPlayerBugemon();
             fight.enemyAttack();
-            viewReactToAttack(target);
+            viewReactToAttack();
 
             if (fight.isOnFieldPlayerBugemonKO()) {
                 view.markBugemonAsFainted(target);
@@ -283,13 +282,12 @@ public class FightController extends Controller<FightView> implements FightListe
     }
 
     /**
-     * Updates the HP display and combat message in the view after an attack lands
-     * on the given Bugémon.
+     * Updates the HP and Effect display and combat message
      *
-     * @param bug the Bugémon that received the attack
      */
-    private void viewReactToAttack(Bugemon bug) {
-        view.updateBugemonHPDisplay(bug);
+    private void viewReactToAttack() {
+        view.updateBugemonHPAndEffectDisplay(fight.getOnFieldEnemyBugemon());
+        view.updateBugemonHPAndEffectDisplay(fight.getOnFieldPlayerBugemon());
         view.updateCombatMessage(fight.getActionResultText());
     }
 
