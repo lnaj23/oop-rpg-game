@@ -197,8 +197,8 @@ public class Fight {
         TeamBugemon attackerTeam = isPlayerTurn ? teamPlayer : teamEnemy;
         TeamBugemon defenderTeam = isPlayerTurn ? teamEnemy  : teamPlayer;
 
-        actionResulText = attacker.attack(defender, attack);
-        EffectManager.handleEffect(attacker, defender, attackerTeam, defenderTeam, attack);
+        actionResulText = attacker.attack(defender, attack) + EffectManager.handleEffect(attacker, defender, attackerTeam, defenderTeam, attack);
+
         switchRole();
     }
 
