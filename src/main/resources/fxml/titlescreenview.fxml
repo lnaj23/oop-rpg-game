@@ -12,25 +12,21 @@
         <URL value="@../css/common.css" />
     </stylesheets>
 
-    <Pane>
+    <AnchorPane pickOnBounds="false">
 
-        <ImageView layoutX="100" layoutY="100">
+        <ImageView fitHeight="200" preserveRatio="true" AnchorPane.leftAnchor="550" AnchorPane.topAnchor="250">
             <image><Image url="@../Assets/png/refaquix.png" /></image>
         </ImageView>
 
-        <ImageView layoutX="100" layoutY="500">
+        <ImageView fitHeight="200" preserveRatio="true" AnchorPane.bottomAnchor="250" AnchorPane.leftAnchor="550">
             <image><Image url="@../Assets/png/florachu.png" /></image>
         </ImageView>
 
-        <ImageView layoutX="1100" layoutY="500">
+        <ImageView fitHeight="200" preserveRatio="true" AnchorPane.bottomAnchor="250" AnchorPane.rightAnchor="550">
             <image><Image url="@../Assets/png/pyroxis.png" /></image>
         </ImageView>
 
-        <ImageView layoutX="1100" layoutY="100">
-            <image><Image url="@../Assets/png/granitron.png" /></image>
-        </ImageView>
-
-    </Pane>
+    </AnchorPane>
 
     <VBox fx:id="btnquit" alignment="CENTER" spacing="30.0">
         <Label fx:id="titelLabel" text="BUGÉMON" textAlignment="CENTER" />
