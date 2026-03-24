@@ -198,6 +198,13 @@ public class FightView extends View<Controller> {
         Image img = new Image(Objects.requireNonNull(
                 getClass().getResourceAsStream("/Assets/png/" + bugemon.getSprite())));
         sprite.setImage(img);
+        // Le joueur est à gauche → regarde à droite (scaleX positif)
+        // L'ennemi est à droite → regarde à gauche (scaleX négatif)
+        if (bugemon.getIsPlayer()) {
+            sprite.setScaleX(-1);  // regarde à droite
+        } else {
+            sprite.setScaleX(1); // retourné → regarde à gauche
+        }
 
         if (bugemon.getIsPlayer()) choicePanelController.updateAttackButtons(bugemon);
         sprite.setVisible(true);
