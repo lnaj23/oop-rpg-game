@@ -86,7 +86,7 @@ public class FightView extends View<Controller> {
      * @throws IOException if the FXML file cannot be loaded
      */
     public FightView() throws IOException {
-        super("/fxml/fight/fightview.fxml");
+        super(AppConfig.FXML_FIGHT);
     }
 
     /**

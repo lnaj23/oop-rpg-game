@@ -16,10 +16,10 @@ public abstract class AppConfig {
 
     static {
         try (InputStream in = AppConfig.class.getResourceAsStream("/app.properties")) {
-            if (in == null) throw new IllegalStateException("app.properties introuvable dans le classpath");
+            if (in == null) throw new IllegalStateException("app.properties not found in classpath");
             props.load(in);
         } catch (IOException e) {
-            throw new IllegalStateException("Impossible de charger app.properties", e);
+            throw new IllegalStateException("Failed to load app.properties", e);
         }
     }
 
