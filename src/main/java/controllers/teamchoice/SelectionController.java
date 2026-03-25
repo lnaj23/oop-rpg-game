@@ -1,9 +1,8 @@
 package controllers.teamchoice;
 
 import controllers.Controller;
-import controllers.MetaController;
+import controllers.ControllerManager;
 import models.bugemon.dto.BugemonDTO;
-import models.bugemon.dto.TeamBugemonDTO;
 import models.bugemon.TeamBugemon;
 import services.dataprovider.TeamService;
 import services.dataprovider.BugemonProvider;
@@ -34,7 +33,7 @@ public class SelectionController extends Controller<SelectionView> {
      * @param metaController the central controller
      * @throws IOException if the FXML fails to load
      */
-    public SelectionController(MetaController metaController) throws IOException {
+    public SelectionController(ControllerManager metaController) throws IOException {
         super(metaController, new SelectionView());
         this.teams = GameStateHolder.getInstance().getSavedTeams();
         this.playerTeam = new TeamBugemon();
@@ -54,12 +53,12 @@ public class SelectionController extends Controller<SelectionView> {
 
     /** Navigates back to the Title Screen. */
     public void goToTitleScreen() {
-        this.metaController.goToTitleScreen();
+        this.controllerManager.goToTitleScreen();
     }
 
     /** Navigates to the pre-built team screen. */
     public void goToPrebuildTeam() {
-        this.metaController.goToPrebuildTeam();
+        this.controllerManager.goToPrebuildTeam();
     }
 
     /**
@@ -140,6 +139,6 @@ public class SelectionController extends Controller<SelectionView> {
 
     public void goToFight() {
         GameStateHolder.getInstance().setCurrentTeamPlayer(playerTeam);
-        this.metaController.goToFight();
+        this.controllerManager.goToFight();
     }
 }

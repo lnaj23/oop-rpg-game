@@ -1,7 +1,7 @@
 package controllers.fight;
 
 import controllers.Controller;
-import controllers.MetaController;
+import controllers.ControllerManager;
 import exceptions.BugemonNotFoundException;
 import exceptions.BugemonNotInTeamException;
 import javafx.animation.PauseTransition;
@@ -31,7 +31,7 @@ public class FightController extends Controller<FightView> implements FightListe
     private static final int ENEMY_REACT_TIME = 2;
     private static final double DISPLAY_PLAYER_DEATH_NOTE_TIME = 1.5;
 
-    public FightController(MetaController metaController) throws IOException {
+    public FightController(ControllerManager metaController) throws IOException {
         super(metaController, new FightView());
         this.view.setListener(this);
     }
@@ -62,13 +62,13 @@ public class FightController extends Controller<FightView> implements FightListe
             view.updateCombatMessage(startFightMessage);
             if (!fight.playerCanStart()) forceEnemyToAttack();
         } catch (BugemonNotFoundException | BugemonNotInTeamException e) {
-            metaController.fatalError("Erreur lors de l'initialisation du combat : " + e.getMessage());
+            controllerManager.fatalError("Erreur lors de l'initialisation du combat : " + e.getMessage());
         }
     }
 
     public void gotoTitleScreen() {
         GameStateHolder.getInstance().clearCurrentTeamPlayer();
-        this.metaController.goToTitleScreen();
+        this.controllerManager.goToTitleScreen();
     }
 
     @Override
@@ -81,7 +81,7 @@ public class FightController extends Controller<FightView> implements FightListe
 
     @Override
     public void onItemClicked() {
-        metaController.openItemChoiceWindow();
+        controllerManager.openItemChoiceWindow();
     }
 
     @Override
@@ -110,7 +110,7 @@ public class FightController extends Controller<FightView> implements FightListe
                 else forceEnemyToAttack();
             }
         } catch (BugemonNotInTeamException e) {
-            metaController.fatalError("Erreur lors du changement de Bugémon : " + e.getMessage());
+            controllerManager.fatalError("Erreur lors du changement de Bugémon : " + e.getMessage());
         }
     }
 
@@ -119,6 +119,7 @@ public class FightController extends Controller<FightView> implements FightListe
     }
 
     private void useItem(Item item) {
+        GameStateHolder.getInstance().consumeItem(item);
         view.setButtonsDisabled(true);
         view.updateCombatMessage("Vous utilisez " + item.getName() + " !");
         // TODO : appliquer l'effet de l'item sur le modèle fight
@@ -178,7 +179,7 @@ public class FightController extends Controller<FightView> implements FightListe
             view.updateActiveBugemonSprite(fight.getOnFieldEnemyBugemon());
             view.updateCombatMessage("L'adversaire envoie " + randomBug.getName() + " !");
         } catch (BugemonNotInTeamException e) {
-            metaController.fatalError("Erreur lors du changement de Bugémon ennemi : " + e.getMessage());
+            controllerManager.fatalError("Erreur lors du changement de Bugémon ennemi : " + e.getMessage());
         }
     }
 
@@ -223,6 +224,6 @@ public class FightController extends Controller<FightView> implements FightListe
         GameStateHolder.getInstance().setCurrentPlayerTeamDTO(fight.getTeamPlayer().getTeamDTO());
         GameStateHolder.getInstance().setCurrentOnFieldId(fight.getOnFieldPlayerBugemonId());
         GameStateHolder.getInstance().setSwitchOnPurpose(onPurpose);
-        metaController.openSwitchWindow();
+        controllerManager.openSwitchWindow();
     }
 }

@@ -1,7 +1,7 @@
 package controllers.teamchoice;
 
 import controllers.Controller;
-import controllers.MetaController;
+import controllers.ControllerManager;
 import models.bugemon.TeamBugemon;
 import services.dataprovider.TeamService;
 import services.game.GameStateHolder;
@@ -24,7 +24,7 @@ public class PreBuildTeamController extends Controller<PreBuildTeamView> {
      * @param teams the shared observable list of saved teams
      * @throws IOException if the FXML fails to load
      */
-    public PreBuildTeamController(MetaController metaController) throws IOException {
+    public PreBuildTeamController(ControllerManager metaController) throws IOException {
         super(metaController, new PreBuildTeamView());
         this.teams = GameStateHolder.getInstance().getSavedTeams();
         this.view.setController(this);
@@ -33,12 +33,12 @@ public class PreBuildTeamController extends Controller<PreBuildTeamView> {
 
     /** Navigates back to the main menu. */
     public void goToMenu() {
-        this.metaController.goToTitleScreen();
+        this.controllerManager.goToTitleScreen();
     }
 
     /** Opens the selection screen to create a new team. */
     public void goToNewTeam() {
-        this.metaController.openNewSelection();
+        this.controllerManager.openNewSelection();
     }
 
     /**
@@ -46,7 +46,7 @@ public class PreBuildTeamController extends Controller<PreBuildTeamView> {
      *
      */
     public void modifyTeam(int index) {
-        this.metaController.openSelectionForEdit(index);
+        this.controllerManager.openSelectionForEdit(index);
     }
 
     /**
@@ -83,7 +83,7 @@ public class PreBuildTeamController extends Controller<PreBuildTeamView> {
      */
     public void play(int index) {
         GameStateHolder.getInstance().setCurrentTeamPlayer(teams.get(index));
-        this.metaController.goToFight();
+        this.controllerManager.goToFight();
     }
 
 

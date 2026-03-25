@@ -1,6 +1,5 @@
 package services.game;
 
-import models.bugemon.Bugemon;
 import models.bugemon.TeamBugemon;
 import models.bugemon.dto.BugemonDTO;
 import models.game.Item;
@@ -27,7 +26,7 @@ public class GameStateHolder {
     private String currentOnFieldId;
     private boolean switchOnPurpose;
 
-    private final List<Item> availableItems = List.of(
+    private final List<Item> availableItems = new ArrayList<>(List.of(
             new Item("baie_revigorante", "Baie Revigorante", "soigne 20 HP"),
             new Item("baie_revigorante", "Baie Revigorante", "soigne 20 HP"),
             new Item("baie_revigorante", "Baie Revigorante", "soigne 20 HP"),
@@ -35,7 +34,7 @@ public class GameStateHolder {
             new Item("baie_tonique", "Baie Tonique", "soigne 50 HP"),
             new Item("gel_defensif", "Gel Défensif", "augmente la défense"),
             new Item("serum_offensif", "Sérum Offensif", "augmente l'attaque")
-    );
+    ));
 
     /**
      * Returns the unique instance of {@link GameStateHolder}.
@@ -81,6 +80,14 @@ public class GameStateHolder {
 
     public List<Item> getAvailableItems() {
         return availableItems;
+    }
+
+    public void consumeItem(Item items) {
+        this.availableItems.remove(items);
+    }
+
+    public void gainItem(Item items) {
+        this.availableItems.add(items);
     }
 
     public void setCurrentPlayerTeamDTO(List<BugemonDTO> team) { this.currentPlayerTeamDTO = team; }

@@ -4,14 +4,14 @@ import javafx.stage.Stage;
 import views.View;
 
 /**
- * Abstract base controller that links a {@link MetaController} to a {@link View}.
+ * Abstract base controller that links a {@link ControllerManager} to a {@link View}.
  *
  * @param <T> the type of view managed by this controller.
  */
 public abstract class Controller<T extends View> {
 
     /** The application's central controller, used for navigation. */
-    protected final MetaController metaController;
+    protected final ControllerManager controllerManager;
 
     /** The view associated with this controller. */
     protected final T view;
@@ -20,8 +20,8 @@ public abstract class Controller<T extends View> {
      * @param metaController the central controller handling navigation
      * @param view the view managed by this controller
      */
-    public Controller(MetaController metaController, T view) {
-        this.metaController = metaController;
+    public Controller(ControllerManager metaController, T view) {
+        this.controllerManager = metaController;
         this.view = view;
     }
 

@@ -14,19 +14,19 @@ public class TitleScreenController extends Controller<TitleScreenView> {
      * @param metaController the central controller
      * @throws IOException if the FXML fails to load
      */
-    public TitleScreenController(MetaController metaController) throws IOException {
+    public TitleScreenController(ControllerManager metaController) throws IOException {
         super(metaController, new TitleScreenView());
         this.view.setController(this);
     }
 
     /** Opens the selection screen to create a new team. */
     public void goToSelection() {
-        this.metaController.openNewSelection();
+        this.controllerManager.openNewSelection();
     }
 
     /** Navigates to the team management screen. */
     public void goToPreBuildTeam() {
-        this.metaController.goToPrebuildTeam();
+        this.controllerManager.goToPrebuildTeam();
     }
 
     /** Quit the application */

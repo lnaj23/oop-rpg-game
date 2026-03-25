@@ -19,7 +19,7 @@ import java.io.IOException;
  * Central controller that manages navigation between scenes and holds shared application state.
  * Creates and owns all sub-controllers and the shared team list.
  */
-public class MetaController {
+public class ControllerManager {
 
     /** Enumeration of all available scenes in the application. */
     private enum Scenes {
@@ -42,7 +42,7 @@ public class MetaController {
      * @param stage the primary JavaFX stage
      * @throws IOException if any FXML file fails to load
      */
-    public MetaController(Stage stage) throws IOException {
+    public ControllerManager(Stage stage) throws IOException {
         this.PrimaryStage = stage;
         this.titleScreenController = new TitleScreenController(this);
         this.preBuildTeamController = new PreBuildTeamController(this);
@@ -71,10 +71,7 @@ public class MetaController {
 
         switch (scene) {
             case TITLE_SCREEN -> this.titleScreenController.show(PrimaryStage);
-            case PREBUILD_TEAM -> {
-                this.preBuildTeamController.show(PrimaryStage);
-                this.preBuildTeamController.refreshView();
-            }
+            case PREBUILD_TEAM -> this.preBuildTeamController.show(PrimaryStage);
             case SELECTION -> this.selectionController.show(PrimaryStage);
             case FIGHT -> this.fightController.show(PrimaryStage);
             default -> throw new IllegalArgumentException("Invalid scene: " + scene);
@@ -115,7 +112,6 @@ public class MetaController {
      * is sent back to the fight controller through the meta-controller.
      * </p>
      *
-     * @param items the list of available items to display
      */
     public void openItemChoiceWindow() {
         try {
@@ -133,10 +129,6 @@ public class MetaController {
      * is sent back to the fight controller through the meta-controller.
      * </p>
      *
-     * @param team the player's team to display in the switch window
-     * @param onPurpose {@code true} if the player opened the switch window voluntarily,
-     *                  {@code false} if the switch is forced
-     * @param currentOnFieldId the identifier of the Bugemon currently on the field
      */
     public void openSwitchWindow() {
         try {
@@ -156,13 +148,13 @@ public class MetaController {
     }
 
     public void goToPrebuildTeam() {
+        this.preBuildTeamController.refreshView();
         this.switchScene(Scenes.PREBUILD_TEAM);
     }
 
     /**
      * Resets the selection view, pre-selects the given team's Bugémons, and navigates to it.
      *
-     * @param team the team to edit
      */
     public void openSelectionForEdit(int index) {
         this.selectionController.reset();

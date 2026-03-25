@@ -1,7 +1,7 @@
 package controllers.fight;
 
 import controllers.Controller;
-import controllers.MetaController;
+import controllers.ControllerManager;
 import models.game.Item;
 import models.game.dto.ItemDTO;
 import services.game.GameStateHolder;
@@ -9,7 +9,7 @@ import views.fight.ItemsView;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.function.Consumer;
+
 /**
  * Controller for the item selection sub-view used during a fight.
  * <p>
@@ -25,10 +25,9 @@ public class ItemChoiceController extends Controller<ItemsView> {
      * Creates the controller for the item selection sub-view.
      *
      * @param metaController the central controller responsible for application navigation
-     * @param onItemSelected callback executed when the user selects an item
      * @throws IOException if the item selection view cannot be loaded
      */
-    public ItemChoiceController(MetaController metaController) throws IOException {
+    public ItemChoiceController(ControllerManager metaController) throws IOException {
         super(metaController, new ItemsView());
         this.items = GameStateHolder.getInstance().getAvailableItems();
         this.view.setController(this);
@@ -47,7 +46,7 @@ public class ItemChoiceController extends Controller<ItemsView> {
         if (selected == null) return;
         for (Item item : items) {
             if (item.getId().equals(selected.getId())) {
-                metaController.onItemChosen(item);
+                controllerManager.onItemChosen(item);
                 view.closeWindow();
                 return;
             }

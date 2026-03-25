@@ -1,7 +1,7 @@
 package controllers.fight;
 
 import controllers.Controller;
-import controllers.MetaController;
+import controllers.ControllerManager;
 import models.bugemon.dto.BugemonDTO;
 import views.fight.SelectBugemonFromTeamView;
 import listener.SelectBugemonFromTeamListener;
@@ -14,7 +14,7 @@ import java.io.IOException;
  * <p>
  * Reads the player's team, the current on-field Bugemon id, and the switch mode
  * directly from {@link GameStateHolder}. Delegates selection and cancellation
- * back to the {@link MetaController} which forwards them to {@link FightController}.
+ * back to the {@link ControllerManager} which forwards them to {@link FightController}.
  * </p>
  */
 public class SwitchBugemonController extends Controller<SelectBugemonFromTeamView> implements SelectBugemonFromTeamListener {
@@ -29,7 +29,7 @@ public class SwitchBugemonController extends Controller<SelectBugemonFromTeamVie
      * @param metaController the central controller responsible for application navigation
      * @throws IOException if the switch sub-view cannot be loaded
      */
-    public SwitchBugemonController(MetaController metaController) throws IOException {
+    public SwitchBugemonController(ControllerManager metaController) throws IOException {
         super(metaController, new SelectBugemonFromTeamView());
         this.currentOnFieldId = GameStateHolder.getInstance().getCurrentOnFieldId();
         this.view.setController(this);
@@ -59,7 +59,7 @@ public class SwitchBugemonController extends Controller<SelectBugemonFromTeamVie
             return;
         }
         view.closeWindow();
-        metaController.onSwitchBugemonChosen(bugemon.getId());
+        controllerManager.onSwitchBugemonChosen(bugemon.getId());
     }
 
     /**
@@ -68,7 +68,7 @@ public class SwitchBugemonController extends Controller<SelectBugemonFromTeamVie
      */
     public void onCancelClicked() {
         view.closeWindow();
-        metaController.onSwitchCancelled();
+        controllerManager.onSwitchCancelled();
     }
 
     /**
