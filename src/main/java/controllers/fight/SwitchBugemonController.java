@@ -20,7 +20,7 @@ import java.io.IOException;
 public class SwitchBugemonController extends Controller<SelectBugemonFromTeamView> implements SelectBugemonFromTeamListener {
 
     /** The identifier of the Bugemon currently on the field, used to prevent re-selecting it. */
-    private final Object currentOnFieldId;
+    private final String currentOnFieldId;
 
     /**
      * Creates the controller for the Bugemon switch sub-view.

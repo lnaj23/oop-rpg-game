@@ -24,7 +24,7 @@ public class GameStateHolder {
     private GameStateHolder() {}
 
     private List<BugemonDTO> currentPlayerTeamDTO;
-    private Object currentOnFieldId;
+    private String currentOnFieldId;
     private boolean switchOnPurpose;
 
     private final List<Item> availableItems = List.of(
@@ -86,8 +86,8 @@ public class GameStateHolder {
     public void setCurrentPlayerTeamDTO(List<BugemonDTO> team) { this.currentPlayerTeamDTO = team; }
     public List<BugemonDTO> getCurrentPlayerTeamDTO() { return currentPlayerTeamDTO; }
 
-    public void setCurrentOnFieldId(Object id) { this.currentOnFieldId = id; }
-    public Object getCurrentOnFieldId() { return currentOnFieldId; }
+    public void setCurrentOnFieldId(String id) { this.currentOnFieldId = id; }
+    public String getCurrentOnFieldId() { return currentOnFieldId; }
 
     public void setSwitchOnPurpose(boolean onPurpose) { this.switchOnPurpose = onPurpose; }
     public boolean isSwitchOnPurpose() { return switchOnPurpose; }
