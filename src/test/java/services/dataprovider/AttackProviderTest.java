@@ -9,22 +9,24 @@ import java.util.List;
 
 public class AttackProviderTest extends TestCase {
 
+    private final AttackProvider provider = AttackProvider.getInstance();
+
     @Test
     public void testGetAttackByIdReturnsNotNull() throws AttackNotFoundException {
-        Attack attack = AttackProvider.getAttackById("racines_vives");
+        Attack attack = provider.getAttackById("racines_vives");
         assertNotNull(attack);
     }
 
     @Test
     public void testGetAttackByIdCorrectId() throws AttackNotFoundException {
-        Attack attack = AttackProvider.getAttackById("pollen_sournois");
+        Attack attack = provider.getAttackById("pollen_sournois");
         assertEquals("pollen_sournois", attack.getId());
     }
 
     @Test
     public void testGetAttackByIdUnknownIdThrows() {
         try {
-            AttackProvider.getAttackById("unknown_id");
+            provider.getAttackById("unknown_id");
             fail("Expected AttackNotFoundException");
         } catch (AttackNotFoundException e) {
             assertTrue(e.getMessage().contains("unknown_id"));
@@ -33,19 +35,19 @@ public class AttackProviderTest extends TestCase {
 
     @Test
     public void testGetAllAttacksNotNull() {
-        List<Attack> list = AttackProvider.getAllAttacks();
+        List<Attack> list = provider.getAllAttacks();
         assertNotNull(list);
     }
 
     @Test
     public void testGetAllAttacksNotEmpty() {
-        List<Attack> list = AttackProvider.getAllAttacks();
+        List<Attack> list = provider.getAllAttacks();
         assertFalse(list.isEmpty());
     }
 
     @Test
     public void testGetAllAttacksNoNullElements() {
-        List<Attack> list = AttackProvider.getAllAttacks();
+        List<Attack> list = provider.getAllAttacks();
         for (Attack attack : list) {
             assertNotNull(attack);
         }
@@ -53,7 +55,7 @@ public class AttackProviderTest extends TestCase {
 
     @Test
     public void testGetAllAttacksAllHaveId() {
-        List<Attack> list = AttackProvider.getAllAttacks();
+        List<Attack> list = provider.getAllAttacks();
         for (Attack attack : list) {
             assertNotNull(attack.getId());
             assertFalse(attack.getId().isEmpty());
@@ -62,10 +64,9 @@ public class AttackProviderTest extends TestCase {
 
     @Test
     public void testGetAllAttacksIsDefensiveCopy() {
-        List<Attack> first = AttackProvider.getAllAttacks();
+        List<Attack> first = provider.getAllAttacks();
         first.clear();
-        List<Attack> second = AttackProvider.getAllAttacks();
+        List<Attack> second = provider.getAllAttacks();
         assertFalse(second.isEmpty());
     }
-
 }

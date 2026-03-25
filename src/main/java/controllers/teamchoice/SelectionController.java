@@ -38,7 +38,7 @@ public class SelectionController extends Controller<SelectionView> {
         this.teams = GameStateHolder.getInstance().getSavedTeams();
         this.playerTeam = new TeamBugemon();
         this.view.setController(this);
-        this.view.displayBugemons(BugemonProvider.getAllBugemonsDTO());
+        BugemonProvider.getInstance().getAllBugemonsDTO();
     }
 
     /**
@@ -77,7 +77,7 @@ public class SelectionController extends Controller<SelectionView> {
     public void reset() {
         this.teamBeingEdited = null;
         this.playerTeam = new TeamBugemon();
-        this.view.reset(BugemonProvider.getAllBugemonsDTO());
+        this.view.reset(BugemonProvider.getInstance().getAllBugemonsDTO());
         this.view.setEditMode(false);
     }
 
