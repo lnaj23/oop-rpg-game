@@ -155,12 +155,10 @@ public class TeamBugemon implements TeamBugemonDTO {
         team.add(bug);
     }
 
-    @Override
     public void addBugemonDTO(BugemonDTO bug) {
         team.add((Bugemon) bug);
     }
 
-    @Override
     public void removeBugemonDTO(BugemonDTO bug) {
         team.removeIf(b -> b.getId().equals(bug.getId()));
     }

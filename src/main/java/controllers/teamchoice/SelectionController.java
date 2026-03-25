@@ -101,19 +101,6 @@ public class SelectionController extends Controller<SelectionView> {
         return this.teamBeingEdited != null;
     }
 
-    /**
-     * Builds and returns the stats text for a given Bugémon, for display in the popup.
-     *
-     * @param bugemon the Bugémon whose stats to format
-     * @return formatted stats string
-     */
-    public String buildStatsText(BugemonDTO bugemon) {
-        return "PV: "       + bugemon.getPv()               + "\n"
-                + "ATK: "      + bugemon.getAttaque()          + "\n"
-                + "DEF: "      + bugemon.getDefense()          + "\n"
-                + "INIT: "     + bugemon.getInitiative()       + "\n"
-                + "Attaques: " + bugemon.getAttackNamesAsString();
-    }
 
     /**
      * Handles a click on a Bugémon button in the grid.
@@ -125,8 +112,7 @@ public class SelectionController extends Controller<SelectionView> {
      * @param wasSelected true if the button was already selected before the click
      * @param teamFull    true if the team has already reached the maximum size
      */
-    public void onBugemonClicked(Button btn, BugemonDTO bugemon,
-                                 boolean wasSelected, boolean teamFull) {
+    public void onBugemonClicked(Button btn, BugemonDTO bugemon, boolean wasSelected, boolean teamFull) {
         if (wasSelected) {
             playerTeam.removeBugemonDTO(bugemon);
             this.view.deselectButton(btn);

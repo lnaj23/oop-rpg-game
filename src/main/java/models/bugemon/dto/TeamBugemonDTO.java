@@ -23,17 +23,4 @@ public interface TeamBugemonDTO {
      */
     int getSize();
 
-    /**
-     * Adds a Bugémon to the team.
-     *
-     * @param bug the Bugémon to add, cast internally to {@link models.bugemon.Bugemon}
-     */
-    void addBugemonDTO(BugemonDTO bug);
-
-    /**
-     * Removes a Bugémon from the team.
-     *
-     * @param bug the Bugémon to remove
-     */
-    void removeBugemonDTO(BugemonDTO bug);
 }
