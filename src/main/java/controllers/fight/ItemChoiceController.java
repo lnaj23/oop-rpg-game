@@ -20,7 +20,6 @@ import java.util.function.Consumer;
  * </p>
  */
 public class ItemChoiceController extends Controller<ItemsView> {
-    private final Consumer<Item> onItemSelected;
 
     /**
      * Creates the controller for the item selection sub-view.
@@ -29,13 +28,11 @@ public class ItemChoiceController extends Controller<ItemsView> {
      * @param onItemSelected callback executed when the user selects an item
      * @throws IOException if the item selection view cannot be loaded
      */
-    public ItemChoiceController(MetaController metaController, Consumer<Item> onItemSelected) throws IOException {
-
+    public ItemChoiceController(MetaController metaController) throws IOException {
         super(metaController, new ItemsView());
-        this.onItemSelected = onItemSelected;
         this.items = GameStateHolder.getInstance().getAvailableItems();
         this.view.setController(this);
-        this.view.setItems(items.stream().map(i -> (ItemDTO) i).toList()); //conversion que Item en ItemDTO pr la vue
+        this.view.setItems(items.stream().map(i -> (ItemDTO) i).toList());
     }
 
     /**
@@ -47,12 +44,10 @@ public class ItemChoiceController extends Controller<ItemsView> {
      */
     public void onUseClicked() {
         ItemDTO selected = view.getSelectedItem();
-        if (selected == null) {
-            return;
-        }
+        if (selected == null) return;
         for (Item item : items) {
             if (item.getId().equals(selected.getId())) {
-                onItemSelected.accept(item);
+                metaController.onItemChosen(item);
                 view.closeWindow();
                 return;
             }

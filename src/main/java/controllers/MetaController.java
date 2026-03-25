@@ -8,6 +8,7 @@ import controllers.teamchoice.SelectionController;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import models.game.Item;
 import services.game.GameStateHolder;
 import views.FatalErrorView;
 import views.View;
@@ -118,7 +119,7 @@ public class MetaController {
      */
     public void openItemChoiceWindow() {
         try {
-            ItemChoiceController itemChoiceController = new ItemChoiceController(this, fightController::onItemChosen);
+            ItemChoiceController itemChoiceController = new ItemChoiceController(this);
             openSubScene(itemChoiceController.getView(), true);
         } catch (IOException e) {
             fatalError("Impossible d'ouvrir la vue des objets : " + e.getMessage());
@@ -187,6 +188,10 @@ public class MetaController {
 
     public void onSwitchCancelled() {
         fightController.onSwitchCancelled();
+    }
+
+    public void onItemChosen(Item item) {
+        fightController.onItemChosen(item);
     }
 
     /**
