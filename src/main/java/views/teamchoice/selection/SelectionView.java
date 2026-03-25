@@ -1,5 +1,6 @@
 package views.teamchoice.selection;
 
+import configuration.AppConfig;
 import controllers.teamchoice.SelectionController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -29,7 +30,7 @@ public class SelectionView extends View<SelectionController> {
      * @throws IOException if the FXML file cannot be loaded
      */
     public SelectionView() throws IOException {
-        super("/fxml/teamchoice/selection/selectionview.fxml");
+        super(AppConfig.FXML_SELECTION);
         root.setOnMouseClicked(e -> {
             if (e.getButton() == MouseButton.SECONDARY) {
                 controller.reset();

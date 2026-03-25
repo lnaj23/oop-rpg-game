@@ -1,5 +1,6 @@
 package views.fight;
 
+import configuration.AppConfig;
 import controllers.Controller;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -111,7 +112,7 @@ public class FightView extends View<Controller> {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.getDialogPane().getStylesheets().add(
-                Objects.requireNonNull(getClass().getResource("/css/common.css")).toExternalForm()
+                Objects.requireNonNull(getClass().getResource(AppConfig.CSS_COMMON)).toExternalForm()
         );
         alert.initStyle(StageStyle.UNDECORATED);
         alert.setGraphic(null);
@@ -139,8 +140,8 @@ public class FightView extends View<Controller> {
         for (int i = 0; i < team.size(); i++) {
             BugemonDTO bugemon = team.get(i);
             String     path    = isPlayer
-                    ? "/Assets/png/" + bugemon.getSprite()
-                    : "/Assets/png/nobugemon/ulb.png";
+                    ? AppConfig.PNG_PREFIX + bugemon.getSprite()
+                    : AppConfig.PNG_NOBUGEMON;
 
             ImageView imgView = createSprite(path, 60);
 
@@ -196,7 +197,7 @@ public class FightView extends View<Controller> {
         effectLabel.setText(bugemon.getActifModifierAsStringToDisplay() );
 
         Image img = new Image(Objects.requireNonNull(
-                getClass().getResourceAsStream("/Assets/png/" + bugemon.getSprite())));
+                getClass().getResourceAsStream(AppConfig.PNG_PREFIX + bugemon.getSprite())));
         sprite.setImage(img);
 
         if (bugemon.getIsPlayer()) {

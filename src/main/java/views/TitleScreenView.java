@@ -1,5 +1,6 @@
 package views;
 
+import configuration.AppConfig;
 import controllers.TitleScreenController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -24,7 +25,7 @@ public class TitleScreenView extends View <TitleScreenController> {
      * @throws IOException if the FXML file cannot be loaded
      */
     public TitleScreenView() throws IOException {
-        super("/fxml/titlescreenview.fxml");
+        super(AppConfig.FXML_TITLESCREEN);
         this.btnNewGame.setOnAction(e -> this.controller.goToSelection());
         this.btnPreBuildTeam.setOnAction(e -> this.controller.goToPreBuildTeam());
         this.btnQuit.setOnAction(e -> this.controller.quit());

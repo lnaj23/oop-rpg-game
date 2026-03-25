@@ -1,5 +1,6 @@
 package views.fight;
 
+import configuration.AppConfig;
 import controllers.Controller;
 import javafx.fxml.FXML;
 import javafx.geometry.HPos;
@@ -39,7 +40,7 @@ public class SelectBugemonFromTeamView extends View<Controller> {
      * @throws IOException if the FXML file cannot be loaded
      */
     public SelectBugemonFromTeamView() throws IOException {
-        super("/fxml/fight/switchbugemonview.fxml");
+        super(AppConfig.FXML_SWITCHBUGEMON);
     }
 
     /**
@@ -105,7 +106,7 @@ public class SelectBugemonFromTeamView extends View<Controller> {
      */
     private ImageView createSprite(BugemonDTO bugemon) {
         Image img  = new Image(Objects.requireNonNull(
-                getClass().getResourceAsStream("/Assets/png/" + bugemon.getSprite())));
+                getClass().getResourceAsStream(AppConfig.PNG_PREFIX + bugemon.getSprite())));
         ImageView view = new ImageView(img);
         view.setFitHeight(80);
         view.setFitWidth(80);
@@ -147,7 +148,7 @@ public class SelectBugemonFromTeamView extends View<Controller> {
         alert.initStyle(StageStyle.UNDECORATED);
         alert.setGraphic(null);
         alert.getDialogPane().getStylesheets().add(
-                Objects.requireNonNull(getClass().getResource("/css/common.css")).toExternalForm()
+                Objects.requireNonNull(getClass().getResource(AppConfig.CSS_COMMON)).toExternalForm()
         );
         alert.showAndWait();
     }

@@ -1,5 +1,6 @@
 package views.teamchoice.selection;
 
+import configuration.AppConfig;
 import controllers.teamchoice.SelectionController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -39,7 +40,7 @@ public class TeamPanelSubView {
     @FXML private Button playButton;
     @FXML private Button loadTeamButton;
 
-    private static final int MIN_TEAM_SIZE = 1;
+    private static final int MIN_TEAM_SIZE = AppConfig.MIN_TEAM_SIZE;
 
     /**
      * Called automatically by JavaFX after FXML injection.
@@ -115,7 +116,7 @@ public class TeamPanelSubView {
         teamGrid.getChildren().clear();
         for (int i = 0; i < team.size(); i++) {
             BugemonDTO bugemon = team.get(i);
-            String path = "/Assets/png/" + bugemon.getSprite();
+            String path = AppConfig.PNG_PREFIX + bugemon.getSprite();
             Image img = new Image(Objects.requireNonNull(getClass().getResourceAsStream(path)));
             ImageView imgView = new ImageView(img);
             imgView.setFitHeight(60);
@@ -171,7 +172,7 @@ public class TeamPanelSubView {
         dialog.initStyle(StageStyle.UNDECORATED);
         dialog.setGraphic(null);
         dialog.getDialogPane().getStylesheets().add(
-                Objects.requireNonNull(getClass().getResource("/css/common.css")).toExternalForm()
+                Objects.requireNonNull(getClass().getResource(AppConfig.CSS_COMMON)).toExternalForm()
         );
         Optional<String> result = dialog.showAndWait();
         if (result.isEmpty() || result.get().trim().isEmpty()) return;
@@ -190,7 +191,7 @@ public class TeamPanelSubView {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.getDialogPane().getStylesheets().add(
-                Objects.requireNonNull(getClass().getResource("/css/common.css")).toExternalForm()
+                Objects.requireNonNull(getClass().getResource(AppConfig.CSS_COMMON)).toExternalForm()
         );
         alert.initStyle(StageStyle.UNDECORATED);
         alert.setGraphic(null);

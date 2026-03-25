@@ -1,5 +1,6 @@
 package controllers.fight;
 
+import configuration.AppConfig;
 import controllers.Controller;
 import controllers.ControllerManager;
 import exceptions.BugemonNotFoundException;
@@ -28,8 +29,7 @@ public class FightController extends Controller<FightView> implements FightListe
 
     private Fight fight;
     private final Random random = new Random();
-    private static final int ENEMY_REACT_TIME = 2;
-    private static final double DISPLAY_PLAYER_DEATH_NOTE_TIME = 1.5;
+
 
     public FightController(ControllerManager metaController) throws IOException {
         super(metaController, new FightView());
@@ -48,7 +48,7 @@ public class FightController extends Controller<FightView> implements FightListe
         try {
             view.resetDisplay();
             TeamBugemon team = GameStateHolder.getInstance().getCurrentTeamPlayer();
-            fight = new Fight(team, new TeamBugemon(List.of("pyricore", "moussil", "pebblit")));
+            fight = new Fight(team, new TeamBugemon(AppConfig.getEnemyTeam()));
             view.displayTeam(fight.getTeamPlayer().getTeamDTO());
             view.displayTeam(fight.getTeamEnemy().getTeamDTO());
             fight.computePredictedEffectiveness();
@@ -131,7 +131,7 @@ public class FightController extends Controller<FightView> implements FightListe
         viewReactToAttack();
         if (fight.isOnFieldEnemyBugemonKO()) {
             view.markBugemonAsFainted(fight.getOnFieldEnemyBugemon());
-            PauseTransition pauseKO = new PauseTransition(Duration.seconds(DISPLAY_PLAYER_DEATH_NOTE_TIME));
+            PauseTransition pauseKO = new PauseTransition(Duration.seconds(AppConfig.DEATH_DISPLAY_TIME));
             pauseKO.setOnFinished(e -> {
                 if (fight.isBattleOver()) {
                     endIfBattleOver();
@@ -149,14 +149,14 @@ public class FightController extends Controller<FightView> implements FightListe
     }
 
     private void enemyAttackPlayer() {
-        PauseTransition pause = new PauseTransition(Duration.seconds(ENEMY_REACT_TIME));
+        PauseTransition pause = new PauseTransition(Duration.seconds(AppConfig.ENEMY_REACT_TIME));
         pause.setOnFinished(e -> {
             Bugemon target = fight.getOnFieldPlayerBugemon();
             fight.enemyAttack();
             viewReactToAttack();
             if (fight.isOnFieldPlayerBugemonKO()) {
                 view.markBugemonAsFainted(target);
-                PauseTransition pauseKO = new PauseTransition(Duration.seconds(DISPLAY_PLAYER_DEATH_NOTE_TIME));
+                PauseTransition pauseKO = new PauseTransition(Duration.seconds(AppConfig.DEATH_DISPLAY_TIME));
                 pauseKO.setOnFinished(e2 -> {
                     if (fight.isBattleOver()) endIfBattleOver();
                     else Platform.runLater(() -> showSwitchWindow(false));

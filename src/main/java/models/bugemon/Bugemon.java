@@ -130,17 +130,17 @@ public class Bugemon implements BugemonDTO {
 
     @Override
     public int getAttaque() {
-        return stats.getAttaque();
+        return stats.getAttackWithModifier();
     }
 
     @Override
     public int getDefense() {
-        return stats.getDefense();
+        return stats.getDefenseWithModifier();
     }
 
     @Override
     public int getInitiative() {
-        return stats.getInitiative();
+        return stats.getInitiativeWithModifier();
     }
 
     public Stats getStats(){
@@ -254,7 +254,7 @@ public class Bugemon implements BugemonDTO {
     }
 
     /**
-     * Initialises the current HP to the maximum HP.
+     * Initializ the current HP to the maximum HP.
      * Should be called at the start of each fight.
      */
     public void initPv() {
@@ -291,7 +291,7 @@ public class Bugemon implements BugemonDTO {
         this.Color = TypeColorService.getTypeColorOfBugemon(this);
     }
 
-    /** Associates each attack with its type colour. */
+    /** Associates each attack with its type color. */
     private void initAttackColors() {
         for (Attack attack : this.attacks) {
             attack.setColor(getTypeColorOfBugemon(attack));

@@ -21,6 +21,11 @@ import java.io.IOException;
  */
 public class ControllerManager {
 
+    private double width;
+    private double height;
+    private double x;
+    private double y;
+
     /** Enumeration of all available scenes in the application. */
     private enum Scenes {
         TITLE_SCREEN,
@@ -64,11 +69,7 @@ public class ControllerManager {
      * @param scene the scene to switch to
      */
     private void switchScene(Scenes scene) {
-        double width = PrimaryStage.getWidth();
-        double height = PrimaryStage.getHeight();
-        double x = PrimaryStage.getX();
-        double y = PrimaryStage.getY();
-
+        getPrimaryStageProperties();
         switch (scene) {
             case TITLE_SCREEN -> this.titleScreenController.show(PrimaryStage);
             case PREBUILD_TEAM -> this.preBuildTeamController.show(PrimaryStage);
@@ -76,6 +77,17 @@ public class ControllerManager {
             case FIGHT -> this.fightController.show(PrimaryStage);
             default -> throw new IllegalArgumentException("Invalid scene: " + scene);
         }
+        ensureFullScreen();
+    }
+
+    private void getPrimaryStageProperties() {
+        width = PrimaryStage.getWidth();
+        height = PrimaryStage.getHeight();
+        x = PrimaryStage.getX();
+        y = PrimaryStage.getY();
+    }
+
+    private void ensureFullScreen() {
         if (PrimaryStage.isShowing()) {
             PrimaryStage.setWidth(width);
             PrimaryStage.setHeight(height);

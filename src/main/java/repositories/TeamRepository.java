@@ -2,6 +2,7 @@ package repositories;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import configuration.AppConfig;
 import exceptions.BugemonNotFoundException;
 import models.bugemon.TeamBugemon;
 
@@ -18,7 +19,6 @@ import java.util.List;
  */
 public class TeamRepository {
 
-    private static final String TEAMS_FILE = "src/main/java/persistence/savedteam/team.json";
     private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
     /**
@@ -52,7 +52,7 @@ public class TeamRepository {
      */
     public static List<TeamBugemon> loadTeams() {
         List<TeamBugemon> teams = new ArrayList<>();
-        File file = new File(TEAMS_FILE);
+        File file = new File(AppConfig.TEAMS_FILE);
 
         if (!file.exists()) {
             return teams;
@@ -91,7 +91,7 @@ public class TeamRepository {
         JsonTeams jsonTeams = new JsonTeams(teamDataList);
 
         try {
-            File file = new File(TEAMS_FILE);
+            File file = new File(AppConfig.TEAMS_FILE);
             file.getParentFile().mkdirs();
             try (FileWriter writer = new FileWriter(file)) {
                 gson.toJson(jsonTeams, writer);
@@ -99,16 +99,5 @@ public class TeamRepository {
         } catch (IOException e) {
             System.err.println("Error saving teams: " + e.getMessage());
         }
-    }
-
-    /**
-     * Saves a single team to the persistent list.
-     * Adds the team to the list and persists it to disk.
-     *
-     * @param team the team to save
-     * @param allTeams the full list of teams to persist
-     */
-    public static void saveTeam(TeamBugemon team, List<TeamBugemon> allTeams) {
-        saveTeams(allTeams);
     }
 }

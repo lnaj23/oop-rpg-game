@@ -5,6 +5,7 @@ import java.net.URL;
 import java.util.Objects;
 import java.util.Optional;
 
+import configuration.AppConfig;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.TextInputDialog;
@@ -179,7 +180,7 @@ public abstract class View<T extends Controller> {
         dialog.initStyle(StageStyle.UNDECORATED);
         dialog.setGraphic(null);
         dialog.getDialogPane().getStylesheets().add(
-                Objects.requireNonNull(getClass().getResource("/css/common.css")).toExternalForm()
+                Objects.requireNonNull(getClass().getResource(AppConfig.CSS_COMMON)).toExternalForm()
         );
         return dialog.showAndWait();
     }

@@ -1,5 +1,6 @@
 package repositories;
 
+import configuration.AppConfig;
 import models.bugemon.Attack;
 import java.util.List;
 
@@ -25,14 +26,12 @@ public abstract class AttackRepository extends JsonRepository {
         public List<Attack> getItems() { return attaques; }
     }
 
-    /** Classpath-relative path to the Attack JSON file. */
-    private static final String PATH = JSON_PREFIX + "attaques.json";
 
     /** All Attacks loaded from {@code attaques.json} at startup. */
     private static final List<Attack> attackRepo;
 
     static {
-        attackRepo = readJSON(PATH, JsonAttack.class);
+        attackRepo = readJSON(AppConfig.JSON_ATTAQUES, JsonAttack.class);
     }
 
     /**

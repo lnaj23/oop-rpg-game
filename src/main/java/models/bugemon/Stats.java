@@ -1,5 +1,7 @@
 package models.bugemon;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Represents the statistics of a Bugémon.
  * Stores its maximum health points, current health points,
@@ -15,7 +17,8 @@ public class Stats {
     private int currentpv;
 
     /** Attack stat used to compute damage dealt. */
-    private int attaque;
+    @SerializedName("attaque")
+    private int attack;
 
     /** Defense stat used to compute damage received. */
     private int defense;
@@ -24,7 +27,7 @@ public class Stats {
     private int initiative;
 
     /** Cumulative modifier applied to the attack stat during battle. */
-    private int attaqueModifier = 0;
+    private int attackModifier = 0;
 
     /** Cumulative modifier applied to the defense stat during battle. */
     private int defenseModifier = 0;
@@ -40,10 +43,10 @@ public class Stats {
     public Stats(Stats other) {
         this.pv         = other.pv;
         this.currentpv  = other.currentpv;
-        this.attaque    = other.attaque;
+        this.attack = other.attack;
         this.defense    = other.defense;
         this.initiative = other.initiative;
-        this.attaqueModifier = other.attaqueModifier;
+        this.attackModifier = other.attackModifier;
         this.defenseModifier = other.defenseModifier;
         this.initiativeModifier = other.initiativeModifier;
     }
@@ -71,8 +74,8 @@ public class Stats {
      *
      * @return attack stat
      */
-    public int getAttaque() {
-        return attaque + attaqueModifier;
+    public int getAttackWithModifier() {
+        return attack + attackModifier;
     }
 
     /**
@@ -80,7 +83,7 @@ public class Stats {
      *
      * @return defense stat
      */
-    public int getDefense() {
+    public int getDefenseWithModifier() {
         return defense + defenseModifier;
     }
 
@@ -89,7 +92,7 @@ public class Stats {
      *
      * @return initiative stat
      */
-    public int getInitiative() {
+    public int getInitiativeWithModifier() {
         return initiative + initiativeModifier;
     }
 
@@ -100,7 +103,7 @@ public class Stats {
      *
      * @param delta the amount to add to or subtract from the attack modifier
      */
-    public void modifyAttaque(int delta) {this.attaqueModifier += delta;}
+    public void modifyAttack(int delta) {this.attackModifier += delta;}
 
     /**
      * Modifies the defense stat by the specified delta.
@@ -146,7 +149,7 @@ public class Stats {
      * Should be called at the end of each fight.
      */
     public void resetModifiers() {
-        attaqueModifier = 0;
+        attackModifier = 0;
         defenseModifier = 0;
         initiativeModifier = 0;
     }
@@ -161,7 +164,7 @@ public class Stats {
     }
 
     String getActifModifierAsStringToDisplay() {
-        return "Effets :" + "\n attaque : " + this.attaqueModifier + "\n defense : " + this.defenseModifier
+        return "Effets :" + "\n attaque : " + this.attackModifier + "\n defense : " + this.defenseModifier
                 + "\n initiative : " + this.initiativeModifier;
     }
 }

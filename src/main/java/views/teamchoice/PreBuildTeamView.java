@@ -1,5 +1,6 @@
 package views.teamchoice;
 
+import configuration.AppConfig;
 import controllers.teamchoice.PreBuildTeamController;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -35,7 +36,7 @@ public class PreBuildTeamView extends View<PreBuildTeamController> {
      * @throws IOException if the FXML file cannot be loaded
      */
     public PreBuildTeamView() throws IOException {
-        super("/fxml/teamchoice/prebuildteam.fxml");
+        super(AppConfig.FXML_PREBUILDTEAM);
         binButtons();
         initTeamListView();
         setActionButtons();
@@ -156,7 +157,7 @@ public class PreBuildTeamView extends View<PreBuildTeamController> {
         confirm.initStyle(StageStyle.UNDECORATED);
         confirm.setGraphic(null);
         confirm.getDialogPane().getStylesheets().add(
-                Objects.requireNonNull(getClass().getResource("/css/common.css")).toExternalForm()
+                Objects.requireNonNull(getClass().getResource(AppConfig.CSS_COMMON)).toExternalForm()
         );
         return confirm.showAndWait();
     }
