@@ -3,44 +3,35 @@ package controllers.fight;
 import controllers.Controller;
 import controllers.MetaController;
 import models.bugemon.dto.BugemonDTO;
-import services.game.GameStateHolder;
 import views.fight.SelectBugemonFromTeamView;
 import listener.SelectBugemonFromTeamListener;
+import services.game.GameStateHolder;
+
 import java.io.IOException;
-import java.util.List;
-import java.util.function.Consumer;
 
 /**
  * Controller for the Bugemon switch sub-view used during a fight.
  * <p>
- * This controller initializes the {@link SelectBugemonFromTeamView}, displays the
- * player's team, validates switch choices, and delegates the selected Bugemon
- * through a callback. It also handles cancellation when switching is optional.
+ * Reads the player's team, the current on-field Bugemon id, and the switch mode
+ * directly from {@link GameStateHolder}. Delegates selection and cancellation
+ * back to the {@link MetaController} which forwards them to {@link FightController}.
  * </p>
  */
 public class SwitchBugemonController extends Controller<SelectBugemonFromTeamView> implements SelectBugemonFromTeamListener {
 
+    /** The identifier of the Bugemon currently on the field, used to prevent re-selecting it. */
     private final Object currentOnFieldId;
-    private final Consumer<Object> onBugemonSelected;
-    private final Runnable onCancel;
 
     /**
      * Creates the controller for the Bugemon switch sub-view.
+     * Reads all required state from {@link GameStateHolder}.
      *
      * @param metaController the central controller responsible for application navigation
-     * @param team the player's team to display in the switch sub-view
-     * @param onPurpose {@code true} if the player opened the switch window voluntarily,
-     *                  {@code false} if the switch is forced
-     * @param currentOnFieldId the identifier of the Bugemon currently on the field
-     * @param onBugemonSelected callback executed when the user selects a valid Bugemon
-     * @param onCancel callback executed when the user cancels the switch
      * @throws IOException if the switch sub-view cannot be loaded
      */
-    public SwitchBugemonController(MetaController metaController, Consumer<Object> onBugemonSelected, Runnable onCancel) throws IOException {
+    public SwitchBugemonController(MetaController metaController) throws IOException {
         super(metaController, new SelectBugemonFromTeamView());
         this.currentOnFieldId = GameStateHolder.getInstance().getCurrentOnFieldId();
-        this.onBugemonSelected = onBugemonSelected;
-        this.onCancel = onCancel;
         this.view.setController(this);
         this.view.setListener(this);
         this.view.displayTeam(
@@ -53,8 +44,7 @@ public class SwitchBugemonController extends Controller<SelectBugemonFromTeamVie
      * Handles the selection of a Bugemon in the switch sub-view.
      * <p>
      * Displays an error message if the selected Bugemon is KO or is already on the field.
-     * Otherwise, closes the sub-window and forwards the selected Bugemon id through
-     * the callback.
+     * Otherwise, closes the sub-window and notifies the meta-controller.
      * </p>
      *
      * @param bugemon the Bugemon selected by the user
@@ -64,28 +54,26 @@ public class SwitchBugemonController extends Controller<SelectBugemonFromTeamVie
             view.showMessageKO("Erreur", "Ce Bugemon est KO.");
             return;
         }
-
         if (bugemon.getId().equals(currentOnFieldId)) {
             view.showMessageKO("Erreur", "Ce Bugemon est deja sur le terrain !");
             return;
         }
-
         view.closeWindow();
-        onBugemonSelected.accept(bugemon.getId());
+        metaController.onSwitchBugemonChosen(bugemon.getId());
     }
 
     /**
      * Handles the click on the cancel button by closing the sub-window
-     * and executing the cancellation callback.
+     * and notifying the meta-controller.
      */
     public void onCancelClicked() {
         view.closeWindow();
-        onCancel.run();
+        metaController.onSwitchCancelled();
     }
 
     /**
-     * Implements the listener interface method for Bugemon selection.
-     * Delegates the selection request to the internal handler.
+     * Implements {@link SelectBugemonFromTeamListener}.
+     * Delegates to {@link #onBugemonClicked(BugemonDTO)}.
      *
      * @param bugemon the Bugemon selected by the user
      */
@@ -95,8 +83,8 @@ public class SwitchBugemonController extends Controller<SelectBugemonFromTeamVie
     }
 
     /**
-     * Implements the listener interface method for cancellation.
-     * Delegates the cancellation request to the internal handler.
+     * Implements {@link SelectBugemonFromTeamListener}.
+     * Delegates to {@link #onCancelClicked()}.
      */
     @Override
     public void onCancelClickedRequest() {

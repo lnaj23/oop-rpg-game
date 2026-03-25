@@ -139,16 +139,8 @@ public class MetaController {
      */
     public void openSwitchWindow() {
         try {
-            SwitchBugemonController switchController = new SwitchBugemonController(
-                    this,
-                    selectedId -> fightController.onSwitchBugemonChosen(
-                            selectedId,
-                            GameStateHolder.getInstance().isSwitchOnPurpose()
-                    ),
-                    fightController::onSwitchCancelled
-            );
+            SwitchBugemonController switchController = new SwitchBugemonController(this);
             openSubScene(switchController.getView(), !GameStateHolder.getInstance().isSwitchOnPurpose());
-
         } catch (IOException e) {
             fatalError("Impossible d'ouvrir la vue de changement : " + e.getMessage());
         }
@@ -184,6 +176,17 @@ public class MetaController {
 
     public void goToTitleScreen() {
         this.switchScene(Scenes.TITLE_SCREEN);
+    }
+
+    public void onSwitchBugemonChosen(Object selectedId) {
+        fightController.onSwitchBugemonChosen(
+                selectedId,
+                GameStateHolder.getInstance().isSwitchOnPurpose()
+        );
+    }
+
+    public void onSwitchCancelled() {
+        fightController.onSwitchCancelled();
     }
 
     /**
