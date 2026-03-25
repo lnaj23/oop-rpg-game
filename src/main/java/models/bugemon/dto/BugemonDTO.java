@@ -25,10 +25,6 @@ public interface BugemonDTO {
      */
     String getSprite();
 
-    /**
-     * @return the list of attacks of the Bugémon
-     */
-    List<Attack> getAttacks();
 
     /**
      * @return the max HP of the Bugémon

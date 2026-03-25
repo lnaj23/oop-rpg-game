@@ -44,15 +44,6 @@ public class SelectionController extends Controller<SelectionView> {
     }
 
     /**
-     * Returns the team currently being built by the player as a read-only DTO.
-     *
-     * @return the player's current team as a {@link TeamBugemonDTO}
-     */
-    public TeamBugemonDTO getPlayerTeam() {
-        return playerTeam;
-    }
-
-    /**
      * Returns the number of Bugémons currently in the player's team.
      * Used by sub-views to check team size without pulling the full team object.
      *

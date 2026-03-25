@@ -1,4 +1,4 @@
-package models.bugemon.dto;
+package models.game.dto;
 
 public interface ItemDTO {
     String getId();

@@ -5,7 +5,7 @@ import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
-import models.bugemon.dto.ItemDTO;
+import models.game.dto.ItemDTO;
 import views.View;
 
 import java.io.IOException;

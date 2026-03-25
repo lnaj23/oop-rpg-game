@@ -1,6 +1,6 @@
 package models.game;
 
-import models.bugemon.dto.ItemDTO;
+import models.game.dto.ItemDTO;
 
 /**
  * Represents an item that can be used during a fight.

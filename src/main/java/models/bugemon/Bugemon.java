@@ -1,6 +1,7 @@
 package models.bugemon;
 
 import com.google.gson.annotations.SerializedName;
+import models.bugemon.dto.AttackDTO;
 import models.bugemon.dto.BugemonDTO;
 
 import java.util.ArrayList;
@@ -101,10 +102,10 @@ public class Bugemon implements BugemonDTO {
         return sprite;
     }
 
-    @Override
     public List<Attack> getAttacks() {
         return attacks;
     }
+
 
     public Attack getAttackFromIndex(int attackIndex){
         return attacks.get(attackIndex);

@@ -1,6 +1,7 @@
 package models.bugemon;
 
 import com.google.gson.annotations.SerializedName;
+import models.bugemon.dto.AttackDTO;
 
 import java.util.List;
 
@@ -10,7 +11,7 @@ import java.util.List;
  * Instances of this class are loaded from the game data (JSON) and
  * are used by Bugémon to inflict damage during battles.
  */
-public class Attack {
+public class Attack implements AttackDTO {
 
     /** Unique identifier of this attack. */
     private String id;
@@ -62,7 +63,7 @@ public class Attack {
      *
      * @return the attack ID
      */
-    public String getId() {
+    @Override public String getId() {
         return id;
     }
 
@@ -71,7 +72,7 @@ public class Attack {
      *
      * @return the attack name
      */
-    public String getName() {
+    @Override public String getName() {
         return name;
     }
 
@@ -80,7 +81,7 @@ public class Attack {
      *
      * @return the attack type
      */
-    public String getType() {
+    @Override public String getType() {
         return type;
     }
 
@@ -89,7 +90,7 @@ public class Attack {
      *
      * @return the attack description
      */
-    public String getDescription() {
+    @Override public String getDescription() {
         return description;
     }
 
@@ -98,7 +99,7 @@ public class Attack {
      *
      * @return the attack power
      */
-    public int getPower() {
+    @Override public int getPower() {
         return power;
     }
 
@@ -111,7 +112,7 @@ public class Attack {
         return effects;
     }
 
-    public String getColor() {
+    @Override public String getColor() {
         return color;
     }
 

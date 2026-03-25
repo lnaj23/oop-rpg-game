@@ -3,7 +3,7 @@ package controllers.fight;
 import controllers.Controller;
 import controllers.MetaController;
 import models.game.Item;
-import models.bugemon.dto.ItemDTO;
+import models.game.dto.ItemDTO;
 import views.fight.ItemsView;
 
 import java.io.IOException;
