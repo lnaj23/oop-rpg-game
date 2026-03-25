@@ -24,15 +24,9 @@ public abstract class TypeEffectivenessService{
 
         return switch (combo) {
 
-            case "flora_aqua"  -> 1.5;
-            case "aqua_pyro"   -> 1.5;
-            case "pyro_litho"  -> 1.5;
-            case "litho_flora" -> 1.5;
+            case "flora_aqua", "aqua_pyro", "pyro_litho", "litho_flora" -> 1.5;
 
-            case "aqua_flora"  -> 0.75;
-            case "pyro_aqua"   -> 0.75;
-            case "litho_pyro"  -> 0.75;
-            case "flora_litho" -> 0.75;
+            case "aqua_flora", "pyro_aqua", "litho_pyro", "flora_litho" -> 0.75;
 
             default -> 1.0;
         };

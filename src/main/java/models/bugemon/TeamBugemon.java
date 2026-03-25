@@ -186,7 +186,7 @@ public class TeamBugemon implements TeamBugemonDTO {
     public void changeOnFieldBugemon(Bugemon bug) throws BugemonNotInTeamException {
         for (Bugemon bug2 : team) {
             if (bug2.getId().equals(bug.getId())) {
-                onFieldBugemon = bug2;
+                onFieldBugemon = bug;
                 return;
             }
         }
