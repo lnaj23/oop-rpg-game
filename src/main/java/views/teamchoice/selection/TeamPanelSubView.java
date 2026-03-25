@@ -2,8 +2,10 @@ package views.teamchoice.selection;
 
 import controllers.teamchoice.SelectionController;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
@@ -16,13 +18,14 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-import javafx.scene.control.Alert;
-import javafx.scene.control.TextInputDialog;
-
 /**
  * Sub-view managing the team panel on the right side of the selection screen.
  * Displays the current team, stats label, and action buttons.
  * Included in selectionview.fxml via fx:include.
+ * <p>
+ * This sub-view does not pull data from the controller — it receives
+ * all data via method parameters (push model).
+ * </p>
  */
 public class TeamPanelSubView {
 
@@ -47,8 +50,7 @@ public class TeamPanelSubView {
         backButton.setOnAction(e -> controller.goToTitleScreen());
         confirmButton.setOnAction(e -> onConfirmClicked());
         playButton.setOnAction(e -> onPlayClicked());
-        loadTeamButton.setOnAction(e-> this.controller.goToPrebuildTeam());
-        //right click to unselect every bugemon
+        loadTeamButton.setOnAction(e -> this.controller.goToPrebuildTeam());
         for (Button btn : List.of(confirmButton, loadTeamButton, playButton, backButton)) {
             btn.setOnMouseClicked(e -> {
                 if (e.getButton() == MouseButton.SECONDARY) {
@@ -59,7 +61,7 @@ public class TeamPanelSubView {
     }
 
     /**
-     * Sets the controller. Called by SelectionView after FXML loading.
+     * Sets the controller. Called by {@link SelectionView} after FXML loading.
      *
      * @param controller the selection controller
      */
@@ -69,22 +71,22 @@ public class TeamPanelSubView {
 
     /**
      * Called when a Bugémon is added to the team.
-     * Updates the team grid display.
+     * The grid is refreshed via {@link #refreshTeamGrid(List)} by the controller.
      *
      * @param bugemon the Bugémon that was added
      */
     public void onBugemonAdded(BugemonDTO bugemon) {
-        refreshTeamGrid();
+        // Le controller pousse la mise à jour via refreshTeamGrid
     }
 
     /**
      * Called when a Bugémon is removed from the team.
-     * Updates the team grid display.
+     * The grid is refreshed via {@link #refreshTeamGrid(List)} by the controller.
      *
      * @param bugemon the Bugémon that was removed
      */
     public void onBugemonRemoved(BugemonDTO bugemon) {
-        refreshTeamGrid();
+        // Le controller pousse la mise à jour via refreshTeamGrid
     }
 
     /**
@@ -104,13 +106,15 @@ public class TeamPanelSubView {
     }
 
     /**
-     * Refreshes the team grid with the current player team's sprites.
+     * Refreshes the team grid with the given list of Bugémons.
+     * Called by the controller after each team modification (push model).
+     *
+     * @param team the updated list of Bugémons to display
      */
-    public void refreshTeamGrid() {
+    public void refreshTeamGrid(List<BugemonDTO> team) {
         teamGrid.getChildren().clear();
-        List<BugemonDTO> currentTeam = controller.getPlayerTeam().getTeamDTO();
-        for (int i = 0; i < currentTeam.size(); i++) {
-            BugemonDTO bugemon = currentTeam.get(i);
+        for (int i = 0; i < team.size(); i++) {
+            BugemonDTO bugemon = team.get(i);
             String path = "/Assets/png/" + bugemon.getSprite();
             Image img = new Image(Objects.requireNonNull(getClass().getResourceAsStream(path)));
             ImageView imgView = new ImageView(img);
@@ -127,31 +131,42 @@ public class TeamPanelSubView {
         bugemonStatsLabel.setText("Cliquez sur un Bugémon pour voir ses statistiques");
     }
 
+    /**
+     * Handles the play button click.
+     * Validates the team size before starting a fight.
+     */
     private void onPlayClicked() {
-        if (controller.getPlayerTeam().getSize() < MIN_TEAM_SIZE) {
+        if (controller.getPlayerTeamSize() < MIN_TEAM_SIZE) {
             showError("Aucun Bugémon", "Sélectionnez au moins 1 Bugémon avant de jouer.");
             return;
         }
         controller.goToFight();
     }
 
+    /**
+     * Handles the confirm button click.
+     * Saves the team in edit mode or opens the naming dialog for a new team.
+     */
     private void onConfirmClicked() {
-        if (controller.getPlayerTeam().getSize() < MIN_TEAM_SIZE) {
+        if (controller.getPlayerTeamSize() < MIN_TEAM_SIZE) {
             showError("Aucun Bugémon", "Sélectionnez au moins 1 Bugémon avant de valider.");
             return;
         }
         if (controller.isEditing()) {
-            controller.saveSelection(controller.getPlayerTeam(), null);
+            controller.saveSelection(null);
             controller.goToPrebuildTeam();
         } else {
             confirmCreation();
         }
     }
 
+    /**
+     * Opens a text input dialog to name the new team, then saves it.
+     */
     private void confirmCreation() {
         TextInputDialog dialog = new TextInputDialog("Mon equipe");
         dialog.setTitle("Sauvegarder l'équipe");
-        dialog.setHeaderText("Donnez un nom à votre équipe (" + controller.getPlayerTeam().getSize() + " Bugémon(s))");
+        dialog.setHeaderText("Donnez un nom à votre équipe (" + controller.getPlayerTeamSize() + " Bugémon(s))");
         dialog.setContentText("Nom :");
         dialog.initStyle(StageStyle.UNDECORATED);
         dialog.setGraphic(null);
@@ -160,9 +175,15 @@ public class TeamPanelSubView {
         );
         Optional<String> result = dialog.showAndWait();
         if (result.isEmpty() || result.get().trim().isEmpty()) return;
-        controller.saveSelection(controller.getPlayerTeam(), result.get().trim());
+        controller.saveSelection(result.get().trim());
     }
 
+    /**
+     * Displays an error alert with the given title and message.
+     *
+     * @param title   the alert title
+     * @param message the alert message
+     */
     void showError(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(title);
@@ -176,6 +197,12 @@ public class TeamPanelSubView {
         alert.showAndWait();
     }
 
+    /**
+     * Toggles edit mode visibility for action buttons.
+     * Hides navigation and play buttons when editing an existing team.
+     *
+     * @param editing {@code true} if in edit mode
+     */
     public void setEditMode(boolean editing) {
         loadTeamButton.setVisible(!editing);
         playButton.setVisible(!editing);

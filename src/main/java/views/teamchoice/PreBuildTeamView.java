@@ -79,8 +79,8 @@ public class PreBuildTeamView extends View<PreBuildTeamController> {
     private void setActionButtons(){
         btnRetour.setOnAction(e -> this.controller.goToMenu());
         btnNewTeam.setOnAction(e -> this.controller.goToNewTeam());
-        btnPlay.setOnAction(e -> this.controller.play(getSelected()));
-        btnModify.setOnAction(e -> this.controller.modifyTeam(getSelected()));
+        btnPlay.setOnAction(e -> this.controller.play(getSelectedIndex()));
+        btnModify.setOnAction(e -> this.controller.modifyTeam(getSelectedIndex()));
         btnRename.setOnAction(e -> onRenameClicked());
         btnDelete.setOnAction(e -> onDeleteClicked());
     }
@@ -98,19 +98,20 @@ public class PreBuildTeamView extends View<PreBuildTeamController> {
     /**
      * @return the currently selected team as a DTO, or null if none is selected
      */
-    private TeamBugemonDTO getSelected() {
-        return teamListView.getSelectionModel().getSelectedItem();
+    private int getSelectedIndex() {
+        return teamListView.getSelectionModel().getSelectedIndex();
     }
 
     /**
      * Shows a dialog to rename the selected team and delegates to the controller.
      */
     private void onRenameClicked() {
-        TeamBugemonDTO selected = getSelected();
-        if (selected == null) return;
+        int index = getSelectedIndex();
+        if (index < 0) return;
+        TeamBugemonDTO selected = teamListView.getItems().get(index);
         showRenameDialog(selected).ifPresent(newName -> {
             if (!newName.trim().isEmpty())
-                this.controller.renameTeam(selected, newName.trim());
+                this.controller.renameTeam(index, newName.trim());
         });
     }
 
@@ -131,11 +132,12 @@ public class PreBuildTeamView extends View<PreBuildTeamController> {
      * Shows a confirmation dialog before deleting the selected team.
      */
     private void onDeleteClicked() {
-        TeamBugemonDTO selected = getSelected();
-        if (selected == null) return;
+        int index = getSelectedIndex();
+        if (index < 0) return;
+        TeamBugemonDTO selected = teamListView.getItems().get(index);
         Optional<ButtonType> result = showDeleteConfirmDialog(selected);
         if (result.isPresent() && result.get() == ButtonType.OK) {
-            this.controller.deleteTeam(selected);
+            this.controller.deleteTeam(index);
             bugemonListView.getItems().clear();
         }
     }

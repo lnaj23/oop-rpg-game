@@ -13,10 +13,10 @@ import java.util.List;
 
 /**
  * Main view for the Bugémon selection screen.
- * Coordinates the two sub-views: BugemonGridView and TeamPanelView.
- * Sub-views are loaded via fx:include in selectionview.fxml.
- * JavaFX injects sub-controllers as bugemonGridController and teamPanelController
- * after FXML loading, following the fx:id + "Controller" naming convention.
+ * Coordinates the two sub-views: {@link BugemonGridSubView} and {@link TeamPanelSubView}.
+ * Sub-views are loaded via {@code fx:include} in {@code selectionview.fxml}.
+ * JavaFX injects sub-controllers as {@code bugemonGridController} and {@code teamPanelController}
+ * after FXML loading, following the {@code fx:id + "Controller"} naming convention.
  */
 public class SelectionView extends View<SelectionController> {
 
@@ -30,7 +30,6 @@ public class SelectionView extends View<SelectionController> {
      */
     public SelectionView() throws IOException {
         super("/fxml/teamchoice/selection/selectionview.fxml");
-        //right click to unselect every bugemon
         root.setOnMouseClicked(e -> {
             if (e.getButton() == MouseButton.SECONDARY) {
                 controller.reset();
@@ -40,9 +39,7 @@ public class SelectionView extends View<SelectionController> {
 
     /**
      * Called automatically by JavaFX after all FXML fields are injected,
-     * including sub-controllers from fx:include.
-     * This is the correct place to propagate the controller to sub-views,
-     * since bugemonGridController and teamPanelController are null before this point.
+     * including sub-controllers from {@code fx:include}.
      */
     @FXML
     public void initialize() {
@@ -51,7 +48,7 @@ public class SelectionView extends View<SelectionController> {
 
     /**
      * Propagates the controller to both sub-views.
-     * Must be called after initialize() has run, i.e. after FXML is fully loaded.
+     * Must be called after {@link #initialize()} has run, i.e. after FXML is fully loaded.
      *
      * @param controller the selection controller
      */
@@ -72,13 +69,14 @@ public class SelectionView extends View<SelectionController> {
     }
 
     /**
-     * Pre-selects the Bugémons of an existing team in the grid.
+     * Pre-selects the Bugémons of an existing team in the grid
+     * and pushes the team list to the team panel.
      *
      * @param team the team to pre-select
      */
     public void preSelectTeam(TeamBugemonDTO team) {
         bugemonGridController.preSelectTeam(team.getTeamDTO(), teamPanelController);
-        teamPanelController.refreshTeamGrid();
+        teamPanelController.refreshTeamGrid(team.getTeamDTO());
     }
 
     /**
@@ -94,10 +92,11 @@ public class SelectionView extends View<SelectionController> {
     /**
      * Selects a button visually in the grid.
      *
-     * @param btn the button to select
+     * @param btn     the button to select
+     * @param bugemon the Bugémon associated with the button
      */
-    public void selectButton(Button btn,BugemonDTO bugemon) {
-        bugemonGridController.selectButton(btn,bugemon);
+    public void selectButton(Button btn, BugemonDTO bugemon) {
+        bugemonGridController.selectButton(btn, bugemon);
     }
 
     /**
@@ -137,6 +136,16 @@ public class SelectionView extends View<SelectionController> {
     }
 
     /**
+     * Pushes an updated team list to the team panel grid.
+     * Called by the controller after each team modification.
+     *
+     * @param team the updated list of Bugémons to display
+     */
+    public void refreshTeamGrid(List<BugemonDTO> team) {
+        teamPanelController.refreshTeamGrid(team);
+    }
+
+    /**
      * Shows a team full error dialog in the team panel.
      */
     public void showTeamFullError() {
@@ -144,6 +153,11 @@ public class SelectionView extends View<SelectionController> {
                 "Vous ne pouvez sélectionner que 6 Bugémons maximum.");
     }
 
+    /**
+     * Toggles edit mode in the team panel.
+     *
+     * @param editing {@code true} if editing an existing team
+     */
     public void setEditMode(boolean editing) {
         teamPanelController.setEditMode(editing);
     }

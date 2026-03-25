@@ -44,12 +44,22 @@ public class SelectionController extends Controller<SelectionView> {
     }
 
     /**
-     * Returns the team currently being built by the player.
+     * Returns the team currently being built by the player as a read-only DTO.
      *
-     * @return the player's current team as a DTO
+     * @return the player's current team as a {@link TeamBugemonDTO}
      */
     public TeamBugemonDTO getPlayerTeam() {
         return playerTeam;
+    }
+
+    /**
+     * Returns the number of Bugémons currently in the player's team.
+     * Used by sub-views to check team size without pulling the full team object.
+     *
+     * @return the size of the player's current team
+     */
+    public int getPlayerTeamSize() {
+        return playerTeam.getSize();
     }
 
     /** Navigates back to the Title Screen. */
@@ -57,9 +67,11 @@ public class SelectionController extends Controller<SelectionView> {
         this.metaController.switchScene(MetaController.Scenes.TITLE_SCREEN);
     }
 
-    public void goToPrebuildTeam(){
+    /** Navigates to the pre-built team screen. */
+    public void goToPrebuildTeam() {
         this.metaController.switchScene(MetaController.Scenes.PREBUILD_TEAM);
     }
+
     /**
      * Enters edit mode for an existing team and pre-selects its Bugémons in the view.
      *
@@ -67,7 +79,6 @@ public class SelectionController extends Controller<SelectionView> {
      */
     public void loadTeamForEditing(TeamBugemon team) {
         this.teamBeingEdited = team;
-        // Populate playerTeam so it matches the visually pre-selected buttons
         team.getTeamDTO().forEach(bug -> this.playerTeam.addBugemonDTO(bug));
         this.view.preSelectTeam(team);
         this.view.setEditMode(true);
@@ -78,11 +89,13 @@ public class SelectionController extends Controller<SelectionView> {
         this.teamBeingEdited = null;
         this.playerTeam = new TeamBugemon();
         this.view.reset(BugemonProvider.getAllBugemonsDTO());
-        view.setEditMode(false);
+        this.view.setEditMode(false);
     }
 
     /**
-     * @return true if currently editing an existing team, false if creating a new one
+     * Returns whether the controller is currently in edit mode.
+     *
+     * @return {@code true} if editing an existing team, {@code false} if creating a new one
      */
     public boolean isEditing() {
         return this.teamBeingEdited != null;
@@ -104,7 +117,8 @@ public class SelectionController extends Controller<SelectionView> {
 
     /**
      * Handles a click on a Bugémon button in the grid.
-     * Adds or removes the Bugémon from the player's team and notifies the view.
+     * Adds or removes the Bugémon from the player's team, notifies the view,
+     * and pushes the updated team list to the view.
      *
      * @param btn         the button that was clicked
      * @param bugemon     the Bugémon associated with that button
@@ -127,33 +141,29 @@ public class SelectionController extends Controller<SelectionView> {
             this.view.onBugemonAdded(bugemon);
             this.view.showBugemonStats(bugemon);
         }
+        this.view.refreshTeamGrid(playerTeam.getTeamDTO());
     }
 
     /**
      * Confirms the current selection. Updates the existing team if editing,
      * or adds a new named team to the shared list and persists it to disk.
      *
-     * @param playerTeamDTO the team built by the player
-     * @param teamName      the name for the new team (ignored in edit mode)
+     * @param teamName the name for the new team (ignored in edit mode, can be null)
      */
-    public void saveSelection(TeamBugemonDTO playerTeamDTO, String teamName) {
-        TeamBugemon team = (TeamBugemon) playerTeamDTO;
-
+    public void saveSelection(String teamName) {
         if (this.teamBeingEdited != null) {
             this.teamBeingEdited.getTeam().clear();
-            this.teamBeingEdited.getTeam().addAll(team.getTeam());
+            this.teamBeingEdited.getTeam().addAll(playerTeam.getTeam());
             this.teamBeingEdited = null;
         } else {
-            team.setName(teamName);
-            this.teams.add(team);
+            playerTeam.setName(teamName);
+            this.teams.add(playerTeam);
         }
-        // Persist changes to disk
         TeamService.saveTeams(this.teams);
     }
 
+    /** Starts a fight with the current player team. */
     public void goToFight() {
         this.metaController.goToFight(playerTeam);
     }
-
-
 }

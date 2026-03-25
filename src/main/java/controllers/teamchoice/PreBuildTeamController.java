@@ -46,8 +46,8 @@ public class PreBuildTeamController extends Controller<PreBuildTeamView> {
      *
      * @param teamDTO the team to modify, cast internally to {@link TeamBugemon}
      */
-    public void modifyTeam(TeamBugemonDTO teamDTO) {
-        this.metaController.openSelectionForEdit((TeamBugemon) teamDTO);
+    public void modifyTeam(int index) {
+        this.metaController.openSelectionForEdit(teams.get(index));
     }
 
     /**
@@ -55,8 +55,8 @@ public class PreBuildTeamController extends Controller<PreBuildTeamView> {
      *
      * @param teamDTO the team to delete, cast internally to {@link TeamBugemon}
      */
-    public void deleteTeam(TeamBugemonDTO teamDTO) {
-        this.teams.remove((TeamBugemon) teamDTO);
+    public void deleteTeam(int index) {
+        this.teams.remove(index);
         TeamService.saveTeams(teams);
         this.view.refreshTeams(teams);
     }
@@ -67,8 +67,8 @@ public class PreBuildTeamController extends Controller<PreBuildTeamView> {
      * @param teamDTO the team to rename, cast internally to {@link TeamBugemon}
      * @param newName the new name to assign
      */
-    public void renameTeam(TeamBugemonDTO teamDTO, String newName) {
-        ((TeamBugemon) teamDTO).setName(newName);
+    public void renameTeam(int index, String newName) {
+        teams.get(index).setName(newName);
         TeamService.saveTeams(teams);
         this.view.refreshTeamList();
     }
@@ -85,8 +85,8 @@ public class PreBuildTeamController extends Controller<PreBuildTeamView> {
      *
      * @param teamDTO the team to play with
      */
-    public void play(TeamBugemonDTO teamDTO) {
-        this.metaController.goToFight((TeamBugemon) teamDTO);
+    public void play(int index) {
+        this.metaController.goToFight(teams.get(index));
     }
 
 
