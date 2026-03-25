@@ -1,7 +1,6 @@
 package models.bugemon;
 
 import com.google.gson.annotations.SerializedName;
-import models.bugemon.dto.AttackDTO;
 import models.bugemon.dto.BugemonDTO;
 
 import java.util.ArrayList;
@@ -11,7 +10,6 @@ import java.util.Random;
 import services.fight.TypeEffectivenessService;
 import services.color.TypeColorService;
 
-import javax.annotation.processing.Generated;
 
 import static services.fight.DamageCalculator.computeDamage;
 import static services.color.TypeColorService.getTypeColorOfBugemon;

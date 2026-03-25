@@ -1,8 +1,12 @@
 package services.game;
 
+import models.bugemon.Bugemon;
 import models.bugemon.TeamBugemon;
+import models.bugemon.dto.BugemonDTO;
 import models.game.Item;
+import services.dataprovider.TeamService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -15,12 +19,22 @@ public class GameStateHolder {
 
     private TeamBugemon currentTeamPlayer;
 
+    private final List<TeamBugemon> savedTeams = new ArrayList<>(TeamService.loadTeams());
+
     private GameStateHolder() {}
 
+    private List<BugemonDTO> currentPlayerTeamDTO;
+    private Object currentOnFieldId;
+    private boolean switchOnPurpose;
+
     private final List<Item> availableItems = List.of(
-            new Item("potion", "Une potion", "soigne 20 HP"),
-            new Item("super_potion", "Une super potion", "soigne 50 HP"),
-            new Item("revive", "La reanimation", "reanime un Bugemon KO")
+            new Item("baie_revigorante", "Baie Revigorante", "soigne 20 HP"),
+            new Item("baie_revigorante", "Baie Revigorante", "soigne 20 HP"),
+            new Item("baie_revigorante", "Baie Revigorante", "soigne 20 HP"),
+            new Item("baie_tonique", "Baie Tonique", "soigne 50 HP"),
+            new Item("baie_tonique", "Baie Tonique", "soigne 50 HP"),
+            new Item("gel_defensif", "Gel Défensif", "augmente la défense"),
+            new Item("serum_offensif", "Sérum Offensif", "augmente l'attaque")
     );
 
     /**
@@ -35,6 +49,9 @@ public class GameStateHolder {
         return instance;
     }
 
+    public List<TeamBugemon> getSavedTeams() {
+        return savedTeams;
+    }
     /**
      * Sets the player's current team for the upcoming fight.
      *
@@ -53,6 +70,7 @@ public class GameStateHolder {
         return currentTeamPlayer;
     }
 
+
     /**
      * Clears the session state.
      * Should be called when returning to the title screen.
@@ -64,4 +82,13 @@ public class GameStateHolder {
     public List<Item> getAvailableItems() {
         return availableItems;
     }
+
+    public void setCurrentPlayerTeamDTO(List<BugemonDTO> team) { this.currentPlayerTeamDTO = team; }
+    public List<BugemonDTO> getCurrentPlayerTeamDTO() { return currentPlayerTeamDTO; }
+
+    public void setCurrentOnFieldId(Object id) { this.currentOnFieldId = id; }
+    public Object getCurrentOnFieldId() { return currentOnFieldId; }
+
+    public void setSwitchOnPurpose(boolean onPurpose) { this.switchOnPurpose = onPurpose; }
+    public boolean isSwitchOnPurpose() { return switchOnPurpose; }
 }

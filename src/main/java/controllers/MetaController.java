@@ -8,15 +8,11 @@ import controllers.teamchoice.SelectionController;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import models.bugemon.TeamBugemon;
-import models.bugemon.dto.BugemonDTO;
-import services.dataprovider.TeamService;
+import services.game.GameStateHolder;
 import views.FatalErrorView;
 import views.View;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Central controller that manages navigation between scenes and holds shared application state.
@@ -32,13 +28,13 @@ public class MetaController {
         FIGHT
     }
 
-    private final Stage stage;
+    private final Stage PrimaryStage;
     private final TitleScreenController titleScreenController;
     private final PreBuildTeamController preBuildTeamController;
     private final SelectionController selectionController;
     private final FightController fightController;
-    /** Shared list of saved teams, passed to all controllers that need it. */
-    private final List<TeamBugemon> teams = new ArrayList<>(TeamService.loadTeams());
+
+
     /**
      * Initializes all controllers and views.
      *
@@ -46,10 +42,10 @@ public class MetaController {
      * @throws IOException if any FXML file fails to load
      */
     public MetaController(Stage stage) throws IOException {
-        this.stage = stage;
+        this.PrimaryStage = stage;
         this.titleScreenController = new TitleScreenController(this);
-        this.preBuildTeamController = new PreBuildTeamController(this, teams);
-        this.selectionController = new SelectionController(this, teams);
+        this.preBuildTeamController = new PreBuildTeamController(this);
+        this.selectionController = new SelectionController(this);
         this.fightController = new FightController(this);
     }
 
@@ -58,7 +54,7 @@ public class MetaController {
      */
     public void start() {
         switchScene(Scenes.TITLE_SCREEN);
-        stage.setMaximized(true);
+        PrimaryStage.setMaximized(true);
     }
 
     /**
@@ -67,26 +63,26 @@ public class MetaController {
      * @param scene the scene to switch to
      */
     private void switchScene(Scenes scene) {
-        double width = stage.getWidth();
-        double height = stage.getHeight();
-        double x = stage.getX();
-        double y = stage.getY();
+        double width = PrimaryStage.getWidth();
+        double height = PrimaryStage.getHeight();
+        double x = PrimaryStage.getX();
+        double y = PrimaryStage.getY();
 
         switch (scene) {
-            case TITLE_SCREEN -> this.titleScreenController.show(stage);
+            case TITLE_SCREEN -> this.titleScreenController.show(PrimaryStage);
             case PREBUILD_TEAM -> {
-                this.preBuildTeamController.show(stage);
+                this.preBuildTeamController.show(PrimaryStage);
                 this.preBuildTeamController.refreshView();
             }
-            case SELECTION -> this.selectionController.show(stage);
-            case FIGHT -> this.fightController.show(stage);
+            case SELECTION -> this.selectionController.show(PrimaryStage);
+            case FIGHT -> this.fightController.show(PrimaryStage);
             default -> throw new IllegalArgumentException("Invalid scene: " + scene);
         }
-        if (stage.isShowing()) {
-            stage.setWidth(width);
-            stage.setHeight(height);
-            stage.setX(x);
-            stage.setY(y);
+        if (PrimaryStage.isShowing()) {
+            PrimaryStage.setWidth(width);
+            PrimaryStage.setHeight(height);
+            PrimaryStage.setX(x);
+            PrimaryStage.setY(y);
         }
     }
 
@@ -98,7 +94,7 @@ public class MetaController {
      */
     private void openSubScene(View<?> view, boolean wait) {
         Stage subStage = new Stage();
-        subStage.initOwner(stage);
+        subStage.initOwner(PrimaryStage);
         subStage.initModality(Modality.APPLICATION_MODAL);
         subStage.initStyle(StageStyle.UNDECORATED);
 
@@ -141,17 +137,18 @@ public class MetaController {
      *                  {@code false} if the switch is forced
      * @param currentOnFieldId the identifier of the Bugemon currently on the field
      */
-    public void openSwitchWindow(List<BugemonDTO> team, boolean onPurpose, Object currentOnFieldId) {
+    public void openSwitchWindow() {
         try {
             SwitchBugemonController switchController = new SwitchBugemonController(
                     this,
-                    team,
-                    onPurpose,
-                    currentOnFieldId,
-                    selectedId -> fightController.onSwitchBugemonChosen(selectedId, onPurpose),
+                    selectedId -> fightController.onSwitchBugemonChosen(
+                            selectedId,
+                            GameStateHolder.getInstance().isSwitchOnPurpose()
+                    ),
                     fightController::onSwitchCancelled
             );
-            openSubScene(switchController.getView(), !onPurpose);
+            openSubScene(switchController.getView(), !GameStateHolder.getInstance().isSwitchOnPurpose());
+
         } catch (IOException e) {
             fatalError("Impossible d'ouvrir la vue de changement : " + e.getMessage());
         }
@@ -174,9 +171,9 @@ public class MetaController {
      *
      * @param team the team to edit
      */
-    public void openSelectionForEdit(TeamBugemon team) {
+    public void openSelectionForEdit(int index) {
         this.selectionController.reset();
-        this.selectionController.loadTeamForEditing(team);
+        this.selectionController.loadTeamForEditing(index);
         this.switchScene(Scenes.SELECTION);
     }
 
@@ -188,6 +185,7 @@ public class MetaController {
     public void goToTitleScreen() {
         this.switchScene(Scenes.TITLE_SCREEN);
     }
+
     /**
      * Displays a fatal error message and exits the application.
      *

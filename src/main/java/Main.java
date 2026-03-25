@@ -5,8 +5,8 @@ import javafx.stage.Stage;
 public class Main extends Application {
 
     @Override
-    public void start(Stage stage) throws Exception {
-        MetaController meta = new MetaController(stage);
+    public void start(Stage primaryStage) throws Exception {
+        MetaController meta = new MetaController(primaryStage);
         meta.start();
     }
 

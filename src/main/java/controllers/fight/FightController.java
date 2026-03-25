@@ -35,8 +35,6 @@ public class FightController extends Controller<FightView> implements FightListe
     /** The current fight instance holding all battle state. */
     private Fight fight;
 
-    private TeamBugemon team;
-
     /** Random number generator used to pick enemy and switch targets. */
     private final Random random = new Random();
 
@@ -187,7 +185,7 @@ public class FightController extends Controller<FightView> implements FightListe
      */
     private void useItem(Item item) {
         view.setButtonsDisabled(true);
-        view.updateCombatMessage("Tu utilises " + item.getName() + " !");
+        view.updateCombatMessage("Vous utilisez " + item.getName() + " !");
         // TODO : appliquer l'effet de l'item sur le modèle fight
         forceEnemyToAttack();
     }
@@ -339,14 +337,11 @@ public class FightController extends Controller<FightView> implements FightListe
     /**
      * Opens the Bugemon switch sub-window for the player.
      *
-     * @param onPurpose {@code true} if the player chose to switch voluntarily,
-     *                  {@code false} if forced after a KO
      */
     private void showSwitchWindow(boolean onPurpose) {
-        metaController.openSwitchWindow(
-                fight.getTeamPlayer().getTeamDTO(),
-                onPurpose,
-                fight.getOnFieldPlayerBugemonId()
-        );
+        GameStateHolder.getInstance().setCurrentPlayerTeamDTO(fight.getTeamPlayer().getTeamDTO());
+        GameStateHolder.getInstance().setCurrentOnFieldId(fight.getOnFieldPlayerBugemonId());
+        GameStateHolder.getInstance().setSwitchOnPurpose(onPurpose);
+        metaController.openSwitchWindow();
     }
 }

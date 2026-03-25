@@ -24,9 +24,9 @@ public class PreBuildTeamController extends Controller<PreBuildTeamView> {
      * @param teams the shared observable list of saved teams
      * @throws IOException if the FXML fails to load
      */
-    public PreBuildTeamController(MetaController metaController, List<TeamBugemon> teams) throws IOException {
+    public PreBuildTeamController(MetaController metaController) throws IOException {
         super(metaController, new PreBuildTeamView());
-        this.teams = teams;
+        this.teams = GameStateHolder.getInstance().getSavedTeams();
         this.view.setController(this);
         this.view.refreshTeams(teams);
     }
@@ -46,7 +46,7 @@ public class PreBuildTeamController extends Controller<PreBuildTeamView> {
      *
      */
     public void modifyTeam(int index) {
-        this.metaController.openSelectionForEdit(teams.get(index));
+        this.metaController.openSelectionForEdit(index);
     }
 
     /**

@@ -32,13 +32,11 @@ public class SelectionController extends Controller<SelectionView> {
 
     /**
      * @param metaController the central controller
-     * @param teams          the shared list of saved teams
      * @throws IOException if the FXML fails to load
      */
-    public SelectionController(MetaController metaController,
-                               List<TeamBugemon> teams) throws IOException {
+    public SelectionController(MetaController metaController) throws IOException {
         super(metaController, new SelectionView());
-        this.teams = teams;
+        this.teams = GameStateHolder.getInstance().getSavedTeams();
         this.playerTeam = new TeamBugemon();
         this.view.setController(this);
         this.view.displayBugemons(BugemonProvider.getAllBugemonsDTO());
@@ -67,9 +65,9 @@ public class SelectionController extends Controller<SelectionView> {
     /**
      * Enters edit mode for an existing team and pre-selects its Bugémons in the view.
      *
-     * @param team the team to edit
      */
-    public void loadTeamForEditing(TeamBugemon team) {
+    public void loadTeamForEditing(int index) {
+        TeamBugemon team = GameStateHolder.getInstance().getSavedTeams().get(index);
         this.teamBeingEdited = team;
         team.getTeamDTO().forEach(bug -> this.playerTeam.addBugemonDTO(bug));
         this.view.preSelectTeam(team);

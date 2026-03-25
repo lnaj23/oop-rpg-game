@@ -3,6 +3,7 @@ package controllers.fight;
 import controllers.Controller;
 import controllers.MetaController;
 import models.bugemon.dto.BugemonDTO;
+import services.game.GameStateHolder;
 import views.fight.SelectBugemonFromTeamView;
 import listener.SelectBugemonFromTeamListener;
 import java.io.IOException;
@@ -35,20 +36,17 @@ public class SwitchBugemonController extends Controller<SelectBugemonFromTeamVie
      * @param onCancel callback executed when the user cancels the switch
      * @throws IOException if the switch sub-view cannot be loaded
      */
-    public SwitchBugemonController(MetaController metaController,
-                                   List<BugemonDTO> team,
-                                   boolean onPurpose,
-                                   Object currentOnFieldId,
-                                   Consumer<Object> onBugemonSelected,
-                                   Runnable onCancel) throws IOException {
+    public SwitchBugemonController(MetaController metaController, Consumer<Object> onBugemonSelected, Runnable onCancel) throws IOException {
         super(metaController, new SelectBugemonFromTeamView());
-        this.currentOnFieldId = currentOnFieldId;
+        this.currentOnFieldId = GameStateHolder.getInstance().getCurrentOnFieldId();
         this.onBugemonSelected = onBugemonSelected;
         this.onCancel = onCancel;
-
         this.view.setController(this);
         this.view.setListener(this);
-        this.view.displayTeam(team, onPurpose);
+        this.view.displayTeam(
+                GameStateHolder.getInstance().getCurrentPlayerTeamDTO(),
+                GameStateHolder.getInstance().isSwitchOnPurpose()
+        );
     }
 
     /**
