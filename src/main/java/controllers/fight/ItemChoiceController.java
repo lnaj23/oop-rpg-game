@@ -30,13 +30,13 @@ public class ItemChoiceController extends Controller<ItemsView> {
      * @throws IOException if the item selection view cannot be loaded
      */
     public ItemChoiceController(MetaController metaController,
-                                List<Item> items,
+                                List<ItemDTO> itemDTOs,
                                 Consumer<Item> onItemSelected) throws IOException {
         super(metaController, new ItemsView());
         this.onItemSelected = onItemSelected;
         this.view.setController(this);
-        this.view.setItems(items.stream().map(item -> (ItemDTO) item).toList());
-        this.items = items;
+        this.view.setItems(itemDTOs);
+        this.items = itemDTOs.stream().map(dto -> (Item) dto).toList();
     }
 
     /**

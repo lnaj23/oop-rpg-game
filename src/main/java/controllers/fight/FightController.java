@@ -9,6 +9,7 @@ import models.bugemon.Bugemon;
 import models.game.Fight;
 import models.game.Item;
 import listener.FightListener;
+import models.game.dto.ItemDTO;
 import views.fight.FightView;
 import java.io.IOException;
 import java.util.List;
@@ -83,6 +84,7 @@ public class FightController extends Controller<FightView> implements FightListe
             forceEnemyToAttack();
         }
     }
+
     public void gotoTitleScreen() {
         this.metaController.switchScene(MetaController.Scenes.TITLE_SCREEN);
     }
@@ -128,8 +130,9 @@ public class FightController extends Controller<FightView> implements FightListe
                 new Item("revive", "La reanimation", "reanime un Bugemon KO")
         );
 
-        metaController.openItemChoiceWindow(hardcodedItems);
-    }
+        metaController.openItemChoiceWindow(
+                hardcodedItems.stream().map(i -> (ItemDTO) i).toList()
+        );    }
 
     /**
      * Called when the player clicks the switch button.
@@ -149,9 +152,7 @@ public class FightController extends Controller<FightView> implements FightListe
     public void onForfeitClicked() {
         this.view.showMessageReturnTitle(
                 "Abandon",
-                "Vous avez abandonné le combat.",
-                () -> this.metaController.switchScene(MetaController.Scenes.TITLE_SCREEN)
-        );
+                "Vous avez abandonné le combat.");
     }
 
     /**
@@ -303,15 +304,11 @@ public class FightController extends Controller<FightView> implements FightListe
         if (fight.playerWon()) {
             view.showMessageReturnTitle(
                     "Victoire",
-                    "Vous avez gagné le combat !",
-                    this::goToTitleScreen
-            );
+                    "Vous avez gagné le combat !");
         } else {
             view.showMessageReturnTitle(
                     "Défaite",
-                    "Vous avez perdu le combat.",
-                    this::goToTitleScreen
-            );
+                    "Vous avez perdu le combat.");
         }
     }
 

@@ -10,7 +10,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import models.bugemon.TeamBugemon;
 import models.bugemon.dto.BugemonDTO;
-import models.game.Item;
+import models.game.dto.ItemDTO;
 import services.dataprovider.TeamService;
 import views.FatalErrorView;
 import views.View;
@@ -121,7 +121,7 @@ public class MetaController {
      *
      * @param items the list of available items to display
      */
-    public void openItemChoiceWindow(List<Item> items) {
+    public void openItemChoiceWindow(List<ItemDTO> items) {
         try {
             ItemChoiceController itemChoiceController =
                     new ItemChoiceController(this, items, fightController::onItemChosen);

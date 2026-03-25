@@ -104,9 +104,8 @@ public class FightView extends View<Controller> {
      *
      * @param title   the alert title
      * @param message the alert body
-     * @param onClose callback invoked when the dialog is hidden
      */
-    public void showMessageReturnTitle(String title, String message, Runnable onClose) {
+    public void showMessageReturnTitle(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);
         alert.setHeaderText(null);
@@ -198,12 +197,11 @@ public class FightView extends View<Controller> {
         Image img = new Image(Objects.requireNonNull(
                 getClass().getResourceAsStream("/Assets/png/" + bugemon.getSprite())));
         sprite.setImage(img);
-        // Le joueur est à gauche → regarde à droite (scaleX positif)
-        // L'ennemi est à droite → regarde à gauche (scaleX négatif)
+
         if (bugemon.getIsPlayer()) {
-            sprite.setScaleX(-1);  // regarde à droite
+            sprite.setScaleX(-1);
         } else {
-            sprite.setScaleX(1); // retourné → regarde à gauche
+            sprite.setScaleX(1);
         }
 
         if (bugemon.getIsPlayer()) choicePanelController.updateAttackButtons(bugemon);
