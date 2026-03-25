@@ -2,7 +2,6 @@ package controllers.teamchoice;
 
 import controllers.Controller;
 import controllers.MetaController;
-import models.bugemon.dto.TeamBugemonDTO;
 import models.bugemon.TeamBugemon;
 import services.dataprovider.TeamService;
 import services.game.GameStateHolder;
@@ -34,7 +33,7 @@ public class PreBuildTeamController extends Controller<PreBuildTeamView> {
 
     /** Navigates back to the main menu. */
     public void goToMenu() {
-        this.metaController.switchScene(MetaController.Scenes.TITLE_SCREEN);
+        this.metaController.goToTitleScreen();
     }
 
     /** Opens the selection screen to create a new team. */
@@ -45,7 +44,6 @@ public class PreBuildTeamController extends Controller<PreBuildTeamView> {
     /**
      * Opens the selection screen to edit an existing team.
      *
-     * @param teamDTO the team to modify, cast internally to {@link TeamBugemon}
      */
     public void modifyTeam(int index) {
         this.metaController.openSelectionForEdit(teams.get(index));
@@ -54,7 +52,6 @@ public class PreBuildTeamController extends Controller<PreBuildTeamView> {
     /**
      * Removes a team from the saved list and refreshes the view.
      *
-     * @param teamDTO the team to delete, cast internally to {@link TeamBugemon}
      */
     public void deleteTeam(int index) {
         this.teams.remove(index);
@@ -65,7 +62,6 @@ public class PreBuildTeamController extends Controller<PreBuildTeamView> {
     /**
      * Renames a team and refreshes the list display.
      *
-     * @param teamDTO the team to rename, cast internally to {@link TeamBugemon}
      * @param newName the new name to assign
      */
     public void renameTeam(int index, String newName) {
@@ -84,7 +80,6 @@ public class PreBuildTeamController extends Controller<PreBuildTeamView> {
     /**
      * Starts a game with the selected team.
      *
-     * @param teamDTO the team to play with
      */
     public void play(int index) {
         GameStateHolder.getInstance().setCurrentTeamPlayer(teams.get(index));

@@ -66,7 +66,6 @@ public class FightController extends Controller<FightView> implements FightListe
      * Initialises the fight with the given player team and a hardcoded enemy team,
      * then updates the view to reflect the initial battle state.
      *
-     * @param team the player's team
      */
     public void setFight() {
         view.resetDisplay();
@@ -88,18 +87,14 @@ public class FightController extends Controller<FightView> implements FightListe
         }
     }
 
-    public void gotoTitleScreen() {
-        GameStateHolder.getInstance().clearCurrentTeamPlayer();
-        this.metaController.switchScene(MetaController.Scenes.TITLE_SCREEN);
-    }
+
 
     /**
      * Navigates back to the title screen.
      */
-
-    public void goToTitleScreen() {
+    public void gotoTitleScreen() {
         GameStateHolder.getInstance().clearCurrentTeamPlayer();
-        this.metaController.switchScene(MetaController.Scenes.TITLE_SCREEN);
+        this.metaController.goToTitleScreen();
     }
 
     /**

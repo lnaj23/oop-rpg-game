@@ -56,12 +56,12 @@ public class SelectionController extends Controller<SelectionView> {
 
     /** Navigates back to the Title Screen. */
     public void goToTitleScreen() {
-        this.metaController.switchScene(MetaController.Scenes.TITLE_SCREEN);
+        this.metaController.goToTitleScreen();
     }
 
     /** Navigates to the pre-built team screen. */
     public void goToPrebuildTeam() {
-        this.metaController.switchScene(MetaController.Scenes.PREBUILD_TEAM);
+        this.metaController.goToPrebuildTeam();
     }
 
     /**

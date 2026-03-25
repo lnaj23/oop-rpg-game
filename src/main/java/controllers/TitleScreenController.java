@@ -26,7 +26,7 @@ public class TitleScreenController extends Controller<TitleScreenView> {
 
     /** Navigates to the team management screen. */
     public void goToPreBuildTeam() {
-        this.metaController.switchScene(MetaController.Scenes.PREBUILD_TEAM);
+        this.metaController.goToPrebuildTeam();
     }
 
     /** Quit the application */

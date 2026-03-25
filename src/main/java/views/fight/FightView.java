@@ -147,6 +147,7 @@ public class FightView extends View<Controller> {
             if (isPlayer) {
                 bindTeamSpriteEvents(imgView, bugemon);
                 imgView.setUserData(bugemon);
+                imgView.setScaleX(-1);
             }
 
             grid.add(imgView, i % 3, i / 3);

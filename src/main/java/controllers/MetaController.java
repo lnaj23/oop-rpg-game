@@ -66,7 +66,7 @@ public class MetaController {
      *
      * @param scene the scene to switch to
      */
-    public void switchScene(Scenes scene) {
+    private void switchScene(Scenes scene) {
         double width = stage.getWidth();
         double height = stage.getHeight();
         double x = stage.getX();
@@ -96,7 +96,7 @@ public class MetaController {
      * @param view the view to display in the sub-window
      * @param wait {@code true} to use {@code showAndWait()}, {@code false} to use {@code show()}
      */
-    public void openSubScene(View<?> view, boolean wait) {
+    private void openSubScene(View<?> view, boolean wait) {
         Stage subStage = new Stage();
         subStage.initOwner(stage);
         subStage.initModality(Modality.APPLICATION_MODAL);
@@ -122,8 +122,7 @@ public class MetaController {
      */
     public void openItemChoiceWindow() {
         try {
-            ItemChoiceController itemChoiceController =
-                    new ItemChoiceController(this, fightController::onItemChosen);
+            ItemChoiceController itemChoiceController = new ItemChoiceController(this, fightController::onItemChosen);
             openSubScene(itemChoiceController.getView(), true);
         } catch (IOException e) {
             fatalError("Impossible d'ouvrir la vue des objets : " + e.getMessage());
@@ -166,6 +165,10 @@ public class MetaController {
         this.switchScene(Scenes.SELECTION);
     }
 
+    public void goToPrebuildTeam() {
+        this.switchScene(Scenes.PREBUILD_TEAM);
+    }
+
     /**
      * Resets the selection view, pre-selects the given team's Bugémons, and navigates to it.
      *
@@ -180,9 +183,11 @@ public class MetaController {
     public void goToFight() {
         this.fightController.setFight();
         this.switchScene(Scenes.FIGHT);
-
     }
 
+    public void goToTitleScreen() {
+        this.switchScene(Scenes.TITLE_SCREEN);
+    }
     /**
      * Displays a fatal error message and exits the application.
      *

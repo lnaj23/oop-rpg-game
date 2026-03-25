@@ -26,7 +26,6 @@ public class ItemChoiceController extends Controller<ItemsView> {
      * Creates the controller for the item selection sub-view.
      *
      * @param metaController the central controller responsible for application navigation
-     * @param items the list of items to display in the sub-view
      * @param onItemSelected callback executed when the user selects an item
      * @throws IOException if the item selection view cannot be loaded
      */
@@ -36,7 +35,7 @@ public class ItemChoiceController extends Controller<ItemsView> {
         this.onItemSelected = onItemSelected;
         this.items = GameStateHolder.getInstance().getAvailableItems();
         this.view.setController(this);
-        this.view.setItems(items.stream().map(i -> (ItemDTO) i).toList());
+        this.view.setItems(items.stream().map(i -> (ItemDTO) i).toList()); //conversion que Item en ItemDTO pr la vue
     }
 
     /**

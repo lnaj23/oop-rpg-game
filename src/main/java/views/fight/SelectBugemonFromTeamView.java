@@ -26,7 +26,7 @@ import java.util.Objects;
  * {@link Controller}.
  * </p>
  */
-public class SwitchBugemonView extends View<Controller> {
+public class SelectBugemonFromTeamView extends View<Controller> {
 
     @FXML private GridPane grid;
     @FXML private Button   btnCancel;
@@ -38,7 +38,7 @@ public class SwitchBugemonView extends View<Controller> {
      *
      * @throws IOException if the FXML file cannot be loaded
      */
-    public SwitchBugemonView() throws IOException {
+    public SelectBugemonFromTeamView() throws IOException {
         super("/fxml/fight/switchbugemonview.fxml");
     }
 
