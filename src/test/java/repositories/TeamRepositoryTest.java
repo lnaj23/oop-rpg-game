@@ -1,5 +1,6 @@
 package repositories;
 
+import exceptions.BugemonNotFoundException;
 import models.bugemon.TeamBugemon;
 import org.junit.Before;
 import org.junit.Test;
@@ -28,7 +29,7 @@ public class TeamRepositoryTest {
     }
 
     @Test
-    public void testSaveAndLoadTeams() {
+    public void testSaveAndLoadTeams() throws BugemonNotFoundException {
         List<TeamBugemon> originalTeams = new ArrayList<>();
         
         TeamBugemon team1 = new TeamBugemon("Mon équipe 1", List.of("florachu", "exceflam"));

@@ -10,13 +10,13 @@ import java.util.List;
 public class AttackProviderTest extends TestCase {
 
     @Test
-    public void testGetAttackByIdReturnsNotNull() {
+    public void testGetAttackByIdReturnsNotNull() throws AttackNotFoundException {
         Attack attack = AttackProvider.getAttackById("racines_vives");
         assertNotNull(attack);
     }
 
     @Test
-    public void testGetAttackByIdCorrectId() {
+    public void testGetAttackByIdCorrectId() throws AttackNotFoundException {
         Attack attack = AttackProvider.getAttackById("pollen_sournois");
         assertEquals("pollen_sournois", attack.getId());
     }

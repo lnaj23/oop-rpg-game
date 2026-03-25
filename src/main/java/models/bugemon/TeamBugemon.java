@@ -2,6 +2,7 @@ package models.bugemon;
 
 import models.bugemon.dto.BugemonDTO;
 import models.bugemon.dto.TeamBugemonDTO;
+import exceptions.BugemonNotFoundException;
 import exceptions.BugemonNotInTeamException;
 import services.dataprovider.BugemonProvider;
 
@@ -32,18 +33,20 @@ public class TeamBugemon implements TeamBugemonDTO {
      * Constructs a team from a list of Bugémon IDs.
      *
      * @param listeOfId the list of Bugémon IDs to load
+     * @throws BugemonNotFoundException if any ID does not match a known Bugémon
      */
-    public TeamBugemon(List<String> listeOfId) {
+    public TeamBugemon(List<String> listeOfId) throws BugemonNotFoundException {
         this.team = BugemonProvider.getListBugemon(listeOfId);
     }
 
     /**
      * Constructs a named team from a list of Bugémon IDs.
      *
-     * @param name   the name of the team
+     * @param name      the name of the team
      * @param listeOfId the list of Bugémon IDs to load
+     * @throws BugemonNotFoundException if any ID does not match a known Bugémon
      */
-    public TeamBugemon(String name, List<String> listeOfId) {
+    public TeamBugemon(String name, List<String> listeOfId) throws BugemonNotFoundException {
         this.name = name;
         this.team = BugemonProvider.getListBugemon(listeOfId);
     }
@@ -57,7 +60,7 @@ public class TeamBugemon implements TeamBugemonDTO {
     public TeamBugemon(TeamBugemon other) {
         this.name           = other.name;
         this.team           = other.team.stream().map(Bugemon::new).toList();
-        this.onFieldBugemon = null; // pas de bugemon sur le terrain au début
+        this.onFieldBugemon = null;
     }
 
     @Override
@@ -113,7 +116,7 @@ public class TeamBugemon implements TeamBugemonDTO {
      * @return the list of attacks of that Bugémon
      * @throws BugemonNotInTeamException if no Bugémon with that ID is found
      */
-    public List<Attack> getAttacksOf(String bugemonId) {
+    public List<Attack> getAttacksOf(String bugemonId) throws BugemonNotInTeamException {
         for (Bugemon bug : team) {
             if (bug.getId().equals(bugemonId)) {
                 return bug.getAttacks();
@@ -155,10 +158,20 @@ public class TeamBugemon implements TeamBugemonDTO {
         team.add(bug);
     }
 
+    /**
+     * Adds a Bugémon to this team via its DTO.
+     *
+     * @param bug the Bugémon DTO to add, cast internally to {@link Bugemon}
+     */
     public void addBugemonDTO(BugemonDTO bug) {
         team.add((Bugemon) bug);
     }
 
+    /**
+     * Removes a Bugémon from this team by its ID.
+     *
+     * @param bug the Bugémon DTO to remove
+     */
     public void removeBugemonDTO(BugemonDTO bug) {
         team.removeIf(b -> b.getId().equals(bug.getId()));
     }
@@ -170,7 +183,7 @@ public class TeamBugemon implements TeamBugemonDTO {
      * @param bug the Bugémon to send on the field
      * @throws BugemonNotInTeamException if the Bugémon is not found in the team
      */
-    public void changeOnFieldBugemon(Bugemon bug) {
+    public void changeOnFieldBugemon(Bugemon bug) throws BugemonNotInTeamException {
         for (Bugemon bug2 : team) {
             if (bug2.getId().equals(bug.getId())) {
                 onFieldBugemon = bug2;
@@ -180,10 +193,20 @@ public class TeamBugemon implements TeamBugemonDTO {
         throw new BugemonNotInTeamException(bug.getId());
     }
 
+    /**
+     * Returns whether the on-field Bugémon is KO.
+     *
+     * @return {@code true} if the on-field Bugémon has no HP left
+     */
     public boolean isOnFieldBugemonKO() {
         return onFieldBugemon.isKO();
     }
 
+    /**
+     * Returns whether at least one Bugémon in this team is still standing.
+     *
+     * @return {@code true} if at least one Bugémon has HP greater than 0
+     */
     public boolean isTeamStillStanding() {
         return team.stream().anyMatch(Bugemon::isStillStanding);
     }

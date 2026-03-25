@@ -22,7 +22,7 @@ import java.io.IOException;
 public class MetaController {
 
     /** Enumeration of all available scenes in the application. */
-    public enum Scenes {
+    private enum Scenes {
         TITLE_SCREEN,
         PREBUILD_TEAM,
         SELECTION,
@@ -179,7 +179,7 @@ public class MetaController {
         this.switchScene(Scenes.TITLE_SCREEN);
     }
 
-    public void onSwitchBugemonChosen(Object selectedId) {
+    public void onSwitchBugemonChosen(String selectedId) {
         fightController.onSwitchBugemonChosen(
                 selectedId,
                 GameStateHolder.getInstance().isSwitchOnPurpose()

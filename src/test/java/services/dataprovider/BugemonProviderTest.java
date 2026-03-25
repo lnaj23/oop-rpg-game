@@ -13,19 +13,19 @@ import java.util.List;
 public class BugemonProviderTest extends TestCase {
 
     @Test
-    public void testGetListBugemonReturnsNotNull() {
+    public void testGetListBugemonReturnsNotNull() throws BugemonNotFoundException {
         List<Bugemon> list = BugemonProvider.getListBugemon(Arrays.asList("florachu", "exceflam", "commitide"));
         assertNotNull(list);
     }
 
     @Test
-    public void testGetListBugemonCorrectSize() {
+    public void testGetListBugemonCorrectSize() throws BugemonNotFoundException {
         List<Bugemon> list = BugemonProvider.getListBugemon(Arrays.asList("florachu", "exceflam", "commitide"));
         assertEquals(3, list.size());
     }
 
     @Test
-    public void testGetListBugemonEmptyListReturnsEmpty() {
+    public void testGetListBugemonEmptyListReturnsEmpty() throws BugemonNotFoundException {
         List<Bugemon> list = BugemonProvider.getListBugemon(Arrays.asList());
         assertNotNull(list);
         assertEquals(0, list.size());
@@ -52,14 +52,14 @@ public class BugemonProviderTest extends TestCase {
     }
 
     @Test
-    public void testGetListBugemonCorrectIds() {
+    public void testGetListBugemonCorrectIds() throws BugemonNotFoundException {
         List<Bugemon> list = BugemonProvider.getListBugemon(Arrays.asList("florachu", "exceflam"));
         assertEquals("florachu", list.get(0).getId());
         assertEquals("exceflam", list.get(1).getId());
     }
 
     @Test
-    public void testGetListBugemonNoNullElements() {
+    public void testGetListBugemonNoNullElements() throws BugemonNotFoundException {
         List<Bugemon> list = BugemonProvider.getListBugemon(Arrays.asList("florachu", "exceflam", "commitide"));
         for (Bugemon bug : list) {
             assertNotNull(bug);
@@ -67,13 +67,13 @@ public class BugemonProviderTest extends TestCase {
     }
 
     @Test
-    public void testGetListBugemonAllTypesReturnsCorrectSize() {
+    public void testGetListBugemonAllTypesReturnsCorrectSize() throws BugemonNotFoundException {
         List<Bugemon> list = BugemonProvider.getListBugemon(Arrays.asList("florachu", "exceflam", "commitide", "rockachu"));
         assertEquals(4, list.size());
     }
 
     @Test
-    public void testGetListBugemonHasAttacks() {
+    public void testGetListBugemonHasAttacks() throws BugemonNotFoundException {
         List<Bugemon> list = BugemonProvider.getListBugemon(Arrays.asList("florachu", "exceflam", "commitide"));
         for (Bugemon bug : list) {
             assertNotNull(bug.getAttacks());
@@ -82,7 +82,7 @@ public class BugemonProviderTest extends TestCase {
     }
 
     @Test
-    public void testGetListBugemonAttacksNotNull() {
+    public void testGetListBugemonAttacksNotNull() throws BugemonNotFoundException {
         List<Bugemon> list = BugemonProvider.getListBugemon(Arrays.asList("florachu"));
         for (Attack attack : list.get(0).getAttacks()) {
             assertNotNull(attack);

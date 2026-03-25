@@ -3,7 +3,7 @@ package exceptions;
 /**
  * Thrown when a Bugémon cannot be found by its ID.
  */
-public class BugemonNotFoundException extends RuntimeException {
+public class BugemonNotFoundException extends Exception {
 
     /**
      * @param id the ID of the Bugémon that was not found

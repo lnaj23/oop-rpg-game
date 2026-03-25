@@ -2,6 +2,7 @@ package repositories;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import exceptions.BugemonNotFoundException;
 import models.bugemon.TeamBugemon;
 
 import java.io.File;
@@ -64,7 +65,7 @@ public class TeamRepository {
                     teams.add(new TeamBugemon(data.name, data.bugemonIds));
                 }
             }
-        } catch (IOException e) {
+        } catch (IOException | BugemonNotFoundException e) {
             System.err.println("Error loading teams: " + e.getMessage());
         }
 

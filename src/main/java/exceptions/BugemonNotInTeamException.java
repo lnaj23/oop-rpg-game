@@ -3,7 +3,7 @@ package exceptions;
 /**
  * Thrown when a Bugémon is not found in the expected team.
  */
-public class BugemonNotInTeamException extends RuntimeException {
+public class BugemonNotInTeamException extends Exception {
 
     /**
      * @param id the ID of the Bugémon that was not found in the team

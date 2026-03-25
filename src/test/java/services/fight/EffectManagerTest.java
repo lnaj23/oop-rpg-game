@@ -1,5 +1,7 @@
 package services.fight;
 
+import exceptions.BugemonNotFoundException;
+import exceptions.BugemonNotInTeamException;
 import junit.framework.TestCase;
 import models.bugemon.Bugemon;
 import models.bugemon.TeamBugemon;
@@ -19,7 +21,7 @@ public class EffectManagerTest extends TestCase {
     private Fight fightMergeauVsLoopine;
 
     @Before
-    public void setUp() {
+    public void setUp() throws BugemonNotFoundException, BugemonNotInTeamException {
         TeamBugemon teamPlayer = new TeamBugemon(List.of("mergeau"));
         TeamBugemon teamEnemy  = new TeamBugemon(List.of("loopine"));
         fightMergeauVsLoopine  = new Fight(teamPlayer, teamEnemy);
@@ -28,7 +30,7 @@ public class EffectManagerTest extends TestCase {
     // Soin
 
     @Test
-    public void testHealRestoresPlayerHp() {
+    public void testHealRestoresPlayerHp() throws BugemonNotFoundException, BugemonNotInTeamException {
         // commitide a pluie_calme (index 2) = soin lanceur +15 PV
         TeamBugemon teamPlayer = new TeamBugemon(List.of("commitide"));
         TeamBugemon teamEnemy  = new TeamBugemon(List.of("loopine"));

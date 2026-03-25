@@ -1,5 +1,7 @@
 package models.game;
 
+import exceptions.BugemonNotFoundException;
+import exceptions.BugemonNotInTeamException;
 import junit.framework.TestCase;
 import models.bugemon.Bugemon;
 import models.bugemon.TeamBugemon;
@@ -11,11 +13,10 @@ import java.util.List;
 public class FightTest extends TestCase {
 
     private Fight fightPlayerHighInitiative;
-
     private Fight fightEnemyHighInitiative;
 
     @Before
-    public void setUp() {
+    public void setUp() throws BugemonNotFoundException, BugemonNotInTeamException {
         TeamBugemon teamHighInit = new TeamBugemon(List.of("pyricore", "loopine", "mergeau"));
         TeamBugemon teamLowInit  = new TeamBugemon(List.of("bouldax", "granitron", "rockachu"));
         TeamBugemon teamEnemy    = new TeamBugemon(List.of("pyricore", "moussil", "pebblit"));
@@ -23,7 +24,6 @@ public class FightTest extends TestCase {
         fightPlayerHighInitiative = new Fight(teamHighInit, teamEnemy);
         fightEnemyHighInitiative  = new Fight(teamLowInit,  teamEnemy);
     }
-
 
     @Test
     public void testInitialTurnIsPlayer() {
@@ -57,16 +57,13 @@ public class FightTest extends TestCase {
     }
 
     @Test
-    public void testDeepCopyDoesNotMutateOriginalTeam() {
+    public void testDeepCopyDoesNotMutateOriginalTeam() throws BugemonNotFoundException, BugemonNotInTeamException {
         TeamBugemon original = new TeamBugemon(List.of("commitide", "moussil", "pebblit"));
         int hpBefore = original.getTeam().getFirst().getPv();
-
         Fight fight = new Fight(original, new TeamBugemon(List.of("pyricore", "moussil", "pebblit")));
         fight.playerAttack(0);
-
         assertEquals(hpBefore, original.getTeam().getFirst().getPv());
     }
-
 
     @Test
     public void testPlayerCanStartWhenHigherInitiative() {
@@ -77,7 +74,6 @@ public class FightTest extends TestCase {
     public void testPlayerCannotStartWhenLowerInitiative() {
         assertFalse(fightEnemyHighInitiative.playerCanStart());
     }
-
 
     @Test
     public void testTurnSwitchesAfterPlayerAttack() {
@@ -100,7 +96,6 @@ public class FightTest extends TestCase {
         fightPlayerHighInitiative.forceEnemyTurn();
         assertFalse(fightPlayerHighInitiative.isPlayerTurn());
     }
-
 
     @Test
     public void testPlayerAttackReducesEnemyHp() {
@@ -125,23 +120,19 @@ public class FightTest extends TestCase {
         assertNotNull(fightPlayerHighInitiative.getActionResultText());
     }
 
-
-
-
     @Test
-    public void testChangePlayerOnField() {
+    public void testChangePlayerOnField() throws BugemonNotInTeamException {
         Bugemon newBugemon = fightPlayerHighInitiative.getTeamPlayer().getTeam().get(1);
         fightPlayerHighInitiative.changePlayerOnField(newBugemon);
         assertEquals(newBugemon, fightPlayerHighInitiative.getOnFieldPlayerBugemon());
     }
 
     @Test
-    public void testChangeEnemyOnField() {
+    public void testChangeEnemyOnField() throws BugemonNotInTeamException {
         Bugemon newBugemon = fightPlayerHighInitiative.getTeamEnemy().getTeam().get(1);
         fightPlayerHighInitiative.changeEnemyOnField(newBugemon);
         assertEquals(newBugemon, fightPlayerHighInitiative.getOnFieldEnemyBugemon());
     }
-
 
     @Test
     public void testIsOnFieldEnemyBugemonKO() {
@@ -189,7 +180,6 @@ public class FightTest extends TestCase {
                 .forEach(b -> b.takeDamage(b.getcurrenPv()));
         assertFalse(fightPlayerHighInitiative.playerWon());
     }
-
 
     @Test
     public void testAvailablePlayerBugemonsAllAlive() {
