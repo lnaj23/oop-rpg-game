@@ -9,7 +9,7 @@ import models.bugemon.Bugemon;
 import models.game.Fight;
 import models.game.Item;
 import listener.FightListener;
-import models.game.dto.ItemDTO;
+import services.game.GameStateHolder;
 import views.fight.FightView;
 import java.io.IOException;
 import java.util.List;
@@ -34,6 +34,8 @@ public class FightController extends Controller<FightView> implements FightListe
 
     /** The current fight instance holding all battle state. */
     private Fight fight;
+
+    private TeamBugemon team;
 
     /** Random number generator used to pick enemy and switch targets. */
     private final Random random = new Random();
@@ -66,9 +68,10 @@ public class FightController extends Controller<FightView> implements FightListe
      *
      * @param team the player's team
      */
-    public void setPlayerTeam(TeamBugemon team) {
+    public void setFight() {
         view.resetDisplay();
-        fight = new Fight(team, new TeamBugemon(List.of("pyricore", "moussil", "pebblit")));
+        TeamBugemon team = GameStateHolder.getInstance().getCurrentTeamPlayer();
+        fight = new Fight(team, new TeamBugemon(List.of("pyricore")));
         view.displayTeam(fight.getTeamPlayer().getTeamDTO());
         view.displayTeam(fight.getTeamEnemy().getTeamDTO());
         fight.computePredictedEffectiveness();
@@ -86,6 +89,7 @@ public class FightController extends Controller<FightView> implements FightListe
     }
 
     public void gotoTitleScreen() {
+        GameStateHolder.getInstance().clearCurrentTeamPlayer();
         this.metaController.switchScene(MetaController.Scenes.TITLE_SCREEN);
     }
 
@@ -94,6 +98,7 @@ public class FightController extends Controller<FightView> implements FightListe
      */
 
     public void goToTitleScreen() {
+        GameStateHolder.getInstance().clearCurrentTeamPlayer();
         this.metaController.switchScene(MetaController.Scenes.TITLE_SCREEN);
     }
 
@@ -124,15 +129,8 @@ public class FightController extends Controller<FightView> implements FightListe
      */
     @Override
     public void onItemClicked() {
-        List<Item> hardcodedItems = List.of(
-                new Item("potion", "Une potion", "soigne 20 HP"),
-                new Item("super_potion", "Une super potion", "soigne 50 HP"),
-                new Item("revive", "La reanimation", "reanime un Bugemon KO")
-        );
-
-        metaController.openItemChoiceWindow(
-                hardcodedItems.stream().map(i -> (ItemDTO) i).toList()
-        );    }
+        metaController.openItemChoiceWindow();
+    }
 
     /**
      * Called when the player clicks the switch button.

@@ -7,6 +7,7 @@ import models.bugemon.dto.TeamBugemonDTO;
 import models.bugemon.TeamBugemon;
 import services.dataprovider.TeamService;
 import services.dataprovider.BugemonProvider;
+import services.game.GameStateHolder;
 import views.teamchoice.selection.SelectionView;
 import javafx.scene.control.Button;
 
@@ -139,8 +140,8 @@ public class SelectionController extends Controller<SelectionView> {
         TeamService.saveTeams(this.teams);
     }
 
-    /** Starts a fight with the current player team. */
     public void goToFight() {
-        this.metaController.goToFight(playerTeam);
+        GameStateHolder.getInstance().setCurrentTeamPlayer(playerTeam);
+        this.metaController.goToFight();
     }
 }

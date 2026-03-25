@@ -10,7 +10,6 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import models.bugemon.TeamBugemon;
 import models.bugemon.dto.BugemonDTO;
-import models.game.dto.ItemDTO;
 import services.dataprovider.TeamService;
 import views.FatalErrorView;
 import views.View;
@@ -121,10 +120,10 @@ public class MetaController {
      *
      * @param items the list of available items to display
      */
-    public void openItemChoiceWindow(List<ItemDTO> items) {
+    public void openItemChoiceWindow() {
         try {
             ItemChoiceController itemChoiceController =
-                    new ItemChoiceController(this, items, fightController::onItemChosen);
+                    new ItemChoiceController(this, fightController::onItemChosen);
             openSubScene(itemChoiceController.getView(), true);
         } catch (IOException e) {
             fatalError("Impossible d'ouvrir la vue des objets : " + e.getMessage());
@@ -178,9 +177,10 @@ public class MetaController {
         this.switchScene(Scenes.SELECTION);
     }
 
-    public void goToFight(TeamBugemon team) {
-        this.fightController.setPlayerTeam(team);
+    public void goToFight() {
+        this.fightController.setFight();
         this.switchScene(Scenes.FIGHT);
+
     }
 
     /**

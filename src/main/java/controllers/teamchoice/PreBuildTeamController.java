@@ -5,6 +5,7 @@ import controllers.MetaController;
 import models.bugemon.dto.TeamBugemonDTO;
 import models.bugemon.TeamBugemon;
 import services.dataprovider.TeamService;
+import services.game.GameStateHolder;
 import views.teamchoice.PreBuildTeamView;
 
 import java.io.IOException;
@@ -86,7 +87,8 @@ public class PreBuildTeamController extends Controller<PreBuildTeamView> {
      * @param teamDTO the team to play with
      */
     public void play(int index) {
-        this.metaController.goToFight(teams.get(index));
+        GameStateHolder.getInstance().setCurrentTeamPlayer(teams.get(index));
+        this.metaController.goToFight();
     }
 
 

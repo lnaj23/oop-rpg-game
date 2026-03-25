@@ -4,6 +4,7 @@ import controllers.Controller;
 import controllers.MetaController;
 import models.game.Item;
 import models.game.dto.ItemDTO;
+import services.game.GameStateHolder;
 import views.fight.ItemsView;
 
 import java.io.IOException;
@@ -29,14 +30,13 @@ public class ItemChoiceController extends Controller<ItemsView> {
      * @param onItemSelected callback executed when the user selects an item
      * @throws IOException if the item selection view cannot be loaded
      */
-    public ItemChoiceController(MetaController metaController,
-                                List<ItemDTO> itemDTOs,
-                                Consumer<Item> onItemSelected) throws IOException {
+    public ItemChoiceController(MetaController metaController, Consumer<Item> onItemSelected) throws IOException {
+
         super(metaController, new ItemsView());
         this.onItemSelected = onItemSelected;
+        this.items = GameStateHolder.getInstance().getAvailableItems();
         this.view.setController(this);
-        this.view.setItems(itemDTOs);
-        this.items = itemDTOs.stream().map(dto -> (Item) dto).toList();
+        this.view.setItems(items.stream().map(i -> (ItemDTO) i).toList());
     }
 
     /**
