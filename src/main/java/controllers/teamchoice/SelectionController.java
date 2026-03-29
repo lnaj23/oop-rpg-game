@@ -8,10 +8,12 @@ import services.dataprovider.TeamService;
 import services.dataprovider.BugemonProvider;
 import services.game.GameStateHolder;
 import views.teamchoice.selection.SelectionView;
+import views.dialogs.SaveTeamDialog;
 import javafx.scene.control.Button;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Controller for the Bugémon selection screen.
@@ -135,6 +137,36 @@ public class SelectionController extends Controller<SelectionView> {
             this.teams.add(playerTeam);
         }
         TeamService.saveTeams(this.teams);
+    }
+
+    /**
+     * Opens a dialog to save the current team with a custom name.
+     * Only available when creating a new team (not editing).
+     */
+    public void saveTeamWithDialog() {
+        if (this.teamBeingEdited != null) {
+            this.view.showError("Mode édition", "Vous êtes en mode édition. Utilisez 'Confirmer' pour sauvegarder les modifications.");
+            return;
+        }
+
+        if (playerTeam.getSize() == 0) {
+            this.view.showError("Équipe vide", "Vous devez sélectionner au moins un Bugémon avant de sauvegarder.");
+            return;
+        }
+
+        // Get existing team names for validation
+        List<String> existingNames = teams.stream().map(TeamBugemon::getName).toList();
+
+        // Show save dialog
+        SaveTeamDialog dialog = new SaveTeamDialog(existingNames);
+        Optional<String> teamName = dialog.showAndWait();
+
+        if (teamName.isPresent()) {
+            saveSelection(teamName.get());
+            this.view.showSuccess("Équipe sauvegardée", "Votre équipe '" + teamName.get() + "' a été sauvegardée avec succès.");
+            reset();
+            goToPrebuildTeam();
+        }
     }
 
     public void goToFight() {
