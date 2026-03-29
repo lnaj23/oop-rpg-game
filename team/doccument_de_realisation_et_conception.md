@@ -5,42 +5,59 @@
 
 ### Sommaire
 
-- [Suivi de planification du projet](#suivi-de-planification-du-projet)
-  - [Analyse de l'écart (Prévu vs Réalisé)](#analyse-de-lécart-prévu-vs-réalisé)
-  - [Gestion des risques (R1, R2, R3)](#gestion-des-risques-r1-r2-r3)
-  - [Commentaires sur la Burndown Chart](#commentaires-sur-la-burndown-chart)
-- [Motivation des choix pris lors de la conception](#motivation-des-choix-pris-lors-de-la-conception)
-  - [Structure du code](#structure-du-code)
-  - [Justification du modèle MVC](#justification-du-modèle-mvc)
-    - [Modèle](#modèle-)
-    - [Vue](#vue)
-    - [Contrôleur](#contrôleur)
-    - [Services et repositories](#services-et-repositories)
-  - [Principe de la programmation orienté objet](#principe-de-la-programmation-orienté-objet)
-    - [Encapsulation (+ interfaces)](#encapsulation--interface)
-    - [Héritage (+ classes et méthodes abstraites, typage, liaison tardive et polymorphisme)](#héritage--classes-et-méthodes-abstraites-typage-liaison-tardive-et-polymorphisme)
-  - [Design Patterns](#design-patterns)
-  - [Programmation défensive](#programmation-défensive)
-    - [Mécanisme de typage](#mécanismes-de-typage)
-    - [Exceptions](#exceptions-)
-    - [Assertions](#assertions)
+- [Itération 1](#itération-1)
+  - [Suivi de planification du projet](#suivi-de-planification-du-projet)
+    - [Analyse de l'écart (Prévu vs Réalisé)](#analyse-de-lécart-prévu-vs-réalisé)
+    - [Gestion des risques (R1, R2, R3)](#gestion-des-risques-r1-r2-r3)
+  - [Motivation des choix pris lors de la conception](#motivation-des-choix-pris-lors-de-la-conception)
+    - [Structure du code](#structure-du-code)
+    - [Justification du modèle MVC](#justification-du-modèle-mvc)
+      - [Modèle](#modèle)
+      - [Vue](#vue)
+      - [Contrôleur](#contrôleur)
+      - [Services et repositories](#services-et-repositories)
+    - [Principe de la programmation orientée objet](#principe-de-la-programmation-orientée-objet)
+      - [Encapsulation (+ interfaces)](#encapsulation--interfaces)
+      - [Héritage (+ classes et méthodes abstraites, typage, liaison tardive et polymorphisme)](#héritage--classes-et-méthodes-abstraites-typage-liaison-tardive-et-polymorphisme)
+    - [Design Patterns](#design-patterns)
+    - [Programmation défensive](#programmation-défensive)
+      - [Mécanismes de typage](#mécanismes-de-typage)
+      - [Exceptions](#exceptions)
+      - [Assertions](#assertions)
 
+- [Itération 2](#itération-2)
+  - [Suivi de planification du projet](#suivi-de-planification-du-projet-1)
+    - [Analyse de l'écart (Prévu vs Réalisé)](#analyse-de-lécart-prévu-vs-réalisé-1)
+    - [Gestion des risques (R1, R2, R3)](#gestion-des-risques-r1-r2-r3-1)
+    - [Commentaires sur la Burndown Chart](#commentaires-sur-la-burndown-chart-1)
+  - [Motivation des choix pris lors de la conception](#motivation-des-choix-pris-lors-de-la-conception-1)
+    - [Structure du code](#structure-du-code-1)
+    - [Justification du modèle MVC](#justification-du-modèle-mvc-1)
+      - [Modèle](#modèle-1)
+      - [Vue](#vue-1)
+      - [Contrôleur](#contrôleur-1)
+      - [Services et repositories](#services-et-repositories-1)
+    - [Principe de la programmation orientée objet](#principe-de-la-programmation-orientée-objet-1)
+      - [Encapsulation (+ interfaces)](#encapsulation--interfaces-1)
+      - [Héritage (+ classes et méthodes abstraites, typage, liaison tardive et polymorphisme)](#héritage--classes-et-méthodes-abstraites-typage-liaison-tardive-et-polymorphisme-1)
+    - [Design Patterns](#design-patterns-1)
+    - [Programmation défensive](#programmation-défensive-1)
+      - [Mécanismes de typage](#mécanismes-de-typage-1)
+      - [Exceptions](#exceptions-1)
+      - [Assertions](#assertions-1)
+
+# Itération 1
+
+- Date : 09/03/2026
 ## Suivi de planification du projet
 
 ### Analyse de l'écart (Prévu vs Réalisé)
 
 Nous avons initialement alloué une période importante à la découverte de notre environnement de travail (IntelliJ, Java, JUnit…,). Finalement, l'utilisation de ces outils s’est révélée moins complexe que nous l'avions imaginé.
 
-Dans notre nouvelle méthode de travail de la seconde itération, en limitant les sous-taches (qui ne sont pas définies explicitement) à 2h max, certain membre se rendent compte qu'ils finissent la tâche en entier sans pouvoir laisser de travail pour la prochaine paire pilote copilote.
-Ce qui explique pourquoi il y a 0 point pour certaines sous-tâches.
-
 ### Gestion des risques (R1, R2, R3)
 
 Pour l'histoire 1, nous avons attribué un risque R2 ce qui s'est ressenti après le TP3 car nous avons remarqué que nous ne respections pas correctement le modèle MVC comme ce qui est présenté dans le TP. Nous avons donc effectué un grand refactoring afin de garantir d'avoir une base solide respectant le MVC pour les itérations suivants.
-
-### Commentaires sur la Burndown Chart
-Lors de la [répartition des tâches](repartition_des_taches.md#itération-2) sur la deuxième itération, on a fait en sorte d'enchainer 1 à 2h de travail par paire de pilote copilote avec certains jours où plusieurs paires peuvent travailler sur la même journée.
-Cette méthodologie fait qu'en théorie, la courbe réelle de la burndown chart sera forcément en moyenne en dessous de la droite idéale.
 
 ## Motivation des choix pris lors de la conception
 
@@ -121,3 +138,23 @@ Dans `BugemonProvider` et `TeamBugemon` les exceptions `BugemonNotFoundException
 #### Assertions
 
 On n'a pas encore eu l'occasion de place des assertions.
+
+# Itération 2
+
+- Date : 30/03/2026
+
+## Suivi de planification du projet
+### Analyse de l'écart (Prévu vs Réalisé)
+Pour cette itération, la vélocité était fixée à 28 points. Finalement, nous avons utilisé 34 points (ce qu'on c'est permis car on avait une semaine supplémentaire). Nous avons sous-estimé la complexité des tâches, notamment à cause de la confiance excessive générée par la première itération qui s'était bien déroulée.
+Pour remédier à cela, nous avons réévalué ensemble le nombre d'heures pour chaque histoire afin d'essayer de coller au mieux entre nos estimations et la réalité pour l'itération 3.
+Dans notre nouvelle méthode de travail de la seconde itération, en limitant les sous-taches (qui ne sont pas définies explicitement) à 2h max, certain membre se rendent compte qu'ils finissent la tâche en entier sans pouvoir laisser de travail pour la prochaine paire pilote copilote. Ce qui explique pourquoi il y a 0 point pour certaines sous-tâches.
+
+Suite à notre réunion avec le coach, il a également été relevé une grande inégalité dans le nombre de commits entre les membres : certains avaient 25 commits ou plus tandis que d'autres en avaient 0 ou 1. Ce déséquilibre était en partie dû à une mauvaise pratique de l'itération 1, où au lieu de merger les branches vers le main, un membre du groupe se chargeait de copier-coller le code des branches directement sur le main, ce qui faisait que les commits sur les branches n'étaient pas comptabilisés. Ce problème a été corrigé durant cette seconde itération.
+Malgré cela, une grande inégalité persiste dans les commits. Cela est dû au fait que certains membres du groupe sont trop investis et prennent des tâches qui ne leur sont pas attribuées. Nous en avons discuté en réunion et nous verrons si la situation s'améliore pour l'itération 3.
+### Gestion des risques (R1, R2, R3)
+
+### Commentaires sur la Burndown Chart
+Lors de la [répartition des tâches](repartition_des_taches.md#itération-2) sur la deuxième itération, on a fait en sorte d'enchainer 1 à 2h de travail par paire de pilote copilote avec certains jours où plusieurs paires peuvent travailler sur la même journée.
+Cette méthodologie fait qu'en théorie, la courbe réelle de la burndown chart sera forcément en moyenne en dessous de la droite idéale.
+## Motivation des choix pris lors de la conception
+### Structure du code
