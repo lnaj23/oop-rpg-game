@@ -104,7 +104,7 @@ ___
 <table>
     <tbody>
         <tr><td>Vélocité :</td><td>28</td></tr>
-        <tr><td>Total Points réel :</td><td></td></tr>
+        <tr><td>Total Points réel :</td><td>34</td></tr>
         <tr><td>Total Points estimé :</td><td>28</td></tr>
     </tbody>
 </table>
@@ -123,8 +123,8 @@ ___
     </tr>
   </thead>
   <tbody>
-    <tr><td>Comportement SelectionView (à faire pour le 14/03 max) </td><td>Yanis</td><td>Zakaria</td><td></td><td>1,5</td></tr>
-    <tr><td>Persistance + test pour TeamRepository (à faire pour le 14/03 max)</td><td>Zakaria</td><td>Yanis</td><td></td><td>1,5</td></tr>
+    <tr><td>Comportement SelectionView (à faire pour le 14/03 max) </td><td>Yanis</td><td>Zakaria</td><td>1,5</td><td>1,5</td></tr>
+    <tr><td>Persistance + test pour TeamRepository (à faire pour le 14/03 max)</td><td>Zakaria</td><td>Yanis</td><td>1,5</td><td>1,5</td></tr>
   </tbody>
 </table>
 
@@ -145,12 +145,8 @@ ___
     <tr><td>Initialiser FightView et FightController (12/03 10h-11h)</td><td>Luqman</td><td>Maxime</td><td>1</td><td>1</td></tr>
     <tr><td>Initialiser FightView et FightController (12/03 12h-14h)</td><td>Louai</td><td>Luqman</td><td>2</td><td>2</td></tr>
     <tr><td>Initialiser FightView et FightController (12/03 17h-18h)</td><td>Maxime</td><td>Yanis</td><td>2</td><td>1</td></tr>
-    <tr><td>Updates des models actuels (13/03 10h-12h)</td><td>Louai</td><td>Maxime</td><td>2</td><td>2</td></tr>
-    <tr><td>Updates des models actuels (13/03 17h-18h)</td><td>Alexandre</td><td>Luqman</td><td>0</td><td>1</td></tr>
-    <tr><td>Model à ajouter (15/03 16h-18h)</td><td>Enzo</td><td>Mohamed</td><td></td><td>2</td></tr>
-    <tr><td>Model à ajouter (15/03 18h-19h)</td><td>Yanis</td><td>Enzo</td><td></td><td>1</td></tr>
+    <tr><td>Updates des models actuels et ajout de nouveau models (13/03 10h-12h)</td><td>Louai</td><td>Maxime</td><td>2</td><td>2</td></tr>
     <tr><td>Base du lien models — controller — vue (16/03 17h-19h)</td><td>Sajid</td><td>Maxime</td><td></td><td>2</td></tr>
-    <tr><td>Base du lien models — controller — vue (16/03 19h-20h)</td><td>Harry</td><td>Sajid</td><td></td><td>1</td></tr>
 </tbody>
 </table>
 
@@ -168,10 +164,9 @@ ___
     </tr>
   </thead>
   <tbody>
-    <tr><td>Amélioration lien models — controller — vue (17/03 08h-10h)</td><td>Alexandre</td><td>Harry</td><td></td><td>2</td></tr>
-    <tr><td>Amélioration lien models — controller — vue (18/03 10h-12h)</td><td>Louai</td><td>Harry</td><td></td><td>2</td></tr>
-    <tr><td>Amélioration lien models — controller — vue (18/03 14h-15h)</td><td>Mohamed</td><td>Alexandre</td><td></td><td>1</td></tr>
-
+    <tr><td>Amélioration lien models — controller — vue (17/03 08h-10h)</td><td>Mohamed</td><td>Enzo</td><td></td><td>2</td></tr>
+    <tr><td>Amélioration lien models — controller — vue (18/03 10h-12h)</td><td>Harry</td><td>Mohamed</td><td></td><td>2</td></tr>
+    <tr><td>Refactor Histoire 5</td><td>Maxime</td><td>Harry</td><td></td><td>2</td></tr>
   </tbody>
 </table>
 
@@ -189,8 +184,10 @@ ___
     </tr>
   </thead>
   <tbody>
-    <tr><td>TACHE 1</td><td>PILOTE 1</td><td>COPILOTE 1</td><td>RÉEL 1</td><td>ESTIMATION 1</td></tr>
-    <tr><td>TACHE 2</td><td>PILOTE 2</td><td>COPILOTE 2</td><td>RÉEL 2</td><td>ESTIMATION 2</td></tr>
+    <tr><td>DamageCalculator, TypeEffectivenessService </td><td>Enzo</td><td>Luqman</td><td></td><td></td></tr>
+    <tr><td>Affichage du type de l'attaque</td><td>Luqman</td><td>Enzo</td><td></td><td></td></tr>
+    <tr><td>Couleur dans la SelectionView</td><td>Enzo</td><td>Harry</td><td></td><td></td></tr>
+    <tr><td>Refactor Histoire 6</td><td>Sajid</td><td>Enzo</td><td></td><td></td></tr>
   </tbody>
 </table>
 
@@ -208,11 +205,12 @@ ___
     </tr>
   </thead>
   <tbody>
-    <tr><td>TACHE 1</td><td>PILOTE 1</td><td>COPILOTE 1</td><td>RÉEL 1</td><td>ESTIMATION 1</td></tr>
-    <tr><td>TACHE 2</td><td>PILOTE 2</td><td>COPILOTE 2</td><td>RÉEL 2</td><td>ESTIMATION 2</td></tr>
+    <tr><td>Détection target Effects + Ajout ActiveEffects</td><td>Alexandre</td><td>Zakaria</td><td> </td><td> </td></tr>
+    <tr><td>Application des effets avec EffectManager</td><td>Zakaria</td><td>Alexandre</td><td> </td><td> </td></tr>
+    <tr><td>Refactor Histoire 8</td><td>Sajid</td><td>Zakaria</td><td></td><td></td></tr>
   </tbody>
 </table>
-
+ 
 ### Discussions de contenu
 
 À l'issue de la première itération, nous avons constaté que le concept de pair programming n'avait été que partiellement respecté.
