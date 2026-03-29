@@ -1,0 +1,356 @@
+{
+  "teams": [
+    {
+      "name": "feofp",
+      "team": [
+        {
+          "id": "mergeau",
+          "nom": "Mergeau",
+          "type": "Aqua",
+          "stats": {
+            "pv": 90,
+            "currentpv": 0,
+            "attaque": 60,
+            "defense": 50,
+            "initiative": 55
+          },
+          "attaques": [
+            "courant_croise",
+            "vague_rapide",
+            "maree_stable"
+          ],
+          "attacks": [
+            {
+              "id": "courant_croise",
+              "nom": "Courant Croisé",
+              "type": "Aqua",
+              "description": "Inflige des dégâts et réduit l\u0027initiative adverse.",
+              "puissance": 40,
+              "effets": [
+                {
+                  "type": "stat_modifier",
+                  "stat": "initiative"
+                }
+              ]
+            },
+            {
+              "id": "vague_rapide",
+              "nom": "Vague Rapide",
+              "type": "Aqua",
+              "description": "Inflige des dégâts et augmente l\u0027initiative du lanceur au prochain tour.",
+              "puissance": 40,
+              "effets": [
+                {
+                  "type": "stat_modifier",
+                  "stat": "initiative"
+                }
+              ]
+            },
+            {
+              "id": "maree_stable",
+              "nom": "Marée Stable",
+              "type": "Aqua",
+              "description": "Inflige des dégâts et augmente la défense du lanceur.",
+              "puissance": 35,
+              "effets": [
+                {
+                  "type": "stat_modifier",
+                  "stat": "defense"
+                }
+              ]
+            }
+          ],
+          "sprite": "mergeau.png",
+          "starter": false
+        },
+        {
+          "id": "rockachu",
+          "nom": "Rockachu",
+          "type": "Litho",
+          "stats": {
+            "pv": 100,
+            "currentpv": 0,
+            "attaque": 60,
+            "defense": 65,
+            "initiative": 30
+          },
+          "attaques": [
+            "jet_de_pierres",
+            "armure_minerale",
+            "fracas_rocheux"
+          ],
+          "attacks": [
+            {
+              "id": "jet_de_pierres",
+              "nom": "Jet de Pierres",
+              "type": "Litho",
+              "description": "Inflige des dégâts moyens.",
+              "puissance": 45,
+              "effets": []
+            },
+            {
+              "id": "armure_minerale",
+              "nom": "Armure Minérale",
+              "type": "Litho",
+              "description": "Inflige peu de dégâts et augmente fortement la défense du lanceur.",
+              "puissance": 20,
+              "effets": [
+                {
+                  "type": "stat_modifier",
+                  "stat": "defense"
+                }
+              ]
+            },
+            {
+              "id": "fracas_rocheux",
+              "nom": "Fracas Rocheux",
+              "type": "Litho",
+              "description": "Inflige de lourds dégâts mais réduit la défense du lanceur.",
+              "puissance": 65,
+              "effets": [
+                {
+                  "type": "stat_modifier",
+                  "stat": "defense"
+                }
+              ]
+            }
+          ],
+          "sprite": "rockachu.png",
+          "starter": false
+        },
+        {
+          "id": "tidehunter",
+          "nom": "Tidehunter",
+          "type": "Aqua",
+          "stats": {
+            "pv": 110,
+            "currentpv": 0,
+            "attaque": 65,
+            "defense": 50,
+            "initiative": 35
+          },
+          "attaques": [
+            "vague_rapide",
+            "courant_croise",
+            "eau_pure"
+          ],
+          "attacks": [
+            {
+              "id": "vague_rapide",
+              "nom": "Vague Rapide",
+              "type": "Aqua",
+              "description": "Inflige des dégâts et augmente l\u0027initiative du lanceur au prochain tour.",
+              "puissance": 40,
+              "effets": [
+                {
+                  "type": "stat_modifier",
+                  "stat": "initiative"
+                }
+              ]
+            },
+            {
+              "id": "courant_croise",
+              "nom": "Courant Croisé",
+              "type": "Aqua",
+              "description": "Inflige des dégâts et réduit l\u0027initiative adverse.",
+              "puissance": 40,
+              "effets": [
+                {
+                  "type": "stat_modifier",
+                  "stat": "initiative"
+                }
+              ]
+            },
+            {
+              "id": "eau_pure",
+              "nom": "Eau Pure",
+              "type": "Aqua",
+              "description": "Inflige peu de dégâts et restaure légèrement les PV de l\u0027équipe du lanceur.",
+              "puissance": 15,
+              "effets": [
+                {
+                  "type": "soin"
+                }
+              ]
+            }
+          ],
+          "sprite": "tidehunter.png",
+          "starter": false
+        },
+        {
+          "id": "commitide",
+          "nom": "Commitide",
+          "type": "Aqua",
+          "stats": {
+            "pv": 95,
+            "currentpv": 0,
+            "attaque": 55,
+            "defense": 55,
+            "initiative": 50
+          },
+          "attaques": [
+            "vague_rapide",
+            "courant_croise",
+            "pluie_calme"
+          ],
+          "attacks": [
+            {
+              "id": "vague_rapide",
+              "nom": "Vague Rapide",
+              "type": "Aqua",
+              "description": "Inflige des dégâts et augmente l\u0027initiative du lanceur au prochain tour.",
+              "puissance": 40,
+              "effets": [
+                {
+                  "type": "stat_modifier",
+                  "stat": "initiative"
+                }
+              ]
+            },
+            {
+              "id": "courant_croise",
+              "nom": "Courant Croisé",
+              "type": "Aqua",
+              "description": "Inflige des dégâts et réduit l\u0027initiative adverse.",
+              "puissance": 40,
+              "effets": [
+                {
+                  "type": "stat_modifier",
+                  "stat": "initiative"
+                }
+              ]
+            },
+            {
+              "id": "pluie_calme",
+              "nom": "Pluie Calme",
+              "type": "Aqua",
+              "description": "Inflige peu de dégâts et restaure légèrement les PV du lanceur.",
+              "puissance": 20,
+              "effets": [
+                {
+                  "type": "soin"
+                }
+              ]
+            }
+          ],
+          "sprite": "commitide.png",
+          "starter": true
+        },
+        {
+          "id": "finalboss",
+          "nom": "FinalBoss",
+          "type": "Pyro",
+          "stats": {
+            "pv": 150,
+            "currentpv": 0,
+            "attaque": 85,
+            "defense": 40,
+            "initiative": 45
+          },
+          "attaques": [
+            "explosion_ardente",
+            "surchauffe",
+            "flammes_folles"
+          ],
+          "attacks": [
+            {
+              "id": "explosion_ardente",
+              "nom": "Explosion Ardente",
+              "type": "Pyro",
+              "description": "Inflige de très gros dégâts.",
+              "puissance": 70,
+              "effets": []
+            },
+            {
+              "id": "surchauffe",
+              "nom": "Surchauffe",
+              "type": "Pyro",
+              "description": "Inflige de lourds dégâts mais réduit l\u0027attaque du lanceur.",
+              "puissance": 65,
+              "effets": [
+                {
+                  "type": "stat_modifier",
+                  "stat": "attaque"
+                }
+              ]
+            },
+            {
+              "id": "flammes_folles",
+              "nom": "Flammes Folles",
+              "type": "Pyro",
+              "description": "Inflige des dégâts et réduit la défense adverse.",
+              "puissance": 45,
+              "effets": [
+                {
+                  "type": "stat_modifier",
+                  "stat": "defense"
+                }
+              ]
+            }
+          ],
+          "sprite": "finalboss.png",
+          "starter": false
+        },
+        {
+          "id": "buildwave",
+          "nom": "Buildwave",
+          "type": "Aqua",
+          "stats": {
+            "pv": 95,
+            "currentpv": 0,
+            "attaque": 45,
+            "defense": 60,
+            "initiative": 50
+          },
+          "attaques": [
+            "eau_pure",
+            "vague_rapide",
+            "maree_stable"
+          ],
+          "attacks": [
+            {
+              "id": "eau_pure",
+              "nom": "Eau Pure",
+              "type": "Aqua",
+              "description": "Inflige peu de dégâts et restaure légèrement les PV de l\u0027équipe du lanceur.",
+              "puissance": 15,
+              "effets": [
+                {
+                  "type": "soin"
+                }
+              ]
+            },
+            {
+              "id": "vague_rapide",
+              "nom": "Vague Rapide",
+              "type": "Aqua",
+              "description": "Inflige des dégâts et augmente l\u0027initiative du lanceur au prochain tour.",
+              "puissance": 40,
+              "effets": [
+                {
+                  "type": "stat_modifier",
+                  "stat": "initiative"
+                }
+              ]
+            },
+            {
+              "id": "maree_stable",
+              "nom": "Marée Stable",
+              "type": "Aqua",
+              "description": "Inflige des dégâts et augmente la défense du lanceur.",
+              "puissance": 35,
+              "effets": [
+                {
+                  "type": "stat_modifier",
+                  "stat": "defense"
+                }
+              ]
+            }
+          ],
+          "sprite": "buildwave.png",
+          "starter": false
+        }
+      ]
+    }
+  ]
+}

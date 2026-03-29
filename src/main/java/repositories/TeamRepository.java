@@ -13,39 +13,63 @@ import java.util.List;
 
 /**
  * Repository for managing saved teams persistence.
- * Handles saving and loading teams from a JSON file in the user's data directory.
+ * Loads team templates from bugemon.json (complete Bugémon objects, no reconstruction).
+ * Persists user-created teams to the user's data directory.
  */
-public class TeamRepository {
-
-    private static final String TEAMS_FILE = System.getProperty("user.home") + "/.bugemon/teams.json";
-    private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
+public abstract class TeamRepository extends JsonRepository {
 
     /**
-     * Wrapper class for JSON serialization of the teams list.
+     * Mirrors the structure of bugemon.json, which contains a list of TeamBugemon objects
+     * (with complete Bugémon data, not just IDs) under the key "teams".
+     * Used exclusively by Gson to deserialize the JSON array.
      */
     private static class JsonTeams {
-        public List<TeamData> teams;
+        public List<TeamBugemon> teams;
+    }
 
-        JsonTeams(List<TeamData> teams) {
-            this.teams = teams;
-        }
+    private static final String TEAMS_FILE = "persistence/savedteam/team.json";
+    private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
+    private static final String PATH = JSON_PREFIX + "bugemon.json";
+
+    /** All team templates loaded from bugemon.json at startup. */
+    private static final List<TeamBugemon> teamTemplates;
+
+    static {
+        teamTemplates = readJSON(PATH, JsonTeams.class, w -> w.teams);
     }
 
     /**
-     * Data transfer object for serializing team info.
+     * Returns the team templates loaded from bugemon.json (read-only).
+     * These teams contain complete Bugémon objects.
+     *
+     * @return the list of team templates
      */
-    private static class TeamData {
-        public String name;
-        public List<String> bugemonIds;
+    public static List<TeamBugemon> getTeamTemplates() {
+        return teamTemplates;
+    }
 
-        TeamData(String name, List<String> bugemonIds) {
-            this.name = name;
-            this.bugemonIds = bugemonIds;
+    /**
+     * Saves all teams to the user's JSON file.
+     *
+     * @param teams the list of teams to save
+     */
+    public static void saveTeams(List<TeamBugemon> teams) {
+        JsonTeams jsonTeams = new JsonTeams();
+        jsonTeams.teams = teams;
+
+        try {
+            File file = new File(TEAMS_FILE);
+            file.getParentFile().mkdirs();
+            try (FileWriter writer = new FileWriter(file)) {
+                gson.toJson(jsonTeams, writer);
+            }
+        } catch (IOException e) {
+            System.err.println("Error saving teams: " + e.getMessage());
         }
     }
 
     /**
-     * Loads all saved teams from the JSON file.
+     * Loads all saved teams from the user's JSON file.
      *
      * @return list of saved teams, empty list if file doesn't exist
      */
@@ -60,9 +84,7 @@ public class TeamRepository {
         try (FileReader reader = new FileReader(file)) {
             JsonTeams jsonTeams = gson.fromJson(reader, JsonTeams.class);
             if (jsonTeams != null && jsonTeams.teams != null) {
-                for (TeamData data : jsonTeams.teams) {
-                    teams.add(new TeamBugemon(data.name, data.bugemonIds));
-                }
+                teams.addAll(jsonTeams.teams);
             }
         } catch (IOException e) {
             System.err.println("Error loading teams: " + e.getMessage());
@@ -72,37 +94,7 @@ public class TeamRepository {
     }
 
     /**
-     * Saves all teams to the JSON file.
-     *
-     * @param teams the list of teams to save
-     */
-    public static void saveTeams(List<TeamBugemon> teams) {
-        List<TeamData> teamDataList = new ArrayList<>();
-
-        for (TeamBugemon team : teams) {
-            List<String> bugemonIds = new ArrayList<>();
-            for (var bugemon : team.getTeam()) {
-                bugemonIds.add(bugemon.getId());
-            }
-            teamDataList.add(new TeamData(team.getName(), bugemonIds));
-        }
-
-        JsonTeams jsonTeams = new JsonTeams(teamDataList);
-
-        try {
-            File file = new File(TEAMS_FILE);
-            file.getParentFile().mkdirs();
-            try (FileWriter writer = new FileWriter(file)) {
-                gson.toJson(jsonTeams, writer);
-            }
-        } catch (IOException e) {
-            System.err.println("Error saving teams: " + e.getMessage());
-        }
-    }
-
-    /**
      * Saves a single team to the persistent list.
-     * Adds the team to the list and persists it to disk.
      *
      * @param team the team to save
      * @param allTeams the full list of teams to persist

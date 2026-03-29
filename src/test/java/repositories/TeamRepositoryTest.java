@@ -14,7 +14,7 @@ public class TeamRepositoryTest {
 
     @Before
     public void cleanup() {
-        File f = new File(System.getProperty("user.home") + "/.bugemon/teams.json");
+        File f = new File(System.getProperty("user.home") + "/.bugemon/bugemon.json");
         if (f.exists()) {
             f.delete();
         }
