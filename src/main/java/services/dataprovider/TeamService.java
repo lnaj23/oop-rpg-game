@@ -5,27 +5,14 @@ import repositories.TeamRepository;
 
 import java.util.List;
 
-/**
- * Provides access to team data with persistence management.
- * Acts as the single entry point for loading and saving teams.
- * This class is not intended to be instantiated.
- */
 public abstract class TeamService {
 
-    /**
-     * Loads all saved teams from persistent storage.
-     *
-     * @return the list of all saved teams
-     */
     public static List<TeamBugemon> loadTeams() {
-        return TeamRepository.loadTeams();
+        List<TeamBugemon> teams = TeamRepository.loadTeams();
+        teams.forEach(t -> t.getTeam().forEach(BugemonProvider.getInstance()::initBugemonFromSavedTeam));
+        return teams;
     }
 
-    /**
-     * Saves all teams to persistent storage.
-     *
-     * @param teams the list of teams to save
-     */
     public static void saveTeams(List<TeamBugemon> teams) {
         TeamRepository.saveTeams(teams);
     }

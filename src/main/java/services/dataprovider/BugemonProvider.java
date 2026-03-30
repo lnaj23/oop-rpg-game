@@ -61,4 +61,13 @@ public class BugemonProvider {
     public List<BugemonDTO> getAllBugemonsDTO() {
         return new ArrayList<>(BugemonRepository.getAllBugemons());
     }
+
+    public void initBugemonFromSavedTeam(Bugemon bugemon) {
+        try {
+            assignAttacks(bugemon);
+        } catch (AttackNotFoundException e) {
+            throw new IllegalStateException("Attack not found: " + e.getMessage(), e);
+        }
+        bugemon.initColor();
+    }
 }
