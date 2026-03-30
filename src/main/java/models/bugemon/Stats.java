@@ -14,7 +14,7 @@ public class Stats {
     private int pv;
 
     /** Current health points of this Bugémon during a battle. */
-    private int currentpv;
+    private transient int currentpv;
 
     /** Attack stat used to compute damage dealt. */
     @SerializedName("attaque")
@@ -27,13 +27,13 @@ public class Stats {
     private int initiative;
 
     /** Cumulative modifier applied to the attack stat during battle. */
-    private int attackModifier = 0;
+    private transient int attackModifier = 0;
 
     /** Cumulative modifier applied to the defense stat during battle. */
-    private int defenseModifier = 0;
+    private transient int defenseModifier = 0;
 
     /** Cumulative modifier applied to the initiative stat during battle. */
-    private int initiativeModifier = 0;
+    private transient int initiativeModifier = 0;
 
     /**
      * Copy constructor. Creates a deep copy of the given stats.

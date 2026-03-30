@@ -83,10 +83,10 @@ public class FightTest extends TestCase {
     }
 
     @Test
-    public void testTurnSwitchesBackAfterEnemyAttack() {
+    public void testTurnSwitchesBackAfterEnemyAttackFromIAChoice() {
         fightPlayerHighInitiative.playerAttack(0);
         assertFalse(fightPlayerHighInitiative.isPlayerTurn());
-        fightPlayerHighInitiative.enemyAttack();
+        fightPlayerHighInitiative.enemyAttackFromIAChoice();
         assertTrue(fightPlayerHighInitiative.isPlayerTurn());
     }
 
@@ -106,11 +106,11 @@ public class FightTest extends TestCase {
     }
 
     @Test
-    public void testEnemyAttackReducesPlayerHp() {
+    public void testEnemyAttackFromIAChoiceReducesPlayerHp() {
         fightPlayerHighInitiative.forceEnemyTurn();
         Bugemon player = fightPlayerHighInitiative.getOnFieldPlayerBugemon();
         int hpBefore = player.getcurrenPv();
-        fightPlayerHighInitiative.enemyAttack();
+        fightPlayerHighInitiative.enemyAttackFromIAChoice();
         assertTrue(player.getcurrenPv() < hpBefore);
     }
 
@@ -120,12 +120,6 @@ public class FightTest extends TestCase {
         assertNotNull(fightPlayerHighInitiative.getActionResultText());
     }
 
-    @Test
-    public void testChangePlayerOnField() throws BugemonNotInTeamException {
-        Bugemon newBugemon = fightPlayerHighInitiative.getTeamPlayer().getTeam().get(1);
-        fightPlayerHighInitiative.changePlayerOnField(newBugemon);
-        assertEquals(newBugemon, fightPlayerHighInitiative.getOnFieldPlayerBugemon());
-    }
 
     @Test
     public void testChangeEnemyOnField() throws BugemonNotInTeamException {

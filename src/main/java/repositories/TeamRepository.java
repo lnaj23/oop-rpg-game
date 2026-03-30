@@ -14,9 +14,7 @@ public class TeamRepository {
         List<TeamBugemon> teams;
     }
 
-    private static final Gson SAVE_GSON = new GsonBuilder()
-            .setPrettyPrinting()
-            .create();
+    private static final Gson SAVE_GSON = new GsonBuilder().setPrettyPrinting().create();
 
     public static List<TeamBugemon> loadTeams() {
         File file = new File(AppConfig.TEAMS_FILE);

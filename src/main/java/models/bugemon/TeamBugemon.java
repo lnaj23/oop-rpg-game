@@ -22,7 +22,7 @@ public class TeamBugemon implements TeamBugemonDTO {
     private final List<Bugemon> team;
 
     /** The Bugémon currently active on the battlefield, or null if none. */
-    private Bugemon onFieldBugemon = null;
+    private transient Bugemon onFieldBugemon = null;
 
     /** No-arg constructor. Initialises an empty team. */
     public TeamBugemon() {
@@ -94,6 +94,14 @@ public class TeamBugemon implements TeamBugemonDTO {
      */
     public Bugemon getOnFieldBugemon() {
         return onFieldBugemon;
+    }
+
+    public String getOnFieldBugemonType(){
+        return onFieldBugemon.getType();
+    }
+
+    public List<Attack> getOnFieldBugemonAttacks(){
+        return onFieldBugemon.getAttacks();
     }
 
     /**

@@ -5,7 +5,7 @@ import repositories.TeamRepository;
 
 import java.util.List;
 
-public abstract class TeamService {
+public abstract class TeamProvider {
 
     public static List<TeamBugemon> loadTeams() {
         List<TeamBugemon> teams = TeamRepository.loadTeams();

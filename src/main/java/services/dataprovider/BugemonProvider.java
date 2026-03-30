@@ -68,6 +68,7 @@ public class BugemonProvider {
         } catch (AttackNotFoundException e) {
             throw new IllegalStateException("Attack not found: " + e.getMessage(), e);
         }
+        bugemon.initPv();
         bugemon.initColor();
     }
 }

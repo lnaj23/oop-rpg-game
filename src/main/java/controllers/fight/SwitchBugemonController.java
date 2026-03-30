@@ -14,7 +14,7 @@ import java.io.IOException;
  * <p>
  * Reads the player's team, the current on-field Bugemon id, and the switch mode
  * directly from {@link GameStateHolder}. Delegates selection and cancellation
- * back to the {@link ControllerManager} which forwards them to {@link FightController}.
+ * back to the {@link ControllerManager} which forwards them to {@link FightAgainstCPUController}.
  * </p>
  */
 public class SwitchBugemonController extends Controller<SelectBugemonFromTeamView> implements SelectBugemonFromTeamListener {

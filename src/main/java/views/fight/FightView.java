@@ -133,7 +133,7 @@ public class FightView extends View<Controller> {
      * @param team the list of Bugémon DTOs to display
      */
     public void displayTeam(List<BugemonDTO> team) {
-        boolean  isPlayer = team.get(0).getIsPlayer();
+        boolean  isPlayer = team.getFirst().getIsPlayer();
         GridPane grid     = isPlayer ? teamGrid : enemyGrid;
         grid.getChildren().clear();
 
@@ -334,8 +334,6 @@ public class FightView extends View<Controller> {
 
         enemyNameLabel.setText("");   enemyHpLabel.setText("");
         enemyEffectLabel.setText(""); enemyHpBarFill.setProgress(1.0);
-
-
 
         popup.hideHp();
         popup.hideStats();

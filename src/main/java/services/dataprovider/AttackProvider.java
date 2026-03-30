@@ -30,4 +30,6 @@ public class AttackProvider {
     public List<Attack> getAllAttacks() {
         return new ArrayList<>(AttackRepository.getAllAttacks());
     }
+
+
 }

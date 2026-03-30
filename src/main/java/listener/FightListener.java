@@ -1,12 +1,12 @@
 package listener;
 
 
-import controllers.fight.FightController;
+import controllers.fight.FightAgainstCPUController;
 
 /**
  * Listener interface decoupling {@link views.fight.FightView} from any concrete controller.
  * <p>
- * {@link FightController} implements this interface so that
+ * {@link FightAgainstCPUController} implements this interface so that
  * {@code FightView} never needs to import or reference the controller class directly.
  * </p>
  */

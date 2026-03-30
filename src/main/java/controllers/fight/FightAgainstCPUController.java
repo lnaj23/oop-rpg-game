@@ -16,22 +16,18 @@ import services.game.GameStateHolder;
 import views.fight.FightView;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Objects;
-import java.util.Random;
 
 import models.bugemon.TeamBugemon;
 
 /**
  * Controller for the fight screen.
  */
-public class FightController extends Controller<FightView> implements FightListener {
+public class FightAgainstCPUController extends Controller<FightView> implements FightListener {
 
     private Fight fight;
-    private final Random random = new Random();
 
-
-    public FightController(ControllerManager metaController) throws IOException {
+    public FightAgainstCPUController(ControllerManager metaController) throws IOException {
         super(metaController, new FightView());
         this.view.setListener(this);
     }
@@ -49,21 +45,37 @@ public class FightController extends Controller<FightView> implements FightListe
             view.resetDisplay();
             TeamBugemon team = GameStateHolder.getInstance().getCurrentTeamPlayer();
             fight = new Fight(team, new TeamBugemon(AppConfig.getEnemyTeam()));
-            view.displayTeam(fight.getTeamPlayer().getTeamDTO());
-            view.displayTeam(fight.getTeamEnemy().getTeamDTO());
-            fight.computePredictedEffectiveness();
-            view.updatePredictedEffectiveness(fight.getPredictedEffectiveness());
-            view.updateActiveBugemonSprite(fight.getOnFieldPlayerBugemon());
-            view.updateActiveBugemonSprite(fight.getOnFieldEnemyBugemon());
-            String startFightMessage = "L'adversaire envoie " + fight.getOnFieldEnemyBugemonName() + " ! "
-                    + (!fight.playerCanStart()
-                    ? "L'adversaire a plus d'initiative, il lance les hostilités !"
-                    : "L'adversaire a moins d'initiative, vous lancez les hostilités !");
-            view.updateCombatMessage(startFightMessage);
+            viewDisplayTeams();
+            viewDisplayPredictedEffectiveness();
+            viewInitDisplayedBugemon();
+            viewInitStartMessage();
             if (!fight.playerCanStart()) forceEnemyToAttack();
         } catch (BugemonNotFoundException | BugemonNotInTeamException e) {
-            controllerManager.fatalError("Erreur lors de l'initialisation du combat : " + e.getMessage());
+            controllerManager.fatalError("couldn't load the fight : " + e.getMessage());
         }
+    }
+
+    private void viewInitStartMessage() {
+        String startFightMessage = "L'adversaire envoie " + fight.getOnFieldEnemyBugemonName() + " ! "
+                + (!fight.playerCanStart()
+                ? "L'adversaire a plus d'initiative, il lance les hostilités !"
+                : "L'adversaire a moins d'initiative, vous lancez les hostilités !");
+        view.updateCombatMessage(startFightMessage);
+    }
+
+    private void viewInitDisplayedBugemon() {
+        view.updateActiveBugemonSprite(fight.getOnFieldPlayerBugemon());
+        view.updateActiveBugemonSprite(fight.getOnFieldEnemyBugemon());
+    }
+
+    private void viewDisplayPredictedEffectiveness() {
+        fight.computePredictedEffectiveness();
+        view.updatePredictedEffectiveness(fight.getPredictedEffectiveness());
+    }
+
+    private void viewDisplayTeams() {
+        view.displayTeam(fight.getTeamPlayerToDisplay());
+        view.displayTeam(fight.getTeamEnemyToDisplay());
     }
 
     public void gotoTitleScreen() {
@@ -99,10 +111,9 @@ public class FightController extends Controller<FightView> implements FightListe
         useItem(item);
     }
 
-    public void onSwitchBugemonChosen(Object selectedId, boolean onPurpose) {
+    public void onSwitchBugemonChosen(String selectedId, boolean onPurpose) {
         try {
-            Bugemon selectedBugemon = findAvailablePlayerBugemonById(selectedId);
-            switchPlayerBugemon(selectedBugemon);
+            switchPlayerBugemon(selectedId);
             if (onPurpose) {
                 forceEnemyToAttack();
             } else {
@@ -110,7 +121,7 @@ public class FightController extends Controller<FightView> implements FightListe
                 else forceEnemyToAttack();
             }
         } catch (BugemonNotInTeamException e) {
-            controllerManager.fatalError("Erreur lors du changement de Bugémon : " + e.getMessage());
+            controllerManager.fatalError("couldn't load the Bugemon : " + e.getMessage());
         }
     }
 
@@ -152,7 +163,7 @@ public class FightController extends Controller<FightView> implements FightListe
         PauseTransition pause = new PauseTransition(Duration.seconds(AppConfig.ENEMY_REACT_TIME));
         pause.setOnFinished(e -> {
             Bugemon target = fight.getOnFieldPlayerBugemon();
-            fight.enemyAttack();
+            fight.enemyAttackFromIAChoice();
             viewReactToAttack();
             if (fight.isOnFieldPlayerBugemonKO()) {
                 view.markBugemonAsFainted(target);
@@ -171,15 +182,12 @@ public class FightController extends Controller<FightView> implements FightListe
 
     private void switchDisplayEnemyBugemon() {
         try {
-            List<Bugemon> available = fight.getAvailableEnemyBugemons();
-            if (available.isEmpty()) return;
-            Bugemon randomBug = available.get(random.nextInt(available.size()));
-            fight.changeEnemyOnField(randomBug);
+            fight.changeOnFieldEnemyBugemonRandomly();
             fight.recomputeTurnOrder();
             view.updateActiveBugemonSprite(fight.getOnFieldEnemyBugemon());
-            view.updateCombatMessage("L'adversaire envoie " + randomBug.getName() + " !");
+            view.updateCombatMessage("L'adversaire envoie " + fight.getOnFieldEnemyBugemonName() + " !");
         } catch (BugemonNotInTeamException e) {
-            controllerManager.fatalError("Erreur lors du changement de Bugémon ennemi : " + e.getMessage());
+            controllerManager.fatalError("Couldnt load bugemon : " + e.getMessage());
         }
     }
 
@@ -202,22 +210,14 @@ public class FightController extends Controller<FightView> implements FightListe
         else view.showMessageReturnTitle("Défaite", "Vous avez perdu le combat.");
     }
 
-    private void switchPlayerBugemon(Bugemon selectedBugemon) throws BugemonNotInTeamException {
-        String switchMessage = fight.getOnFieldPlayerBugemonName() + ", reviens !\n"
-                + selectedBugemon.getName() + " entre en jeu !";
-        fight.changePlayerOnField(selectedBugemon);
+    private void switchPlayerBugemon(String selectedId) throws BugemonNotInTeamException {
+        String switchMessage = fight.getOnFieldPlayerBugemonName() + ", reviens !\n";
+        fight.changePlayerOnField(selectedId);
+        switchMessage += fight.getOnFieldPlayerBugemonName() + " entre en jeu !";
         fight.recomputeTurnOrder();
-        fight.computePredictedEffectiveness();
-        view.updatePredictedEffectiveness(fight.getPredictedEffectiveness());
+        viewDisplayPredictedEffectiveness();
         view.updateActiveBugemonSprite(fight.getOnFieldPlayerBugemon());
         view.updateCombatMessage(switchMessage);
-    }
-
-    private Bugemon findAvailablePlayerBugemonById(Object id) {
-        for (Bugemon bugemon : fight.getAvailablePlayerBugemons()) {
-            if (Objects.equals(bugemon.getId(), id)) return bugemon;
-        }
-        throw new IllegalArgumentException("Bugémon introuvable : " + id);
     }
 
     private void showSwitchWindow(boolean onPurpose) {
