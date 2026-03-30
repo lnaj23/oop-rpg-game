@@ -4,7 +4,7 @@ import controllers.Controller;
 import controllers.ControllerManager;
 import models.bugemon.dto.BugemonDTO;
 import models.bugemon.TeamBugemon;
-import services.dataprovider.TeamService;
+import services.dataprovider.TeamProvider;
 import services.dataprovider.BugemonProvider;
 import services.game.GameStateHolder;
 import views.teamchoice.selection.SelectionView;
@@ -136,7 +136,7 @@ public class SelectionController extends Controller<SelectionView> {
             playerTeam.setName(teamName);
             this.teams.add(playerTeam);
         }
-        TeamService.saveTeams(this.teams);
+        TeamProvider.saveTeams(this.teams);
     }
 
     /**

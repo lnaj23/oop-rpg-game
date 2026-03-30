@@ -3,7 +3,7 @@ package controllers.teamchoice;
 import controllers.Controller;
 import controllers.ControllerManager;
 import models.bugemon.TeamBugemon;
-import services.dataprovider.TeamService;
+import services.dataprovider.TeamProvider;
 import services.game.GameStateHolder;
 import views.teamchoice.PreBuildTeamView;
 
@@ -55,7 +55,7 @@ public class PreBuildTeamController extends Controller<PreBuildTeamView> {
      */
     public void deleteTeam(int index) {
         this.teams.remove(index);
-        TeamService.saveTeams(teams);
+        TeamProvider.saveTeams(teams);
         this.view.refreshTeams(teams);
     }
 
@@ -66,7 +66,7 @@ public class PreBuildTeamController extends Controller<PreBuildTeamView> {
      */
     public void renameTeam(int index, String newName) {
         teams.get(index).setName(newName);
-        TeamService.saveTeams(teams);
+        TeamProvider.saveTeams(teams);
         this.view.refreshTeamList();
     }
 
