@@ -21,7 +21,7 @@ public class TeamBugemon implements TeamBugemonDTO {
     /** List of Bugémons belonging to this team. */
     private final List<Bugemon> team;
 
-    /** The Bugémon currently active on the battlefield, or null if none. */
+    /** The Bugémon currently active on the battlefield. */
     private transient Bugemon onFieldBugemon = null;
 
     /** No-arg constructor. Initialises an empty team. */
