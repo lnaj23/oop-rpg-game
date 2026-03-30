@@ -1,7 +1,7 @@
 # Document de réalisation et conception (DRC)
 
 - Groupe : 5
-- Date : 09/03/2026
+
 
 ### Sommaire
 
