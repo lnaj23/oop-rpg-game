@@ -3,7 +3,7 @@ package services.game;
 import models.bugemon.TeamBugemon;
 import models.bugemon.dto.BugemonDTO;
 import models.game.Item;
-import services.dataprovider.TeamProvider;
+import services.dataprovider.TeamService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +18,7 @@ public class GameStateHolder {
 
     private TeamBugemon currentTeamPlayer;
 
-    private final List<TeamBugemon> savedTeams = new ArrayList<>(TeamProvider.loadTeams());
+    private final List<TeamBugemon> savedTeams = new ArrayList<>(TeamService.loadTeams());
 
     private GameStateHolder() {}
 

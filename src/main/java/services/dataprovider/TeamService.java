@@ -10,7 +10,7 @@ import java.util.List;
  * Acts as the single entry point for loading and saving teams.
  * This class is not intended to be instantiated.
  */
-public abstract class TeamProvider {
+public abstract class TeamService {
 
     /**
      * Loads all saved teams from persistent storage.

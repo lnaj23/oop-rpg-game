@@ -146,8 +146,7 @@ public class TeamPanelSubView {
 
     /**
      * Handles the confirm button click.
-     * In edit mode: saves changes to existing team and returns to prebuild screen.
-     * In create mode: opens dialog to save new team with custom name.
+     * Saves the team in edit mode or opens the naming dialog for a new team.
      */
     private void onConfirmClicked() {
         if (controller.getPlayerTeamSize() < MIN_TEAM_SIZE) {
@@ -158,8 +157,26 @@ public class TeamPanelSubView {
             controller.saveSelection(null);
             controller.goToPrebuildTeam();
         } else {
-            controller.saveTeamWithDialog();
+            confirmCreation();
         }
+    }
+
+    /**
+     * Opens a text input dialog to name the new team, then saves it.
+     */
+    private void confirmCreation() {
+        TextInputDialog dialog = new TextInputDialog("Mon equipe");
+        dialog.setTitle("Sauvegarder l'équipe");
+        dialog.setHeaderText("Donnez un nom à votre équipe (" + controller.getPlayerTeamSize() + " Bugémon(s))");
+        dialog.setContentText("Nom :");
+        dialog.initStyle(StageStyle.UNDECORATED);
+        dialog.setGraphic(null);
+        dialog.getDialogPane().getStylesheets().add(
+                Objects.requireNonNull(getClass().getResource(AppConfig.CSS_COMMON)).toExternalForm()
+        );
+        Optional<String> result = dialog.showAndWait();
+        if (result.isEmpty() || result.get().trim().isEmpty()) return;
+        controller.saveSelection(result.get().trim());
     }
 
     /**
