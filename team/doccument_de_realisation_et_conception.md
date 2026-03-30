@@ -148,7 +148,7 @@ Pour remédier à cela, nous avons réévalué ensemble le nombre d'heures pour 
 Dans notre nouvelle méthode de travail de la seconde itération, en limitant les sous-taches (qui ne sont pas définies explicitement) à 2h max, certain membre se rendent compte qu'ils finissent la tâche en entier sans pouvoir laisser de travail pour la prochaine paire pilote copilote. Ce qui explique pourquoi il y a 0 point pour certaines sous-tâches.
 
 Suite à notre réunion avec le coach, il a également été relevé une grande inégalité dans le nombre de commits entre les membres : certains avaient 25 commits ou plus tandis que d'autres en avaient 0 ou 1. Ce déséquilibre était en partie dû à une mauvaise pratique de l'itération 1, où au lieu de merger les branches vers le main, un membre du groupe se chargeait de copier-coller le code des branches directement sur le main, ce qui faisait que les commits sur les branches n'étaient pas comptabilisés. Ce problème a été corrigé durant cette seconde itération.
-Malgré cela, une grande inégalité persiste dans les commits.
+Malgré cela, une grande inégalité persiste dans les commits. Cela est dû au fait que certains membres du groupe sont trop investis et prennent des tâches qui ne leur sont pas attribuées. Nous en avons discuté en réunion et nous verrons si la situation s'améliore pour l'itération 3.
 ### Gestion des risques (R1, R2, R3)
 Pour l'histoire 8, nous avions attribué un risque R3. L'implémentation de l'EffectManager s'est avérée plus complexe que prévu notamment pour la gestion des effets temporaires et leur expiration, le risque aurait dû être évalué à R2.
 ### Commentaires sur la Burndown Chart
