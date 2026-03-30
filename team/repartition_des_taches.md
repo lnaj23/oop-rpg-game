@@ -1,7 +1,7 @@
 # Répartition des tâches développeur
 
 - Groupe : 05
-- Date : 13/03/2026
+- Date : 30/03/2026
 
 ### Sommaire
 
@@ -143,10 +143,10 @@ ___
   </thead>
   <tbody>
     <tr><td>Initialiser FightView et FightController (12/03 10h-11h)</td><td>Luqman</td><td>Maxime</td><td>1</td><td>1</td></tr>
-    <tr><td>Initialiser FightView et FightController (12/03 12h-14h)</td><td>Louai</td><td>Luqman</td><td>2</td><td>2</td></tr>
+    <tr><td>Initialiser FightView et FightController (12/03 12h-14h)</td><td>Luqman</td><td>Louai</td><td>2</td><td>2</td></tr>
     <tr><td>Initialiser FightView et FightController (12/03 17h-18h)</td><td>Maxime</td><td>Yanis</td><td>2</td><td>1</td></tr>
-    <tr><td>Updates des models actuels et ajout de nouveau models (13/03 10h-12h)</td><td>Louai</td><td>Maxime</td><td>2</td><td>2</td></tr>
-    <tr><td>Base du lien models — controller — vue (16/03 17h-19h)</td><td>Sajid</td><td>Maxime</td><td></td><td>2</td></tr>
+    <tr><td>Updates des models actuels et ajout de nouveau models (13/03 10h-12h)</td><td>Louai</td><td>Maxime</td><td>3</td><td>2</td></tr>
+    <tr><td>Base du lien models — controller — vue (16/03 17h-19h)</td><td>Sajid</td><td>Maxime</td><td>3</td><td>2</td></tr>
 </tbody>
 </table>
 
@@ -164,9 +164,9 @@ ___
     </tr>
   </thead>
   <tbody>
-    <tr><td>Amélioration lien models — controller — vue (17/03 08h-10h)</td><td>Mohamed</td><td>Enzo</td><td></td><td>2</td></tr>
-    <tr><td>Amélioration lien models — controller — vue (18/03 10h-12h)</td><td>Harry</td><td>Mohamed</td><td></td><td>2</td></tr>
-    <tr><td>Refactor Histoire 5</td><td>Maxime</td><td>Harry</td><td></td><td>2</td></tr>
+    <tr><td>Amélioration lien models — controller — vue (17/03 08h-10h)</td><td>Mohamed</td><td>Enzo</td><td>3</td><td>2</td></tr>
+    <tr><td>Amélioration lien models — controller — vue (18/03 10h-12h)</td><td>Harry</td><td>Mohamed</td><td>2</td><td>2</td></tr>
+    <tr><td>Refactor Histoire 5</td><td>Maxime</td><td>Harry</td><td>2</td><td>0</td></tr>
   </tbody>
 </table>
 
@@ -184,10 +184,10 @@ ___
     </tr>
   </thead>
   <tbody>
-    <tr><td>DamageCalculator, TypeEffectivenessService </td><td>Enzo</td><td>Luqman</td><td></td><td></td></tr>
-    <tr><td>Affichage du type de l'attaque</td><td>Luqman</td><td>Enzo</td><td></td><td></td></tr>
-    <tr><td>Couleur dans la SelectionView</td><td>Enzo</td><td>Harry</td><td></td><td></td></tr>
-    <tr><td>Refactor Histoire 6</td><td>Sajid</td><td>Enzo</td><td></td><td></td></tr>
+    <tr><td>DamageCalculator, TypeEffectivenessService </td><td>Enzo</td><td>Luqman</td><td>2</td><td>1</td></tr>
+    <tr><td>Affichage du type de l'attaque</td><td>Luqman</td><td>Enzo</td><td>2</td><td>1</td></tr>
+    <tr><td>Couleur dans la SelectionView</td><td>Enzo</td><td>Harry</td><td>1</td><td>1</td></tr>
+    <tr><td>Refactor Histoire 6</td><td>Sajid</td><td>Enzo</td><td>1</td><td>0</td></tr>
   </tbody>
 </table>
 
@@ -205,9 +205,9 @@ ___
     </tr>
   </thead>
   <tbody>
-    <tr><td>Détection target Effects + Ajout ActiveEffects</td><td>Alexandre</td><td>Zakaria</td><td> </td><td> </td></tr>
-    <tr><td>Application des effets avec EffectManager</td><td>Zakaria</td><td>Alexandre</td><td> </td><td> </td></tr>
-    <tr><td>Refactor Histoire 8</td><td>Sajid</td><td>Zakaria</td><td></td><td></td></tr>
+    <tr><td>Détection target Effects + Ajout ActiveEffects</td><td>Alexandre</td><td>Zakaria</td><td>2</td><td>2</td></tr>
+    <tr><td>Application des effets avec EffectManager</td><td>Zakaria</td><td>Alexandre</td><td>2</td><td>2</td></tr>
+    <tr><td>Refactor Histoire 8</td><td>Sajid</td><td>Zakaria</td><td>2</td><td>0</td></tr>
   </tbody>
 </table>
  
@@ -229,4 +229,7 @@ Avec cette nouvelle méthode de travail, on peut bien alterner pilot copilote et
 
 ### Risques et problèmes
 
+Malgré la nouvelle méthodologie de travail, on a débordé au niveau des heures, car finalement, nous avons eu un nombre d'histoires élevé et durant l'élaboration de la programmation des histoires, il y a beaucoup de tâches qui ont été mal fait donc on a dû rajouter du temps pour faire du refactoring.
+
+Certaines personnes n'ont pas respecté leurs tâches, les deadlines et aussi la disponibilité sur les tâches ce qui à amener à un bouleversement sur la répartition des taches par rapport à ce qui était prévu dans le Gantt.
 ___
