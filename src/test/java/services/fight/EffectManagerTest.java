@@ -97,15 +97,14 @@ public class EffectManagerTest extends TestCase {
 
     @Test
     public void testTemporaryModifierExpiredAfterOneTurn() {
-        // vague_rapide (index 1) = lanceur initiative +10 pendant 1 tour
         Bugemon player = fightMergeauVsLoopine.getOnFieldPlayerBugemon();
-        int initiativeBefore = player.getInitiative();
+        player.resetAllModifiers();
+        int baseInitiative = player.getInitiative();
 
-        fightMergeauVsLoopine.playerAttack(1); // vague_rapide → +10 appliqué → tick → turnsLeft passe à 1
-        fightMergeauVsLoopine.enemyAttackFromIAChoice();   // tour ennemi → tick → turnsLeft passe à 0 → expire
-
-        // l'initiative doit être revenue à la valeur de base
-        assertEquals(initiativeBefore, player.getInitiative());
+        int initiativeBeforeAttack = player.getInitiative();
+        fightMergeauVsLoopine.playerAttack(1);
+        fightMergeauVsLoopine.enemyAttackFromIAChoice();
+        assertEquals(initiativeBeforeAttack, player.getInitiative());
     }
     @Test
     public void testTemporaryModifierRemovedFromOngoingEffects() {
