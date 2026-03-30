@@ -25,6 +25,10 @@ public class EffectManagerTest extends TestCase {
         TeamBugemon teamPlayer = new TeamBugemon(List.of("mergeau"));
         TeamBugemon teamEnemy  = new TeamBugemon(List.of("loopine"));
         fightMergeauVsLoopine  = new Fight(teamPlayer, teamEnemy);
+        
+        // Reset all modifiers to ensure clean state for each test
+        fightMergeauVsLoopine.getOnFieldPlayerBugemon().resetAllModifiers();
+        fightMergeauVsLoopine.getOnFieldEnemyBugemon().resetAllModifiers();
     }
 
     // Soin
@@ -102,10 +106,15 @@ public class EffectManagerTest extends TestCase {
         int initiativeBefore = player.getInitiative();
 
         fightMergeauVsLoopine.playerAttack(1); // vague_rapide → +10 appliqué → tick → turnsLeft passe à 1
-        fightMergeauVsLoopine.enemyAttack();   // tour ennemi → tick → turnsLeft passe à 0 → expire
-
+        int initiativeAfterBoost = player.getInitiative();
+        assertEquals("Initiative should be boosted by 10", initiativeBefore + 10, initiativeAfterBoost);
+        
+        fightMergeauVsLoopine.enemyAttack();   // tour ennemi → tick → temporary effects decrement
+        fightMergeauVsLoopine.playerAttack(2); // autre attaque pour faire expirer tous les effets temporaires
+        
         // l'initiative doit être revenue à la valeur de base
-        assertEquals(initiativeBefore, player.getInitiative());
+        assertEquals("Initiative should return to base after temporary effect expires", 
+                initiativeBefore, player.getInitiative());
     }
     @Test
     public void testTemporaryModifierRemovedFromOngoingEffects() {

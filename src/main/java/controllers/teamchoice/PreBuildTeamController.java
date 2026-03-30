@@ -86,5 +86,13 @@ public class PreBuildTeamController extends Controller<PreBuildTeamView> {
         this.controllerManager.goToFight();
     }
 
+    /**
+     * Loads a saved team for editing and returns to the selection screen.
+     *
+     * @param index the index of the team to load
+     */
+    public void loadTeam(int index) {
+        this.controllerManager.openSelectionForEdit(index);
+    }
 
 }
