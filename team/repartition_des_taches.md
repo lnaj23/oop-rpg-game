@@ -1,13 +1,14 @@
 # Répartition des tâches développeur
 
 - Groupe : 05
-- Date : 30/03/2026
+- Date : 02/04/2026
 
 ### Sommaire
 
 - [Itération 0](#itération-0)
 - [Itération 1](#itération-1)
 - [Itération 2](#itération-2)
+- [Itération 3](#itération-3)
 
 
 ## Itération 0
@@ -232,4 +233,85 @@ Avec cette nouvelle méthode de travail, on peut bien alterner pilot copilote et
 Malgré la nouvelle méthodologie de travail, on a débordé au niveau des heures, car finalement, nous avons eu un nombre d'histoires élevé et durant l'élaboration de la programmation des histoires, il y a beaucoup de tâches qui ont été mal fait donc on a dû rajouter du temps pour faire du refactoring.
 
 Certaines personnes n'ont pas respecté leurs tâches, les deadlines et aussi la disponibilité sur les tâches ce qui à amener à un bouleversement sur la répartition des taches par rapport à ce qui était prévu dans le Gantt.
+___
+## Itération 3
+### Plan d'ensemble
+
+![Plan](gantt/plans/.jpg)
+
+### Tâches
+<table>
+    <tbody>
+        <tr><td>Vélocité :</td><td>28</td></tr>
+        <tr><td>Total Points réel :</td><td></td></tr>
+        <tr><td>Total Points estimé :</td><td>28</td></tr>
+    </tbody>
+</table>
+
+<table>
+  <thead>
+    <tr>
+      <th colspan="5" style="text-align: center;">HISTOIRE 7</th>
+    </tr>
+    <tr>
+      <th>Tâches</th>
+      <th>Pilote</th>
+      <th>Copilote</th>
+      <th>Points réels</th>
+      <th>Points estimés</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>View/Controller Victoire pour le vendredi 03/04 </td><td>Harry</td><td>Enzo</td><td></td><td></td></tr>
+    <tr><td>View/Controller Défaite pour le vendredi 03/04 </td><td>Enzo</td><td>Harry</td><td></td><td></td></tr>
+    <tr><td>View/Controller LevelUp pour le vendredi 03/04 </td><td>Maxime</td><td></td><td></td><td></td></tr>
+    <tr><td>Système d'exp pour le samedi 04/04</td><td>Zakaria</td><td></td><td></td><td></td></tr>
+    <tr><td>View/Controller Reward pour le dimanche 05/04</td><td>Luqman</td><td>Yanis</td><td></td><td></td></tr>
+    <tr><td>Calcule XP à la fin d'un combat + affichage LevelUp pour le mercredi 08/04</td><td>Alexandre</td><td>Enzo</td><td></td><td></td></tr>
+    <tr><td>Ajouter levelBugemon dans les View (deadline non définie)</td><td>Alexandre</td><td>Mohamed</td><td></td><td></td></tr>
+
+  </tbody>
+</table>
+
+<table>
+  <thead>
+    <tr>
+      <th colspan="5" style="text-align: center;">HISTOIRE 9</th>
+    </tr>
+    <tr>
+      <th>Tâches</th>
+      <th>Pilote</th>
+      <th>Copilote</th>
+      <th>Points réels</th>
+      <th>Points estimés</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Model TowerLevel pour tracker -> GameStateHolder pour vendredi 03/04</td><td>Mohamed</td><td></td><td></td><td></td></tr>
+    <tr><td>Implementer TowerLevel dans FightView/Controller pour Dimanche 05/04</td><td>Luqman</td><td>Yanis</td><td></td><td></td></tr>
+  </tbody>
+</table>
+
+<table>
+  <thead>
+    <tr>
+      <th colspan="5" style="text-align: center;">HISTOIRE 10</th>
+    </tr>
+    <tr>
+      <th>Tâches</th>
+      <th>Pilote</th>
+      <th>Copilote</th>
+      <th>Points réels</th>
+      <th>Points estimés</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Initialisation de l'inventaire de démarrage (deadline non définie) </td><td>Sajid</td><td></td><td></td><td></td></tr>
+    <tr><td>Consommation des items (deadline non définie) </td><td>Sajid</td><td></td><td></td><td></td></tr>
+  </tbody>
+</table>
+
+### Discussions de contenu
+
+### Risques et problèmes
 ___
