@@ -13,6 +13,7 @@ public class VictoryController extends Controller<VictoryView> {
     public VictoryController(ControllerManager metaController, View view) {
         super(metaController, (VictoryView) view);
     }
+
     /** Navigates back to the main menu. */
     public void goToMenu() {
         this.controllerManager.goToTitleScreen();
