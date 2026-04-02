@@ -11,7 +11,7 @@ import java.io.IOException;
 
 public class DefeatView extends View<DefeatController> {
     @FXML private Button btnReessaye;
-    @FXML private Label victoryLabel;
+    @FXML private Label defeatLabel;
     @FXML private Button btnRetour;
     /**
      Le cours dit que le chargement FXML peut échouer si le fichier n'existe pas

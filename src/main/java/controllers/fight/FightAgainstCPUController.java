@@ -207,7 +207,7 @@ public class FightAgainstCPUController extends Controller<FightView> implements 
         if (!fight.isBattleOver()) return;
         view.setButtonsDisabled(true);
         if (fight.playerWon()) view.showMessageReturnTitle("Victoire", "Vous avez gagné le combat !");
-        else view.showMessageReturnTitle("Défaite", "Vous avez perdu le combat.");
+        else controllerManager.goToDefeatScreen();
     }
 
     private void switchPlayerBugemon(String selectedId) throws BugemonNotInTeamException {

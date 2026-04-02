@@ -15,7 +15,7 @@
     <VBox alignment="TOP_CENTER">
         <Label fx:id="defeatLabel" text="T'ES NUL !" textAlignment="CENTER" />
         <VBox alignment="CENTER" spacing="25.0" />
-        <Button fx:id="btnRéessaye" mnemonicParsing="false" text="Réessayer" />
+        <Button fx:id="btnReessaye" mnemonicParsing="false" text="Réessayer" />
         <Button fx:id="btnRetour" mnemonicParsing="false" text="Retour au menu" />
     </VBox>
 </StackPane>
