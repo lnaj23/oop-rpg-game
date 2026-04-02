@@ -47,12 +47,34 @@ public class GameStateHolder {
         }
         return instance;
     }
+    /**
+     * Sets the current level tower for the game session.
+     * <p>
+     * Stores the tower instance so it can be accessed across controllers
+     * during tower progression.
+     * </p>
+     *
+     * @param levelTower the {@link LevelTower} instance to set
+     */
     public void setCurrentLevelTower(LevelTower levelTower) {
         this.currentLevelTower = levelTower;
     }
+
+    /**
+     * Returns the current level tower.
+     *
+     * @return the active {@link LevelTower} instance, or {@code null} if none is set
+     */
     public LevelTower getCurrentLevelTower() {
         return currentLevelTower;
     }
+
+    /**
+     * Clears the current level tower from the session state.
+     * <p>
+     * Should be called when exiting the tower or returning to the title screen.
+     * </p>
+     */
     public void clearCurrentLevelTower() {
         this.currentLevelTower = null;
     }
