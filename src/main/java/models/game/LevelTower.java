@@ -39,6 +39,12 @@ public class LevelTower {
     public int getCurrentStep() {
         return currentStep;
     }
+    public TowerNodeType getCurrentStepType() {
+        if (finished) {
+            throw new IllegalStateException("La tour est terminée.");
+        }
+        return FLOOR_PATTERN.get(currentStep);
+    }
 
 
 }
