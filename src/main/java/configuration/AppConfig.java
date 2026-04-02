@@ -37,6 +37,7 @@ public abstract class AppConfig {
     public static final String FXML_SWITCHBUGEMON = props.getProperty("fxml.switchbugemon");
     public static final String FXML_PREBUILDTEAM  = props.getProperty("fxml.prebuildteam");
     public static final String FXML_SELECTION     = props.getProperty("fxml.selection");
+    public static final String FXML_LEVELUP       = props.getProperty("fxml.levelup");
 
     // Assets PNG
     public static final String PNG_PREFIX     = props.getProperty("assets.png.prefix");
