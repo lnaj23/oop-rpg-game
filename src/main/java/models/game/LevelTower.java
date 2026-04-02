@@ -45,6 +45,20 @@ public class LevelTower {
         }
         return FLOOR_PATTERN.get(currentStep);
     }
+    public boolean isFinished() {
+        return finished;
+    }
+    public boolean isBossStep() {
+        return getCurrentStepType() == TowerNodeType.BOSS;
+    }
+
+    public boolean isRewardStep() {
+        return getCurrentStepType() == TowerNodeType.REWARD;
+    }
+
+    public boolean isCombatStep() {
+        return getCurrentStepType() == TowerNodeType.COMBAT;
+    }
 
 
 }
