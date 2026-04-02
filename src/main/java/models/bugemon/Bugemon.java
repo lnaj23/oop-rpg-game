@@ -2,7 +2,7 @@ package models.bugemon;
 
 import com.google.gson.annotations.SerializedName;
 import models.bugemon.dto.BugemonDTO;
-
+import models.game.Item;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -306,5 +306,27 @@ public class Bugemon implements BugemonDTO {
         for (Attack attack : this.attacks) {
             attack.setColor(getTypeColorOfBugemon(attack));
         }
+    }
+
+    public void heal(int healAmount){
+        this.stats.heal(healAmount);
+    }
+
+    public void updatestatModifierFromItem(Item item){
+        switch (item.getStatToModifie()){
+            case "attaque":
+                this.stats.updateAttackModifierFromItem(Integer.parseInt(item.getModifier()));
+                break;
+            case "defense":
+                this.stats.updateDefenseModifierFromItem(Integer.parseInt(item.getModifier()));
+                break;
+            case "initiative":
+                this.stats.updateInitiativeModifierFromItem(Integer.parseInt(item.getModifier()));
+                break;
+        }
+    }
+
+    public void cancelDebuff(){
+        this.stats.cancelDebuff();
     }
 }
