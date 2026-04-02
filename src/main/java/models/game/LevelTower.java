@@ -60,5 +60,40 @@ public class LevelTower {
         return getCurrentStepType() == TowerNodeType.COMBAT;
     }
 
+    public void advance() {
+        if (finished) {
+            return;
+        }
+        currentStep++;
+        if (currentStep >= FLOOR_PATTERN.size()) { // étage d'après le pattern, on passe à l'étage suivant
+            currentStep = 0;
+            currentFloor++;
+            if (currentFloor > LAST_FLOOR) { // on a dépassé le dernier étage, la tour est finie
+                finished = true;
+            }
+        }
+    }
+    public void retreat() {
+        if (finished) {
+            return;
+        }
+        currentStep--;
+        if (currentStep < 0) {
+            currentStep = FLOOR_PATTERN.size() - 1;
+            currentFloor--;
+            if (currentFloor < FIRST_FLOOR) {
+                currentFloor = FIRST_FLOOR;
+                currentStep = 0;
+            }
+        }
+    }
 
+    public void resetAll() {
+        this.currentFloor = FIRST_FLOOR;
+        this.currentStep = 0;
+        this.finished = false;
+    }
+    public void resetFloor() {
+        this.currentStep = 0;
+    }
 }
