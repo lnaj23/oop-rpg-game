@@ -1,19 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
 
 <?import java.net.URL?>
-<VBox spacing="10" alignment="CENTER" prefWidth="450" prefHeight="400"
-      style="-fx-padding: 20; -fx-background-color: #2b2b2b;"
-      xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox alignment="CENTER" prefHeight="417.0" prefWidth="799.0" spacing="10" style="-fx-padding: 20; -fx-background-color: #2b2b2b;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1">
     <stylesheets>
         <URL value="@/css/common.css" />
         <URL value="@/css/teamchoice/prebuildteam.css" />
     </stylesheets>
-    <Label text="Sac d'objets" style="-fx-text-fill: white; -fx-font-size: 18;"/>
-    <ListView fx:id="itemListView" VBox.vgrow="ALWAYS" />
-    <HBox spacing="10" alignment="CENTER">
+    <Label style="-fx-text-fill: white; -fx-font-size: 18;" text="Sac d'objets" />
+    <ListView fx:id="itemListView" prefHeight="286.0" prefWidth="466.0" VBox.vgrow="ALWAYS" />
+    <HBox alignment="CENTER" spacing="10">
         <Button fx:id="btnClose" text="Fermer" />
-        <Button fx:id="btnUse" text="Utiliser" disable="true" />
+        <Button fx:id="btnUse" disable="true" text="Utiliser" />
     </HBox>
 </VBox>
