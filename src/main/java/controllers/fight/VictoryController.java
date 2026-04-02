@@ -5,13 +5,15 @@ import controllers.ControllerManager;
 import views.View;
 import views.fight.VictoryView;
 
+import java.io.IOException;
+
 public class VictoryController extends Controller<VictoryView> {
     /**
      * @param metaController the central controller handling navigation
-     * @param view           the view managed by this controller
      */
-    public VictoryController(ControllerManager metaController, View view) {
-        super(metaController, (VictoryView) view);
+    public VictoryController(ControllerManager metaController) throws IOException {
+        super(metaController, new VictoryView());
+        this.view.setController(this);
     }
 
     /** Navigates back to the main menu. */
