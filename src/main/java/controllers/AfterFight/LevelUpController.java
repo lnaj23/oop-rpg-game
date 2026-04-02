@@ -14,6 +14,6 @@ public class LevelUpController extends Controller<LevelUpView> {
     }
 
     public void onOptionChosen(int option) {
-        model.applyLevelUpChoice(option);
+      // model.applyLevelUpChoice(option);
     }
 }
