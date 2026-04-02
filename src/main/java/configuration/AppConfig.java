@@ -38,6 +38,7 @@ public abstract class AppConfig {
     public static final String FXML_PREBUILDTEAM  = props.getProperty("fxml.prebuildteam");
     public static final String FXML_SELECTION     = props.getProperty("fxml.selection");
     public static final String FXML_VICTORY       = props.getProperty("fxml.victory");
+    public static final String FXML_DEFEAT        = props.getProperty("fxml.defeat") ;
 
     // Assets PNG
     public static final String PNG_PREFIX     = props.getProperty("assets.png.prefix");

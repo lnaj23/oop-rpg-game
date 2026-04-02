@@ -183,6 +183,7 @@ public class ControllerManager {
         this.switchScene(Scenes.TITLE_SCREEN);
     }
 
+
     public void onSwitchBugemonChosen(String selectedId) {
         fightAgainstCPUController.onSwitchBugemonChosen(
                 selectedId,

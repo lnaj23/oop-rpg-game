@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<?import java.net.URL?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<StackPane prefHeight="892.0" prefWidth="1288.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1">
+    <stylesheets>
+        <URL value="@../../css/common.css" />
+    </stylesheets>
+    <VBox alignment="TOP_CENTER">
+        <Label fx:id="defeatLabel" text="T'ES NUL !" textAlignment="CENTER" />
+        <VBox alignment="CENTER" spacing="25.0" />
+        <Button fx:id="btnRéessaye" mnemonicParsing="false" text="Réessayer" />
+        <Button fx:id="btnRetour" mnemonicParsing="false" text="Retour au menu" />
+    </VBox>
+</StackPane>
+
+
+
