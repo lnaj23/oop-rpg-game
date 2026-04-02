@@ -4,7 +4,7 @@ import models.bugemon.TeamBugemon;
 import models.bugemon.dto.BugemonDTO;
 import models.game.Item;
 import services.dataprovider.TeamProvider;
-
+import models.game.LevelTower;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,6 +13,7 @@ import java.util.List;
  * Used to pass model objects between controllers without coupling them directly.
  */
 public class GameStateHolder {
+    private LevelTower currentLevelTower;
 
     private static GameStateHolder instance;
 
@@ -46,6 +47,16 @@ public class GameStateHolder {
         }
         return instance;
     }
+    public void setCurrentLevelTower(LevelTower levelTower) {
+        this.currentLevelTower = levelTower;
+    }
+    public LevelTower getCurrentLevelTower() {
+        return currentLevelTower;
+    }
+    public void clearCurrentLevelTower() {
+        this.currentLevelTower = null;
+    }
+
 
     public List<TeamBugemon> getSavedTeams() {
         return savedTeams;
