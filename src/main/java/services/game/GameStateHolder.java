@@ -68,6 +68,19 @@ public class GameStateHolder {
     public LevelTower getCurrentLevelTower() {
         return currentLevelTower;
     }
+    /**
+     * Advances the current level tower to the next step.
+     * <p>
+     * Delegates to the {@link LevelTower#advance()} method to progress the player
+     * through the tower's floors and steps. Should be called after each tower node
+     * is completed.
+     * </p>
+     *
+     * @throws NullPointerException if the current level tower is not set
+     */
+    public void advanceStep(){
+        this.currentLevelTower.advance();
+    }
 
     /**
      * Clears the current level tower from the session state.
