@@ -14,13 +14,13 @@ import java.util.List;
 
 public class VictoryView extends View<VictoryController> {
 
-    @FXML private Button continueBtw;
+    @FXML private Button continueBtn;
     @FXML private VBox bugemonXpList;
     @FXML private Label gainedEXPLabel;
 
     public VictoryView() throws IOException {
         super(AppConfig.FXML_VICTORY);
-        this.continueBtw.setOnAction(e -> this.controller.goToMenu());
+        this.continueBtn.setOnAction(e -> this.controller.continueTower());
     }
 
     @Override
