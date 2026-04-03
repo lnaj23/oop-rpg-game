@@ -10,17 +10,18 @@ import views.View;
 import java.io.IOException;
 
 public class DefeatView extends View<DefeatController> {
-    @FXML private Button btnReessaye;
-    @FXML private Label defeatLabel;
-    @FXML private Button btnRetour;
+    @FXML private Button retryBtn;
+    @FXML private Button giveUpBtn;
+
     /**
      Le cours dit que le chargement FXML peut échouer si le fichier n'existe pas
      */
     public DefeatView() throws IOException{
         super(AppConfig.FXML_DEFEAT);
-        this.btnReessaye.setOnAction(M -> this.controller.goToFight());
-        this.btnRetour.setOnAction(M -> this.controller.goToMenu());
+        this.retryBtn.setOnAction(M -> this.controller.goToFight());
+        this.giveUpBtn.setOnAction(M -> this.controller.goToMenu());
     }
+
     @Override
     protected String getTitle() {
         return "Bugémon - Défaite...";

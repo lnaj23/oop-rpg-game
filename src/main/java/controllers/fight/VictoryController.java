@@ -2,10 +2,12 @@ package controllers.fight;
 
 import controllers.Controller;
 import controllers.ControllerManager;
-import views.View;
+import models.bugemon.dto.BugemonDTO;
+import services.game.GameStateHolder;
 import views.fight.VictoryView;
 
 import java.io.IOException;
+import java.util.List;
 
 public class VictoryController extends Controller<VictoryView> {
     /**
@@ -14,6 +16,14 @@ public class VictoryController extends Controller<VictoryView> {
     public VictoryController(ControllerManager metaController) throws IOException {
         super(metaController, new VictoryView());
         this.view.setController(this);
+    }
+
+    public void updateVictoryView() {
+        List<BugemonDTO> team = GameStateHolder.getInstance()
+                .getCurrentTeamPlayer()
+                .getTeamDTO();
+        this.view.showBugemonXpList(team);
+        this.view.updateEXPGainedLabel(42);
     }
 
     /** Navigates back to the main menu. */

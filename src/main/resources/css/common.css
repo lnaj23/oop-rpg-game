@@ -50,3 +50,14 @@
     -fx-font-size: 14px;
 }
 
+#retryBtn {
+    -fx-background-color: #e74c3c;
+}
+
+#giveUpBtn {
+    -fx-background-color: #7f8c8d;
+}
+
+#continueBtw {
+    -fx-background-color: #2ecc71;
+}

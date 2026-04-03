@@ -185,6 +185,7 @@ public class ControllerManager {
 
 
     public void goToVictoryScreen() {
+        this.victoryController.updateVictoryView();
         this.switchScene(Scenes.VICTORY);
     }
 
