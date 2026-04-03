@@ -103,7 +103,7 @@ public class FightAgainstCPUController extends Controller<FightView> implements 
 
     @Override
     public void onForfeitClicked() {
-        this.view.showMessageReturnTitle("Abandon", "Vous avez abandonné le combat.");
+        this.controllerManager.goToDefeatScreen();
     }
 
     public void onItemChosen(Item item) {

@@ -63,6 +63,9 @@ public class Bugemon implements BugemonDTO {
     public void setHasParticipedToTrue() {
         this.hasParticiped = true;
     }
+    public void setHasParticipedToFalse() {
+        this.hasParticiped = false;
+    }
     @Override public boolean isHasParticipedToTrue() {
         return this.hasParticiped;
     }
