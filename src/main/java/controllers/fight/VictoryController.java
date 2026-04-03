@@ -19,11 +19,12 @@ public class VictoryController extends Controller<VictoryView> {
         this.view.setController(this);
     }
 
-    public void updateVictoryView(int TotalEXP) {
+    public void beginEXPDistribution(int TotalEXP) {
         List<BugemonDTO> team = GameStateHolder.getInstance().getCurrentTeamPlayer().getTeamDTO();
         this.view.updateEXPGainedLabel(TotalEXP);
         int expForEachBug = distributeEXPEvenly(TotalEXP);
         this.view.showBugemonXpList(team, expForEachBug);
+        giveBugemonEXPIfTheyParticipated(expForEachBug);
     }
 
     private int distributeEXPEvenly(int TotalEXP){
@@ -34,8 +35,16 @@ public class VictoryController extends Controller<VictoryView> {
                 count++;
             }
         }
-
         return count != 0 ? TotalEXP / count : 0 ;
+    }
+
+    private void giveBugemonEXPIfTheyParticipated(int expForEachBug) {
+        List<Bugemon> team = GameStateHolder.getInstance().getCurrentTeamPlayer().getTeam();
+        for(Bugemon bug : team){
+            if (bug.isHasParticipedToTrue()){
+                //TODO : lui donner l'exp et s'il levelup passer sur levelupView pour ce bugemon
+            }
+        }
     }
 
     /** Navigates back to the main menu. */
