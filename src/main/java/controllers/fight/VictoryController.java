@@ -49,6 +49,6 @@ public class VictoryController extends Controller<VictoryView> {
 
     /** Navigates back to the main menu. */
     public void goToMenu() {
-        this.controllerManager.goToTitleScreen();
+        this.controllerManager.goToFightAgainstCPU();
     }
 }

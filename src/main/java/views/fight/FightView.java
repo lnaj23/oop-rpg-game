@@ -149,6 +149,9 @@ public class FightView extends View<Controller> {
                 bindTeamSpriteEvents(imgView, bugemon);
                 imgView.setUserData(bugemon);
                 imgView.setScaleX(-1);
+                if (bugemon.isKO()){
+                    imgView.setEffect(new ColorAdjust(0, -1, 0, 0));
+                }
             }
 
             grid.add(imgView, i % 3, i / 3);
