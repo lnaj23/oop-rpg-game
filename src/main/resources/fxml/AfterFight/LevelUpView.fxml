@@ -2,13 +2,12 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1">
-      <AnchorPane layoutX="-14.0" prefHeight="442.0" prefWidth="653.0" style="fx-text-fill: #3498DB;">
+      <AnchorPane layoutX="-14.0" prefHeight="442.0" prefWidth="653.0" style="-fx-text-fill: #3498DB;">
             <Button fx:id="btnOption1" layoutX="122.0" layoutY="318.0" mnemonicParsing="false" style="-fx-background-color: #4CAF50;" text="Option 1">
          <font>
             <Font size="22.0" />
@@ -22,14 +21,12 @@
             <Font size="22.0" />
          </font></Button>
             <Label layoutX="49.0" layoutY="380.0" prefHeight="26.0" prefWidth="317.0" text="Choisir 1 bonus parmi 5. HP regénérés automatiquement." />
-            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="399.0" layoutY="116.0" pickOnBounds="true" preserveRatio="true">
-                  <Image url="@../../Assets/png/florachu.png" />
-            </ImageView>
-            <Label id="btnOption1" layoutX="65.0" layoutY="116.0" prefHeight="32.0" prefWidth="298.0" style="fx-text-field: #F1C40F;" text="Florachu a atteint le niveau 5 !">
+            <ImageView fx:id="bugemonImage" fitHeight="150.0" fitWidth="200.0" layoutX="399.0" layoutY="116.0" pickOnBounds="true" preserveRatio="true" />
+            <Label fx:id="levelUpLabel" layoutX="65.0" layoutY="116.0" prefHeight="32.0" prefWidth="298.0" style="-fx-text-fill: #F1C40F;">
          <font>
             <Font size="22.0" />
          </font></Label>
-            <Label layoutX="65.0" layoutY="178.0" prefHeight="32.0" prefWidth="307.0" text="Choisissez une stat à améliorer">
+            <Label layoutX="65.0" layoutY="178.0" prefHeight="32.0" prefWidth="307.0" style="-fx-text-fill: #F1C40F;" text="Choisissez une stat à améliorer">
          <font>
             <Font size="22.0" />
          </font></Label>
