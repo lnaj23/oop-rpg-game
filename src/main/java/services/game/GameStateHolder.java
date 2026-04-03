@@ -4,7 +4,7 @@ import models.bugemon.TeamBugemon;
 import models.bugemon.dto.BugemonDTO;
 import models.game.Item;
 import services.dataprovider.TeamProvider;
-
+import models.game.LevelTower;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,6 +13,7 @@ import java.util.List;
  * Used to pass model objects between controllers without coupling them directly.
  */
 public class GameStateHolder {
+    private LevelTower currentLevelTower;
 
     private static GameStateHolder instance;
 
@@ -46,6 +47,51 @@ public class GameStateHolder {
         }
         return instance;
     }
+    /**
+     * Sets the current level tower for the game session.
+     * <p>
+     * Stores the tower instance so it can be accessed across controllers
+     * during tower progression.
+     * </p>
+     *
+     * @param levelTower the {@link LevelTower} instance to set
+     */
+    public void setCurrentLevelTower(LevelTower levelTower) {
+        this.currentLevelTower = levelTower;
+    }
+
+    /**
+     * Returns the current level tower.
+     *
+     * @return the active {@link LevelTower} instance, or {@code null} if none is set
+     */
+    public LevelTower getCurrentLevelTower() {
+        return currentLevelTower;
+    }
+    /**
+     * Advances the current level tower to the next step.
+     * <p>
+     * Delegates to the {@link LevelTower#advance()} method to progress the player
+     * through the tower's floors and steps. Should be called after each tower node
+     * is completed.
+     * </p>
+     *
+     * @throws NullPointerException if the current level tower is not set
+     */
+    public void advanceStep(){
+        this.currentLevelTower.advance();
+    }
+
+    /**
+     * Clears the current level tower from the session state.
+     * <p>
+     * Should be called when exiting the tower or returning to the title screen.
+     * </p>
+     */
+    public void clearCurrentLevelTower() {
+        this.currentLevelTower = null;
+    }
+
 
     public List<TeamBugemon> getSavedTeams() {
         return savedTeams;
