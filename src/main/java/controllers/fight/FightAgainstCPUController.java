@@ -79,7 +79,6 @@ public class FightAgainstCPUController extends Controller<FightView> implements 
     }
 
     public void gotoTitleScreen() {
-        GameStateHolder.getInstance().clearCurrentTeamPlayer();
         this.controllerManager.goToTitleScreen();
     }
 
