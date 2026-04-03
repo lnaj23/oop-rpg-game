@@ -28,18 +28,18 @@ public class VictoryView extends View<VictoryController> {
         return "Bugémon - Victoire";
     }
 
-    public void showBugemonXpList(List<BugemonDTO> bugemons) {
+    public void showBugemonXpList(List<BugemonDTO> bugemons, int expForEachBug) {
         bugemonXpList.getChildren().clear();
         for (BugemonDTO b : bugemons) {
-            String expGainedByThisBugemon = "50";
+            int expGainedByThisBugemon = b.isHasParticipedToTrue() ? expForEachBug : 0;
             Label l = new Label(b.getName() + ": (" + b.getcurrenPv() + "/" + b.getPv() + ") + " + expGainedByThisBugemon + "XP");
             l.setStyle("-fx-text-fill: white; -fx-font-size: 16px;");
             bugemonXpList.getChildren().add(l);
         }
     }
 
-    public void updateEXPGainedLabel(int expGained) {
-        String txt = "XP gagnée : " + expGained;
+    public void updateEXPGainedLabel(int TotalEXP) {
+        String txt = "XP gagnée : " + TotalEXP;
         gainedEXPLabel.setText(txt);
     }
 }

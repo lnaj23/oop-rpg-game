@@ -88,4 +88,5 @@ public interface BugemonDTO {
      */
     String getActifModifierAsStringToDisplay();
 
+    boolean isHasParticipedToTrue();
 }
