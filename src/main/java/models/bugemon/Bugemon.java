@@ -246,7 +246,7 @@ public class Bugemon implements BugemonDTO {
      *
      * @return true if current HP is 0
      */
-    public boolean isKO() {
+    @Override public boolean isKO() {
         return stats.getCurrentPv() == 0;
     }
 

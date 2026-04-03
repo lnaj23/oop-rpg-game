@@ -55,7 +55,8 @@ public class ControllerManager {
         this.selectionController = new SelectionController(this);
         this.fightAgainstCPUController = new FightAgainstCPUController(this);
         this.victoryController = new VictoryController(this);
-        this.defeatController = new DefeatController(this);    }
+        this.defeatController = new DefeatController(this);
+    }
 
     /**
      * Starts the application by showing the menu and maximizing the window.
