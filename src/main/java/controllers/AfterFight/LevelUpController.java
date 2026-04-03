@@ -34,6 +34,7 @@ public class LevelUpController extends Controller<LevelUpView> {
       // model.applyLevelUpChoice(option);
     }
 
+    private BugemonDTO levelUpBugemon;
     /**
      * Updates the level up screen with the Bugemon sprite
      * and the text indicating its new level.
@@ -42,6 +43,7 @@ public class LevelUpController extends Controller<LevelUpView> {
      * @param level the new level reached by the Bugemon
      */
     public void setBugemonLevelUp(BugemonDTO bugemon, int level) {
+        this.levelUpBugemon = bugemon;
         view.updateBugemonSprite(bugemon);
         view.updateLevelUpText(bugemon, level);
     }
