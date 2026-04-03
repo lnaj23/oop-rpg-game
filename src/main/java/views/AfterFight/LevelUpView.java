@@ -20,6 +20,8 @@ public class LevelUpView extends View<LevelUpController> {
     @FXML private Button btnOption2;
     @FXML private Button btnOption3;
 
+    @FXML private ImageView bugemonImage;
+    @FXML private Label levelUpLabel;
     /**
      * Creates the level up view by loading its FXML file.
      *
@@ -40,7 +42,6 @@ public class LevelUpView extends View<LevelUpController> {
         btnOption3.setOnAction(e -> controller.onOptionChosen(3));
     }
 
-    @FXML private ImageView bugemonImage;
     /**
      * Updates the displayed sprite of the Bugemon that leveled up.
      *
@@ -52,15 +53,13 @@ public class LevelUpView extends View<LevelUpController> {
         bugemonImage.setImage(img);
     }
 
-    @FXML private Label levelUpLabel;
     /**
      * Updates the level up message with the Bugemon name and its new level.
      *
      * @param bugemon the Bugemon that leveled up
-     * @param level the new level reached
      */
-    public void updateLevelUpText(BugemonDTO bugemon, int level) {
-        levelUpLabel.setText(bugemon.getName() + " a atteint le niveau " + level + " !");
+    public void updateLevelUpText(BugemonDTO bugemon) {
+        levelUpLabel.setText(bugemon.getName() + " a atteint le niveau " + bugemon.getlevel() + " !");
     }
 
     /**

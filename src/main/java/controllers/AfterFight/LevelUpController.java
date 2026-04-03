@@ -2,7 +2,7 @@ package controllers.AfterFight;
 
 import controllers.Controller;
 import controllers.ControllerManager;
-import models.bugemon.dto.BugemonDTO;
+import models.bugemon.Bugemon;
 import views.AfterFight.LevelUpView;
 
 import java.io.IOException;
@@ -14,6 +14,7 @@ import java.io.IOException;
  */
 public class LevelUpController extends Controller<LevelUpView> {
 
+    private Bugemon levelUpBugemon;
     /**
      * Creates the controller and initializes the associated level up view.
      *
@@ -31,21 +32,19 @@ public class LevelUpController extends Controller<LevelUpView> {
      * @param option the chosen option number
      */
     public void onOptionChosen(int option) {
-      // model.applyLevelUpChoice(option);
+      // model.applyLevelUpChoice(option, levelUpbugemon);
     }
 
-    private BugemonDTO levelUpBugemon;
     /**
      * Updates the level up screen with the Bugemon sprite
      * and the text indicating its new level.
      *
      * @param bugemon the Bugemon that has leveled up
-     * @param level the new level reached by the Bugemon
      */
-    public void setBugemonLevelUp(BugemonDTO bugemon, int level) {
+    public void setBugemonLevelUp(Bugemon bugemon) {
         this.levelUpBugemon = bugemon;
         view.updateBugemonSprite(bugemon);
-        view.updateLevelUpText(bugemon, level);
+        view.updateLevelUpText(bugemon);
     }
 
     /**

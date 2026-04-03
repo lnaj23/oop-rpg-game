@@ -59,6 +59,7 @@ public class Bugemon implements BugemonDTO {
 
     private List<ActiveEffect> ongoingEffects = new ArrayList<>();
 
+    private int level;
     /**
      * Copy constructor. Creates a deep copy of the given Bugémon.
      * Used by the BugemonProvider so two teams don't share the same Bugémon in memory.
@@ -76,6 +77,7 @@ public class Bugemon implements BugemonDTO {
         this.starter  = other.starter;
         this.isPlayer = other.isPlayer;
         this.Color = other.Color;
+        this.level = other.level;
         initAttackColors();
     }
 
@@ -181,6 +183,10 @@ public class Bugemon implements BugemonDTO {
         return this.stats.getActifModifierAsStringToDisplay();
     }
 
+    @Override
+    public int getlevel(){
+        return level;
+    }
     /**
      * Adds a new active effect to this Bugémon's ongoing effects list.
      *
