@@ -1,11 +1,8 @@
 package controllers;
 
-import controllers.fight.FightAgainstCPUController;
-import controllers.fight.ItemChoiceController;
-import controllers.fight.SwitchBugemonController;
+import controllers.fight.*;
 import controllers.teamchoice.PreBuildTeamController;
 import controllers.teamchoice.SelectionController;
-import controllers.fight.DefeatController;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -33,6 +30,7 @@ public class ControllerManager {
         PREBUILD_TEAM,
         SELECTION,
         FIGHT_AGAINST_CPU,
+        VICTORY,
         DEFEAT
     }
 
@@ -41,6 +39,7 @@ public class ControllerManager {
     private final PreBuildTeamController preBuildTeamController;
     private final SelectionController selectionController;
     private final FightAgainstCPUController fightAgainstCPUController;
+    private final VictoryController victoryController;
     private final DefeatController defeatController;
 
     /**
@@ -55,6 +54,7 @@ public class ControllerManager {
         this.preBuildTeamController = new PreBuildTeamController(this);
         this.selectionController = new SelectionController(this);
         this.fightAgainstCPUController = new FightAgainstCPUController(this);
+        this.victoryController = new VictoryController(this);
         this.defeatController = new DefeatController(this);    }
 
     /**
@@ -77,6 +77,7 @@ public class ControllerManager {
             case PREBUILD_TEAM -> this.preBuildTeamController.show(PrimaryStage);
             case SELECTION -> this.selectionController.show(PrimaryStage);
             case FIGHT_AGAINST_CPU -> this.fightAgainstCPUController.show(PrimaryStage);
+            case VICTORY -> this.victoryController.show(PrimaryStage);
             case DEFEAT -> this.defeatController.show(PrimaryStage);
             default -> throw new IllegalArgumentException("Invalid scene: " + scene);
         }
@@ -181,6 +182,12 @@ public class ControllerManager {
         this.fightAgainstCPUController.setFight();
         this.switchScene(Scenes.FIGHT_AGAINST_CPU);
     }
+
+
+    public void goToVictoryScreen() {
+        this.switchScene(Scenes.VICTORY);
+    }
+
 
     public void goToDefeatScreen() {
         this.switchScene(Scenes.DEFEAT);
