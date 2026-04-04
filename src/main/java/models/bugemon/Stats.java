@@ -168,7 +168,7 @@ public class Stats {
      * @param amount the attack bonus to add
      */
     public void addPermanentAttack(int amount) {
-        this.attaque += amount;
+        this.attack += amount;
     }
 
     /**
