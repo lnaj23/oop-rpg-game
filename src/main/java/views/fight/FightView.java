@@ -75,6 +75,8 @@ public class FightView extends View<Controller> {
     /** 2×3 grid displaying the enemy's team sprites. */
     @FXML private GridPane enemyGrid;
 
+    @FXML private Label floorInfoLabel;
+
 
     /**
      * Constructs the view by loading the FXML and binding all button actions.
@@ -338,6 +340,10 @@ public class FightView extends View<Controller> {
         view.setFitWidth(size);
         view.setPreserveRatio(true);
         return view;
+    }
+
+    public void updateFloorInfo(int floor, int step) {
+        floorInfoLabel.setText("Étage " + floor + " — Étape " + step + "/6");
     }
 
 }

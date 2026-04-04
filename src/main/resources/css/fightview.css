@@ -127,3 +127,8 @@
     -fx-background-radius: 0;
     -fx-background-insets: 0;
 }
+.floor-info-label {
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-font-family: "Arial";
+}

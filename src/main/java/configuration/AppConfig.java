@@ -53,7 +53,4 @@ public abstract class AppConfig {
     public static final int    ENEMY_REACT_TIME      = Integer.parseInt(props.getProperty("game.fight.enemy_react_time"));
     public static final double DEATH_DISPLAY_TIME    = Double.parseDouble(props.getProperty("game.fight.death_display_time"));
 
-    public static List<String> getEnemyTeam() {
-        return Arrays.asList(props.getProperty("game.fight.enemy_team").split(","));
-    }
 }
