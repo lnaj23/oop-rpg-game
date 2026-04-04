@@ -12,6 +12,7 @@ import models.bugemon.Bugemon;
 import models.game.Fight;
 import models.game.Item;
 import listener.FightListener;
+import services.fight.EnemyTeamGenerator;
 import services.game.GameStateHolder;
 import views.fight.FightView;
 
@@ -44,13 +45,17 @@ public class FightAgainstCPUController extends Controller<FightView> implements 
         try {
             view.resetDisplay();
             TeamBugemon team = GameStateHolder.getInstance().getCurrentTeamPlayer();
-            fight = new Fight(team, new TeamBugemon(AppConfig.getEnemyTeam()));
+            fight = new Fight(team, EnemyTeamGenerator.generateEnemyTeam());
             viewDisplayTeams();
             viewDisplayPredictedEffectiveness();
             viewInitDisplayedBugemon();
             viewInitStartMessage();
             if (!fight.playerCanStart()) forceEnemyToAttack();
-        } catch (BugemonNotFoundException | BugemonNotInTeamException e) {
+            view.updateFloorInfo(
+                    GameStateHolder.getInstance().getCurrentLevelTower().getCurrentFloor(),
+                    GameStateHolder.getInstance().getCurrentLevelTower().getCurrentStep()
+            );
+        } catch (BugemonNotInTeamException e) {
             controllerManager.fatalError("couldn't load the fight : " + e.getMessage());
         }
     }
