@@ -1,5 +1,6 @@
 package repositories;
 
+import configuration.AppConfig;
 import exceptions.BugemonNotFoundException;
 import models.bugemon.TeamBugemon;
 import org.junit.Before;
@@ -15,7 +16,7 @@ public class TeamRepositoryTest {
 
     @Before
     public void cleanup() {
-        File f = new File("src/main/java/persistence/savedteam/team.json");
+        File f = new File(AppConfig.TEAMS_FILE);
         if (f.exists()) {
             f.delete();
         }

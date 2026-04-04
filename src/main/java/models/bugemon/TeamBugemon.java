@@ -21,8 +21,8 @@ public class TeamBugemon implements TeamBugemonDTO {
     /** List of Bugémons belonging to this team. */
     private final List<Bugemon> team;
 
-    /** The Bugémon currently active on the battlefield, or null if none. */
-    private Bugemon onFieldBugemon = null;
+    /** The Bugémon currently active on the battlefield. */
+    private transient Bugemon onFieldBugemon = null;
 
     /** No-arg constructor. Initialises an empty team. */
     public TeamBugemon() {
@@ -36,7 +36,7 @@ public class TeamBugemon implements TeamBugemonDTO {
      * @throws BugemonNotFoundException if any ID does not match a known Bugémon
      */
     public TeamBugemon(List<String> listeOfId) throws BugemonNotFoundException {
-        this.team = BugemonProvider.getListBugemon(listeOfId);
+        this.team = BugemonProvider.getInstance().getListBugemon(listeOfId);
     }
 
     /**
@@ -48,7 +48,7 @@ public class TeamBugemon implements TeamBugemonDTO {
      */
     public TeamBugemon(String name, List<String> listeOfId) throws BugemonNotFoundException {
         this.name = name;
-        this.team = BugemonProvider.getListBugemon(listeOfId);
+        this.team = BugemonProvider.getInstance().getListBugemon(listeOfId);
     }
 
     /**
@@ -94,6 +94,14 @@ public class TeamBugemon implements TeamBugemonDTO {
      */
     public Bugemon getOnFieldBugemon() {
         return onFieldBugemon;
+    }
+
+    public String getOnFieldBugemonType(){
+        return onFieldBugemon.getType();
+    }
+
+    public List<Attack> getOnFieldBugemonAttacks(){
+        return onFieldBugemon.getAttacks();
     }
 
     /**

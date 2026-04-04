@@ -1,5 +1,6 @@
 package views.fight;
 
+import configuration.AppConfig;
 import controllers.fight.ItemChoiceController;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -28,7 +29,7 @@ public class ItemsView extends View<ItemChoiceController> {
      * @throws IOException if the FXML file cannot be loaded
      */
     public ItemsView() throws IOException {
-        super("/fxml/fight/itemsview.fxml");
+        super(AppConfig.FXML_ITEMS);
     }
 
     /**

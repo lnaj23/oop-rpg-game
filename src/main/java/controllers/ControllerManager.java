@@ -1,6 +1,6 @@
 package controllers;
 
-import controllers.fight.FightController;
+import controllers.fight.FightAgainstCPUController;
 import controllers.fight.ItemChoiceController;
 import controllers.fight.SwitchBugemonController;
 import controllers.teamchoice.PreBuildTeamController;
@@ -21,19 +21,24 @@ import java.io.IOException;
  */
 public class ControllerManager {
 
+    private double width;
+    private double height;
+    private double x;
+    private double y;
+
     /** Enumeration of all available scenes in the application. */
     private enum Scenes {
         TITLE_SCREEN,
         PREBUILD_TEAM,
         SELECTION,
-        FIGHT
+        FIGHT_AGAINST_CPU
     }
 
     private final Stage PrimaryStage;
     private final TitleScreenController titleScreenController;
     private final PreBuildTeamController preBuildTeamController;
     private final SelectionController selectionController;
-    private final FightController fightController;
+    private final FightAgainstCPUController fightAgainstCPUController;
 
 
     /**
@@ -47,7 +52,7 @@ public class ControllerManager {
         this.titleScreenController = new TitleScreenController(this);
         this.preBuildTeamController = new PreBuildTeamController(this);
         this.selectionController = new SelectionController(this);
-        this.fightController = new FightController(this);
+        this.fightAgainstCPUController = new FightAgainstCPUController(this);
     }
 
     /**
@@ -64,18 +69,25 @@ public class ControllerManager {
      * @param scene the scene to switch to
      */
     private void switchScene(Scenes scene) {
-        double width = PrimaryStage.getWidth();
-        double height = PrimaryStage.getHeight();
-        double x = PrimaryStage.getX();
-        double y = PrimaryStage.getY();
-
+        getPrimaryStageProperties();
         switch (scene) {
             case TITLE_SCREEN -> this.titleScreenController.show(PrimaryStage);
             case PREBUILD_TEAM -> this.preBuildTeamController.show(PrimaryStage);
             case SELECTION -> this.selectionController.show(PrimaryStage);
-            case FIGHT -> this.fightController.show(PrimaryStage);
+            case FIGHT_AGAINST_CPU -> this.fightAgainstCPUController.show(PrimaryStage);
             default -> throw new IllegalArgumentException("Invalid scene: " + scene);
         }
+        ensureFullScreen();
+    }
+
+    private void getPrimaryStageProperties() {
+        width = PrimaryStage.getWidth();
+        height = PrimaryStage.getHeight();
+        x = PrimaryStage.getX();
+        y = PrimaryStage.getY();
+    }
+
+    private void ensureFullScreen() {
         if (PrimaryStage.isShowing()) {
             PrimaryStage.setWidth(width);
             PrimaryStage.setHeight(height);
@@ -118,7 +130,7 @@ public class ControllerManager {
             ItemChoiceController itemChoiceController = new ItemChoiceController(this);
             openSubScene(itemChoiceController.getView(), true);
         } catch (IOException e) {
-            fatalError("Impossible d'ouvrir la vue des objets : " + e.getMessage());
+            fatalError("couldn't load the view for the items : " + e.getMessage());
         }
     }
 
@@ -135,7 +147,7 @@ public class ControllerManager {
             SwitchBugemonController switchController = new SwitchBugemonController(this);
             openSubScene(switchController.getView(), !GameStateHolder.getInstance().isSwitchOnPurpose());
         } catch (IOException e) {
-            fatalError("Impossible d'ouvrir la vue de changement : " + e.getMessage());
+            fatalError("couldn't load the view for the bugemon of the team : " + e.getMessage());
         }
     }
 
@@ -162,9 +174,9 @@ public class ControllerManager {
         this.switchScene(Scenes.SELECTION);
     }
 
-    public void goToFight() {
-        this.fightController.setFight();
-        this.switchScene(Scenes.FIGHT);
+    public void goToFightAgainstCPU() {
+        this.fightAgainstCPUController.setFight();
+        this.switchScene(Scenes.FIGHT_AGAINST_CPU);
     }
 
     public void goToTitleScreen() {
@@ -172,18 +184,18 @@ public class ControllerManager {
     }
 
     public void onSwitchBugemonChosen(String selectedId) {
-        fightController.onSwitchBugemonChosen(
+        fightAgainstCPUController.onSwitchBugemonChosen(
                 selectedId,
                 GameStateHolder.getInstance().isSwitchOnPurpose()
         );
     }
 
     public void onSwitchCancelled() {
-        fightController.onSwitchCancelled();
+        fightAgainstCPUController.onSwitchCancelled();
     }
 
     public void onItemChosen(Item item) {
-        fightController.onItemChosen(item);
+        fightAgainstCPUController.onItemChosen(item);
     }
 
     /**

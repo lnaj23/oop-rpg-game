@@ -1,5 +1,6 @@
 package views.teamchoice.selection;
 
+import configuration.AppConfig;
 import controllers.teamchoice.SelectionController;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -40,7 +41,7 @@ public class BugemonGridSubView {
     private final List<Button> selectedButtons = new ArrayList<>();
 
     /** Maximum number of Bugémons allowed in a team. */
-    private static final int MAX_TEAM_SIZE = 6;
+    private static final int MAX_TEAM_SIZE = AppConfig.MAX_TEAM_SIZE;
 
 
     /**
@@ -155,7 +156,7 @@ public class BugemonGridSubView {
     }
 
     private void applyButtonStyle(Button btn, BugemonDTO bugemon) {
-        String path = "/Assets/png/" + bugemon.getSprite();
+        String path = AppConfig.PNG_PREFIX + bugemon.getSprite();
         Image img = new Image(Objects.requireNonNull(getClass().getResourceAsStream(path)));
         ImageView imgView = new ImageView(img);
         imgView.setFitHeight(50);

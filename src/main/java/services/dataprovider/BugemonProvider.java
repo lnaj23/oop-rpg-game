@@ -9,14 +9,11 @@ import repositories.BugemonRepository;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Provides access to Bugémon data with their attacks pre-assigned.
- * Acts as the single entry point for retrieving Bugémons by ID or in bulk.
- * This class is not intended to be instantiated.
- */
-public abstract class BugemonProvider {
+public class BugemonProvider {
 
-    static {
+    private static BugemonProvider instance;
+
+    private BugemonProvider() {
         try {
             for (Bugemon bug : BugemonRepository.getAllBugemons()) {
                 assignAttacks(bug);
@@ -28,28 +25,21 @@ public abstract class BugemonProvider {
         }
     }
 
-    /**
-     * Populates the Attack list of the given Bugémon.
-     * Skips assignment if attacks are already loaded to avoid duplicates.
-     *
-     * @param bug the Bugémon whose attacks need to be assigned
-     * @throws AttackNotFoundException if an attack ID cannot be resolved
-     */
-    private static void assignAttacks(Bugemon bug) throws AttackNotFoundException {
+    public static BugemonProvider getInstance() {
+        if (instance == null) {
+            instance = new BugemonProvider();
+        }
+        return instance;
+    }
+
+    private void assignAttacks(Bugemon bug) throws AttackNotFoundException {
         if (!bug.getAttacks().isEmpty()) return;
         for (String id : bug.getAttackNamesAsList()) {
-            bug.addAttacks(AttackProvider.getAttackById(id));
+            bug.addAttacks(AttackProvider.getInstance().getAttackById(id));
         }
     }
 
-    /**
-     * Returns a list of Bugémon objects matching the given IDs.
-     *
-     * @param teamIds list of Bugémon IDs to retrieve
-     * @return the corresponding list of Bugémons
-     * @throws BugemonNotFoundException if any ID does not match a known Bugémon
-     */
-    public static List<Bugemon> getListBugemon(List<String> teamIds) throws BugemonNotFoundException {
+    public List<Bugemon> getListBugemon(List<String> teamIds) throws BugemonNotFoundException {
         List<Bugemon> list = new ArrayList<>();
         for (String id : teamIds) {
             list.add(getBugemon(id));
@@ -57,35 +47,28 @@ public abstract class BugemonProvider {
         return list;
     }
 
-    /**
-     * Searches for a Bugémon matching the given id.
-     *
-     * @param id the id of the Bugémon to retrieve
-     * @return the matching Bugémon
-     * @throws BugemonNotFoundException if no Bugémon is found with the given id
-     */
-    private static Bugemon getBugemon(String id) throws BugemonNotFoundException {
+    private Bugemon getBugemon(String id) throws BugemonNotFoundException {
         for (Bugemon bug : BugemonRepository.getAllBugemons()) {
             if (bug.getId().equals(id)) return new Bugemon(bug);
         }
         throw new BugemonNotFoundException(id);
     }
 
-    /**
-     * Returns a copy of all available Bugémons with their attacks assigned.
-     *
-     * @return the list of all Bugémons
-     */
-    public static List<Bugemon> getAllBugemons() {
+    public List<Bugemon> getAllBugemons() {
         return new ArrayList<>(BugemonRepository.getAllBugemons());
     }
 
-    /**
-     * Returns a copy of all available Bugémons as DTOs.
-     *
-     * @return the list of all Bugémons as {@link BugemonDTO}
-     */
-    public static List<BugemonDTO> getAllBugemonsDTO() {
+    public List<BugemonDTO> getAllBugemonsDTO() {
         return new ArrayList<>(BugemonRepository.getAllBugemons());
+    }
+
+    public void initBugemonFromSavedTeam(Bugemon bugemon) {
+        try {
+            assignAttacks(bugemon);
+        } catch (AttackNotFoundException e) {
+            throw new IllegalStateException("Attack not found: " + e.getMessage(), e);
+        }
+        bugemon.initPv();
+        bugemon.initColor();
     }
 }

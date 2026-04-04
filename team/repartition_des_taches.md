@@ -1,13 +1,14 @@
 # Répartition des tâches développeur
 
 - Groupe : 05
-- Date : 13/03/2026
+- Date : 02/04/2026
 
 ### Sommaire
 
 - [Itération 0](#itération-0)
 - [Itération 1](#itération-1)
 - [Itération 2](#itération-2)
+- [Itération 3](#itération-3)
 
 
 ## Itération 0
@@ -104,7 +105,7 @@ ___
 <table>
     <tbody>
         <tr><td>Vélocité :</td><td>28</td></tr>
-        <tr><td>Total Points réel :</td><td></td></tr>
+        <tr><td>Total Points réel :</td><td>34</td></tr>
         <tr><td>Total Points estimé :</td><td>28</td></tr>
     </tbody>
 </table>
@@ -123,8 +124,8 @@ ___
     </tr>
   </thead>
   <tbody>
-    <tr><td>Comportement SelectionView (à faire pour le 14/03 max) </td><td>Yanis</td><td>Zakaria</td><td></td><td>1,5</td></tr>
-    <tr><td>Persistance + test pour TeamRepository (à faire pour le 14/03 max)</td><td>Zakaria</td><td>Yanis</td><td></td><td>1,5</td></tr>
+    <tr><td>Comportement SelectionView (à faire pour le 14/03 max) </td><td>Yanis</td><td>Zakaria</td><td>1,5</td><td>1,5</td></tr>
+    <tr><td>Persistance + test pour TeamRepository (à faire pour le 14/03 max)</td><td>Zakaria</td><td>Yanis</td><td>1,5</td><td>1,5</td></tr>
   </tbody>
 </table>
 
@@ -143,14 +144,10 @@ ___
   </thead>
   <tbody>
     <tr><td>Initialiser FightView et FightController (12/03 10h-11h)</td><td>Luqman</td><td>Maxime</td><td>1</td><td>1</td></tr>
-    <tr><td>Initialiser FightView et FightController (12/03 12h-14h)</td><td>Louai</td><td>Luqman</td><td>2</td><td>2</td></tr>
+    <tr><td>Initialiser FightView et FightController (12/03 12h-14h)</td><td>Luqman</td><td>Louai</td><td>2</td><td>2</td></tr>
     <tr><td>Initialiser FightView et FightController (12/03 17h-18h)</td><td>Maxime</td><td>Yanis</td><td>2</td><td>1</td></tr>
-    <tr><td>Updates des models actuels (13/03 10h-12h)</td><td>Louai</td><td>Maxime</td><td>2</td><td>2</td></tr>
-    <tr><td>Updates des models actuels (13/03 17h-18h)</td><td>Alexandre</td><td>Luqman</td><td>0</td><td>1</td></tr>
-    <tr><td>Model à ajouter (15/03 16h-18h)</td><td>Enzo</td><td>Mohamed</td><td></td><td>2</td></tr>
-    <tr><td>Model à ajouter (15/03 18h-19h)</td><td>Yanis</td><td>Enzo</td><td></td><td>1</td></tr>
-    <tr><td>Base du lien models — controller — vue (16/03 17h-19h)</td><td>Sajid</td><td>Maxime</td><td></td><td>2</td></tr>
-    <tr><td>Base du lien models — controller — vue (16/03 19h-20h)</td><td>Harry</td><td>Sajid</td><td></td><td>1</td></tr>
+    <tr><td>Updates des models actuels et ajout de nouveau models (13/03 10h-12h)</td><td>Louai</td><td>Maxime</td><td>3</td><td>2</td></tr>
+    <tr><td>Base du lien models — controller — vue (16/03 17h-19h)</td><td>Sajid</td><td>Maxime</td><td>3</td><td>2</td></tr>
 </tbody>
 </table>
 
@@ -168,10 +165,9 @@ ___
     </tr>
   </thead>
   <tbody>
-    <tr><td>Amélioration lien models — controller — vue (17/03 08h-10h)</td><td>Alexandre</td><td>Harry</td><td></td><td>2</td></tr>
-    <tr><td>Amélioration lien models — controller — vue (18/03 10h-12h)</td><td>Louai</td><td>Harry</td><td></td><td>2</td></tr>
-    <tr><td>Amélioration lien models — controller — vue (18/03 14h-15h)</td><td>Mohamed</td><td>Alexandre</td><td></td><td>1</td></tr>
-
+    <tr><td>Amélioration lien models — controller — vue (17/03 08h-10h)</td><td>Mohamed</td><td>Enzo</td><td>3</td><td>2</td></tr>
+    <tr><td>Amélioration lien models — controller — vue (18/03 10h-12h)</td><td>Harry</td><td>Mohamed</td><td>2</td><td>2</td></tr>
+    <tr><td>Refactor Histoire 5</td><td>Maxime</td><td>Harry</td><td>2</td><td>0</td></tr>
   </tbody>
 </table>
 
@@ -189,8 +185,10 @@ ___
     </tr>
   </thead>
   <tbody>
-    <tr><td>TACHE 1</td><td>PILOTE 1</td><td>COPILOTE 1</td><td>RÉEL 1</td><td>ESTIMATION 1</td></tr>
-    <tr><td>TACHE 2</td><td>PILOTE 2</td><td>COPILOTE 2</td><td>RÉEL 2</td><td>ESTIMATION 2</td></tr>
+    <tr><td>DamageCalculator, TypeEffectivenessService </td><td>Enzo</td><td>Luqman</td><td>2</td><td>1</td></tr>
+    <tr><td>Affichage du type de l'attaque</td><td>Luqman</td><td>Enzo</td><td>2</td><td>1</td></tr>
+    <tr><td>Couleur dans la SelectionView</td><td>Enzo</td><td>Harry</td><td>1</td><td>1</td></tr>
+    <tr><td>Refactor Histoire 6</td><td>Sajid</td><td>Enzo</td><td>1</td><td>0</td></tr>
   </tbody>
 </table>
 
@@ -208,11 +206,12 @@ ___
     </tr>
   </thead>
   <tbody>
-    <tr><td>TACHE 1</td><td>PILOTE 1</td><td>COPILOTE 1</td><td>RÉEL 1</td><td>ESTIMATION 1</td></tr>
-    <tr><td>TACHE 2</td><td>PILOTE 2</td><td>COPILOTE 2</td><td>RÉEL 2</td><td>ESTIMATION 2</td></tr>
+    <tr><td>Détection target Effects + Ajout ActiveEffects</td><td>Alexandre</td><td>Zakaria</td><td>2</td><td>2</td></tr>
+    <tr><td>Application des effets avec EffectManager</td><td>Zakaria</td><td>Alexandre</td><td>2</td><td>2</td></tr>
+    <tr><td>Refactor Histoire 8</td><td>Sajid</td><td>Zakaria</td><td>2</td><td>0</td></tr>
   </tbody>
 </table>
-
+ 
 ### Discussions de contenu
 
 À l'issue de la première itération, nous avons constaté que le concept de pair programming n'avait été que partiellement respecté.
@@ -231,4 +230,88 @@ Avec cette nouvelle méthode de travail, on peut bien alterner pilot copilote et
 
 ### Risques et problèmes
 
+Malgré la nouvelle méthodologie de travail, on a débordé au niveau des heures, car finalement, nous avons eu un nombre d'histoires élevé et durant l'élaboration de la programmation des histoires, il y a beaucoup de tâches qui ont été mal fait donc on a dû rajouter du temps pour faire du refactoring.
+
+Certaines personnes n'ont pas respecté leurs tâches, les deadlines et aussi la disponibilité sur les tâches ce qui à amener à un bouleversement sur la répartition des taches par rapport à ce qui était prévu dans le Gantt.
+___
+## Itération 3
+### Plan d'ensemble
+
+![Plan](gantt/plans/.jpg)
+
+### Tâches
+<table>
+    <tbody>
+        <tr><td>Vélocité :</td><td>28</td></tr>
+        <tr><td>Total Points réel :</td><td></td></tr>
+        <tr><td>Total Points estimé :</td><td>28</td></tr>
+    </tbody>
+</table>
+
+<table>
+  <thead>
+    <tr>
+      <th colspan="5" style="text-align: center;">HISTOIRE 7</th>
+    </tr>
+    <tr>
+      <th>Tâches</th>
+      <th>Pilote</th>
+      <th>Copilote</th>
+      <th>Points réels</th>
+      <th>Points estimés</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>View/Controller Victoire pour le vendredi 03/04 </td><td>Harry</td><td>Enzo</td><td></td><td></td></tr>
+    <tr><td>View/Controller Défaite pour le vendredi 03/04 </td><td>Enzo</td><td>Harry</td><td></td><td></td></tr>
+    <tr><td>View/Controller LevelUp pour le vendredi 03/04 </td><td>Maxime</td><td></td><td></td><td></td></tr>
+    <tr><td>Système d'exp pour le samedi 04/04</td><td>Zakaria</td><td></td><td></td><td></td></tr>
+    <tr><td>View/Controller Reward pour le dimanche 05/04</td><td>Luqman</td><td>Yanis</td><td></td><td></td></tr>
+    <tr><td>Calcule XP à la fin d'un combat + affichage LevelUp pour le mercredi 08/04</td><td>Alexandre</td><td>Enzo</td><td></td><td></td></tr>
+    <tr><td>Ajouter levelBugemon dans les View (deadline non définie)</td><td>Alexandre</td><td>Mohamed</td><td></td><td></td></tr>
+
+  </tbody>
+</table>
+
+<table>
+  <thead>
+    <tr>
+      <th colspan="5" style="text-align: center;">HISTOIRE 9</th>
+    </tr>
+    <tr>
+      <th>Tâches</th>
+      <th>Pilote</th>
+      <th>Copilote</th>
+      <th>Points réels</th>
+      <th>Points estimés</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Model TowerLevel pour tracker -> GameStateHolder pour vendredi 03/04</td><td>Mohamed</td><td></td><td></td><td></td></tr>
+    <tr><td>Implementer TowerLevel dans FightView/Controller pour Dimanche 05/04</td><td>Luqman</td><td>Yanis</td><td></td><td></td></tr>
+  </tbody>
+</table>
+
+<table>
+  <thead>
+    <tr>
+      <th colspan="5" style="text-align: center;">HISTOIRE 10</th>
+    </tr>
+    <tr>
+      <th>Tâches</th>
+      <th>Pilote</th>
+      <th>Copilote</th>
+      <th>Points réels</th>
+      <th>Points estimés</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Initialisation de l'inventaire de démarrage (deadline non définie) </td><td>Sajid</td><td></td><td></td><td></td></tr>
+    <tr><td>Consommation des items (deadline non définie) </td><td>Sajid</td><td></td><td></td><td></td></tr>
+  </tbody>
+</table>
+
+### Discussions de contenu
+
+### Risques et problèmes
 ___

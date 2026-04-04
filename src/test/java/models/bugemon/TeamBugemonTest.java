@@ -11,6 +11,8 @@ import java.util.List;
 
 public class TeamBugemonTest extends TestCase {
 
+    private final BugemonProvider provider = BugemonProvider.getInstance();
+
     @Test
     public void testConstructorNotNull() throws BugemonNotFoundException {
         TeamBugemon team = new TeamBugemon("test", Arrays.asList("florachu", "exceflam", "commitide"));
@@ -69,7 +71,7 @@ public class TeamBugemonTest extends TestCase {
     public void testAddBugemonIncreasesSize() throws BugemonNotFoundException {
         TeamBugemon team = new TeamBugemon("test", Arrays.asList("florachu"));
         int sizeBefore = team.getSize();
-        team.addBugemon(BugemonProvider.getListBugemon(Arrays.asList("exceflam")).get(0));
+        team.addBugemon(provider.getListBugemon(Arrays.asList("exceflam")).get(0));
         assertEquals(sizeBefore + 1, team.getSize());
     }
 

@@ -4,7 +4,7 @@ import controllers.Controller;
 import controllers.ControllerManager;
 import models.bugemon.dto.BugemonDTO;
 import models.bugemon.TeamBugemon;
-import services.dataprovider.TeamService;
+import services.dataprovider.TeamProvider;
 import services.dataprovider.BugemonProvider;
 import services.game.GameStateHolder;
 import views.teamchoice.selection.SelectionView;
@@ -38,7 +38,7 @@ public class SelectionController extends Controller<SelectionView> {
         this.teams = GameStateHolder.getInstance().getSavedTeams();
         this.playerTeam = new TeamBugemon();
         this.view.setController(this);
-        this.view.displayBugemons(BugemonProvider.getAllBugemonsDTO());
+        BugemonProvider.getInstance().getAllBugemonsDTO();
     }
 
     /**
@@ -77,7 +77,7 @@ public class SelectionController extends Controller<SelectionView> {
     public void reset() {
         this.teamBeingEdited = null;
         this.playerTeam = new TeamBugemon();
-        this.view.reset(BugemonProvider.getAllBugemonsDTO());
+        this.view.reset(BugemonProvider.getInstance().getAllBugemonsDTO());
         this.view.setEditMode(false);
     }
 
@@ -134,11 +134,11 @@ public class SelectionController extends Controller<SelectionView> {
             playerTeam.setName(teamName);
             this.teams.add(playerTeam);
         }
-        TeamService.saveTeams(this.teams);
+        TeamProvider.saveTeams(this.teams);
     }
 
     public void goToFight() {
         GameStateHolder.getInstance().setCurrentTeamPlayer(playerTeam);
-        this.controllerManager.goToFight();
+        this.controllerManager.goToFightAgainstCPU();
     }
 }

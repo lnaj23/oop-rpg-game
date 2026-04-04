@@ -1,5 +1,6 @@
 package repositories;
 
+import configuration.AppConfig;
 import models.bugemon.Bugemon;
 import java.util.List;
 
@@ -25,14 +26,11 @@ public abstract class BugemonRepository extends JsonRepository {
         public List<Bugemon> getItems() { return bugemons; }
     }
 
-    /** Classpath-relative path to the Bugémon JSON file. */
-    private static final String PATH = JSON_PREFIX + "bugemons.json";
-
     /** All Bugémons loaded from {@code bugemons.json} at startup. */
     private static final List<Bugemon> bugemonRepo;
 
     static {
-        bugemonRepo = readJSON(PATH, JsonBugemons.class);
+        bugemonRepo = readJSON(AppConfig.JSON_BUGEMONS, JsonBugemons.class);
     }
 
     /**

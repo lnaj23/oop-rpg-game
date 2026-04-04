@@ -79,7 +79,7 @@ public class EffectManagerTest extends TestCase {
         Bugemon enemy = fightMergeauVsLoopine.getOnFieldEnemyBugemon();
         int initiativeBefore = enemy.getInitiative();
         fightMergeauVsLoopine.playerAttack(0); // courant_croise
-        fightMergeauVsLoopine.enemyAttack();   // tour ennemi
+        fightMergeauVsLoopine.enemyAttackFromIAChoice();   // tour ennemi
         // le modificateur doit toujours être là
         assertEquals(initiativeBefore - 8, enemy.getInitiative());
     }
@@ -97,22 +97,21 @@ public class EffectManagerTest extends TestCase {
 
     @Test
     public void testTemporaryModifierExpiredAfterOneTurn() {
-        // vague_rapide (index 1) = lanceur initiative +10 pendant 1 tour
         Bugemon player = fightMergeauVsLoopine.getOnFieldPlayerBugemon();
-        int initiativeBefore = player.getInitiative();
+        player.resetAllModifiers();
+        int baseInitiative = player.getInitiative();
 
-        fightMergeauVsLoopine.playerAttack(1); // vague_rapide → +10 appliqué → tick → turnsLeft passe à 1
-        fightMergeauVsLoopine.enemyAttack();   // tour ennemi → tick → turnsLeft passe à 0 → expire
-
-        // l'initiative doit être revenue à la valeur de base
-        assertEquals(initiativeBefore, player.getInitiative());
+        int initiativeBeforeAttack = player.getInitiative();
+        fightMergeauVsLoopine.playerAttack(1);
+        fightMergeauVsLoopine.enemyAttackFromIAChoice();
+        assertEquals(initiativeBeforeAttack, player.getInitiative());
     }
     @Test
     public void testTemporaryModifierRemovedFromOngoingEffects() {
         // vague_rapide (index 1) = lanceur initiative +10 pendant 1 tour
         Bugemon player = fightMergeauVsLoopine.getOnFieldPlayerBugemon();
         fightMergeauVsLoopine.playerAttack(1); // vague_rapide
-        fightMergeauVsLoopine.enemyAttack();
+        fightMergeauVsLoopine.enemyAttackFromIAChoice();
         fightMergeauVsLoopine.playerAttack(0); // autre attaque pour tick
         // l'effet 1_tour doit avoir été retiré de la liste
         long temporaryEffects = player.getOngoingEffects().stream()

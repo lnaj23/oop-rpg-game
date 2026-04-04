@@ -6,7 +6,6 @@ import models.bugemon.Effect;
 import models.bugemon.TeamBugemon;
 import models.bugemon.ActiveEffect;
 
-import java.util.Objects;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -69,7 +68,7 @@ public abstract class EffectManager {
     public static void applyStatModifier(Bugemon target, Effect effect) {
         int delta = Integer.parseInt(effect.getModifier());
         switch (effect.getStat()) {
-            case "attaque"    -> target.getStats().modifyAttaque(delta);
+            case "attaque"    -> target.getStats().modifyAttack(delta);
             case "defense"    -> target.getStats().modifyDefense(delta);
             case "initiative" -> target.getStats().modifyInitiative(delta);
         }
@@ -105,7 +104,7 @@ public abstract class EffectManager {
     private static void reverseStatModifier(Bugemon target, Effect effect) {
         int delta = Integer.parseInt(effect.getModifier());
         switch (effect.getStat()) {
-            case "attaque"    -> target.getStats().modifyAttaque(-delta);
+            case "attaque"    -> target.getStats().modifyAttack(-delta);
             case "defense"    -> target.getStats().modifyDefense(-delta);
             case "initiative" -> target.getStats().modifyInitiative(-delta);
         }

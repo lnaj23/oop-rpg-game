@@ -4,12 +4,15 @@ import exceptions.BugemonNotInTeamException;
 import models.bugemon.Attack;
 import models.bugemon.Bugemon;
 import models.bugemon.TeamBugemon;
+import models.bugemon.dto.BugemonDTO;
 import services.fight.EffectManager;
 import services.fight.TypeEffectivenessService;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
+import java.util.stream.Collectors;
 
 /**
  * Represents a fight between two Bugémon teams.
@@ -21,7 +24,7 @@ public class Fight {
     private boolean isPlayerTurn;
     private String actionResulText;
     private List<String> predictedEffectiveness = new ArrayList<>();
-
+    private final Random random = new Random();
 
 
     /**
@@ -32,7 +35,7 @@ public class Fight {
     public Fight(TeamBugemon teamPlayer, TeamBugemon teamEnemy) throws BugemonNotInTeamException {
         this.teamPlayer = new TeamBugemon(teamPlayer);
         this.teamEnemy  = new TeamBugemon(teamEnemy);
-        this.teamPlayer.getTeam().forEach(b -> b.setIsPlayer(true));
+        this.teamPlayer.getTeam().forEach(b -> b.setIsPlayerToTrue());
         this.teamPlayer.changeOnFieldBugemon(this.teamPlayer.getTeam().getFirst());
         this.teamEnemy.changeOnFieldBugemon(this.teamEnemy.getTeam().getFirst());
         this.isPlayerTurn = true;
@@ -45,7 +48,7 @@ public class Fight {
     }
 
     /** Executes a random enemy attack. */
-    public void enemyAttack() {
+    public void enemyAttackFromIAChoice() {
         attackerAttackDefender(getRandomAttack());
     }
 
@@ -64,7 +67,11 @@ public class Fight {
     /**
      * @throws BugemonNotInTeamException if the Bugémon is not in the player's team
      */
-    public void changePlayerOnField(Bugemon bugemon) throws BugemonNotInTeamException {
+    public void changePlayerOnField(String id) throws BugemonNotInTeamException {
+        Bugemon bugemon = teamPlayer.getTeam().stream()
+                .filter(b -> b.getId().equals(id))
+                .findFirst()
+                .orElseThrow(() -> new BugemonNotInTeamException(id));
         teamPlayer.changeOnFieldBugemon(bugemon);
     }
 
@@ -118,6 +125,16 @@ public class Fight {
 
     public TeamBugemon getTeamPlayer() { return teamPlayer; }
     public TeamBugemon getTeamEnemy() { return teamEnemy; }
+    public List<BugemonDTO> getTeamPlayerToDisplay() {
+        return getTeamPlayer().getTeam().stream()
+                .map(b -> (BugemonDTO) b)
+                .collect(Collectors.toList());
+    }
+    public List<BugemonDTO> getTeamEnemyToDisplay() {
+        return getTeamEnemy().getTeam().stream()
+                .map(b -> (BugemonDTO) b)
+                .collect(Collectors.toList());
+    }
     public Bugemon getOnFieldPlayerBugemon() { return teamPlayer.getOnFieldBugemon(); }
     public String getOnFieldPlayerBugemonName() { return teamPlayer.getOnFieldBugemon().getName(); }
     public String getOnFieldPlayerBugemonId() { return teamPlayer.getOnFieldBugemon().getId(); }
@@ -130,8 +147,8 @@ public class Fight {
 
     public void computePredictedEffectiveness() {
         predictedEffectiveness.clear();
-        String targetType = teamEnemy.getOnFieldBugemon().getType();
-        for (Attack attack : teamPlayer.getOnFieldBugemon().getAttacks()) {
+        String targetType = teamEnemy.getOnFieldBugemonType();
+        for (Attack attack : teamPlayer.getOnFieldBugemonAttacks()) {
             double m = TypeEffectivenessService.getTypeMultiplier(attack.getType(), targetType);
             if (m > 1.0) predictedEffectiveness.add("Super efficace !");
             else if (m < 1.0) predictedEffectiveness.add("Peu efficace...");
@@ -155,4 +172,11 @@ public class Fight {
     }
 
     private void switchRole() { isPlayerTurn = !isPlayerTurn; }
+
+    public void changeOnFieldEnemyBugemonRandomly() throws BugemonNotInTeamException {
+        List<Bugemon> available = getAvailableEnemyBugemons();
+        if (available.isEmpty()) return;
+        Bugemon randomBug = available.get(random.nextInt(available.size()));
+        changeEnemyOnField(randomBug);
+    }
 }

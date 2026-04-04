@@ -1,5 +1,6 @@
 package views.fight;
 
+import configuration.AppConfig;
 import controllers.Controller;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -85,7 +86,7 @@ public class FightView extends View<Controller> {
      * @throws IOException if the FXML file cannot be loaded
      */
     public FightView() throws IOException {
-        super("/fxml/fight/fightview.fxml");
+        super(AppConfig.FXML_FIGHT);
     }
 
     /**
@@ -111,7 +112,7 @@ public class FightView extends View<Controller> {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.getDialogPane().getStylesheets().add(
-                Objects.requireNonNull(getClass().getResource("/css/common.css")).toExternalForm()
+                Objects.requireNonNull(getClass().getResource(AppConfig.CSS_COMMON)).toExternalForm()
         );
         alert.initStyle(StageStyle.UNDECORATED);
         alert.setGraphic(null);
@@ -132,15 +133,15 @@ public class FightView extends View<Controller> {
      * @param team the list of Bugémon DTOs to display
      */
     public void displayTeam(List<BugemonDTO> team) {
-        boolean  isPlayer = team.get(0).getIsPlayer();
+        boolean  isPlayer = team.getFirst().getIsPlayer();
         GridPane grid     = isPlayer ? teamGrid : enemyGrid;
         grid.getChildren().clear();
 
         for (int i = 0; i < team.size(); i++) {
             BugemonDTO bugemon = team.get(i);
             String     path    = isPlayer
-                    ? "/Assets/png/" + bugemon.getSprite()
-                    : "/Assets/png/nobugemon/ulb.png";
+                    ? AppConfig.PNG_PREFIX + bugemon.getSprite()
+                    : AppConfig.PNG_NOBUGEMON;
 
             ImageView imgView = createSprite(path, 60);
 
@@ -196,7 +197,7 @@ public class FightView extends View<Controller> {
         effectLabel.setText(bugemon.getActifModifierAsStringToDisplay() );
 
         Image img = new Image(Objects.requireNonNull(
-                getClass().getResourceAsStream("/Assets/png/" + bugemon.getSprite())));
+                getClass().getResourceAsStream(AppConfig.PNG_PREFIX + bugemon.getSprite())));
         sprite.setImage(img);
 
         if (bugemon.getIsPlayer()) {
@@ -333,8 +334,6 @@ public class FightView extends View<Controller> {
 
         enemyNameLabel.setText("");   enemyHpLabel.setText("");
         enemyEffectLabel.setText(""); enemyHpBarFill.setProgress(1.0);
-
-
 
         popup.hideHp();
         popup.hideStats();

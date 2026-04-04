@@ -1,6 +1,8 @@
 package repositories;
 
 import com.google.gson.Gson;
+import com.google.gson.stream.JsonReader;
+
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.List;
@@ -13,9 +15,6 @@ import java.util.List;
  * </p>
  */
 public abstract class JsonRepository {
-
-    /** Base path prefix for all JSON resource files. */
-    protected static final String JSON_PREFIX = "/Assets/json/";
 
     /**
      * Contract imposed on every wrapper class used for JSON deserialization.
@@ -51,6 +50,7 @@ public abstract class JsonRepository {
         Gson gson = new Gson();
         InputStream stream = JsonRepository.class.getResourceAsStream(path);
         if (stream == null) throw new IllegalStateException("Resource not found: " + path);
-        return gson.fromJson(new InputStreamReader(stream), wrapperClass).getItems();
+        JsonWrapper<T> wrapper = gson.fromJson(new InputStreamReader(stream), wrapperClass);
+        return wrapper.getItems();
     }
 }

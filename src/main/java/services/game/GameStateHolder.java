@@ -3,7 +3,7 @@ package services.game;
 import models.bugemon.TeamBugemon;
 import models.bugemon.dto.BugemonDTO;
 import models.game.Item;
-import services.dataprovider.TeamService;
+import services.dataprovider.TeamProvider;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +18,7 @@ public class GameStateHolder {
 
     private TeamBugemon currentTeamPlayer;
 
-    private final List<TeamBugemon> savedTeams = new ArrayList<>(TeamService.loadTeams());
+    private final List<TeamBugemon> savedTeams = new ArrayList<>(TeamProvider.loadTeams());
 
     private GameStateHolder() {}
 
@@ -35,7 +35,6 @@ public class GameStateHolder {
             new Item("gel_defensif", "Gel Défensif", "augmente la défense"),
             new Item("serum_offensif", "Sérum Offensif", "augmente l'attaque")
     ));
-
     /**
      * Returns the unique instance of {@link GameStateHolder}.
      *

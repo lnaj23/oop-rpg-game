@@ -3,7 +3,7 @@ package controllers.teamchoice;
 import controllers.Controller;
 import controllers.ControllerManager;
 import models.bugemon.TeamBugemon;
-import services.dataprovider.TeamService;
+import services.dataprovider.TeamProvider;
 import services.game.GameStateHolder;
 import views.teamchoice.PreBuildTeamView;
 
@@ -21,7 +21,6 @@ public class PreBuildTeamController extends Controller<PreBuildTeamView> {
 
     /**
      * @param metaController the central controller
-     * @param teams the shared observable list of saved teams
      * @throws IOException if the FXML fails to load
      */
     public PreBuildTeamController(ControllerManager metaController) throws IOException {
@@ -55,7 +54,7 @@ public class PreBuildTeamController extends Controller<PreBuildTeamView> {
      */
     public void deleteTeam(int index) {
         this.teams.remove(index);
-        TeamService.saveTeams(teams);
+        TeamProvider.saveTeams(teams);
         this.view.refreshTeams(teams);
     }
 
@@ -66,7 +65,7 @@ public class PreBuildTeamController extends Controller<PreBuildTeamView> {
      */
     public void renameTeam(int index, String newName) {
         teams.get(index).setName(newName);
-        TeamService.saveTeams(teams);
+        TeamProvider.saveTeams(teams);
         this.view.refreshTeamList();
     }
 
@@ -83,7 +82,7 @@ public class PreBuildTeamController extends Controller<PreBuildTeamView> {
      */
     public void play(int index) {
         GameStateHolder.getInstance().setCurrentTeamPlayer(teams.get(index));
-        this.controllerManager.goToFight();
+        this.controllerManager.goToFightAgainstCPU();
     }
 
 

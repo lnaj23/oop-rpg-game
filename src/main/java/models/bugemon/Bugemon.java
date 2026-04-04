@@ -39,7 +39,7 @@ public class Bugemon implements BugemonDTO {
     private List<String> attackNames;
 
     /** Resolved list of {@link Attack} objects populated after deserialization. */
-    private List<Attack> attacks = new ArrayList<>();
+    private transient List<Attack> attacks = new ArrayList<>();
 
     /** Path or identifier of the sprite image for this Bugémon. */
     private String sprite;
@@ -49,7 +49,7 @@ public class Bugemon implements BugemonDTO {
 
 
     /** Whether this Bugémon belongs to the player's team. */
-    private boolean isPlayer = false;
+    private transient boolean isPlayer = false;
 
     /** No-arg constructor used by Gson for deserialization. */
     public Bugemon() {}
@@ -57,7 +57,7 @@ public class Bugemon implements BugemonDTO {
     /** Color to display in the selectionView */
     private String Color;
 
-    private List<ActiveEffect> ongoingEffects = new ArrayList<>();
+    private transient List<ActiveEffect> ongoingEffects = new ArrayList<>();
 
     /**
      * Copy constructor. Creates a deep copy of the given Bugémon.
@@ -130,17 +130,17 @@ public class Bugemon implements BugemonDTO {
 
     @Override
     public int getAttaque() {
-        return stats.getAttaque();
+        return stats.getAttackWithModifier();
     }
 
     @Override
     public int getDefense() {
-        return stats.getDefense();
+        return stats.getDefenseWithModifier();
     }
 
     @Override
     public int getInitiative() {
-        return stats.getInitiative();
+        return stats.getInitiativeWithModifier();
     }
 
     public Stats getStats(){
@@ -210,11 +210,9 @@ public class Bugemon implements BugemonDTO {
 
     /**
      * Marks whether this Bugémon belongs to the player's team.
-     *
-     * @param isPlayer true if this Bugémon belongs to the player
      */
-    public void setIsPlayer(boolean isPlayer) {
-        this.isPlayer = isPlayer;
+    public void setIsPlayerToTrue() {
+        this.isPlayer = true;
     }
 
     /**
@@ -254,7 +252,7 @@ public class Bugemon implements BugemonDTO {
     }
 
     /**
-     * Initialises the current HP to the maximum HP.
+     * Initializ the current HP to the maximum HP.
      * Should be called at the start of each fight.
      */
     public void initPv() {
@@ -291,7 +289,7 @@ public class Bugemon implements BugemonDTO {
         this.Color = TypeColorService.getTypeColorOfBugemon(this);
     }
 
-    /** Associates each attack with its type colour. */
+    /** Associates each attack with its type color. */
     private void initAttackColors() {
         for (Attack attack : this.attacks) {
             attack.setColor(getTypeColorOfBugemon(attack));
