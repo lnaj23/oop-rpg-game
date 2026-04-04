@@ -1,5 +1,6 @@
 package services.game;
 
+import models.TowerNodeType;
 import models.bugemon.TeamBugemon;
 import models.bugemon.dto.BugemonDTO;
 import models.game.Item;
@@ -46,6 +47,12 @@ public class GameStateHolder {
             instance = new GameStateHolder();
         }
         return instance;
+    }
+    public TowerNodeType getCurrentStepType() {
+        if(currentLevelTower == null) {
+            throw new IllegalStateException("Current level tower is not set.");
+        }
+        return currentLevelTower.getCurrentStepType();
     }
     /**
      * Sets the current level tower for the game session.
