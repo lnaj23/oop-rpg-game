@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<StackPane prefHeight="892.0" prefWidth="1288.0"
+           xmlns="http://javafx.com/javafx/17.0.12"
+           xmlns:fx="http://javafx.com/fxml/1">
+
+    <stylesheets>
+        <URL value="@../../css/common.css" />
+    </stylesheets>
+
+    <VBox alignment="CENTER" spacing="40">
+
+        <Label text="Récompense obtenue !"
+               style="-fx-text-fill: #f0c040; -fx-font-size: 48px; -fx-font-weight: bold;" />
+
+        <VBox alignment="CENTER"
+              style="-fx-background-color: #dff0f7; -fx-border-color: #a0c4d8; -fx-border-width: 2; -fx-background-radius: 6; -fx-border-radius: 6;"
+              prefWidth="400" prefHeight="200">
+            <Label fx:id="rewardLabel" text="Baie Tonique x2"
+                   style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: black;" />
+        </VBox>
+
+        <Button fx:id="continueButton" text="Continuer"
+                style="-fx-background-color: #2ecc71; -fx-text-fill: white; -fx-font-size: 18px; -fx-pref-width: 200px; -fx-pref-height: 50px;" />
+
+    </VBox>
+
+</StackPane>

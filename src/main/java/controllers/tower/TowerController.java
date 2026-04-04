@@ -30,7 +30,6 @@ public class TowerController {
 
     public void setTower(){
         GameStateHolder.getInstance().setCurrentLevelTower(new LevelTower());
-        this.controllerManager.goToFightAgainstCPU();
     }
 
 
