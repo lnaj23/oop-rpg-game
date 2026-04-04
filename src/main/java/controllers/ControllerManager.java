@@ -3,6 +3,8 @@ package controllers;
 import controllers.fight.*;
 import controllers.teamchoice.PreBuildTeamController;
 import controllers.teamchoice.SelectionController;
+import controllers.tower.RewardController;
+import controllers.tower.TowerController;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -31,7 +33,8 @@ public class ControllerManager {
         SELECTION,
         FIGHT_AGAINST_CPU,
         VICTORY,
-        DEFEAT
+        DEFEAT,
+        REWARD
     }
 
     private final Stage PrimaryStage;
@@ -41,7 +44,8 @@ public class ControllerManager {
     private final FightAgainstCPUController fightAgainstCPUController;
     private final VictoryController victoryController;
     private final DefeatController defeatController;
-
+    private final RewardController rewardController;
+    private final TowerController towerController;
     /**
      * Initializes all controllers and views.
      *
@@ -56,6 +60,8 @@ public class ControllerManager {
         this.fightAgainstCPUController = new FightAgainstCPUController(this);
         this.victoryController = new VictoryController(this);
         this.defeatController = new DefeatController(this);
+        this.rewardController = new RewardController(this);
+        this.towerController = new TowerController(this);
     }
 
     /**
@@ -80,6 +86,7 @@ public class ControllerManager {
             case FIGHT_AGAINST_CPU -> this.fightAgainstCPUController.show(PrimaryStage);
             case VICTORY -> this.victoryController.show(PrimaryStage);
             case DEFEAT -> this.defeatController.show(PrimaryStage);
+            case REWARD -> this.rewardController.show(PrimaryStage);
             default -> throw new IllegalArgumentException("Invalid scene: " + scene);
         }
         ensureFullScreen();
@@ -180,13 +187,14 @@ public class ControllerManager {
     }
 
     public void goToFightAgainstCPU() {
+        this.towerController.setTower();
         this.fightAgainstCPUController.setFight();
         this.switchScene(Scenes.FIGHT_AGAINST_CPU);
     }
 
     public void goToRewardScreen() {
-        this.victoryController.setReward();
-        this.switchScene(Scenes.VICTORY);
+        this.rewardController.setReward();
+        this.switchScene(Scenes.REWARD);
     }
 
     public void goToVictoryScreen() {
@@ -202,6 +210,11 @@ public class ControllerManager {
 
     public void goToTitleScreen() {
         this.switchScene(Scenes.TITLE_SCREEN);
+    }
+
+
+    public void goToNextTowerStep() {
+        this.towerController.advanceTower();
     }
 
 
