@@ -184,6 +184,10 @@ public class ControllerManager {
         this.switchScene(Scenes.FIGHT_AGAINST_CPU);
     }
 
+    public void goToRewardScreen() {
+        this.victoryController.setReward();
+        this.switchScene(Scenes.VICTORY);
+    }
 
     public void goToVictoryScreen() {
         this.victoryController.beginEXPDistribution(404);
