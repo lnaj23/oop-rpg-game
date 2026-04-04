@@ -22,8 +22,4 @@ public class RewardController extends Controller<RewardView> {
         this.controllerManager.goToNextTowerStep();
     }
 
-    @Override
-    public void show(javafx.stage.Stage stage) {
-        this.view.show(stage);
-    }
 }

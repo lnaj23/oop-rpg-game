@@ -52,7 +52,7 @@ public class VictoryController extends Controller<VictoryView> {
 
     public void continueTower() {
         giveBugemonEXPIfTheyParticipated();
-        this.controllerManager.goToFightAgainstCPU();
+        this.controllerManager.goToNextTowerStep();
         // TODO Hist 7, Faudra faire en sorte que levelUpController,si un levelUp apparait, s'occupe de continuer ds la tour aprés
         //  avoir choisi un amelioration
         //  Pour l'instant, il faut remplacer controllerManager.goToFightAgainstCPU par controllerManager.continueTower.

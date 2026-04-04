@@ -342,8 +342,8 @@ public class FightView extends View<Controller> {
         return view;
     }
 
-    public void updateFloorInfo(int floor, int step) {
-        floorInfoLabel.setText("Étage " + floor + " — Étape " + step + "/6");
+    public void updateFloorInfo(String progress) {
+        floorInfoLabel.setText(progress);
     }
 
 }

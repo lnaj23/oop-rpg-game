@@ -33,13 +33,9 @@ public class FightAgainstCPUController extends Controller<FightView> implements 
         this.view.setListener(this);
     }
 
-    @Override
-    public void onReturnToTitleRequested() {
-        gotoTitleScreen();
-    }
-
     /**
-     * Initialises the fight from {@link GameStateHolder} against a hardcoded enemy team.
+     * Initialises the fight from {@link GameStateHolder} against a randomly generated enemy team
+     * with the same number of Bugemons as the player's team.
      */
     public void setFight() {
         try {
@@ -51,10 +47,7 @@ public class FightAgainstCPUController extends Controller<FightView> implements 
             viewInitDisplayedBugemon();
             viewInitStartMessage();
             if (!fight.playerCanStart()) forceEnemyToAttack();
-            view.updateFloorInfo(
-                    GameStateHolder.getInstance().getCurrentLevelTower().getCurrentFloor(),
-                    GameStateHolder.getInstance().getCurrentLevelTower().getCurrentStep()
-            );
+            view.updateFloorInfo(GameStateHolder.getInstance().getCurrentLevelTower().getProgressAsString());
         } catch (BugemonNotInTeamException e) {
             controllerManager.fatalError("couldn't load the fight : " + e.getMessage());
         }

@@ -11,8 +11,6 @@ import controllers.fight.FightAgainstCPUController;
  * </p>
  */
 public interface FightListener {
-    void onReturnToTitleRequested();
-
     /**
      * Called when the player selects an attack.
      *

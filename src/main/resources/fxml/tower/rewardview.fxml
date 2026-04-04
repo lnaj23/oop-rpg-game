@@ -4,7 +4,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<StackPane prefHeight="892.0" prefWidth="1288.0"
+<AnchorPane prefHeight="892.0" prefWidth="1288.0"
            xmlns="http://javafx.com/javafx/17.0.12"
            xmlns:fx="http://javafx.com/fxml/1">
 
@@ -12,7 +12,11 @@
         <URL value="@../../css/common.css" />
     </stylesheets>
 
-    <VBox alignment="CENTER" spacing="40">
+    <VBox alignment="CENTER" spacing="40"
+        AnchorPane.topAnchor="0"
+        AnchorPane.bottomAnchor="0"
+        AnchorPane.leftAnchor="300"
+        AnchorPane.rightAnchor="300">
 
         <Label text="Récompense obtenue !"
                style="-fx-text-fill: #f0c040; -fx-font-size: 48px; -fx-font-weight: bold;" />
@@ -29,4 +33,4 @@
 
     </VBox>
 
-</StackPane>
+</AnchorPane>
