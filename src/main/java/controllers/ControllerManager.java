@@ -1,8 +1,6 @@
 package controllers;
 
-import controllers.fight.FightAgainstCPUController;
-import controllers.fight.ItemChoiceController;
-import controllers.fight.SwitchBugemonController;
+import controllers.fight.*;
 import controllers.teamchoice.PreBuildTeamController;
 import controllers.teamchoice.SelectionController;
 import javafx.stage.Modality;
@@ -31,7 +29,9 @@ public class ControllerManager {
         TITLE_SCREEN,
         PREBUILD_TEAM,
         SELECTION,
-        FIGHT_AGAINST_CPU
+        FIGHT_AGAINST_CPU,
+        VICTORY,
+        DEFEAT
     }
 
     private final Stage PrimaryStage;
@@ -39,7 +39,8 @@ public class ControllerManager {
     private final PreBuildTeamController preBuildTeamController;
     private final SelectionController selectionController;
     private final FightAgainstCPUController fightAgainstCPUController;
-
+    private final VictoryController victoryController;
+    private final DefeatController defeatController;
 
     /**
      * Initializes all controllers and views.
@@ -53,6 +54,8 @@ public class ControllerManager {
         this.preBuildTeamController = new PreBuildTeamController(this);
         this.selectionController = new SelectionController(this);
         this.fightAgainstCPUController = new FightAgainstCPUController(this);
+        this.victoryController = new VictoryController(this);
+        this.defeatController = new DefeatController(this);
     }
 
     /**
@@ -75,6 +78,8 @@ public class ControllerManager {
             case PREBUILD_TEAM -> this.preBuildTeamController.show(PrimaryStage);
             case SELECTION -> this.selectionController.show(PrimaryStage);
             case FIGHT_AGAINST_CPU -> this.fightAgainstCPUController.show(PrimaryStage);
+            case VICTORY -> this.victoryController.show(PrimaryStage);
+            case DEFEAT -> this.defeatController.show(PrimaryStage);
             default -> throw new IllegalArgumentException("Invalid scene: " + scene);
         }
         ensureFullScreen();
@@ -179,9 +184,22 @@ public class ControllerManager {
         this.switchScene(Scenes.FIGHT_AGAINST_CPU);
     }
 
+
+    public void goToVictoryScreen() {
+        this.victoryController.beginEXPDistribution(404);
+        this.switchScene(Scenes.VICTORY);
+    }
+
+
+    public void goToDefeatScreen() {
+        this.switchScene(Scenes.DEFEAT);
+    }
+
+
     public void goToTitleScreen() {
         this.switchScene(Scenes.TITLE_SCREEN);
     }
+
 
     public void onSwitchBugemonChosen(String selectedId) {
         fightAgainstCPUController.onSwitchBugemonChosen(

@@ -195,6 +195,7 @@ public class TeamBugemon implements TeamBugemonDTO {
         for (Bugemon bug2 : team) {
             if (bug2.getId().equals(bug.getId())) {
                 onFieldBugemon = bug;
+                onFieldBugemon.setHasParticipedToTrue();
                 return;
             }
         }

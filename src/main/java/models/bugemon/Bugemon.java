@@ -59,6 +59,16 @@ public class Bugemon implements BugemonDTO {
 
     private transient List<ActiveEffect> ongoingEffects = new ArrayList<>();
 
+    private transient boolean hasParticiped = false;
+    public void setHasParticipedToTrue() {
+        this.hasParticiped = true;
+    }
+    public void setHasParticipedToFalse() {
+        this.hasParticiped = false;
+    }
+    @Override public boolean isHasParticipedToTrue() {
+        return this.hasParticiped;
+    }
     /**
      * Copy constructor. Creates a deep copy of the given Bugémon.
      * Used by the BugemonProvider so two teams don't share the same Bugémon in memory.
@@ -76,6 +86,7 @@ public class Bugemon implements BugemonDTO {
         this.starter  = other.starter;
         this.isPlayer = other.isPlayer;
         this.Color = other.Color;
+        this.hasParticiped = other.hasParticiped;
         initAttackColors();
     }
 
@@ -238,7 +249,7 @@ public class Bugemon implements BugemonDTO {
      *
      * @return true if current HP is 0
      */
-    public boolean isKO() {
+    @Override public boolean isKO() {
         return stats.getCurrentPv() == 0;
     }
 

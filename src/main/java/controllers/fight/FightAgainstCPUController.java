@@ -83,7 +83,6 @@ public class FightAgainstCPUController extends Controller<FightView> implements 
     }
 
     public void gotoTitleScreen() {
-        GameStateHolder.getInstance().clearCurrentTeamPlayer();
         this.controllerManager.goToTitleScreen();
     }
 
@@ -109,7 +108,7 @@ public class FightAgainstCPUController extends Controller<FightView> implements 
 
     @Override
     public void onForfeitClicked() {
-        this.view.showMessageReturnTitle("Abandon", "Vous avez abandonné le combat.");
+        this.controllerManager.goToDefeatScreen();
     }
 
     public void onItemChosen(Item item) {
@@ -220,9 +219,10 @@ public class FightAgainstCPUController extends Controller<FightView> implements 
 
     private void endIfBattleOver() {
         if (!fight.isBattleOver()) return;
+        GameStateHolder.getInstance().setCurrentTeamPlayer(fight.getTeamPlayer());
         view.setButtonsDisabled(true);
-        if (fight.playerWon()) view.showMessageReturnTitle("Victoire", "Vous avez gagné le combat !");
-        else view.showMessageReturnTitle("Défaite", "Vous avez perdu le combat.");
+        if (fight.playerWon()) controllerManager.goToVictoryScreen();
+        else controllerManager.goToDefeatScreen();
     }
 
     private void switchPlayerBugemon(String selectedId) throws BugemonNotInTeamException {
