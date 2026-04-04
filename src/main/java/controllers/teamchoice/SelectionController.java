@@ -139,6 +139,6 @@ public class SelectionController extends Controller<SelectionView> {
 
     public void goToFight() {
         GameStateHolder.getInstance().setCurrentTeamPlayer(playerTeam);
-        this.controllerManager.goToFightAgainstCPU();
+        this.controllerManager.startNewTower();
     }
 }

@@ -3,7 +3,6 @@ package controllers.fight;
 import controllers.Controller;
 import controllers.ControllerManager;
 import views.fight.DefeatView;
-import views.fight.VictoryView;
 
 import java.io.IOException;
 
@@ -15,9 +14,5 @@ public class DefeatController extends Controller<DefeatView> {
         public void goToMenu() {
             this.controllerManager.goToTitleScreen();
         }
-    public void goToFight() {
-        this.controllerManager.goToFightAgainstCPU();
-
-    }
 
 }

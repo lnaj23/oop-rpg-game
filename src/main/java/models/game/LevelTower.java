@@ -175,4 +175,15 @@ public class LevelTower {
     public void resetFloor() {
         this.currentStep = 0;
     }
+
+    public String getProgressAsString() {
+        if (finished) {
+            return "Tour terminée !";
+        }
+        TowerNodeType typeStep = getCurrentStepType();
+        if(typeStep ==TowerNodeType.BOSS){
+            return "NO" + currentFloor + " - Boss";
+        }
+        return "NO" + currentFloor + " - Étape" + (currentStep+1) + "/6";
+    }
 }

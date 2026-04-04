@@ -4,11 +4,12 @@ import controllers.fight.*;
 import controllers.teamchoice.PreBuildTeamController;
 import controllers.teamchoice.SelectionController;
 import controllers.tower.RewardController;
-import controllers.tower.TowerController;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import models.TowerNodeType;
 import models.game.Item;
+import models.game.LevelTower;
 import services.game.GameStateHolder;
 import views.FatalErrorView;
 import views.View;
@@ -45,7 +46,7 @@ public class ControllerManager {
     private final VictoryController victoryController;
     private final DefeatController defeatController;
     private final RewardController rewardController;
-    private final TowerController towerController;
+
     /**
      * Initializes all controllers and views.
      *
@@ -61,7 +62,6 @@ public class ControllerManager {
         this.victoryController = new VictoryController(this);
         this.defeatController = new DefeatController(this);
         this.rewardController = new RewardController(this);
-        this.towerController = new TowerController(this);
     }
 
     /**
@@ -186,10 +186,9 @@ public class ControllerManager {
         this.switchScene(Scenes.SELECTION);
     }
 
-    public void goToFightAgainstCPU() {
-        this.towerController.setTower();
-        this.fightAgainstCPUController.setFight();
-        this.switchScene(Scenes.FIGHT_AGAINST_CPU);
+    public void startNewTower() {
+        GameStateHolder.getInstance().setCurrentLevelTower(new LevelTower());
+        this.goToNextFight();
     }
 
     public void goToRewardScreen() {
@@ -213,10 +212,23 @@ public class ControllerManager {
     }
 
 
-    public void goToNextTowerStep() {
-        this.towerController.advanceTower();
+    public void goToNextFight() {
+        this.fightAgainstCPUController.setFight();
+        this.switchScene(Scenes.FIGHT_AGAINST_CPU);
     }
 
+    public void goToNextTowerStep(){
+        GameStateHolder.getInstance().advanceStep();
+        if(GameStateHolder.getInstance().getCurrentLevelTower().isFinished()) {
+            this.goToVictoryScreen();
+            return;
+        }
+        TowerNodeType nextStep = GameStateHolder.getInstance().getCurrentStepType();
+        switch (nextStep) {
+            case COMBAT, BOSS -> this.goToNextFight();
+            case REWARD -> this.goToRewardScreen();
+        }
+    }
 
     public void onSwitchBugemonChosen(String selectedId) {
         fightAgainstCPUController.onSwitchBugemonChosen(
