@@ -297,4 +297,50 @@ public class Bugemon implements BugemonDTO {
             attack.setColor(getTypeColorOfBugemon(attack));
         }
     }
+
+
+    // XP
+
+    /**
+     * Returns the current level of this Bugemon
+     *
+     * @return the current level
+     */
+    public int getlevel() {
+        return stats.getLevel();
+    }
+
+    /**
+     * Returns the current XP of the Bugemon
+     *
+     * @return the current experience points
+     */
+    public int getXp() {
+        return stats.getXp();
+    }
+
+    /**
+     * Adds XP to the Bugemon
+     *
+     * @param amount the amount of XP to add
+     */
+    public void addXp(int amount) {
+        stats.addXp(amount);
+    }
+
+    /**
+     * Checks whether this Bugemon has enough XP to level up.
+     *
+     * @return true if accumulated XP exceeds the required threshold
+     */
+    public boolean canLevelUp() {
+        return stats.getXp() >= stats.getXpThreshold();
+    }
+
+    /**
+     * Levels up this Bugemon
+     */
+    public void levelUp() {
+        stats.levelUp();
+    }
 }

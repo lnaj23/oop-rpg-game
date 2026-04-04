@@ -88,4 +88,9 @@ public interface BugemonDTO {
      */
     String getActifModifierAsStringToDisplay();
 
+    /**
+     * @return the current level of the Bugémon
+     */
+    int getlevel();
+
 }

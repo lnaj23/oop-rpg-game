@@ -106,7 +106,7 @@ public class Stats {
      *
      * @return level start at 1
      */
-    public int getLevel() { return level; }
+    public int getLevel() { return level < 1 ? 1 : level; }
 
     /**
      * Return XP already gained by the Bugemon.
@@ -116,12 +116,16 @@ public class Stats {
     public int getXp() { return xp; }
 
     /**
-     * Calculates the XP threshold required to progress from the current level to the next.
-     * The formula is: (50 + 50 * (level - 1)) XP.
-     * @return the amount of XP required to reach the next level
+     * Computes the XP threshold required to reach the next level.
+     * Formula from the specification (Section 3.2.4.1):
+     * Level n -> (n+1) : 50 + 100 * (n - 1) XP
+     * Examples: level 1->2 = 50, level 2->3 = 150, level 3->4 = 250
+     *
+     * @return the amount of XP needed to level up
      */
     public int getXpThreshold() {
-        return 50 + 50 * (level - 1);
+        int effectiveLevel = level < 1 ? 1 : level;
+        return 50 + 100 * (effectiveLevel - 1);
     }
 
     /**
@@ -138,6 +142,7 @@ public class Stats {
      * and restores HP to its maximum value.
      */
     public void levelUp() {
+        if (level < 1) level = 1;
         this.xp -= getXpThreshold();  // keeps the excess
         this.level++;
         this.currentpv = this.pv;     // HP restored to max on level up
