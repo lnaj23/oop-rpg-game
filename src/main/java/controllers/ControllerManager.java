@@ -186,9 +186,18 @@ public class ControllerManager {
         this.switchScene(Scenes.SELECTION);
     }
 
-    public void startNewTower() {
-        GameStateHolder.getInstance().setCurrentLevelTower(new LevelTower());
-        this.goToNextFight();
+    public void goToTitleScreen() {
+        this.switchScene(Scenes.TITLE_SCREEN);
+    }
+
+
+    public void goToVictoryScreen() {
+        this.victoryController.beginEXPDistribution(404);
+        this.switchScene(Scenes.VICTORY);
+    }
+
+    public void goToDefeatScreen() {
+        this.switchScene(Scenes.DEFEAT);
     }
 
     public void goToRewardScreen() {
@@ -196,23 +205,12 @@ public class ControllerManager {
         this.switchScene(Scenes.REWARD);
     }
 
-    public void goToVictoryScreen() {
-        this.victoryController.beginEXPDistribution(404);
-        this.switchScene(Scenes.VICTORY);
+    public void startNewTower() {
+        GameStateHolder.getInstance().setCurrentLevelTower(new LevelTower());
+        this.goToNextFight();
     }
 
-
-    public void goToDefeatScreen() {
-        this.switchScene(Scenes.DEFEAT);
-    }
-
-
-    public void goToTitleScreen() {
-        this.switchScene(Scenes.TITLE_SCREEN);
-    }
-
-
-    public void goToNextFight() {
+    private void goToNextFight() {
         this.fightAgainstCPUController.setFight();
         this.switchScene(Scenes.FIGHT_AGAINST_CPU);
     }
@@ -220,7 +218,7 @@ public class ControllerManager {
     public void goToNextTowerStep(){
         GameStateHolder.getInstance().advanceStep();
         if(GameStateHolder.getInstance().getCurrentLevelTower().isFinished()) {
-            this.goToVictoryScreen();
+            this.goToTitleScreen();
             return;
         }
         TowerNodeType nextStep = GameStateHolder.getInstance().getCurrentStepType();

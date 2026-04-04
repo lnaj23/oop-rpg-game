@@ -18,7 +18,7 @@ public class DefeatView extends View<DefeatController> {
      */
     public DefeatView() throws IOException{
         super(AppConfig.FXML_DEFEAT);
-        this.retryBtn.setOnAction(M -> this.controller.goToMenu());
+        this.retryBtn.setOnAction(M -> this.controller.retryRun());
         this.giveUpBtn.setOnAction(M -> this.controller.goToMenu());
     }
 

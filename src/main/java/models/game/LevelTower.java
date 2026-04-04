@@ -184,6 +184,6 @@ public class LevelTower {
         if(typeStep ==TowerNodeType.BOSS){
             return "NO" + currentFloor + " - Boss";
         }
-        return "NO" + currentFloor + " - Étape" + (currentStep+1) + "/6";
+        return "NO" + currentFloor + " - Étape " + (currentStep+1) + " / 6";
     }
 }
