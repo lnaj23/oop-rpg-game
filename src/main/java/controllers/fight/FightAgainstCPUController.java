@@ -76,9 +76,6 @@ public class FightAgainstCPUController extends Controller<FightView> implements 
         view.displayTeam(fight.getTeamEnemyToDisplay());
     }
 
-    public void gotoTitleScreen() {
-        this.controllerManager.goToTitleScreen();
-    }
 
     @Override
     public void onAttackSelected(int attackIndex) {

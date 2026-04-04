@@ -25,6 +25,6 @@ public class RewardView extends View<RewardController> {
 
     @Override
     protected String getTitle() {
-        return "Bugémon — Récompense";
+        return "Bugémon - Récompense";
     }
 }

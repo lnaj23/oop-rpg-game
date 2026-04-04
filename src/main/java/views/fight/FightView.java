@@ -104,7 +104,7 @@ public class FightView extends View<Controller> {
 
     @Override
     protected String getTitle() {
-        return "Bugémon – Combat";
+        return "Bugémon - Combat";
     }
 
 
