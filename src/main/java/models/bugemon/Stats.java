@@ -32,6 +32,12 @@ public class Stats {
     /** Cumulative modifier applied to the initiative stat during battle. */
     private int initiativeModifier = 0;
 
+    /** Bugemon level start at 1 */
+    private int level = 1;
+
+    /** XP gained by the Bugemon */
+    private int xp = 0;
+
     /**
      * Copy constructor. Creates a deep copy of the given stats.
      *
@@ -46,6 +52,8 @@ public class Stats {
         this.attaqueModifier = other.attaqueModifier;
         this.defenseModifier = other.defenseModifier;
         this.initiativeModifier = other.initiativeModifier;
+        this.level = other.level;
+        this.xp = other.xp;
     }
 
     /**
@@ -93,6 +101,85 @@ public class Stats {
         return initiative + initiativeModifier;
     }
 
+    /**
+     * Return Bugemon level
+     *
+     * @return level start at 1
+     */
+    public int getLevel() { return level; }
+
+    /**
+     * Return XP already gained by the Bugemon.
+     *
+     * @return actual XP
+     */
+    public int getXp() { return xp; }
+
+    /**
+     * Calculates the XP threshold required to progress from the current level to the next.
+     * The formula is: (50 + 50 * (level - 1)) XP.
+     * @return the amount of XP required to reach the next level
+     */
+    public int getXpThreshold() {
+        return 50 + 50 * (level - 1);
+    }
+
+    /**
+     * Adds XP to the Bugémon
+     * @param amount the amount of XP to add (must be positive)
+     */
+    public void addXp(int amount) {
+        this.xp += amount;
+    }
+
+    /**
+     * Levels up the Bugémon by one level, subtracts the XP threshold
+     * (any excess XP is carried over to the next level),
+     * and restores HP to its maximum value.
+     */
+    public void levelUp() {
+        this.xp -= getXpThreshold();  // keeps the excess
+        this.level++;
+        this.currentpv = this.pv;     // HP restored to max on level up
+    }
+
+    /**
+     * Permanently increases the maximum HP.
+     * Also updates current HP to reflect the new maximum.
+     *
+     * @param amount the HP bonus to add
+     */
+    public void addPermanentHp(int amount) {
+        this.pv += amount;
+        this.currentpv = this.pv;  // refill HP to new max
+    }
+
+    /**
+     * Permanently increases the base attack stat.
+     *
+     * @param amount the attack bonus to add
+     */
+    public void addPermanentAttack(int amount) {
+        this.attaque += amount;
+    }
+
+    /**
+     * Permanently increases the base defense stat.
+     *
+     * @param amount the defense bonus to add
+     */
+    public void addPermanentDefense(int amount) {
+        this.defense += amount;
+    }
+
+    /**
+     * Permanently increases the base initiative stat.
+     *
+     * @param amount the initiative bonus to add
+     */
+    public void addPermanentInitiative(int amount) {
+        this.initiative += amount;
+    }
 
     /**
      * Modifies the attack stat by the specified delta.
@@ -164,4 +251,5 @@ public class Stats {
         return "Effets :" + "\n attaque : " + this.attaqueModifier + "\n defense : " + this.defenseModifier
                 + "\n initiative : " + this.initiativeModifier;
     }
+
 }
