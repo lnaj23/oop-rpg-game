@@ -136,6 +136,7 @@ public class FightAgainstCPUController extends Controller<FightView> implements 
         viewReactToAttack();
         if (fight.isOnFieldEnemyBugemonKO()) {
             view.markBugemonAsFainted(fight.getOnFieldEnemyBugemon());
+            fight.removeOnFieldEnemyFromTeam();
             PauseTransition pauseKO = new PauseTransition(Duration.seconds(AppConfig.DEATH_DISPLAY_TIME));
             pauseKO.setOnFinished(e -> {
                 if (fight.isBattleOver()) {

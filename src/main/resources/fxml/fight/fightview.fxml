@@ -20,7 +20,7 @@
             <Label fx:id="enemyNameLabel" styleClass="bugemon-name-label" text="Enemy" />
             <Label fx:id="enemyEffectLabel" prefHeight="77.0" prefWidth="220.0" styleClass="effect-label" text="EnemyEffect" />
             <Label fx:id="enemyHpLabel" styleClass="hp-text-label" text="EnemyHP" />
-            <ProgressBar fx:id="enemyHpBarFill" prefWidth="200.0" progress="1.0" />
+            <ProgressBar fx:id="enemyHpBarFill" prefWidth="210.0" progress="1.0" />
             <ImageView fx:id="enemySprite" fitHeight="180" preserveRatio="true" />
          <VBox id="team" alignment="CENTER" prefWidth="200" spacing="10">
             <children>

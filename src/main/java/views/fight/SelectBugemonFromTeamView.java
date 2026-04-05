@@ -77,6 +77,7 @@ public class SelectBugemonFromTeamView extends View<Controller> {
         for (int i = 0; i < team.size(); i++) {
             BugemonDTO bugemon = team.get(i);
             ImageView imgView = createSprite(bugemon);
+            imgView.setScaleX(-1);
             bindEvents(imgView, bugemon);
             grid.add(imgView, i % 3, i / 3);
         }

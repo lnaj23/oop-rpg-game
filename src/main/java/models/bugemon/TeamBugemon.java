@@ -8,6 +8,7 @@ import services.dataprovider.BugemonProvider;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Represents a named team of up to 6 Bugémons.
@@ -59,7 +60,7 @@ public class TeamBugemon implements TeamBugemonDTO {
      */
     public TeamBugemon(TeamBugemon other) {
         this.name           = other.name;
-        this.team           = other.team.stream().map(Bugemon::new).toList();
+        this.team = other.team.stream().map(Bugemon::new).collect(Collectors.toList());
         this.onFieldBugemon = null;
     }
 
