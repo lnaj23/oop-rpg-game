@@ -217,6 +217,7 @@ public class Bugemon implements BugemonDTO {
     public void resetAllModifiers() {
         stats.resetModifiers();
         ongoingEffects.clear();
+        stats.resetItemModifiers();
     }
 
     /**
@@ -313,16 +314,11 @@ public class Bugemon implements BugemonDTO {
     }
 
     public void updatestatModifierFromItem(Item item){
+        int amount = item.getModifier();
         switch (item.getStatToModifie()){
-            case "attaque":
-                this.stats.updateAttackModifierFromItem(Integer.parseInt(item.getModifier()));
-                break;
-            case "defense":
-                this.stats.updateDefenseModifierFromItem(Integer.parseInt(item.getModifier()));
-                break;
-            case "initiative":
-                this.stats.updateInitiativeModifierFromItem(Integer.parseInt(item.getModifier()));
-                break;
+            case "attaque":   this.stats.updateAttackModifierFromItem(amount); break;
+            case "defense":   this.stats.updateDefenseModifierFromItem(amount); break;
+            case "initiative": this.stats.updateInitiativeModifierFromItem(amount); break;
         }
     }
 

@@ -12,7 +12,7 @@ public class ItemEffectApplier {
             case "soin":
                 bugemon.heal(item.getEffectValue());
                 break;
-            case "stat_modifier":
+            case "boost":
                 bugemon.updatestatModifierFromItem(item);
                 break;
             case "reset_malus":

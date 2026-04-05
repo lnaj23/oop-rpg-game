@@ -43,7 +43,7 @@ public class Item implements ItemDTO {
     public String getCategory() { return category; }
     public int getEffectValue() {return this.effect.getValeur();}
     public String getStatToModifie(){ return this.effect.getStat();}
-    public String getModifier() { return this.effect.getModifier();}
+    public int getModifier() { return this.effect.getModifier();}
     public Effect getEffect() { return this.effect; }
     @Override
     public String toString() {
