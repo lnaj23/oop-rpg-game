@@ -28,12 +28,13 @@ public class Stats {
 
     /** Cumulative modifier applied to the attack stat during battle. */
     private transient int attackModifier = 0;
-
+    private transient int attackModifierFromItem = 0;
     /** Cumulative modifier applied to the defense stat during battle. */
     private transient int defenseModifier = 0;
-
+    private transient int defenseModifierFromItem = 0;
     /** Cumulative modifier applied to the initiative stat during battle. */
     private transient int initiativeModifier = 0;
+    private transient int initiativeModifierFromItem = 0;
 
     /** Bugemon level start at 1 */
     private int level = 1;
@@ -55,6 +56,9 @@ public class Stats {
         this.attackModifier = other.attackModifier;
         this.defenseModifier = other.defenseModifier;
         this.initiativeModifier = other.initiativeModifier;
+        this.attackModifierFromItem = other.attackModifierFromItem;
+        this.defenseModifierFromItem = other.defenseModifierFromItem;
+        this.initiativeModifierFromItem = other.initiativeModifierFromItem;
         this.level = other.level;
         this.xp = other.xp;
     }
@@ -83,7 +87,7 @@ public class Stats {
      * @return attack stat
      */
     public int getAttackWithModifier() {
-        return attack + attackModifier;
+        return attack + attackModifier + attackModifierFromItem;
     }
 
     /**
@@ -92,7 +96,7 @@ public class Stats {
      * @return defense stat
      */
     public int getDefenseWithModifier() {
-        return defense + defenseModifier;
+        return defense + defenseModifier + defenseModifierFromItem;
     }
 
     /**
@@ -101,7 +105,7 @@ public class Stats {
      * @return initiative stat
      */
     public int getInitiativeWithModifier() {
-        return initiative + initiativeModifier;
+        return initiative + initiativeModifier + initiativeModifierFromItem;
     }
 
     /**
@@ -256,8 +260,35 @@ public class Stats {
     }
 
     String getActifModifierAsStringToDisplay() {
-        return "Effets :" + "\n attaque : " + this.attackModifier + "\n defense : " + this.defenseModifier
-                + "\n initiative : " + this.initiativeModifier;
+        int MODIFATTACK = this.attackModifier + this.attackModifierFromItem;
+        int MODIFDEFENSE = this.defenseModifier + this.defenseModifierFromItem;
+        int MODIFINIT = this.initiativeModifier + this.initiativeModifierFromItem;
+        return "Effets :"
+                + "\n attaque : "    + ( MODIFATTACK > 0 ? "+" + MODIFATTACK : MODIFATTACK)
+                + "\n defense : "    + ( MODIFDEFENSE > 0 ? "+" + MODIFDEFENSE : MODIFDEFENSE)
+                + "\n initiative : " + ( MODIFINIT > 0 ? "+" + MODIFINIT : MODIFINIT);
+    }
+
+    public void updateAttackModifierFromItem(int amount){
+        this.attackModifierFromItem += amount;
+    }
+
+    public void updateDefenseModifierFromItem(int amount){
+        this.defenseModifierFromItem += amount;
+    }
+    public void updateInitiativeModifierFromItem(int amount){
+        this.initiativeModifierFromItem += amount;
+    }
+
+    public void cancelDebuff(){
+        attackModifier = attackModifier > 0 ?  attackModifier : 0;
+        defenseModifier = defenseModifier > 0 ?  defenseModifier : 0;
+        initiativeModifier = initiativeModifier > 0 ? initiativeModifier : 0;
+    }
+    public void resetItemModifiers() {
+        attackModifierFromItem = 0;
+        defenseModifierFromItem = 0;
+        initiativeModifierFromItem = 0;
     }
 
 }

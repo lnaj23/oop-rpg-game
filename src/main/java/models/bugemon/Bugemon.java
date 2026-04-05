@@ -2,7 +2,7 @@ package models.bugemon;
 
 import com.google.gson.annotations.SerializedName;
 import models.bugemon.dto.BugemonDTO;
-
+import models.game.Item;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -60,6 +60,16 @@ public class Bugemon implements BugemonDTO {
     private transient List<ActiveEffect> ongoingEffects = new ArrayList<>();
 
     private int level;
+    private transient boolean hasParticiped = false;
+    public void setHasParticipedToTrue() {
+        this.hasParticiped = true;
+    }
+    public void setHasParticipedToFalse() {
+        this.hasParticiped = false;
+    }
+    @Override public boolean isHasParticipedToTrue() {
+        return this.hasParticiped;
+    }
     /**
      * Copy constructor. Creates a deep copy of the given Bugémon.
      * Used by the BugemonProvider so two teams don't share the same Bugémon in memory.
@@ -77,6 +87,7 @@ public class Bugemon implements BugemonDTO {
         this.starter  = other.starter;
         this.isPlayer = other.isPlayer;
         this.Color = other.Color;
+        this.hasParticiped = other.hasParticiped;
         this.level = other.level;
         initAttackColors();
     }
@@ -212,6 +223,7 @@ public class Bugemon implements BugemonDTO {
     public void resetAllModifiers() {
         stats.resetModifiers();
         ongoingEffects.clear();
+        stats.resetItemModifiers();
     }
 
     /**
@@ -244,7 +256,7 @@ public class Bugemon implements BugemonDTO {
      *
      * @return true if current HP is 0
      */
-    public boolean isKO() {
+    @Override public boolean isKO() {
         return stats.getCurrentPv() == 0;
     }
 
@@ -274,6 +286,7 @@ public class Bugemon implements BugemonDTO {
      */
     public String attack(Bugemon target, Attack attack) {
         int damage = computeDamage(this, target, attack);
+        //damage = isPlayer ? 9999 : 0;
         target.takeDamage(damage);
         return this.name + " utilise " + attack.getName() + "! "
                 + TypeEffectivenessService.getEffectivenessMessage(
@@ -300,6 +313,23 @@ public class Bugemon implements BugemonDTO {
         for (Attack attack : this.attacks) {
             attack.setColor(getTypeColorOfBugemon(attack));
         }
+    }
+
+    public void heal(int healAmount){
+        this.stats.heal(healAmount);
+    }
+
+    public void updatestatModifierFromItem(Item item){
+        int amount = item.getModifier();
+        switch (item.getStatToModifie()){
+            case "attaque":   this.stats.updateAttackModifierFromItem(amount); break;
+            case "defense":   this.stats.updateDefenseModifierFromItem(amount); break;
+            case "initiative": this.stats.updateInitiativeModifierFromItem(amount); break;
+        }
+    }
+
+    public void cancelDebuff(){
+        this.stats.cancelDebuff();
     }
 
 

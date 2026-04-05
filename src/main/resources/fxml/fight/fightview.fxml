@@ -14,11 +14,13 @@
 
     <AnchorPane prefHeight="892.0" prefWidth="1288.0">
 
+        <Label fx:id="floorInfoLabel" alignment="CENTER" layoutX="-14.0" layoutY="62.0" scaleX="2.0" scaleY="2.0" styleClass="floor-info-label" text="Progression" AnchorPane.leftAnchor="-14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="62.0" />
+
         <VBox id="enemy" alignment="CENTER" layoutX="783.0" layoutY="135.0" prefHeight="516.0" prefWidth="220" spacing="8" AnchorPane.rightAnchor="285.0" AnchorPane.topAnchor="135.0">
             <Label fx:id="enemyNameLabel" styleClass="bugemon-name-label" text="Enemy" />
             <Label fx:id="enemyEffectLabel" prefHeight="77.0" prefWidth="220.0" styleClass="effect-label" text="EnemyEffect" />
             <Label fx:id="enemyHpLabel" styleClass="hp-text-label" text="EnemyHP" />
-            <ProgressBar fx:id="enemyHpBarFill" prefWidth="200.0" progress="1.0" />
+            <ProgressBar fx:id="enemyHpBarFill" prefWidth="210.0" progress="1.0" />
             <ImageView fx:id="enemySprite" fitHeight="180" preserveRatio="true" />
          <VBox id="team" alignment="CENTER" prefWidth="200" spacing="10">
             <children>

@@ -82,7 +82,7 @@ public class PreBuildTeamController extends Controller<PreBuildTeamView> {
      */
     public void play(int index) {
         GameStateHolder.getInstance().setCurrentTeamPlayer(teams.get(index));
-        this.controllerManager.goToFightAgainstCPU();
+        this.controllerManager.startNewTower();
     }
 
 

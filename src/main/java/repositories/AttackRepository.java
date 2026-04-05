@@ -1,5 +1,6 @@
 package repositories;
 
+import com.google.gson.annotations.SerializedName;
 import configuration.AppConfig;
 import models.bugemon.Attack;
 import java.util.List;
@@ -20,10 +21,11 @@ public abstract class AttackRepository extends JsonRepository {
      * Used exclusively by Gson to deserialize the JSON array.
      */
     public static class JsonAttack implements JsonWrapper<Attack> {
-        public List<Attack> attaques;
+        @SerializedName("attaques")
+        public List<Attack> attacks;
 
         @Override
-        public List<Attack> getItems() { return attaques; }
+        public List<Attack> getItems() { return attacks; }
     }
 
 

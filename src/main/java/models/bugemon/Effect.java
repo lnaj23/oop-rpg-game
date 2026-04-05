@@ -21,7 +21,7 @@ public class Effect {
 
     /** Modifier applied to the stat (e.g. +1, -2). */
     @SerializedName("modificateur")
-    private String modifier;
+    private int modifier;
 
     /** Number of turns this effect lasts. */
     @SerializedName("duree")
@@ -77,7 +77,7 @@ public class Effect {
      *
      * @return the stat modifier
      */
-    public String getModifier() {
+    public int getModifier() {
         return modifier;
     }
 

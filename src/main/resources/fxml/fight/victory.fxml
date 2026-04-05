@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox alignment="CENTER" prefHeight="892.0" prefWidth="1288.0" spacing="30.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1">
+    <stylesheets>
+        <URL value="@../../css/common.css" />
+    </stylesheets>
+
+    <children>
+        <Label fx:id="victoryLabel" text="VICTOIRE !" textAlignment="CENTER">
+            <font>
+                <Font size="46.0" />
+            </font>
+        </Label>
+
+        <Label fx:id="gainedEXPLabel" scaleX="2.0" scaleY="2.0" text="XP gagnée : &lt;nombre&gt;" textAlignment="CENTER">
+            <font>
+                <Font size="19.0" />
+            </font>
+        </Label>
+
+        <VBox fx:id="bugemonXpList" alignment="CENTER" spacing="5.0" />
+
+        <Button fx:id="continueBtn" mnemonicParsing="false" text="Continuer" />
+    </children>
+</VBox>

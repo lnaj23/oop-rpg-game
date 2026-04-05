@@ -93,4 +93,7 @@ public interface BugemonDTO {
      */
     int getlevel();
 
+    boolean isHasParticipedToTrue();
+
+    boolean isKO();
 }

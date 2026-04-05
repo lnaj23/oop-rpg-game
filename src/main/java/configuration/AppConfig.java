@@ -1,7 +1,13 @@
 package configuration;
 
+import models.game.Item;
+
+import models.game.Item;
+
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
@@ -26,7 +32,7 @@ public abstract class AppConfig {
     // JSON
     public static final String JSON_BUGEMONS  = props.getProperty("json.prefix") + props.getProperty("json.bugemons");
     public static final String JSON_ATTAQUES  = props.getProperty("json.prefix") + props.getProperty("json.attaques");
-
+    public static final String JSON_ITEMS  = props.getProperty("json.prefix") + props.getProperty("json.items");
     // Persistence
     public static final String TEAMS_FILE     = props.getProperty("persistence.teams.file");
 
@@ -37,6 +43,9 @@ public abstract class AppConfig {
     public static final String FXML_SWITCHBUGEMON = props.getProperty("fxml.switchbugemon");
     public static final String FXML_PREBUILDTEAM  = props.getProperty("fxml.prebuildteam");
     public static final String FXML_SELECTION     = props.getProperty("fxml.selection");
+    public static final String FXML_VICTORY       = props.getProperty("fxml.victory");
+    public static final String FXML_DEFEAT        = props.getProperty("fxml.defeat") ;
+    public static final String FXML_REWARD = props.getProperty("fxml.reward");
     public static final String FXML_LEVELUP       = props.getProperty("fxml.levelup");
 
     // Assets PNG
@@ -55,4 +64,7 @@ public abstract class AppConfig {
     public static List<String> getEnemyTeam() {
         return Arrays.asList(props.getProperty("game.fight.enemy_team").split(","));
     }
+
+    public static final String DEFAUT_ITEMS = props.getProperty("game.fight.defaut_items");
+
 }

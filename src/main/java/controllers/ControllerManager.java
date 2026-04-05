@@ -1,14 +1,15 @@
 package controllers;
 
-import controllers.fight.FightAgainstCPUController;
-import controllers.fight.ItemChoiceController;
-import controllers.fight.SwitchBugemonController;
+import controllers.fight.*;
 import controllers.teamchoice.PreBuildTeamController;
 import controllers.teamchoice.SelectionController;
+import controllers.tower.RewardController;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import models.TowerNodeType;
 import models.game.Item;
+import models.game.LevelTower;
 import services.game.GameStateHolder;
 import views.FatalErrorView;
 import views.View;
@@ -31,7 +32,10 @@ public class ControllerManager {
         TITLE_SCREEN,
         PREBUILD_TEAM,
         SELECTION,
-        FIGHT_AGAINST_CPU
+        FIGHT_AGAINST_CPU,
+        VICTORY,
+        DEFEAT,
+        REWARD
     }
 
     private final Stage PrimaryStage;
@@ -39,7 +43,9 @@ public class ControllerManager {
     private final PreBuildTeamController preBuildTeamController;
     private final SelectionController selectionController;
     private final FightAgainstCPUController fightAgainstCPUController;
-
+    private final VictoryController victoryController;
+    private final DefeatController defeatController;
+    private final RewardController rewardController;
 
     /**
      * Initializes all controllers and views.
@@ -53,6 +59,9 @@ public class ControllerManager {
         this.preBuildTeamController = new PreBuildTeamController(this);
         this.selectionController = new SelectionController(this);
         this.fightAgainstCPUController = new FightAgainstCPUController(this);
+        this.victoryController = new VictoryController(this);
+        this.defeatController = new DefeatController(this);
+        this.rewardController = new RewardController(this);
     }
 
     /**
@@ -75,6 +84,9 @@ public class ControllerManager {
             case PREBUILD_TEAM -> this.preBuildTeamController.show(PrimaryStage);
             case SELECTION -> this.selectionController.show(PrimaryStage);
             case FIGHT_AGAINST_CPU -> this.fightAgainstCPUController.show(PrimaryStage);
+            case VICTORY -> this.victoryController.show(PrimaryStage);
+            case DEFEAT -> this.defeatController.show(PrimaryStage);
+            case REWARD -> this.rewardController.show(PrimaryStage);
             default -> throw new IllegalArgumentException("Invalid scene: " + scene);
         }
         ensureFullScreen();
@@ -174,13 +186,46 @@ public class ControllerManager {
         this.switchScene(Scenes.SELECTION);
     }
 
-    public void goToFightAgainstCPU() {
+    public void goToTitleScreen() {
+        this.switchScene(Scenes.TITLE_SCREEN);
+    }
+
+
+    public void goToVictoryScreen() {
+        this.victoryController.beginEXPDistribution(404);
+        this.switchScene(Scenes.VICTORY);
+    }
+
+    public void goToDefeatScreen() {
+        this.switchScene(Scenes.DEFEAT);
+    }
+
+    public void goToRewardScreen() {
+        this.rewardController.setReward();
+        this.switchScene(Scenes.REWARD);
+    }
+
+    public void startNewTower() {
+        GameStateHolder.getInstance().setCurrentLevelTower(new LevelTower());
+        this.goToNextFight();
+    }
+
+    private void goToNextFight() {
         this.fightAgainstCPUController.setFight();
         this.switchScene(Scenes.FIGHT_AGAINST_CPU);
     }
 
-    public void goToTitleScreen() {
-        this.switchScene(Scenes.TITLE_SCREEN);
+    public void goToNextTowerStep(){
+        GameStateHolder.getInstance().advanceStep();
+        if(GameStateHolder.getInstance().getCurrentLevelTower().isFinished()) {
+            this.goToTitleScreen();
+            return;
+        }
+        TowerNodeType nextStep = GameStateHolder.getInstance().getCurrentStepType();
+        switch (nextStep) {
+            case COMBAT, BOSS -> this.goToNextFight();
+            case REWARD -> this.goToRewardScreen();
+        }
     }
 
     public void onSwitchBugemonChosen(String selectedId) {

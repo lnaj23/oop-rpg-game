@@ -40,6 +40,16 @@ public class Fight {
         this.teamPlayer.changeOnFieldBugemon(this.teamPlayer.getTeam().getFirst());
         // The first Bugemon sent to the field is a participant
         participatingBugemons.add(this.teamPlayer.getOnFieldBugemon());
+        for(Bugemon bug : this.teamPlayer.getTeam()){
+            bug.initPv(); // Heal all bugemon at the start, maybe we'll remove if we want to make a real roguelike game
+            bug.resetAllModifiers();
+        }
+        for(Bugemon bug : this.teamPlayer.getTeam()){
+            if (!bug.isKO()){
+                this.teamPlayer.changeOnFieldBugemon(bug);
+                break;
+            }
+        }
         this.teamEnemy.changeOnFieldBugemon(this.teamEnemy.getTeam().getFirst());
         this.isPlayerTurn = true;
     }
@@ -203,5 +213,8 @@ public class Fight {
         if (available.isEmpty()) return;
         Bugemon randomBug = available.get(random.nextInt(available.size()));
         changeEnemyOnField(randomBug);
+    }
+    public void removeOnFieldEnemyFromTeam() {
+        teamEnemy.getTeam().remove(teamEnemy.getOnFieldBugemon());
     }
 }

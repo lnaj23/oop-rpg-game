@@ -1,10 +1,17 @@
 package services.game;
 
+import models.TowerNodeType;
+import configuration.AppConfig;
+import models.TowerNodeType;
 import models.bugemon.TeamBugemon;
 import models.bugemon.dto.BugemonDTO;
 import models.game.Item;
+import repositories.ItemRepository;
+import services.dataprovider.ItemProvider;
+import models.game.LevelTower;
+import services.dataprovider.ItemProvider;
 import services.dataprovider.TeamProvider;
-
+import models.game.LevelTower;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,6 +20,7 @@ import java.util.List;
  * Used to pass model objects between controllers without coupling them directly.
  */
 public class GameStateHolder {
+    private LevelTower currentLevelTower;
 
     private static GameStateHolder instance;
 
@@ -26,15 +34,8 @@ public class GameStateHolder {
     private String currentOnFieldId;
     private boolean switchOnPurpose;
 
-    private final List<Item> availableItems = new ArrayList<>(List.of(
-            new Item("baie_revigorante", "Baie Revigorante", "soigne 20 HP"),
-            new Item("baie_revigorante", "Baie Revigorante", "soigne 20 HP"),
-            new Item("baie_revigorante", "Baie Revigorante", "soigne 20 HP"),
-            new Item("baie_tonique", "Baie Tonique", "soigne 50 HP"),
-            new Item("baie_tonique", "Baie Tonique", "soigne 50 HP"),
-            new Item("gel_defensif", "Gel Défensif", "augmente la défense"),
-            new Item("serum_offensif", "Sérum Offensif", "augmente l'attaque")
-    ));
+    private static List<Item> availableItems =  new ArrayList<>();
+
     /**
      * Returns the unique instance of {@link GameStateHolder}.
      *
@@ -42,10 +43,62 @@ public class GameStateHolder {
      */
     public static GameStateHolder getInstance() {
         if (instance == null) {
+            availableItems = ItemProvider.getInstance().getDefautItems();
             instance = new GameStateHolder();
         }
         return instance;
     }
+    public TowerNodeType getCurrentStepType() {
+        if(currentLevelTower == null) {
+            throw new IllegalStateException("Current level tower is not set.");
+        }
+        return currentLevelTower.getCurrentStepType();
+    }
+    /**
+     * Sets the current level tower for the game session.
+     * <p>
+     * Stores the tower instance so it can be accessed across controllers
+     * during tower progression.
+     * </p>
+     *
+     * @param levelTower the {@link LevelTower} instance to set
+     */
+    public void setCurrentLevelTower(LevelTower levelTower) {
+        this.currentLevelTower = levelTower;
+    }
+
+    /**
+     * Returns the current level tower.
+     *
+     * @return the active {@link LevelTower} instance, or {@code null} if none is set
+     */
+    public LevelTower getCurrentLevelTower() {
+        return currentLevelTower;
+    }
+    /**
+     * Advances the current level tower to the next step.
+     * <p>
+     * Delegates to the {@link LevelTower#advance()} method to progress the player
+     * through the tower's floors and steps. Should be called after each tower node
+     * is completed.
+     * </p>
+     *
+     * @throws NullPointerException if the current level tower is not set
+     */
+    public void advanceStep(){
+        this.currentLevelTower.advance();
+    }
+
+    /**
+     * Clears the current level tower from the session state.
+     * <p>
+     * Should be called when exiting the tower or returning to the title screen.
+     * </p>
+     */
+    public void clearCurrentLevelTower() {
+        this.currentLevelTower = null;
+    }
+
 
     public List<TeamBugemon> getSavedTeams() {
         return savedTeams;

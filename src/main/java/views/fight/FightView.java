@@ -75,6 +75,8 @@ public class FightView extends View<Controller> {
     /** 2×3 grid displaying the enemy's team sprites. */
     @FXML private GridPane enemyGrid;
 
+    @FXML private Label floorInfoLabel;
+
 
     /**
      * Constructs the view by loading the FXML and binding all button actions.
@@ -100,29 +102,9 @@ public class FightView extends View<Controller> {
         choicePanelController.setListener(listener);
     }
 
-    /**
-     * Shows a non-blocking alert, then calls {@code onClose} when the user dismisses it.
-     *
-     * @param title   the alert title
-     * @param message the alert body
-     */
-    public void showMessageReturnTitle(String title, String message) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.getDialogPane().getStylesheets().add(
-                Objects.requireNonNull(getClass().getResource(AppConfig.CSS_COMMON)).toExternalForm()
-        );
-        alert.initStyle(StageStyle.UNDECORATED);
-        alert.setGraphic(null);
-        alert.setOnHidden(e -> this.listener.onReturnToTitleRequested());
-        alert.show();
-    }
-
     @Override
     protected String getTitle() {
-        return "Bugémon – Combat";
+        return "Bugémon - Combat";
     }
 
 
@@ -149,6 +131,9 @@ public class FightView extends View<Controller> {
                 bindTeamSpriteEvents(imgView, bugemon);
                 imgView.setUserData(bugemon);
                 imgView.setScaleX(-1);
+                if (bugemon.isKO()){
+                    imgView.setEffect(new ColorAdjust(0, -1, 0, 0));
+                }
             }
 
             grid.add(imgView, i % 3, i / 3);
@@ -355,6 +340,10 @@ public class FightView extends View<Controller> {
         view.setFitWidth(size);
         view.setPreserveRatio(true);
         return view;
+    }
+
+    public void updateFloorInfo(String progress) {
+        floorInfoLabel.setText(progress);
     }
 
 }

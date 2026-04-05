@@ -20,7 +20,7 @@ import java.util.List;
  * </p>
  */
 public class ItemChoiceController extends Controller<ItemsView> {
-
+    private final List<Item> items;
     /**
      * Creates the controller for the item selection sub-view.
      *
@@ -69,5 +69,5 @@ public class ItemChoiceController extends Controller<ItemsView> {
         return view;
     }
 
-    private final List<Item> items;
+
 }
