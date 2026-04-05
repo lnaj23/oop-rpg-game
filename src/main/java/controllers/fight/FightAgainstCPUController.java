@@ -131,6 +131,9 @@ public class FightAgainstCPUController extends Controller<FightView> implements 
     private void useItem(Item item) {
         GameStateHolder.getInstance().consumeItem(item);
         if(item.getName().equals("Pierre de Retraite")){
+            if(GameStateHolder.getInstance().getCurrentTeamPlayer().getSize() == 1){
+                return;
+            }
             showSwitchWindow(false);
             useItemToChange = true;
             return;
