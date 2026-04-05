@@ -4,6 +4,8 @@ import models.TowerNodeType;
 import models.bugemon.TeamBugemon;
 import models.bugemon.dto.BugemonDTO;
 import models.game.Item;
+import repositories.ItemRepository;
+import services.dataprovider.ItemProvider;
 import services.dataprovider.TeamProvider;
 import models.game.LevelTower;
 import java.util.ArrayList;
@@ -28,15 +30,8 @@ public class GameStateHolder {
     private String currentOnFieldId;
     private boolean switchOnPurpose;
 
-    private final List<Item> availableItems = new ArrayList<>(List.of(
-            new Item("baie_revigorante", "Baie Revigorante", "soigne 20 HP"),
-            new Item("baie_revigorante", "Baie Revigorante", "soigne 20 HP"),
-            new Item("baie_revigorante", "Baie Revigorante", "soigne 20 HP"),
-            new Item("baie_tonique", "Baie Tonique", "soigne 50 HP"),
-            new Item("baie_tonique", "Baie Tonique", "soigne 50 HP"),
-            new Item("gel_defensif", "Gel Défensif", "augmente la défense"),
-            new Item("serum_offensif", "Sérum Offensif", "augmente l'attaque")
-    ));
+    private static List<Item> availableItems =  new ArrayList<>();
+
     /**
      * Returns the unique instance of {@link GameStateHolder}.
      *
@@ -44,6 +39,7 @@ public class GameStateHolder {
      */
     public static GameStateHolder getInstance() {
         if (instance == null) {
+            availableItems = ItemProvider.getInstance().getDefautItems();
             instance = new GameStateHolder();
         }
         return instance;

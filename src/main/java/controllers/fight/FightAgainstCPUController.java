@@ -21,12 +21,16 @@ import java.util.Objects;
 
 import models.bugemon.TeamBugemon;
 
+import static services.fight.ItemEffectApplier.ApplyItems;
+
 /**
  * Controller for the fight screen.
  */
 public class FightAgainstCPUController extends Controller<FightView> implements FightListener {
 
     private Fight fight;
+
+    private boolean useItemToChange = false;
 
     public FightAgainstCPUController(ControllerManager metaController) throws IOException {
         super(metaController, new FightView());
@@ -87,6 +91,7 @@ public class FightAgainstCPUController extends Controller<FightView> implements 
 
     @Override
     public void onItemClicked() {
+        view.updateCombatMessage("");
         controllerManager.openItemChoiceWindow();
     }
 
@@ -102,7 +107,7 @@ public class FightAgainstCPUController extends Controller<FightView> implements 
     }
 
     public void onItemChosen(Item item) {
-        useItem(item);
+            useItem(item);
     }
 
     public void onSwitchBugemonChosen(String selectedId, boolean onPurpose) {
@@ -111,7 +116,7 @@ public class FightAgainstCPUController extends Controller<FightView> implements 
             if (onPurpose) {
                 forceEnemyToAttack();
             } else {
-                if (fight.playerGoesFirstAfterSwitch()) view.setButtonsDisabled(false);
+                if (fight.playerGoesFirstAfterSwitch() || useItemToChange ) view.setButtonsDisabled(false);
                 else forceEnemyToAttack();
             }
         } catch (BugemonNotInTeamException e) {
@@ -125,10 +130,20 @@ public class FightAgainstCPUController extends Controller<FightView> implements 
 
     private void useItem(Item item) {
         GameStateHolder.getInstance().consumeItem(item);
+        if(item.getName().equals("Pierre de Retraite")){
+            showSwitchWindow(false);
+            useItemToChange = true;
+            return;
+        }
+        useItemToChange = false;
         view.setButtonsDisabled(true);
+        ApplyItems(fight.getOnFieldPlayerBugemon(), item);
+        viewReactToAttack();
         view.updateCombatMessage("Vous utilisez " + item.getName() + " !");
-        // TODO : appliquer l'effet de l'item sur le modèle fight
-        forceEnemyToAttack();
+
+        PauseTransition pause = new PauseTransition(Duration.seconds(AppConfig.ENEMY_REACT_TIME));
+        pause.setOnFinished(e -> forceEnemyToAttack());
+        pause.play();
     }
 
     private void playerAttackEnemy(int attackIndex) {
@@ -217,7 +232,7 @@ public class FightAgainstCPUController extends Controller<FightView> implements 
     }
 
     private void showSwitchWindow(boolean onPurpose) {
-        GameStateHolder.getInstance().setCurrentPlayerTeamDTO(fight.getTeamPlayer().getTeamDTO());
+        GameStateHolder.getInstance().setCurrentPlayerTeamDTO(fight.getTeamPlayerToDisplay());
         GameStateHolder.getInstance().setCurrentOnFieldId(fight.getOnFieldPlayerBugemonId());
         GameStateHolder.getInstance().setSwitchOnPurpose(onPurpose);
         controllerManager.openSwitchWindow();
