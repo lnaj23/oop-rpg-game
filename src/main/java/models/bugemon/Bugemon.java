@@ -194,10 +194,7 @@ public class Bugemon implements BugemonDTO {
         return this.stats.getActifModifierAsStringToDisplay();
     }
 
-    @Override
-    public int getlevel(){
-        return level;
-    }
+
     /**
      * Adds a new active effect to this Bugémon's ongoing effects list.
      *

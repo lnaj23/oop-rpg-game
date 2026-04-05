@@ -58,8 +58,6 @@ public class LevelUpBonus {
     }
 
     /**
-     * Returns a human-readable description of the bonus
-     * for display on the LevelUp view choice buttons.
      *
      * @return the bonus description "+20 HP" or "+5 Attaque, +5 Défense"
      */
