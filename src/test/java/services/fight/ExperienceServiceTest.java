@@ -11,11 +11,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Unit tests for ExperienceService.
- * Verifies XP computation and distribution formulas
- * as defined in section 3.2.4 of the specification.
- */
+
 public class ExperienceServiceTest extends TestCase {
 
     /**

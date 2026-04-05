@@ -9,10 +9,7 @@ import org.junit.Test;
 
 import java.util.List;
 
-/**
- * Unit tests for the XP and level system in Stats.
- * Uses TeamBugemon and Fight to obtain real Bugemon instances,
- */
+
 public class StatsTest extends TestCase {
 
     // florachu: PV=90, Atk=55, Def=40

@@ -85,4 +85,24 @@ public class LevelUpBonus {
         sb.append(stat);
     }
 
+    /**
+     * @return the HP bonus value
+     */
+    public int getHpBonus() { return hpBonus; }
+
+    /**
+     * @return the attack bonus value
+     */
+    public int getAttackBonus() { return attackBonus; }
+
+    /**
+     * @return the defense bonus value
+     */
+    public int getDefenseBonus() { return defenseBonus; }
+
+    /**
+     * @return the initiative bonus value
+     */
+    public int getInitiativeBonus() { return initiativeBonus; }
+
 }

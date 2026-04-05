@@ -9,9 +9,7 @@ import org.junit.Test;
 
 import java.util.List;
 
-/**
- * Unit tests for LevelUpBonus.
- */
+
 public class LevelUpBonusTest extends TestCase {
 
     /**
