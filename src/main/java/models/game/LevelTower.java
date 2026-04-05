@@ -50,24 +50,6 @@ public class LevelTower {
     }
 
     /**
-     * Returns the player's current floor.
-     *
-     * @return the current floor (2–10)
-     */
-    public int getCurrentFloor() {
-        return currentFloor;
-    }
-
-    /**
-     * Returns the player's current step within the floor.
-     *
-     * @return the current step (0–5)
-     */
-    public int getCurrentStep() {
-        return currentStep;
-    }
-
-    /**
      * Returns the type of node at the current step.
      *
      * @return the {@link TowerNodeType} (Combat, Reward, or Boss)
@@ -89,32 +71,6 @@ public class LevelTower {
         return finished;
     }
 
-    /**
-     * Checks if the current step is a boss encounter.
-     *
-     * @return {@code true} if the current step type is Boss
-     */
-    public boolean isBossStep() {
-        return getCurrentStepType() == TowerNodeType.BOSS;
-    }
-
-    /**
-     * Checks if the current step is a reward node.
-     *
-     * @return {@code true} if the current step type is Reward
-     */
-    public boolean isRewardStep() {
-        return getCurrentStepType() == TowerNodeType.REWARD;
-    }
-
-    /**
-     * Checks if the current step is a combat encounter.
-     *
-     * @return {@code true} if the current step type is Combat
-     */
-    public boolean isCombatStep() {
-        return getCurrentStepType() == TowerNodeType.COMBAT;
-    }
 
     /**
      * Advances the player to the next step.
@@ -135,45 +91,6 @@ public class LevelTower {
                 finished = true;
             }
         }
-    }
-
-    /**
-     * Retreats the player to the previous step.
-     * <p>
-     * When stepping back past step 0, moves to the previous floor's last step.
-     * Will not go below floor 2, step 0.
-     * </p>
-     */
-    public void retreat() {
-        if (finished) {
-            return;
-        }
-        currentStep--;
-        if (currentStep < 0) {
-            currentStep = FLOOR_PATTERN.size() - 1;
-            currentFloor--;
-            if (currentFloor < FIRST_FLOOR) {
-                currentFloor = FIRST_FLOOR;
-                currentStep = 0;
-            }
-        }
-    }
-
-    /**
-     * Resets the entire tower to its initial state.
-     * Player returns to floor 2, step 0, and the finished flag is cleared.
-     */
-    public void resetAll() {
-        this.currentFloor = FIRST_FLOOR;
-        this.currentStep = 0;
-        this.finished = false;
-    }
-
-    /**
-     * Resets the current floor to step 0 without changing the floor number.
-     */
-    public void resetFloor() {
-        this.currentStep = 0;
     }
 
     public String getProgressAsString() {

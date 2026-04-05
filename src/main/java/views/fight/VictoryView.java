@@ -39,7 +39,7 @@ public class VictoryView extends View<VictoryController> {
     }
 
     public void updateEXPGainedLabel(int TotalEXP) {
-        String txt = "XP gagnée : " + TotalEXP;
+        String txt = "XP gagnée : + " + TotalEXP;
         gainedEXPLabel.setText(txt);
     }
 }
