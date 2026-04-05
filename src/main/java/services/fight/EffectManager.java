@@ -47,7 +47,7 @@ public abstract class EffectManager {
                 if (finalTarget != null) {
                     applyStatModifier(finalTarget, effet);
                     finalTarget.addOngoingEffect(effet);
-                    int delta = Integer.parseInt(effet.getModifier());
+                    int delta = effet.getModifier();
                     lines.add(finalTarget.getName() + " : " + effet.getStat()
                             + (delta > 0 ? " +" : " ") + delta + " !");
                 }
@@ -66,7 +66,7 @@ public abstract class EffectManager {
      * @param effect the effect containing the stat and modifier value
      */
     public static void applyStatModifier(Bugemon target, Effect effect) {
-        int delta = Integer.parseInt(effect.getModifier());
+        int delta = effect.getModifier();
         switch (effect.getStat()) {
             case "attaque"    -> target.getStats().modifyAttack(delta);
             case "defense"    -> target.getStats().modifyDefense(delta);
@@ -102,7 +102,7 @@ public abstract class EffectManager {
      * @param effect the effect to reverse
      */
     private static void reverseStatModifier(Bugemon target, Effect effect) {
-        int delta = Integer.parseInt(effect.getModifier());
+        int delta = effect.getModifier();
         switch (effect.getStat()) {
             case "attaque"    -> target.getStats().modifyAttack(-delta);
             case "defense"    -> target.getStats().modifyDefense(-delta);

@@ -49,6 +49,9 @@ public class Stats {
         this.attackModifier = other.attackModifier;
         this.defenseModifier = other.defenseModifier;
         this.initiativeModifier = other.initiativeModifier;
+        this.attackModifierFromItem = other.attackModifierFromItem;
+        this.defenseModifierFromItem = other.defenseModifierFromItem;
+        this.initiativeModifierFromItem = other.initiativeModifierFromItem;
     }
 
     /**
@@ -188,5 +191,10 @@ public class Stats {
         attackModifier = attackModifier > 0 ?  attackModifier : 0;
         defenseModifier = defenseModifier > 0 ?  defenseModifier : 0;
         initiativeModifier = initiativeModifier > 0 ? initiativeModifier : 0;
+    }
+    public void resetItemModifiers() {
+        attackModifierFromItem = 0;
+        defenseModifierFromItem = 0;
+        initiativeModifierFromItem = 0;
     }
 }
