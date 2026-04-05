@@ -188,4 +188,7 @@ public class Fight {
         Bugemon randomBug = available.get(random.nextInt(available.size()));
         changeEnemyOnField(randomBug);
     }
+    public void removeOnFieldEnemyFromTeam() {
+        teamEnemy.getTeam().remove(teamEnemy.getOnFieldBugemon());
+    }
 }
