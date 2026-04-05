@@ -192,4 +192,30 @@ public class FightTest extends TestCase {
     public void testAvailableEnemyBugemonsAllAlive() {
         assertEquals(3, fightPlayerHighInitiative.getAvailableEnemyBugemons().size());
     }
+
+    /**
+     * Verifies that the first Bugemon is automatically
+     * added to participants at the start of combat.
+     */
+    @Test
+    public void testFirstBugemonIsParticipant() {
+        List<Bugemon> participants = fightPlayerHighInitiative.getParticipatingBugemons();
+        assertEquals(1, participants.size());
+        assertEquals(
+                fightPlayerHighInitiative.getOnFieldPlayerBugemon(),
+                participants.get(0)
+        );
+    }
+
+    /**
+     * Verifies that switching a Bugemon adds
+     * the new Bugemon to participants.
+     */
+    @Test
+    public void testSwitchAddsParticipant() throws BugemonNotInTeamException {
+        Bugemon second = fightPlayerHighInitiative.getTeamPlayer().getTeam().get(1);
+        fightPlayerHighInitiative.changePlayerOnField(second.getId());
+        List<Bugemon> participants = fightPlayerHighInitiative.getParticipatingBugemons();
+        assertEquals(2, participants.size());
+    }
 }

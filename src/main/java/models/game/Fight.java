@@ -25,6 +25,7 @@ public class Fight {
     private String actionResulText;
     private List<String> predictedEffectiveness = new ArrayList<>();
     private final Random random = new Random();
+    private final java.util.Set<Bugemon> participatingBugemons = new java.util.LinkedHashSet<>();
 
 
     /**
@@ -37,6 +38,8 @@ public class Fight {
         this.teamEnemy  = new TeamBugemon(teamEnemy);
         this.teamPlayer.getTeam().forEach(b -> b.setIsPlayerToTrue());
         this.teamPlayer.changeOnFieldBugemon(this.teamPlayer.getTeam().getFirst());
+        // The first Bugemon sent to the field is a participant
+        participatingBugemons.add(this.teamPlayer.getOnFieldBugemon());
         this.teamEnemy.changeOnFieldBugemon(this.teamEnemy.getTeam().getFirst());
         this.isPlayerTurn = true;
     }
@@ -73,6 +76,8 @@ public class Fight {
                 .findFirst()
                 .orElseThrow(() -> new BugemonNotInTeamException(id));
         teamPlayer.changeOnFieldBugemon(bugemon);
+        // The Bugemon sent to the field is added to combat participant
+        participatingBugemons.add(bugemon);
     }
 
     /**
@@ -143,6 +148,26 @@ public class Fight {
     public List<Bugemon> getAvailablePlayerBugemons() { return teamPlayer.getAvailableBugemons(); }
     public List<Bugemon> getAvailableEnemyBugemons() { return teamEnemy.getAvailableBugemons(); }
     public String getActionResultText() { return actionResulText; }
+
+    /**
+     * Returns the list of player Bugemons that participated in the combat.
+     * Used by ExperienceService for XP distribution
+     * only participants receive XP.
+     *
+     * @return the list of participating Bugemons (no duplicates)
+     */
+    public List<Bugemon> getParticipatingBugemons() {
+        return new ArrayList<>(participatingBugemons);
+    }
+
+    /**
+     * Returns the number of Bugemons in the enemy team for XP computation enemy_count factor
+     *
+     * @return the number of enemies
+     */
+    public int getEnemyTeamSize() {
+        return teamEnemy.getTeam().size();
+    }
 
 
     public void computePredictedEffectiveness() {
