@@ -55,15 +55,16 @@ public class ExperienceService {
         // Integer division, XP is split equally
         int xpPerBugemon = totalXp / participants.size();
 
-        List<Bugemon> leveledUp = new ArrayList<>();
+        List<Bugemon> leveledUpQueue = new ArrayList<>();
+
         for (Bugemon bugemon : participants) {
             bugemon.addXp(xpPerBugemon);
-            // Check if one or more level-ups are possible
-            // (a Bugemon could gain enough XP to level up multiple times)
-            if (bugemon.canLevelUp()) {
-                leveledUp.add(bugemon);
+
+            while (bugemon.canLevelUp()) {
+                bugemon.levelUp();
+                leveledUpQueue.add(bugemon);
             }
         }
-        return leveledUp;
+        return leveledUpQueue;
     }
 }
