@@ -71,6 +71,15 @@ public class LevelTower {
         return finished;
     }
 
+    /**
+     * Returns the current floor number.
+     *
+     * @return the current floor (2–10)
+     */
+    public int getCurrentFloor() {
+        return currentFloor;
+    }
+
 
     /**
      * Advances the player to the next step.

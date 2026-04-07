@@ -10,6 +10,7 @@ import javafx.stage.StageStyle;
 import models.TowerNodeType;
 import models.game.Item;
 import models.game.LevelTower;
+import services.fight.ExperienceService;
 import services.game.GameStateHolder;
 import views.FatalErrorView;
 import views.View;
@@ -191,8 +192,13 @@ public class ControllerManager {
     }
 
 
-    public void goToVictoryScreen() {
-        this.victoryController.beginEXPDistribution(404);
+    public void goToVictoryScreen(int enemyCount) {
+        LevelTower tower = GameStateHolder.getInstance().getCurrentLevelTower();
+        int floorNumber = tower.getCurrentFloor();
+        boolean isBossFight = tower.getCurrentStepType() == TowerNodeType.BOSS;
+
+        int totalXp = ExperienceService.computeCombatXp(floorNumber, isBossFight, enemyCount);
+        this.victoryController.beginEXPDistribution(totalXp);
         this.switchScene(Scenes.VICTORY);
     }
 
