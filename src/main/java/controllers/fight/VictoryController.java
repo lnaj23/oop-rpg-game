@@ -26,20 +26,14 @@ public class VictoryController extends Controller<VictoryView> {
 
     public void beginEXPDistribution(int totalXp) {
         this.totalExpToDistribute = totalXp;
-
         List<Bugemon> team = GameStateHolder.getInstance().getCurrentTeamPlayer().getTeam();
         List<BugemonDTO> teamDTO = GameStateHolder.getInstance().getCurrentTeamPlayer().getTeamDTO();
 
-        int count = 0;
-        for (Bugemon bug : team) {
-            if (bug.isHasParticipedToTrue()) {
-                count++;
-            }
-        }
+        int xpPerBugemon = totalXp / team.size();
 
-        int expForEachBug = (count > 0) ? totalXp / count : 0;
-        this.view.updateEXPGainedLabel(totalXp);
-        this.view.showBugemonXpList(teamDTO, expForEachBug);
+        applyExpAndIdentifyLevelUps();
+        this.view.updateEXPGainedLabel(totalExpToDistribute);
+        this.view.showBugemonXpList(teamDTO, xpPerBugemon);
     }
 
     private void applyExpAndIdentifyLevelUps() {
