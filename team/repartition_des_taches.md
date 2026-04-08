@@ -268,8 +268,8 @@ ___
     <tr><td>Affichage de l'exp gagné pour chacun des Bugémon qui ont combattu pour le vendredi 03/04</td><td>Sajid</td><td>Mohamed</td><td>2</td><td>2</td></tr>
     <tr><td>Système d'exp pour le samedi 04/04</td><td>Zakaria</td><td>Sajid</td><td>3</td><td>3</td></tr>
     <tr><td>View/Controller Reward pour le dimanche 05/04</td><td>Luqman</td><td>Yanis</td><td>2</td><td>2</td></tr>
-    <tr><td>Calcule XP à la fin d'un combat + affichage LevelUp pour le mercredi 08/04</td><td>Alexandre</td><td>Enzo</td><td></td><td>1</td></tr>
-    <tr><td>Ajouter levelBugemon dans les View (deadline non définie)</td><td>Alexandre</td><td>Mohamed</td><td></td><td>1</td></tr>
+    <tr><td>Calcule XP à la fin d'un combat + affichage LevelUp pour le mercredi 08/04</td><td>Alexandre</td><td>Enzo</td><td>1</td><td>1</td></tr>
+    <tr><td>Ajouter levelBugemon dans les View (deadline non définie)</td><td>Alexandre</td><td>Mohamed</td><td>1</td><td>1</td></tr>
 
   </tbody>
 </table>
@@ -288,8 +288,8 @@ ___
     </tr>
   </thead>
   <tbody>
-    <tr><td>Model TowerLevel pour tracker -> GameStateHolder pour vendredi 03/04</td><td>Mohamed</td><td>Alexandre</td><td>2</td><td>3</td></tr>
-    <tr><td>Implementer TowerLevel dans FightView/Controller pour Dimanche 05/04</td><td>Luqman</td><td>Yanis</td><td>3</td><td>4</td></tr>
+    <tr><td>Model TowerLevel pour tracker -> GameStateHolder pour vendredi 03/04</td><td>Mohamed</td><td>Alexandre</td><td>3</td><td>3</td></tr>
+    <tr><td>Implementer TowerLevel dans FightView/Controller pour Dimanche 05/04</td><td>Luqman</td><td>Yanis</td><td>4</td><td>4</td></tr>
   </tbody>
 </table>
 
@@ -315,4 +315,5 @@ ___
 ### Discussions de contenu
 
 ### Risques et problèmes
+Pendant la séparation des tâches en sous-tâches, on a constaté que l'histoire 7 prendrait plus de temps que ce qu'on avait prévu parce que l'histoire 7 impliquait d'implémenter des fonctionnalités qu'on pensait déjà présente lors des itérations précédentes. Pour palier à celà, on a réduit le temps attribué sur l'histoire 9 qui elle nécessite moins de temps suite à la séparation des tâches en sous-tâches afin de respecter notre régime de 28h.
 ___
