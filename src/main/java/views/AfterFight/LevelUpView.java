@@ -58,8 +58,8 @@ public class LevelUpView extends View<LevelUpController> {
      *
      * @param bugemon the Bugemon that leveled up
      */
-    public void updateLevelUpText(BugemonDTO bugemon) {
-        levelUpLabel.setText(bugemon.getName() + " a atteint le niveau " + bugemon.getlevel() + " !");
+    public void updateLevelUpText(BugemonDTO bugemon, int displayedLevel) {
+        levelUpLabel.setText(bugemon.getName() + " a atteint le niveau " + displayedLevel + "!");
     }
 
     /**

@@ -283,7 +283,7 @@ public class Bugemon implements BugemonDTO {
      */
     public String attack(Bugemon target, Attack attack) {
         int damage = computeDamage(this, target, attack);
-        //damage = isPlayer ? 9999 : 0;
+        damage = isPlayer ? 9999 : 0;
         target.takeDamage(damage);
         return this.name + " utilise " + attack.getName() + "! "
                 + TypeEffectivenessService.getEffectivenessMessage(
