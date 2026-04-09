@@ -212,7 +212,7 @@ public class ControllerManager {
 
     public void goToLevelUpScreen(List<Bugemon> bugemonToLevelUp) {
         this.switchScene(Scenes.LEVELUP);
-        this.levelUpController.setBugemonLevelUp(bugemonToLevelUp);
+        this.levelUpController.startLevelUpList(bugemonToLevelUp);
     }
 
     public void goToDefeatScreen() {

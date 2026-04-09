@@ -6,6 +6,7 @@ import models.bugemon.Bugemon;
 import views.AfterFight.LevelUpView;
 
 import java.io.IOException;
+import java.util.List;
 
 /**
  * Controller for the level up screen.
@@ -14,7 +15,9 @@ import java.io.IOException;
  */
 public class LevelUpController extends Controller<LevelUpView> {
 
-    private Bugemon levelUpBugemon;
+    private int indexLevelUp;
+    private List<Bugemon> bugemonToLevelUp;
+    private Bugemon currentBugemon;
     /**
      * Creates the controller and initializes the associated level up view.
      *
@@ -33,6 +36,18 @@ public class LevelUpController extends Controller<LevelUpView> {
      */
     public void onOptionChosen(int option) {
       // model.applyLevelUpChoice(option, levelUpbugemon);
+        indexLevelUp++;
+        if (indexLevelUp < bugemonToLevelUp.size()) {
+            setBugemonLevelUp();
+        } else {
+            controllerManager.goToNextTowerStep();
+        }
+    }
+
+    public void startLevelUpList(List<Bugemon> bugemonToLevelUp){
+        this.bugemonToLevelUp = bugemonToLevelUp;
+        this.indexLevelUp = 0;
+        setBugemonLevelUp();
     }
 
     /**
@@ -41,10 +56,10 @@ public class LevelUpController extends Controller<LevelUpView> {
      *
      * @param bugemon the Bugemon that has leveled up
      */
-    public void setBugemonLevelUp(Bugemon bugemon) {
-        this.levelUpBugemon = bugemon;
-        view.updateBugemonSprite(bugemon);
-        view.updateLevelUpText(bugemon);
+    public void setBugemonLevelUp() {
+        this.currentBugemon = this.bugemonToLevelUp.get(indexLevelUp);
+        view.updateBugemonSprite(currentBugemon);
+        view.updateLevelUpText(currentBugemon);
     }
 
     /**

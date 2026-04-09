@@ -24,22 +24,16 @@ public class VictoryController extends Controller<VictoryView> {
         this.view.setController(this);
     }
 
-    public void beginEXPDistribution(int totalXp) {
+    public void updateExp(int totalXp) {
         this.totalExpToDistribute = totalXp;
-
         List<Bugemon> team = GameStateHolder.getInstance().getCurrentTeamPlayer().getTeam();
         List<BugemonDTO> teamDTO = GameStateHolder.getInstance().getCurrentTeamPlayer().getTeamDTO();
 
-        int count = 0;
-        for (Bugemon bug : team) {
-            if (bug.isHasParticipedToTrue()) {
-                count++;
-            }
-        }
+        int xpPerBugemon = totalXp / team.size();
 
-        int expForEachBug = (count > 0) ? totalXp / count : 0;
-        this.view.updateEXPGainedLabel(totalXp);
-        this.view.showBugemonXpList(teamDTO, expForEachBug);
+        applyExpAndIdentifyLevelUps();
+        this.view.updateEXPGainedLabel(totalExpToDistribute);
+        this.view.showBugemonXpList(teamDTO, xpPerBugemon);
     }
 
     private void applyExpAndIdentifyLevelUps() {
@@ -60,7 +54,7 @@ public class VictoryController extends Controller<VictoryView> {
         applyExpAndIdentifyLevelUps();
 
         if (!bugemonsToLevelUp.isEmpty()) {
-            // Aller vers l'écran de Level Up en passant la liste faut le faire
+            this.controllerManager.goToLevelUpScreen(this.bugemonsToLevelUp);
         } else {
             // Pas de level up, on continue l'ascension
             this.controllerManager.goToNextTowerStep();
