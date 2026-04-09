@@ -30,12 +30,16 @@ public abstract class EffectManager {
                 int valeur = effet.getValeur();
                 if (effet.getTarget().equals("equipe")) {
                     for (Bugemon membre : attackerTeam.getTeam()) {
-                        membre.getStats().heal(valeur);
+                        if (!membre.isKO()) {
+                            membre.getStats().heal(valeur);
+                        }
                     }
                     lines.add("L'équipe de " + attacker.getName() + " récupère " + valeur + " PV !");
                 } else if (effet.getTarget().equals("lanceur")) {
-                    attacker.getStats().heal(valeur);
-                    lines.add(attacker.getName() + " récupère " + valeur + " PV !");
+                    if (!attacker.isKO()) {
+                        attacker.getStats().heal(valeur);
+                        lines.add(attacker.getName() + " récupère " + valeur + " PV !");
+                    }
                 }
 
             } else if (effet.getType().equals("stat_modifier")) {
