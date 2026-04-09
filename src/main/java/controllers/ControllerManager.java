@@ -1,5 +1,6 @@
 package controllers;
 
+import controllers.AfterFight.LevelUpController;
 import controllers.fight.*;
 import controllers.teamchoice.PreBuildTeamController;
 import controllers.teamchoice.SelectionController;
@@ -8,6 +9,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import models.TowerNodeType;
+import models.bugemon.Bugemon;
 import models.game.Item;
 import models.game.LevelTower;
 import services.fight.ExperienceService;
@@ -16,6 +18,8 @@ import views.FatalErrorView;
 import views.View;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.logging.Level;
 
 /**
  * Central controller that manages navigation between scenes and holds shared application state.
@@ -36,7 +40,8 @@ public class ControllerManager {
         FIGHT_AGAINST_CPU,
         VICTORY,
         DEFEAT,
-        REWARD
+        REWARD,
+        LEVELUP
     }
 
     private final Stage PrimaryStage;
@@ -47,6 +52,7 @@ public class ControllerManager {
     private final VictoryController victoryController;
     private final DefeatController defeatController;
     private final RewardController rewardController;
+    private final LevelUpController levelUpController;
 
     /**
      * Initializes all controllers and views.
@@ -63,6 +69,7 @@ public class ControllerManager {
         this.victoryController = new VictoryController(this);
         this.defeatController = new DefeatController(this);
         this.rewardController = new RewardController(this);
+        this.levelUpController = new LevelUpController(this);
     }
 
     /**
@@ -88,6 +95,7 @@ public class ControllerManager {
             case VICTORY -> this.victoryController.show(PrimaryStage);
             case DEFEAT -> this.defeatController.show(PrimaryStage);
             case REWARD -> this.rewardController.show(PrimaryStage);
+            case LEVELUP -> this.levelUpController.show(PrimaryStage);
             default -> throw new IllegalArgumentException("Invalid scene: " + scene);
         }
         ensureFullScreen();
@@ -198,8 +206,13 @@ public class ControllerManager {
         boolean isBossFight = tower.getCurrentStepType() == TowerNodeType.BOSS;
 
         int totalXp = ExperienceService.computeCombatXp(floorNumber, isBossFight, enemyCount);
-        this.victoryController.beginEXPDistribution(totalXp);
+        this.victoryController.updateExp(totalXp);
         this.switchScene(Scenes.VICTORY);
+    }
+
+    public void goToLevelUpScreen(List<Bugemon> bugemonToLevelUp) {
+        this.switchScene(Scenes.LEVELUP);
+        this.levelUpController.setBugemonLevelUp(bugemonToLevelUp);
     }
 
     public void goToDefeatScreen() {
