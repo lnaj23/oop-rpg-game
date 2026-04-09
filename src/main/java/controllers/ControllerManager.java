@@ -206,13 +206,14 @@ public class ControllerManager {
         boolean isBossFight = tower.getCurrentStepType() == TowerNodeType.BOSS;
 
         int totalXp = ExperienceService.computeCombatXp(floorNumber, isBossFight, enemyCount);
+
         this.victoryController.updateExp(totalXp);
         this.switchScene(Scenes.VICTORY);
     }
 
     public void goToLevelUpScreen(List<Bugemon> bugemonToLevelUp) {
-        this.switchScene(Scenes.LEVELUP);
         this.levelUpController.startLevelUpList(bugemonToLevelUp);
+        this.switchScene(Scenes.LEVELUP);
     }
 
     public void goToDefeatScreen() {
