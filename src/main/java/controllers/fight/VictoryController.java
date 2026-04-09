@@ -58,6 +58,7 @@ public class VictoryController extends Controller<VictoryView> {
 
     public void continueTower() {
         if (!bugemonsToLevelUp.isEmpty()) {
+            // Plusieurs levelUp, on switch de scene
             this.controllerManager.goToLevelUpScreen(this.bugemonsToLevelUp);
         } else {
             // Pas de level up, on continue l'ascension
