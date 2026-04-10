@@ -1,6 +1,7 @@
 package repositories;
 
 import com.google.gson.Gson;
+import exceptions.JsonResourceNotFoundException;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -45,10 +46,10 @@ public abstract class JsonRepository {
      * @return the list extracted from the JSON file
      * @throws IllegalStateException if the file is not found in the classpath
      */
-    protected static <W extends JsonWrapper<T>, T> List<T> readJSONFromAssets(String path, Class<W> wrapperClass) {
+    protected static <W extends JsonWrapper<T>, T> List<T> readJSONFromAssets(String path, Class<W> wrapperClass) throws JsonResourceNotFoundException {
         Gson gson = new Gson();
         InputStream stream = JsonRepository.class.getResourceAsStream(path);
-        if (stream == null) throw new IllegalStateException("Resource not found: " + path);
+        if (stream == null) throw new JsonResourceNotFoundException(path);
         JsonWrapper<T> wrapper = gson.fromJson(new InputStreamReader(stream), wrapperClass);
         return wrapper.getItems();
     }

@@ -2,6 +2,8 @@ package repositories;
 
 import com.google.gson.*;
 import configuration.AppConfig;
+import exceptions.LoadingTeamFailedException;
+import exceptions.SavingTeamFailedException;
 import models.bugemon.TeamBugemon;
 
 import java.io.*;
@@ -41,7 +43,7 @@ public class TeamRepository {
      *
      * @return the list of loaded teams
      */
-    public List<TeamBugemon> loadTeams() {
+    public List<TeamBugemon> loadTeams() throws LoadingTeamFailedException {
         File file = new File(AppConfig.TEAMS_FILE);
         if (!file.exists()) return new ArrayList<>();
         try (Reader reader = new FileReader(file)) {
@@ -49,8 +51,7 @@ public class TeamRepository {
             if (wrapper == null || wrapper.teams == null) return new ArrayList<>();
             return wrapper.teams;
         } catch (IOException e) {
-            System.err.println("Error loading teams: " + e.getMessage());
-            return new ArrayList<>();
+            throw new LoadingTeamFailedException("Error loading teams: " + e.getMessage(), e);
         }
     }
 
@@ -60,15 +61,16 @@ public class TeamRepository {
      *
      * @param teams the list of teams to save
      */
-    public void saveTeams(List<TeamBugemon> teams) {
+    public void saveTeams(List<TeamBugemon> teams) throws SavingTeamFailedException {
         File file = new File(AppConfig.TEAMS_FILE);
-        file.getParentFile().mkdirs();
+        File parent = file.getParentFile();
+        if (parent != null) parent.mkdirs();
         JsonTeams wrapper = new JsonTeams();
         wrapper.teams = teams;
         try (Writer writer = new FileWriter(file)) {
             SAVE_GSON.toJson(wrapper, writer);
         } catch (IOException e) {
-            System.err.println("Error saving teams: " + e.getMessage());
+            throw new SavingTeamFailedException("Error saving teams: " + e.getMessage(), e);
         }
     }
 }

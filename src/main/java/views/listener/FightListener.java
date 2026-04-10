@@ -1,4 +1,4 @@
-package listener;
+package views.listener;
 
 
 import controllers.fight.FightAgainstCPUController;

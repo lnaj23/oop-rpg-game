@@ -3,21 +3,21 @@ package controllers.fight;
 import configuration.AppConfig;
 import controllers.Controller;
 import controllers.ControllerManager;
-import exceptions.BugemonNotFoundException;
+import exceptions.AttackNotFoundException;
 import exceptions.BugemonNotInTeamException;
+import exceptions.JsonResourceNotFoundException;
 import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.util.Duration;
 import models.bugemon.Bugemon;
 import models.game.Fight;
 import models.game.Item;
-import listener.FightListener;
+import views.listener.FightListener;
 import services.fight.EnemyTeamGenerator;
 import services.game.GameStateHolder;
 import views.fight.FightView;
 
 import java.io.IOException;
-import java.util.Objects;
 
 import models.bugemon.TeamBugemon;
 
@@ -52,8 +52,8 @@ public class FightAgainstCPUController extends Controller<FightView> implements 
             viewInitStartMessage();
             if (!fight.playerCanStart()) forceEnemyToAttack();
             view.updateFloorInfo(GameStateHolder.getInstance().getCurrentLevelTower().getProgressAsString());
-        } catch (BugemonNotInTeamException e) {
-            controllerManager.fatalError("couldn't load the fight : " + e.getMessage());
+        } catch (BugemonNotInTeamException | AttackNotFoundException | JsonResourceNotFoundException e) {
+            controllerManager.fatalError("Une erreur est survenue lors du chargement du combat.");
         }
     }
 

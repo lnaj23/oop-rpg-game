@@ -2,6 +2,7 @@ package repositories;
 
 import com.google.gson.annotations.SerializedName;
 import configuration.AppConfig;
+import exceptions.JsonResourceNotFoundException;
 import models.bugemon.Attack;
 
 import java.util.ArrayList;
@@ -35,11 +36,11 @@ public class AttackRepository extends JsonRepository {
     private static List<Attack> attackRepo = new ArrayList<>();
     private static AttackRepository instance;
 
-    private AttackRepository() {
+    private AttackRepository() throws JsonResourceNotFoundException {
         attackRepo = readJSONFromAssets(AppConfig.JSON_ATTAQUES, AttackRepository.JsonAttack.class);
     }
 
-    public static AttackRepository getInstance() {
+    public static AttackRepository getInstance() throws JsonResourceNotFoundException {
         if (instance == null){
             instance = new AttackRepository();
         }

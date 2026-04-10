@@ -1,5 +1,7 @@
 package services.fight;
 
+import exceptions.AttackNotFoundException;
+import exceptions.JsonResourceNotFoundException;
 import models.bugemon.Bugemon;
 import models.bugemon.TeamBugemon;
 import repositories.BugemonRepository;
@@ -10,7 +12,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public abstract class EnemyTeamGenerator {
-        public static TeamBugemon generateEnemyTeam() {
+        public static TeamBugemon generateEnemyTeam() throws AttackNotFoundException, JsonResourceNotFoundException {
             int teamSize = GameStateHolder.getInstance().getCurrentTeamPlayer().getSize();
             List<Bugemon> allBugemons = BugemonRepository.getInstance().getAllBugemons()
                     .stream()

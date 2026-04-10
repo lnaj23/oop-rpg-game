@@ -1,7 +1,9 @@
 package models.bugemon;
 
+import exceptions.AttackNotFoundException;
 import exceptions.BugemonNotFoundException;
 import exceptions.BugemonNotInTeamException;
+import exceptions.JsonResourceNotFoundException;
 import junit.framework.TestCase;
 import models.game.Fight;
 import org.junit.Before;
@@ -20,8 +22,11 @@ public class StatsTest extends TestCase {
 
     private BugemonProvider bugemonProvider = new BugemonProvider();
 
+    public StatsTest() throws AttackNotFoundException, JsonResourceNotFoundException {
+    }
+
     @Before
-    public void setUp() throws BugemonNotFoundException, BugemonNotInTeamException {
+    public void setUp() throws BugemonNotFoundException, BugemonNotInTeamException, JsonResourceNotFoundException {
         TeamBugemon teamPlayer = new TeamBugemon(bugemonProvider.getListBugemon(List.of("florachu")));
         TeamBugemon teamEnemy  = new TeamBugemon(bugemonProvider.getListBugemon(List.of("loopine")));
         fight = new Fight(teamPlayer, teamEnemy);

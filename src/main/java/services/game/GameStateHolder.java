@@ -1,5 +1,8 @@
 package services.game;
 
+import exceptions.AttackNotFoundException;
+import exceptions.JsonResourceNotFoundException;
+import exceptions.LoadingTeamFailedException;
 import models.TowerNodeType;
 import configuration.AppConfig;
 import models.TowerNodeType;
@@ -26,10 +29,20 @@ public class GameStateHolder {
 
     private TeamBugemon currentTeamPlayer;
 
-    private TeamProvider teamProvider = new TeamProvider();
-    private final List<TeamBugemon> savedTeams = new ArrayList<>(teamProvider.loadTeams());
+    private TeamProvider teamProvider;
+    private List<TeamBugemon> savedTeams;
 
-    private GameStateHolder() {}
+    private GameStateHolder(){
+        List<TeamBugemon> loaded;
+        try {
+            teamProvider = new TeamProvider();
+            availableItems = itemProvider.getDefautItems();
+            loaded = new ArrayList<>(teamProvider.loadTeams());
+        } catch (LoadingTeamFailedException | AttackNotFoundException | JsonResourceNotFoundException e) {
+            loaded = new ArrayList<>();
+        }
+        this.savedTeams = loaded;
+    }
 
     private List<BugemonDTO> currentPlayerTeamDTO;
     private String currentOnFieldId;
@@ -42,9 +55,8 @@ public class GameStateHolder {
      *
      * @return the singleton instance
      */
-    public static GameStateHolder getInstance() {
+    public static GameStateHolder getInstance(){
         if (instance == null) {
-            availableItems = itemProvider.getDefautItems();
             instance = new GameStateHolder();
         }
         return instance;

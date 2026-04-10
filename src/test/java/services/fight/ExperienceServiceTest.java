@@ -1,7 +1,9 @@
 package services.fight;
 
+import exceptions.AttackNotFoundException;
 import exceptions.BugemonNotFoundException;
 import exceptions.BugemonNotInTeamException;
+import exceptions.JsonResourceNotFoundException;
 import junit.framework.TestCase;
 import models.bugemon.Bugemon;
 import models.bugemon.TeamBugemon;
@@ -16,6 +18,9 @@ import java.util.List;
 public class ExperienceServiceTest extends TestCase {
 
     private BugemonProvider bugemonProvider = new BugemonProvider();
+
+    public ExperienceServiceTest() throws AttackNotFoundException, JsonResourceNotFoundException {
+    }
 
     /**
      * Verifies XP computation for a normal fight on floor 5
@@ -52,7 +57,7 @@ public class ExperienceServiceTest extends TestCase {
      * among participants.
      */
     @Test
-    public void testDistributeXpEqually() throws BugemonNotFoundException, BugemonNotInTeamException {
+    public void testDistributeXpEqually() throws BugemonNotFoundException, BugemonNotInTeamException, JsonResourceNotFoundException {
         TeamBugemon teamPlayer = new TeamBugemon(bugemonProvider.getListBugemon(List.of("florachu", "exceflam")));
         TeamBugemon teamEnemy  = new TeamBugemon(bugemonProvider.getListBugemon(List.of("loopine")));
         Fight fight = new Fight(teamPlayer, teamEnemy);
@@ -75,7 +80,7 @@ public class ExperienceServiceTest extends TestCase {
      * Threshold level 1 to 2 = 50 XP.
      */
     @Test
-    public void testDistributeXpDetectsLevelUp() throws BugemonNotFoundException, BugemonNotInTeamException {
+    public void testDistributeXpDetectsLevelUp() throws BugemonNotFoundException, BugemonNotInTeamException, JsonResourceNotFoundException {
         TeamBugemon teamPlayer = new TeamBugemon(bugemonProvider.getListBugemon(List.of("florachu")));
         TeamBugemon teamEnemy  = new TeamBugemon(bugemonProvider.getListBugemon(List.of("loopine")));
         Fight fight = new Fight(teamPlayer, teamEnemy);
@@ -96,7 +101,7 @@ public class ExperienceServiceTest extends TestCase {
      * Threshold level 1 to 2 = 50 XP, giving only 30.
      */
     @Test
-    public void testDistributeXpNoLevelUp() throws BugemonNotFoundException, BugemonNotInTeamException {
+    public void testDistributeXpNoLevelUp() throws BugemonNotFoundException, BugemonNotInTeamException, JsonResourceNotFoundException {
         TeamBugemon teamPlayer = new TeamBugemon(bugemonProvider.getListBugemon(List.of("florachu")));
         TeamBugemon teamEnemy  = new TeamBugemon(bugemonProvider.getListBugemon(List.of("loopine")));
         Fight fight = new Fight(teamPlayer, teamEnemy);

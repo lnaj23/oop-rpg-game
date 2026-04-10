@@ -1,7 +1,7 @@
 package repositories;
 
 import configuration.AppConfig;
-import exceptions.BugemonNotFoundException;
+import exceptions.*;
 import models.bugemon.TeamBugemon;
 import org.junit.After;
 import org.junit.Before;
@@ -20,6 +20,9 @@ public class TeamRepositoryTest {
     private BugemonProvider bugemonProvider = new BugemonProvider();
     private TeamProvider teamProvider = new TeamProvider();
 
+    public TeamRepositoryTest() throws AttackNotFoundException, JsonResourceNotFoundException {
+    }
+
     @Before
     public void cleanup() {
         File f = new File(AppConfig.TEAMS_FILE);
@@ -29,14 +32,14 @@ public class TeamRepositoryTest {
     }
 
     @Test
-    public void testLoadTeamsEmptyWhenFileDoesNotExist() {
+    public void testLoadTeamsEmptyWhenFileDoesNotExist() throws LoadingTeamFailedException, AttackNotFoundException, JsonResourceNotFoundException {
         List<TeamBugemon> teams = teamProvider.loadTeams();
         assertNotNull("Teams list should not be null", teams);
         assertTrue("Teams list should be empty", teams.isEmpty());
     }
 
     @Test
-    public void testSaveAndLoadTeams() throws BugemonNotFoundException {
+    public void testSaveAndLoadTeams() throws BugemonNotFoundException, SavingTeamFailedException, LoadingTeamFailedException, JsonResourceNotFoundException, AttackNotFoundException {
         List<TeamBugemon> originalTeams = new ArrayList<>();
         
         TeamBugemon team1 = new TeamBugemon("Mon équipe 1", bugemonProvider.getListBugemon(List.of("florachu", "exceflam")));
@@ -65,3 +68,4 @@ public class TeamRepositoryTest {
         if (f.exists()) f.delete();
     }
 }
+

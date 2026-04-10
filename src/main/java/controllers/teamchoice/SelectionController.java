@@ -2,6 +2,9 @@ package controllers.teamchoice;
 
 import controllers.Controller;
 import controllers.ControllerManager;
+import exceptions.AttackNotFoundException;
+import exceptions.JsonResourceNotFoundException;
+import exceptions.SavingTeamFailedException;
 import models.bugemon.dto.BugemonDTO;
 import models.bugemon.TeamBugemon;
 import services.dataprovider.TeamProvider;
@@ -36,7 +39,7 @@ public class SelectionController extends Controller<SelectionView> {
      * @param metaController the central controller
      * @throws IOException if the FXML fails to load
      */
-    public SelectionController(ControllerManager metaController) throws IOException {
+    public SelectionController(ControllerManager metaController) throws IOException, AttackNotFoundException, JsonResourceNotFoundException {
         super(metaController, new SelectionView());
         this.teams = GameStateHolder.getInstance().getSavedTeams();
         this.playerTeam = new TeamBugemon();
@@ -79,7 +82,11 @@ public class SelectionController extends Controller<SelectionView> {
     public void reset() {
         this.teamBeingEdited = null;
         this.playerTeam = new TeamBugemon();
-        this.view.reset(bugemonProvider.getAllBugemonsDTO());
+        try {
+            this.view.reset(bugemonProvider.getAllBugemonsDTO());
+        } catch (JsonResourceNotFoundException e){
+            this.controllerManager.fatalError("Une erreur est survenue lors du chargement des Bugémons.");
+        }
         this.view.setEditMode(false);
     }
 
@@ -136,7 +143,11 @@ public class SelectionController extends Controller<SelectionView> {
             playerTeam.setName(teamName);
             this.teams.add(playerTeam);
         }
-        teamProvider.saveTeams(this.teams);
+        try {
+            teamProvider.saveTeams(this.teams);
+        } catch (SavingTeamFailedException e) {
+            controllerManager.fatalError("Une erreur est survenue lors de la sauvegarde de l'équipe.");
+        }
     }
 
     public void goToFight() {

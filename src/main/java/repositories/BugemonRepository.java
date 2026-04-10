@@ -1,6 +1,7 @@
 package repositories;
 
 import configuration.AppConfig;
+import exceptions.JsonResourceNotFoundException;
 import models.bugemon.Bugemon;
 
 import java.util.ArrayList;
@@ -33,11 +34,11 @@ public class BugemonRepository extends JsonRepository {
 
     private static BugemonRepository instance;
 
-    private BugemonRepository() {
+    private BugemonRepository() throws JsonResourceNotFoundException {
         bugemonRepo = readJSONFromAssets(AppConfig.JSON_BUGEMONS, JsonBugemons.class);
     }
 
-    public static BugemonRepository getInstance() {
+    public static BugemonRepository getInstance() throws JsonResourceNotFoundException {
         if (instance == null){
             instance = new BugemonRepository();
         }

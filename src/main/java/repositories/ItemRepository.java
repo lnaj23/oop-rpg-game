@@ -2,6 +2,7 @@ package repositories;
 
 import com.google.gson.annotations.SerializedName;
 import configuration.AppConfig;
+import exceptions.JsonResourceNotFoundException;
 import models.game.Item;
 
 import java.util.ArrayList;
@@ -20,11 +21,11 @@ public class ItemRepository extends JsonRepository {
     private static List<Item> itemRepo = new ArrayList<>();
     private static ItemRepository instance;
 
-    private ItemRepository() {
+    private ItemRepository() throws JsonResourceNotFoundException {
         itemRepo = readJSONFromAssets(AppConfig.JSON_ITEMS, ItemRepository.JsonItem.class);
     }
 
-    public static ItemRepository getInstance() {
+    public static ItemRepository getInstance() throws JsonResourceNotFoundException {
         if (instance == null){
             instance = new ItemRepository();
         }

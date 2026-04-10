@@ -1,6 +1,7 @@
 package services.dataprovider;
 
 import configuration.AppConfig;
+import exceptions.JsonResourceNotFoundException;
 import models.game.Item;
 import repositories.ItemRepository;
 
@@ -10,7 +11,7 @@ import java.util.Map;
 
 public class ItemProvider {
 
-    private List<Item> getAllItems() {
+    private List<Item> getAllItems() throws JsonResourceNotFoundException {
         return ItemRepository.getInstance().getAllItems();
     }
 
@@ -21,7 +22,7 @@ public class ItemProvider {
         defaultInventory.put("Sérum Offensif", 1);
     }
 
-    public List<Item> getDefautItems() {
+    public List<Item> getDefautItems() throws JsonResourceNotFoundException {
         List<Item> allItems = getAllItems();
         List<Item> defautItems = new ArrayList<>();
         for (Item item : allItems) {

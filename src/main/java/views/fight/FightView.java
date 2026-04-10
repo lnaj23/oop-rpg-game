@@ -4,15 +4,13 @@ import configuration.AppConfig;
 import controllers.Controller;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
-import javafx.stage.StageStyle;
-import listener.FightListener;
+import views.listener.FightListener;
 import models.bugemon.dto.BugemonDTO;
 import views.View;
 

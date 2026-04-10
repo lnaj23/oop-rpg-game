@@ -2,6 +2,7 @@ package services.dataprovider;
 
 import exceptions.AttackNotFoundException;
 import exceptions.BugemonNotFoundException;
+import exceptions.JsonResourceNotFoundException;
 import models.bugemon.Bugemon;
 import models.bugemon.dto.BugemonDTO;
 import repositories.BugemonRepository;
@@ -14,29 +15,25 @@ public class BugemonProvider {
     private static final AttackProvider attackProvider = new AttackProvider();
     private static boolean initialized = false;
 
-    public BugemonProvider() {
+    public BugemonProvider() throws AttackNotFoundException, JsonResourceNotFoundException {
         if (!initialized) {
-            try {
-                for (Bugemon bug : BugemonRepository.getInstance().getAllBugemons()) {
-                    assignAttacks(bug);
-                }
-                BugemonRepository.getInstance().getAllBugemons().forEach(Bugemon::initColor);
-                BugemonRepository.getInstance().getAllBugemons().forEach(Bugemon::initPv);
-                initialized = true;
-            } catch (AttackNotFoundException e) {
-                throw new IllegalStateException("Failed to assign attacks during initialization: " + e.getMessage(), e);
+            for (Bugemon bug : BugemonRepository.getInstance().getAllBugemons()) {
+                assignAttacks(bug);
             }
+            BugemonRepository.getInstance().getAllBugemons().forEach(Bugemon::initColor);
+            BugemonRepository.getInstance().getAllBugemons().forEach(Bugemon::initPv);
+            initialized = true;
         }
     }
 
-    private void assignAttacks(Bugemon bug) throws AttackNotFoundException {
+    private void assignAttacks(Bugemon bug) throws AttackNotFoundException, JsonResourceNotFoundException {
         if (!bug.getAttacks().isEmpty()) return;
         for (String id : bug.getAttackNamesAsList()) {
             bug.addAttacks(attackProvider.getAttackById(id));
         }
     }
 
-    public List<Bugemon> getListBugemon(List<String> teamIds) throws BugemonNotFoundException {
+    public List<Bugemon> getListBugemon(List<String> teamIds) throws BugemonNotFoundException, JsonResourceNotFoundException {
         List<Bugemon> list = new ArrayList<>();
         for (String id : teamIds) {
             list.add(getBugemon(id));
@@ -44,27 +41,23 @@ public class BugemonProvider {
         return list;
     }
 
-    private Bugemon getBugemon(String id) throws BugemonNotFoundException {
+    private Bugemon getBugemon(String id) throws BugemonNotFoundException, JsonResourceNotFoundException {
         for (Bugemon bug : BugemonRepository.getInstance().getAllBugemons()) {
             if (bug.getId().equals(id)) return new Bugemon(bug);
         }
         throw new BugemonNotFoundException(id);
     }
 
-    public List<Bugemon> getAllBugemons() {
+    public List<Bugemon> getAllBugemons() throws JsonResourceNotFoundException {
         return new ArrayList<>(BugemonRepository.getInstance().getAllBugemons());
     }
 
-    public List<BugemonDTO> getAllBugemonsDTO() {
+    public List<BugemonDTO> getAllBugemonsDTO() throws JsonResourceNotFoundException {
         return new ArrayList<>(BugemonRepository.getInstance().getAllBugemons());
     }
 
-    public void initBugemonFromSavedTeam(Bugemon bugemon) {
-        try {
-            assignAttacks(bugemon);
-        } catch (AttackNotFoundException e) {
-            throw new IllegalStateException("Attack not found: " + e.getMessage(), e);
-        }
+    public void initBugemonFromSavedTeam(Bugemon bugemon) throws AttackNotFoundException, JsonResourceNotFoundException {
+        assignAttacks(bugemon);
         bugemon.initPv();
         bugemon.initColor();
         bugemon.initAttackColors();

@@ -1,5 +1,7 @@
 package models.bugemon;
 
+import exceptions.AttackNotFoundException;
+import exceptions.JsonResourceNotFoundException;
 import junit.framework.TestCase;
 import org.junit.Test;
 import exceptions.BugemonNotFoundException;
@@ -13,14 +15,17 @@ public class TeamBugemonTest extends TestCase {
 
     private final BugemonProvider bugemonProvider = new BugemonProvider();
 
+    public TeamBugemonTest() throws AttackNotFoundException, JsonResourceNotFoundException {
+    }
+
     @Test
-    public void testConstructorNotNull() throws BugemonNotFoundException {
+    public void testConstructorNotNull() throws BugemonNotFoundException, JsonResourceNotFoundException {
         TeamBugemon team = new TeamBugemon("test", bugemonProvider.getListBugemon(Arrays.asList("florachu", "exceflam", "commitide")));
         assertNotNull(team);
     }
 
     @Test
-    public void testConstructorWithUnknownIdThrows() {
+    public void testConstructorWithUnknownIdThrows() throws JsonResourceNotFoundException{
         try {
             bugemonProvider.getListBugemon(Arrays.asList("unknown_id"));
             fail("Expected BugemonNotFoundException");
@@ -30,31 +35,31 @@ public class TeamBugemonTest extends TestCase {
     }
 
     @Test
-    public void testGetSizeCorrect() throws BugemonNotFoundException {
+    public void testGetSizeCorrect() throws BugemonNotFoundException, JsonResourceNotFoundException {
         TeamBugemon team = new TeamBugemon("test", bugemonProvider.getListBugemon(Arrays.asList("florachu", "exceflam", "commitide")));
         assertEquals(3, team.getSize());
     }
 
     @Test
-    public void testGetTeamNotNull() throws BugemonNotFoundException {
+    public void testGetTeamNotNull() throws BugemonNotFoundException, JsonResourceNotFoundException {
         TeamBugemon team = new TeamBugemon("test", bugemonProvider.getListBugemon(Arrays.asList("florachu", "exceflam")));
         assertNotNull(team.getTeam());
     }
 
     @Test
-    public void testGetTeamCorrectSize() throws BugemonNotFoundException {
+    public void testGetTeamCorrectSize() throws BugemonNotFoundException, JsonResourceNotFoundException {
         TeamBugemon team = new TeamBugemon("test", bugemonProvider.getListBugemon(Arrays.asList("florachu", "exceflam")));
         assertEquals(2, team.getTeam().size());
     }
 
     @Test
-    public void testGetTeamNoNullElements() throws BugemonNotFoundException {
+    public void testGetTeamNoNullElements() throws BugemonNotFoundException, JsonResourceNotFoundException {
         TeamBugemon team = new TeamBugemon("test", bugemonProvider.getListBugemon(Arrays.asList("florachu", "exceflam", "commitide")));
         for (Bugemon bug : team.getTeam()) assertNotNull(bug);
     }
 
     @Test
-    public void testAddBugemonIncreasesSize() throws BugemonNotFoundException {
+    public void testAddBugemonIncreasesSize() throws BugemonNotFoundException, JsonResourceNotFoundException {
         TeamBugemon team = new TeamBugemon("test", bugemonProvider.getListBugemon(Arrays.asList("florachu")));
         int sizeBefore = team.getSize();
         team.addBugemon(bugemonProvider.getListBugemon(Arrays.asList("exceflam")).get(0));
@@ -62,38 +67,38 @@ public class TeamBugemonTest extends TestCase {
     }
 
     @Test
-    public void testGetAllAttacksNotNull() throws BugemonNotFoundException {
+    public void testGetAllAttacksNotNull() throws BugemonNotFoundException, JsonResourceNotFoundException {
         TeamBugemon team = new TeamBugemon("test", bugemonProvider.getListBugemon(Arrays.asList("florachu", "exceflam")));
         assertNotNull(team.getAllAttacks());
     }
 
     @Test
-    public void testGetAllAttacksNotEmpty() throws BugemonNotFoundException {
+    public void testGetAllAttacksNotEmpty() throws BugemonNotFoundException, JsonResourceNotFoundException {
         TeamBugemon team = new TeamBugemon("test", bugemonProvider.getListBugemon(Arrays.asList("florachu", "exceflam")));
         assertFalse(team.getAllAttacks().isEmpty());
     }
 
     @Test
-    public void testGetAllAttacksTotalCount() throws BugemonNotFoundException {
+    public void testGetAllAttacksTotalCount() throws BugemonNotFoundException, JsonResourceNotFoundException {
         TeamBugemon team = new TeamBugemon("test", bugemonProvider.getListBugemon(Arrays.asList("florachu", "exceflam", "commitide")));
         int expected = team.getTeam().stream().mapToInt(b -> b.getAttackNamesAsList().size()).sum();
         assertEquals(expected, team.getAllAttacks().size());
     }
 
     @Test
-    public void testGetAllAttacksNoNullElement() throws BugemonNotFoundException {
+    public void testGetAllAttacksNoNullElement() throws BugemonNotFoundException, JsonResourceNotFoundException {
         TeamBugemon team = new TeamBugemon("test", bugemonProvider.getListBugemon(Arrays.asList("florachu", "exceflam", "commitide")));
         for (Attack attack : team.getAllAttacks()) assertNotNull(attack);
     }
 
     @Test
-    public void testHasNullAttacksReturnsFalse() throws BugemonNotFoundException {
+    public void testHasNullAttacksReturnsFalse() throws BugemonNotFoundException, JsonResourceNotFoundException {
         TeamBugemon team = new TeamBugemon("test", bugemonProvider.getListBugemon(Arrays.asList("florachu", "exceflam", "commitide")));
         assertFalse(team.hasNullAttacks());
     }
 
     @Test
-    public void testGetAttacksOfValidBugemon() throws BugemonNotFoundException, BugemonNotInTeamException {
+    public void testGetAttacksOfValidBugemon() throws BugemonNotFoundException, BugemonNotInTeamException, JsonResourceNotFoundException {
         TeamBugemon team = new TeamBugemon("test", bugemonProvider.getListBugemon(Arrays.asList("florachu", "exceflam")));
         List<Attack> attacks = team.getAttacksOf("florachu");
         assertNotNull(attacks);
@@ -101,13 +106,13 @@ public class TeamBugemonTest extends TestCase {
     }
 
     @Test
-    public void testGetAttacksOfBugemonNoNullAttack() throws BugemonNotFoundException, BugemonNotInTeamException {
+    public void testGetAttacksOfBugemonNoNullAttack() throws BugemonNotFoundException, BugemonNotInTeamException, JsonResourceNotFoundException {
         TeamBugemon team = new TeamBugemon("test", bugemonProvider.getListBugemon(Arrays.asList("florachu", "exceflam")));
         for (Attack attack : team.getAttacksOf("florachu")) assertNotNull(attack);
     }
 
     @Test
-    public void testGetAttacksOfBugemonNotInTeamThrows() throws BugemonNotFoundException {
+    public void testGetAttacksOfBugemonNotInTeamThrows() throws BugemonNotFoundException, JsonResourceNotFoundException {
         TeamBugemon team = new TeamBugemon("test", bugemonProvider.getListBugemon(Arrays.asList("florachu")));
         try {
             team.getAttacksOf("exceflam");
@@ -118,7 +123,7 @@ public class TeamBugemonTest extends TestCase {
     }
 
     @Test
-    public void testAllAttacksHaveNonNullId() throws BugemonNotFoundException {
+    public void testAllAttacksHaveNonNullId() throws BugemonNotFoundException, JsonResourceNotFoundException {
         TeamBugemon team = new TeamBugemon("test", bugemonProvider.getListBugemon(Arrays.asList("florachu", "exceflam", "commitide")));
         for (Attack attack : team.getAllAttacks()) assertNotNull(attack.getId());
     }

@@ -7,6 +7,10 @@ import controllers.fight.*;
 import controllers.teamchoice.PreBuildTeamController;
 import controllers.teamchoice.SelectionController;
 import controllers.tower.RewardController;
+import exceptions.AttackNotFoundException;
+import exceptions.JsonResourceNotFoundException;
+import exceptions.LoadingTeamFailedException;
+import exceptions.SavingTeamFailedException;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -64,7 +68,8 @@ public class ControllerManager {
      * @param stage the primary JavaFX stage
      * @throws IOException if any FXML file fails to load
      */
-    public ControllerManager(Stage stage) throws IOException {
+    public ControllerManager(Stage stage) throws IOException, AttackNotFoundException, JsonResourceNotFoundException {
+        GameStateHolder.getInstance();
         this.PrimaryStage = stage;
         this.titleScreenController = new TitleScreenController(this);
         this.preBuildTeamController = new PreBuildTeamController(this);
@@ -155,7 +160,7 @@ public class ControllerManager {
             ItemChoiceController itemChoiceController = new ItemChoiceController(this);
             openSubScene(itemChoiceController.getView(), true);
         } catch (IOException e) {
-            fatalError("couldn't load the view for the items : " + e.getMessage());
+            fatalError("Une erreur est survenue lors du chargement de la fenêtre des objets.");
         }
     }
 
@@ -172,7 +177,7 @@ public class ControllerManager {
             SwitchBugemonController switchController = new SwitchBugemonController(this);
             openSubScene(switchController.getView(), !GameStateHolder.getInstance().isSwitchOnPurpose());
         } catch (IOException e) {
-            fatalError("couldn't load the view for the bugemon of the team : " + e.getMessage());
+            fatalError("Une erreur est survenue lors du chargement de la fenêtre de changement de Bugémon.");
         }
     }
 
@@ -201,7 +206,11 @@ public class ControllerManager {
 
     public void goToTitleScreen() {
         if (GameStateHolder.getInstance().getCurrentTeamPlayer() != null) {
-            teamProvider.saveTeams(GameStateHolder.getInstance().getSavedTeams());
+            try {
+                teamProvider.saveTeams(GameStateHolder.getInstance().getSavedTeams());
+            } catch (SavingTeamFailedException e ) {
+                this.fatalError("Sauvegarde échouée. Les équipes n'ont pas été sauvegardées.");
+            }
         }
         GameStateHolder.getInstance().clearCurrentTeamPlayer();
         GameStateHolder.getInstance().clearCurrentLevelTower();
@@ -273,12 +282,12 @@ public class ControllerManager {
     }
 
     /**
-     * Displays a fatal error message and exits the application.
+     * Displays a fatal error message and return to the Title screen.
      *
      * @param reason description of the error
      */
     public void fatalError(String reason) {
-        FatalErrorView.show("Fatal error, closing the application.\nReason: " + reason);
-        System.exit(1);
+        FatalErrorView.show(reason);
+        this.switchScene(Scenes.TITLE_SCREEN);
     }
 }

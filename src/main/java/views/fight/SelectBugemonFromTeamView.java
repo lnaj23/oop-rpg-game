@@ -12,7 +12,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.stage.StageStyle;
-import listener.SelectBugemonFromTeamListener;
+import views.listener.SelectBugemonFromTeamListener;
 import models.bugemon.dto.BugemonDTO;
 import views.View;
 

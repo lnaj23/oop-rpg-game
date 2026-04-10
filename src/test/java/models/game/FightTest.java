@@ -1,7 +1,9 @@
 package models.game;
 
+import exceptions.AttackNotFoundException;
 import exceptions.BugemonNotFoundException;
 import exceptions.BugemonNotInTeamException;
+import exceptions.JsonResourceNotFoundException;
 import junit.framework.TestCase;
 import models.bugemon.Bugemon;
 import models.bugemon.TeamBugemon;
@@ -17,8 +19,11 @@ public class FightTest extends TestCase {
     private Fight fightEnemyHighInitiative;
     private BugemonProvider bugemonProvider = new BugemonProvider();
 
+    public FightTest() throws AttackNotFoundException, JsonResourceNotFoundException {
+    }
+
     @Before
-    public void setUp() throws BugemonNotFoundException, BugemonNotInTeamException {
+    public void setUp() throws BugemonNotFoundException, BugemonNotInTeamException, JsonResourceNotFoundException {
         TeamBugemon teamHighInit = new TeamBugemon(bugemonProvider.getListBugemon(List.of("pyricore", "loopine", "mergeau")));
         TeamBugemon teamLowInit  = new TeamBugemon(bugemonProvider.getListBugemon(List.of("bouldax", "granitron", "rockachu")));
         TeamBugemon teamEnemy    = new TeamBugemon(bugemonProvider.getListBugemon(List.of("pyricore", "moussil", "pebblit")));
@@ -59,7 +64,7 @@ public class FightTest extends TestCase {
     }
 
     @Test
-    public void testDeepCopyDoesNotMutateOriginalTeam() throws BugemonNotFoundException, BugemonNotInTeamException {
+    public void testDeepCopyDoesNotMutateOriginalTeam() throws BugemonNotFoundException, BugemonNotInTeamException, JsonResourceNotFoundException {
         TeamBugemon original = new TeamBugemon(bugemonProvider.getListBugemon(List.of("commitide", "moussil", "pebblit")));
         int hpBefore = original.getTeam().getFirst().getPv();
         Fight fight = new Fight(original, new TeamBugemon(bugemonProvider.getListBugemon(List.of("pyricore", "moussil", "pebblit"))));

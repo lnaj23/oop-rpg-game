@@ -1,6 +1,10 @@
 package views;
 
+import configuration.AppConfig;
 import javafx.scene.control.Alert;
+import javafx.stage.StageStyle;
+
+import java.util.Objects;
 
 /**
  * Utility class for displaying fatal error messages.
@@ -15,8 +19,13 @@ public class FatalErrorView {
      */
     public static void show(String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Fatal error");
+        alert.setTitle("Erreur");
+        alert.setGraphic(null);
+        alert.initStyle(StageStyle.UNDECORATED);
         alert.setContentText(message);
+        alert.getDialogPane().getStylesheets().add(
+                Objects.requireNonNull(FatalErrorView.class.getResource(AppConfig.CSS_COMMON)).toExternalForm()
+        );
         alert.showAndWait();
     }
 }

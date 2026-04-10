@@ -2,6 +2,9 @@ package controllers.teamchoice;
 
 import controllers.Controller;
 import controllers.ControllerManager;
+import exceptions.AttackNotFoundException;
+import exceptions.JsonResourceNotFoundException;
+import exceptions.SavingTeamFailedException;
 import models.bugemon.TeamBugemon;
 import services.dataprovider.TeamProvider;
 import services.game.GameStateHolder;
@@ -24,7 +27,7 @@ public class PreBuildTeamController extends Controller<PreBuildTeamView> {
      * @param metaController the central controller
      * @throws IOException if the FXML fails to load
      */
-    public PreBuildTeamController(ControllerManager metaController) throws IOException {
+    public PreBuildTeamController(ControllerManager metaController) throws IOException, AttackNotFoundException, JsonResourceNotFoundException {
         super(metaController, new PreBuildTeamView());
         this.teams = GameStateHolder.getInstance().getSavedTeams();
         this.view.setController(this);
@@ -55,7 +58,11 @@ public class PreBuildTeamController extends Controller<PreBuildTeamView> {
      */
     public void deleteTeam(int index) {
         this.teams.remove(index);
-        teamProvider.saveTeams(teams);
+        try {
+            teamProvider.saveTeams(teams);
+        } catch (SavingTeamFailedException e) {
+            controllerManager.fatalError("Une erreur est survenue lors de la suppression de l'équipe.");
+        }
         this.view.refreshTeams(teams);
     }
 
@@ -66,7 +73,12 @@ public class PreBuildTeamController extends Controller<PreBuildTeamView> {
      */
     public void renameTeam(int index, String newName) {
         teams.get(index).setName(newName);
-        teamProvider.saveTeams(teams);
+        try {
+            teamProvider.saveTeams(teams);
+        } catch (SavingTeamFailedException e) {
+            controllerManager.fatalError("Une erreur est survenue lors du renommage de l'équipe.");
+            return;
+        }
         this.view.refreshTeamList();
     }
 
@@ -85,6 +97,5 @@ public class PreBuildTeamController extends Controller<PreBuildTeamView> {
         GameStateHolder.getInstance().setCurrentTeamPlayer(teams.get(index));
         this.controllerManager.startNewTower();
     }
-
 
 }

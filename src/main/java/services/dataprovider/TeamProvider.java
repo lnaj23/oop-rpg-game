@@ -1,5 +1,10 @@
 package services.dataprovider;
 
+import exceptions.AttackNotFoundException;
+import exceptions.JsonResourceNotFoundException;
+import exceptions.LoadingTeamFailedException;
+import exceptions.SavingTeamFailedException;
+import models.bugemon.Bugemon;
 import models.bugemon.TeamBugemon;
 import repositories.TeamRepository;
 
@@ -9,13 +14,20 @@ public class TeamProvider {
 
     BugemonProvider bugemonProvider = new BugemonProvider();
 
-    public List<TeamBugemon> loadTeams() {
+    public TeamProvider() throws AttackNotFoundException, JsonResourceNotFoundException {
+    }
+
+    public List<TeamBugemon> loadTeams() throws LoadingTeamFailedException, AttackNotFoundException, JsonResourceNotFoundException {
         List<TeamBugemon> teams = TeamRepository.getInstance().loadTeams();
-        teams.forEach(t -> t.getTeam().forEach(bugemonProvider::initBugemonFromSavedTeam));
+        for (TeamBugemon t : teams) {
+            for (Bugemon bugemon : t.getTeam()) {
+                bugemonProvider.initBugemonFromSavedTeam(bugemon);
+            }
+        }
         return teams;
     }
 
-    public void saveTeams(List<TeamBugemon> teams) {
+    public void saveTeams(List<TeamBugemon> teams) throws SavingTeamFailedException {
         TeamRepository.getInstance().saveTeams(teams);
     }
 }
