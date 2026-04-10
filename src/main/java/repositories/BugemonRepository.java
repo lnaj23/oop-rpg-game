@@ -50,6 +50,6 @@ public class BugemonRepository extends JsonRepository {
      * @return the list of all Bugémons
      */
     public List<Bugemon> getAllBugemons() {
-        return new ArrayList<>(bugemonRepo);
+        return bugemonRepo;
     }
 }

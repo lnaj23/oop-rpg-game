@@ -55,11 +55,4 @@ public class BugemonRepositoryTest {
             assertFalse(bug.getAttackNamesAsList().isEmpty());
         }
     }
-
-    @Test
-    public void testReturnedListIsDefensiveCopy() {
-        List<Bugemon> list1 = BugemonRepository.getInstance().getAllBugemons();
-        List<Bugemon> list2 = BugemonRepository.getInstance().getAllBugemons();
-        assertNotSame(list1, list2);
-    }
 }

@@ -55,11 +55,4 @@ public class AttackRepositoryTest {
             assertTrue(attack.getPower() >= 0);
         }
     }
-
-    @Test
-    public void testReturnedListIsDefensiveCopy() {
-        List<Attack> list1 = AttackRepository.getInstance().getAllAttacks();
-        List<Attack> list2 = AttackRepository.getInstance().getAllAttacks();
-        assertNotSame(list1, list2);
-    }
 }

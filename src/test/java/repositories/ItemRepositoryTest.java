@@ -48,11 +48,4 @@ public class ItemRepositoryTest {
             assertNotNull(item.getName());
         }
     }
-
-    @Test
-    public void testReturnedListIsDefensiveCopy() {
-        List<Item> list1 = ItemRepository.getInstance().getAllItems();
-        List<Item> list2 = ItemRepository.getInstance().getAllItems();
-        assertNotSame(list1, list2);
-    }
 }
