@@ -7,9 +7,11 @@ import java.util.List;
 
 public abstract class TeamProvider {
 
+    static BugemonProvider bugemonProvider = new BugemonProvider();
+
     public static List<TeamBugemon> loadTeams() {
         List<TeamBugemon> teams = TeamRepository.loadTeams();
-        teams.forEach(t -> t.getTeam().forEach(BugemonProvider.getInstance()::initBugemonFromSavedTeam));
+        teams.forEach(t -> t.getTeam().forEach(bugemonProvider::initBugemonFromSavedTeam));
         return teams;
     }
 

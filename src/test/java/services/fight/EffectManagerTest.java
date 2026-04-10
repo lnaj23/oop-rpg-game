@@ -8,6 +8,7 @@ import models.bugemon.TeamBugemon;
 import models.game.Fight;
 import org.junit.Before;
 import org.junit.Test;
+import services.dataprovider.BugemonProvider;
 
 import java.util.List;
 
@@ -19,11 +20,12 @@ public class EffectManagerTest extends TestCase {
     //             [1] pollen_sournois (adversaire, initiative, -10, 1_tour)
     //             [2] feuille_tranchante (aucun effet)
     private Fight fightMergeauVsLoopine;
+    private BugemonProvider bugemonProvider = new BugemonProvider();
 
     @Before
     public void setUp() throws BugemonNotFoundException, BugemonNotInTeamException {
-        TeamBugemon teamPlayer = new TeamBugemon(List.of("mergeau"));
-        TeamBugemon teamEnemy  = new TeamBugemon(List.of("loopine"));
+        TeamBugemon teamPlayer = new TeamBugemon(bugemonProvider.getListBugemon(List.of("mergeau")));
+        TeamBugemon teamEnemy  = new TeamBugemon(bugemonProvider.getListBugemon(List.of("loopine")));
         fightMergeauVsLoopine  = new Fight(teamPlayer, teamEnemy);
     }
 
@@ -32,8 +34,8 @@ public class EffectManagerTest extends TestCase {
     @Test
     public void testHealRestoresPlayerHp() throws BugemonNotFoundException, BugemonNotInTeamException {
         // commitide a pluie_calme (index 2) = soin lanceur +15 PV
-        TeamBugemon teamPlayer = new TeamBugemon(List.of("commitide"));
-        TeamBugemon teamEnemy  = new TeamBugemon(List.of("loopine"));
+        TeamBugemon teamPlayer = new TeamBugemon(bugemonProvider.getListBugemon(List.of("commitide")));
+        TeamBugemon teamEnemy  = new TeamBugemon(bugemonProvider.getListBugemon(List.of("loopine")));
         Fight fight = new Fight(teamPlayer, teamEnemy);
 
         Bugemon player = fight.getOnFieldPlayerBugemon();

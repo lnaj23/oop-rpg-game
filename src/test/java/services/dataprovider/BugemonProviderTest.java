@@ -12,7 +12,7 @@ import java.util.List;
 
 public class BugemonProviderTest extends TestCase {
 
-    private final BugemonProvider provider = BugemonProvider.getInstance();
+    private final BugemonProvider provider = new BugemonProvider();
 
     @Test
     public void testGetListBugemonReturnsNotNull() throws BugemonNotFoundException {

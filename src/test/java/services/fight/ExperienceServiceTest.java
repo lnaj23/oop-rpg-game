@@ -7,12 +7,15 @@ import models.bugemon.Bugemon;
 import models.bugemon.TeamBugemon;
 import models.game.Fight;
 import org.junit.Test;
+import services.dataprovider.BugemonProvider;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
 public class ExperienceServiceTest extends TestCase {
+
+    private BugemonProvider bugemonProvider = new BugemonProvider();
 
     /**
      * Verifies XP computation for a normal fight on floor 5
@@ -50,8 +53,8 @@ public class ExperienceServiceTest extends TestCase {
      */
     @Test
     public void testDistributeXpEqually() throws BugemonNotFoundException, BugemonNotInTeamException {
-        TeamBugemon teamPlayer = new TeamBugemon(List.of("florachu", "exceflam"));
-        TeamBugemon teamEnemy  = new TeamBugemon(List.of("loopine"));
+        TeamBugemon teamPlayer = new TeamBugemon(bugemonProvider.getListBugemon(List.of("florachu", "exceflam")));
+        TeamBugemon teamEnemy  = new TeamBugemon(bugemonProvider.getListBugemon(List.of("loopine")));
         Fight fight = new Fight(teamPlayer, teamEnemy);
 
         Bugemon b1 = fight.getTeamPlayer().getTeam().get(0);
@@ -72,8 +75,8 @@ public class ExperienceServiceTest extends TestCase {
      */
     @Test
     public void testDistributeXpDetectsLevelUp() throws BugemonNotFoundException, BugemonNotInTeamException {
-        TeamBugemon teamPlayer = new TeamBugemon(List.of("florachu"));
-        TeamBugemon teamEnemy  = new TeamBugemon(List.of("loopine"));
+        TeamBugemon teamPlayer = new TeamBugemon(bugemonProvider.getListBugemon(List.of("florachu")));
+        TeamBugemon teamEnemy  = new TeamBugemon(bugemonProvider.getListBugemon(List.of("loopine")));
         Fight fight = new Fight(teamPlayer, teamEnemy);
 
         Bugemon b1 = fight.getOnFieldPlayerBugemon();
@@ -93,8 +96,8 @@ public class ExperienceServiceTest extends TestCase {
      */
     @Test
     public void testDistributeXpNoLevelUp() throws BugemonNotFoundException, BugemonNotInTeamException {
-        TeamBugemon teamPlayer = new TeamBugemon(List.of("florachu"));
-        TeamBugemon teamEnemy  = new TeamBugemon(List.of("loopine"));
+        TeamBugemon teamPlayer = new TeamBugemon(bugemonProvider.getListBugemon(List.of("florachu")));
+        TeamBugemon teamEnemy  = new TeamBugemon(bugemonProvider.getListBugemon(List.of("loopine")));
         Fight fight = new Fight(teamPlayer, teamEnemy);
 
         Bugemon b1 = fight.getOnFieldPlayerBugemon();

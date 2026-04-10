@@ -29,6 +29,8 @@ public class SelectionController extends Controller<SelectionView> {
     /** The team currently being built by the player. */
     private TeamBugemon playerTeam;
 
+    private BugemonProvider bugemonProvider = new BugemonProvider();
+
     /**
      * @param metaController the central controller
      * @throws IOException if the FXML fails to load
@@ -38,7 +40,6 @@ public class SelectionController extends Controller<SelectionView> {
         this.teams = GameStateHolder.getInstance().getSavedTeams();
         this.playerTeam = new TeamBugemon();
         this.view.setController(this);
-        BugemonProvider.getInstance().getAllBugemonsDTO();
     }
 
     /**
@@ -77,7 +78,7 @@ public class SelectionController extends Controller<SelectionView> {
     public void reset() {
         this.teamBeingEdited = null;
         this.playerTeam = new TeamBugemon();
-        this.view.reset(BugemonProvider.getInstance().getAllBugemonsDTO());
+        this.view.reset(bugemonProvider.getAllBugemonsDTO());
         this.view.setEditMode(false);
     }
 

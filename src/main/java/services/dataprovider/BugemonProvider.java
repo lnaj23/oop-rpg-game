@@ -11,27 +11,22 @@ import java.util.List;
 
 public class BugemonProvider {
 
-    private static BugemonProvider instance;
+    private static final AttackProvider attackProvider = new AttackProvider();
+    private static boolean initialized = false;
 
-    private AttackProvider attackProvider = new AttackProvider();
-
-    private BugemonProvider() {
-        try {
-            for (Bugemon bug : BugemonRepository.getAllBugemons()) {
-                assignAttacks(bug);
+    public BugemonProvider() {
+        if (!initialized) {
+            try {
+                for (Bugemon bug : BugemonRepository.getAllBugemons()) {
+                    assignAttacks(bug);
+                }
+                BugemonRepository.getAllBugemons().forEach(Bugemon::initColor);
+                BugemonRepository.getAllBugemons().forEach(Bugemon::initPv);
+                initialized = true;
+            } catch (AttackNotFoundException e) {
+                throw new IllegalStateException("Failed to assign attacks during initialization: " + e.getMessage(), e);
             }
-            BugemonRepository.getAllBugemons().forEach(Bugemon::initColor);
-            BugemonRepository.getAllBugemons().forEach(Bugemon::initPv);
-        } catch (AttackNotFoundException e) {
-            throw new IllegalStateException("Failed to assign attacks during initialization: " + e.getMessage(), e);
         }
-    }
-
-    public static BugemonProvider getInstance() {
-        if (instance == null) {
-            instance = new BugemonProvider();
-        }
-        return instance;
     }
 
     private void assignAttacks(Bugemon bug) throws AttackNotFoundException {

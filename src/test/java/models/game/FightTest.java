@@ -7,6 +7,7 @@ import models.bugemon.Bugemon;
 import models.bugemon.TeamBugemon;
 import org.junit.Before;
 import org.junit.Test;
+import services.dataprovider.BugemonProvider;
 
 import java.util.List;
 
@@ -14,12 +15,13 @@ public class FightTest extends TestCase {
 
     private Fight fightPlayerHighInitiative;
     private Fight fightEnemyHighInitiative;
+    private BugemonProvider bugemonProvider = new BugemonProvider();
 
     @Before
     public void setUp() throws BugemonNotFoundException, BugemonNotInTeamException {
-        TeamBugemon teamHighInit = new TeamBugemon(List.of("pyricore", "loopine", "mergeau"));
-        TeamBugemon teamLowInit  = new TeamBugemon(List.of("bouldax", "granitron", "rockachu"));
-        TeamBugemon teamEnemy    = new TeamBugemon(List.of("pyricore", "moussil", "pebblit"));
+        TeamBugemon teamHighInit = new TeamBugemon(bugemonProvider.getListBugemon(List.of("pyricore", "loopine", "mergeau")));
+        TeamBugemon teamLowInit  = new TeamBugemon(bugemonProvider.getListBugemon(List.of("bouldax", "granitron", "rockachu")));
+        TeamBugemon teamEnemy    = new TeamBugemon(bugemonProvider.getListBugemon(List.of("pyricore", "moussil", "pebblit")));
 
         fightPlayerHighInitiative = new Fight(teamHighInit, teamEnemy);
         fightEnemyHighInitiative  = new Fight(teamLowInit,  teamEnemy);
@@ -58,9 +60,9 @@ public class FightTest extends TestCase {
 
     @Test
     public void testDeepCopyDoesNotMutateOriginalTeam() throws BugemonNotFoundException, BugemonNotInTeamException {
-        TeamBugemon original = new TeamBugemon(List.of("commitide", "moussil", "pebblit"));
+        TeamBugemon original = new TeamBugemon(bugemonProvider.getListBugemon(List.of("commitide", "moussil", "pebblit")));
         int hpBefore = original.getTeam().getFirst().getPv();
-        Fight fight = new Fight(original, new TeamBugemon(List.of("pyricore", "moussil", "pebblit")));
+        Fight fight = new Fight(original, new TeamBugemon(bugemonProvider.getListBugemon(List.of("pyricore", "moussil", "pebblit"))));
         fight.playerAttack(0);
         assertEquals(hpBefore, original.getTeam().getFirst().getPv());
     }

@@ -6,19 +6,22 @@ import junit.framework.TestCase;
 import models.bugemon.Bugemon;
 import models.bugemon.TeamBugemon;
 import org.junit.Test;
+import services.dataprovider.BugemonProvider;
 
 import java.util.List;
 
 
 public class LevelUpBonusTest extends TestCase {
 
+    private BugemonProvider bugemonProvider = new BugemonProvider();
+
     /**
      * Helper to get a fresh Bugemon from a Fight,
      * following the same pattern as EffectManagerTest.
      */
     private Bugemon createBugemon(String id) throws BugemonNotFoundException, BugemonNotInTeamException {
-        TeamBugemon teamPlayer = new TeamBugemon(List.of(id));
-        TeamBugemon teamEnemy  = new TeamBugemon(List.of("loopine"));
+        TeamBugemon teamPlayer = new TeamBugemon(bugemonProvider.getListBugemon(List.of(id)));
+        TeamBugemon teamEnemy  = new TeamBugemon(bugemonProvider.getListBugemon(List.of("loopine")));
         Fight fight = new Fight(teamPlayer, teamEnemy);
         return fight.getOnFieldPlayerBugemon();
     }

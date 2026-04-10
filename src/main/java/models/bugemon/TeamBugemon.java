@@ -31,28 +31,6 @@ public class TeamBugemon implements TeamBugemonDTO {
     }
 
     /**
-     * Constructs a team from a list of Bugémon IDs.
-     *
-     * @param listeOfId the list of Bugémon IDs to load
-     * @throws BugemonNotFoundException if any ID does not match a known Bugémon
-     */
-    public TeamBugemon(List<String> listeOfId) throws BugemonNotFoundException {
-        this.team = BugemonProvider.getInstance().getListBugemon(listeOfId);
-    }
-
-    /**
-     * Constructs a named team from a list of Bugémon IDs.
-     *
-     * @param name      the name of the team
-     * @param listeOfId the list of Bugémon IDs to load
-     * @throws BugemonNotFoundException if any ID does not match a known Bugémon
-     */
-    public TeamBugemon(String name, List<String> listeOfId) throws BugemonNotFoundException {
-        this.name = name;
-        this.team = BugemonProvider.getInstance().getListBugemon(listeOfId);
-    }
-
-    /**
      * Copy constructor. Creates a deep copy of the given team.
      * The on-field Bugémon is reset to null.
      *
@@ -62,6 +40,15 @@ public class TeamBugemon implements TeamBugemonDTO {
         this.name           = other.name;
         this.team = other.team.stream().map(Bugemon::new).collect(Collectors.toList());
         this.onFieldBugemon = null;
+    }
+
+    public TeamBugemon(String name, List<Bugemon> Bugemons) {
+        this.name = name;
+        this.team = Bugemons;
+    }
+
+    public TeamBugemon(List<Bugemon> Bugemons) {
+        this.team = Bugemons;
     }
 
     @Override

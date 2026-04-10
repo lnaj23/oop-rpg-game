@@ -5,6 +5,7 @@ import exceptions.BugemonNotFoundException;
 import models.bugemon.TeamBugemon;
 import org.junit.Before;
 import org.junit.Test;
+import services.dataprovider.BugemonProvider;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -13,6 +14,8 @@ import java.util.List;
 import static org.junit.Assert.*;
 
 public class TeamRepositoryTest {
+
+    private BugemonProvider bugemonProvider = new BugemonProvider();
 
     @Before
     public void cleanup() {
@@ -33,8 +36,8 @@ public class TeamRepositoryTest {
     public void testSaveAndLoadTeams() throws BugemonNotFoundException {
         List<TeamBugemon> originalTeams = new ArrayList<>();
         
-        TeamBugemon team1 = new TeamBugemon("Mon équipe 1", List.of("florachu", "exceflam"));
-        TeamBugemon team2 = new TeamBugemon("Mon équipe 2", List.of("moussil"));
+        TeamBugemon team1 = new TeamBugemon("Mon équipe 1", bugemonProvider.getListBugemon(List.of("florachu", "exceflam")));
+        TeamBugemon team2 = new TeamBugemon("Mon équipe 2", bugemonProvider.getListBugemon(List.of("moussil")));
         
         originalTeams.add(team1);
         originalTeams.add(team2);

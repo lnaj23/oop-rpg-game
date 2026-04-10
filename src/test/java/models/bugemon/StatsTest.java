@@ -6,6 +6,7 @@ import junit.framework.TestCase;
 import models.game.Fight;
 import org.junit.Before;
 import org.junit.Test;
+import services.dataprovider.BugemonProvider;
 
 import java.util.List;
 
@@ -17,10 +18,12 @@ public class StatsTest extends TestCase {
     private Bugemon florachu;
     private Stats stats;
 
+    private BugemonProvider bugemonProvider = new BugemonProvider();
+
     @Before
     public void setUp() throws BugemonNotFoundException, BugemonNotInTeamException {
-        TeamBugemon teamPlayer = new TeamBugemon(List.of("florachu"));
-        TeamBugemon teamEnemy  = new TeamBugemon(List.of("loopine"));
+        TeamBugemon teamPlayer = new TeamBugemon(bugemonProvider.getListBugemon(List.of("florachu")));
+        TeamBugemon teamEnemy  = new TeamBugemon(bugemonProvider.getListBugemon(List.of("loopine")));
         fight = new Fight(teamPlayer, teamEnemy);
         florachu = fight.getOnFieldPlayerBugemon();
         stats = florachu.getStats();
