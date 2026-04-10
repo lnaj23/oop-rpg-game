@@ -43,4 +43,14 @@ public class ItemProvider {
         defautItems.add(new Item("pierre_de_retraite", "Pierre de Retraite", "changer sans perdre l'initiative",null,null,null));
         return defautItems;
     }
+
+    public Item getItemById(String id) {
+        List<Item> allItems = getAllItems();
+        for(Item item : allItems) {
+            if(item.getId().equals(id)) {
+                return item;
+            }
+        }
+        return null;
+    }
 }
