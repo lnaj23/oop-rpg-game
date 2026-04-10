@@ -70,5 +70,6 @@ public class BugemonProvider {
         }
         bugemon.initPv();
         bugemon.initColor();
+        bugemon.initAttackColors();
     }
 }

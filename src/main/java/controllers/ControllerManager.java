@@ -14,6 +14,7 @@ import models.TowerNodeType;
 import models.bugemon.Bugemon;
 import models.game.Item;
 import models.game.LevelTower;
+import services.dataprovider.TeamProvider;
 import services.fight.ExperienceService;
 import services.game.GameStateHolder;
 import views.FatalErrorView;
@@ -197,6 +198,11 @@ public class ControllerManager {
     }
 
     public void goToTitleScreen() {
+        if (GameStateHolder.getInstance().getCurrentTeamPlayer() != null) {
+            TeamProvider.saveTeams(GameStateHolder.getInstance().getSavedTeams());
+        }
+        GameStateHolder.getInstance().clearCurrentTeamPlayer();
+        GameStateHolder.getInstance().clearCurrentLevelTower();
         this.switchScene(Scenes.TITLE_SCREEN);
     }
 

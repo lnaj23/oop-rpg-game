@@ -306,7 +306,7 @@ public class Bugemon implements BugemonDTO {
     }
 
     /** Associates each attack with its type color. */
-    private void initAttackColors() {
+    public void initAttackColors() {
         for (Attack attack : this.attacks) {
             attack.setColor(getTypeColorOfBugemon(attack));
         }

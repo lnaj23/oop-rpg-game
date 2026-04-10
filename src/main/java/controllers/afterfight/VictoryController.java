@@ -6,7 +6,7 @@ import models.bugemon.Bugemon;
 import models.bugemon.dto.BugemonDTO;
 import services.fight.ExperienceService;
 import services.game.GameStateHolder;
-import views.fight.VictoryView;
+import views.afterfight.VictoryView;
 
 import java.io.IOException;
 import java.util.ArrayList;

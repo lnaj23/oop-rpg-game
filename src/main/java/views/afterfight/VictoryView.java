@@ -1,4 +1,4 @@
-package views.fight;
+package views.afterfight;
 
 import configuration.AppConfig;
 import controllers.afterfight.VictoryController;

@@ -34,12 +34,10 @@ public class Fight {
      * @throws BugemonNotInTeamException if the first Bugémon cannot be placed on the field
      */
     public Fight(TeamBugemon teamPlayer, TeamBugemon teamEnemy) throws BugemonNotInTeamException {
-        this.teamPlayer = new TeamBugemon(teamPlayer);
-        this.teamEnemy  = new TeamBugemon(teamEnemy);
+        this.teamPlayer = teamPlayer;
+        this.teamEnemy  = teamEnemy;
         this.teamPlayer.getTeam().forEach(b -> b.setIsPlayerToTrue());
         this.teamPlayer.changeOnFieldBugemon(this.teamPlayer.getTeam().getFirst());
-        // The first Bugemon sent to the field is a participant
-        participatingBugemons.add(this.teamPlayer.getOnFieldBugemon());
         for(Bugemon bug : this.teamPlayer.getTeam()){
             bug.initPv(); // Heal all bugemon at the start, maybe we'll remove if we want to make a real roguelike game
             bug.resetAllModifiers();
@@ -50,6 +48,7 @@ public class Fight {
                 break;
             }
         }
+        participatingBugemons.add(this.teamPlayer.getOnFieldBugemon());
         this.teamEnemy.changeOnFieldBugemon(this.teamEnemy.getTeam().getFirst());
         this.isPlayerTurn = true;
     }
