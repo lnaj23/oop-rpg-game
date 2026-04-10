@@ -7,10 +7,7 @@ import controllers.fight.*;
 import controllers.teamchoice.PreBuildTeamController;
 import controllers.teamchoice.SelectionController;
 import controllers.tower.RewardController;
-import exceptions.AttackNotFoundException;
-import exceptions.JsonResourceNotFoundException;
-import exceptions.LoadingTeamFailedException;
-import exceptions.SavingTeamFailedException;
+import exceptions.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -210,6 +207,7 @@ public class ControllerManager {
                 teamProvider.saveTeams(GameStateHolder.getInstance().getSavedTeams());
             } catch (SavingTeamFailedException e ) {
                 this.fatalError("Sauvegarde échouée. Les équipes n'ont pas été sauvegardées.");
+                return;
             }
         }
         GameStateHolder.getInstance().clearCurrentTeamPlayer();
@@ -249,7 +247,12 @@ public class ControllerManager {
     }
 
     private void goToNextFight() {
-        this.fightAgainstCPUController.setFight();
+        try {
+            this.fightAgainstCPUController.setFight();
+        } catch (BugemonNotInTeamException | AttackNotFoundException | JsonResourceNotFoundException e){
+            this.fatalError("Une erreur est survenue lors du chargement du combat.");
+            return;
+        }
         this.switchScene(Scenes.FIGHT_AGAINST_CPU);
     }
 
@@ -267,10 +270,14 @@ public class ControllerManager {
     }
 
     public void onSwitchBugemonChosen(String selectedId) {
-        fightAgainstCPUController.onSwitchBugemonChosen(
-                selectedId,
-                GameStateHolder.getInstance().isSwitchOnPurpose()
-        );
+        try {
+            fightAgainstCPUController.onSwitchBugemonChosen(
+                    selectedId,
+                    GameStateHolder.getInstance().isSwitchOnPurpose()
+            );
+        } catch (BugemonNotInTeamException e){
+            fatalError("Une erreur est survenue lors du changement de Bugemon Actif");
+        }
     }
 
     public void onSwitchCancelled() {

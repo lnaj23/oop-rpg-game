@@ -4,6 +4,7 @@ import configuration.AppConfig;
 import controllers.Controller;
 import controllers.ControllerManager;
 import exceptions.AttackNotFoundException;
+import exceptions.BugemonNotFoundException;
 import exceptions.BugemonNotInTeamException;
 import exceptions.JsonResourceNotFoundException;
 import javafx.animation.PauseTransition;
@@ -41,20 +42,16 @@ public class FightAgainstCPUController extends Controller<FightView> implements 
      * Initialises the fight from {@link GameStateHolder} against a randomly generated enemy team
      * with the same number of Bugemons as the player's team.
      */
-    public void setFight() {
-        try {
-            view.resetDisplay();
-            TeamBugemon team = GameStateHolder.getInstance().getCurrentTeamPlayer();
-            fight = new Fight(team, EnemyTeamGenerator.generateEnemyTeam());
-            viewDisplayTeams();
-            viewDisplayPredictedEffectiveness();
-            viewInitDisplayedBugemon();
-            viewInitStartMessage();
-            if (!fight.playerCanStart()) forceEnemyToAttack();
-            view.updateFloorInfo(GameStateHolder.getInstance().getCurrentLevelTower().getProgressAsString());
-        } catch (BugemonNotInTeamException | AttackNotFoundException | JsonResourceNotFoundException e) {
-            controllerManager.fatalError("Une erreur est survenue lors du chargement du combat.");
-        }
+    public void setFight() throws BugemonNotInTeamException, AttackNotFoundException, JsonResourceNotFoundException {
+        view.resetDisplay();
+        TeamBugemon team = GameStateHolder.getInstance().getCurrentTeamPlayer();
+        fight = new Fight(team, EnemyTeamGenerator.generateEnemyTeam());
+        viewDisplayTeams();
+        viewDisplayPredictedEffectiveness();
+        viewInitDisplayedBugemon();
+        viewInitStartMessage();
+        if (!fight.playerCanStart()) forceEnemyToAttack();
+        view.updateFloorInfo(GameStateHolder.getInstance().getCurrentLevelTower().getProgressAsString());
     }
 
     private void viewInitStartMessage() {
@@ -110,18 +107,18 @@ public class FightAgainstCPUController extends Controller<FightView> implements 
             useItem(item);
     }
 
-    public void onSwitchBugemonChosen(String selectedId, boolean onPurpose) {
-        try {
-            switchPlayerBugemon(selectedId);
-            if (onPurpose) {
-                forceEnemyToAttack();
+    public void onSwitchBugemonChosen(String selectedId, boolean onPurpose) throws BugemonNotInTeamException {
+        switchPlayerBugemon(selectedId);
+
+        if (onPurpose) {
+            forceEnemyToAttack();
+        } else {
+            if (fight.playerGoesFirstAfterSwitch() || useItemToChange) {
+                view.setButtonsDisabled(false);
             } else {
-                if (fight.playerGoesFirstAfterSwitch() || useItemToChange ) view.setButtonsDisabled(false);
-                else forceEnemyToAttack();
-                useItemToChange = false;
+                forceEnemyToAttack();
             }
-        } catch (BugemonNotInTeamException e) {
-            controllerManager.fatalError("couldn't load the Bugemon : " + e.getMessage());
+            useItemToChange = false;
         }
     }
 
@@ -200,7 +197,7 @@ public class FightAgainstCPUController extends Controller<FightView> implements 
             view.updateActiveBugemonSprite(fight.getOnFieldEnemyBugemon());
             view.updateCombatMessage("L'adversaire envoie " + fight.getOnFieldEnemyBugemonName() + " !");
         } catch (BugemonNotInTeamException e) {
-            controllerManager.fatalError("Couldnt load bugemon : " + e.getMessage());
+            controllerManager.fatalError("Une erreur est survenue lors du changement de Bugemon Actif Enemi");
         }
     }
 
