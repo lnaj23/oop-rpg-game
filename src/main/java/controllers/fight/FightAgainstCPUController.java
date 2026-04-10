@@ -118,6 +118,7 @@ public class FightAgainstCPUController extends Controller<FightView> implements 
             } else {
                 if (fight.playerGoesFirstAfterSwitch() || useItemToChange ) view.setButtonsDisabled(false);
                 else forceEnemyToAttack();
+                useItemToChange = false;
             }
         } catch (BugemonNotInTeamException e) {
             controllerManager.fatalError("couldn't load the Bugemon : " + e.getMessage());
