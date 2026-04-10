@@ -13,6 +13,8 @@ public class BugemonProvider {
 
     private static BugemonProvider instance;
 
+    private AttackProvider attackProvider = new AttackProvider();
+
     private BugemonProvider() {
         try {
             for (Bugemon bug : BugemonRepository.getAllBugemons()) {
@@ -35,7 +37,7 @@ public class BugemonProvider {
     private void assignAttacks(Bugemon bug) throws AttackNotFoundException {
         if (!bug.getAttacks().isEmpty()) return;
         for (String id : bug.getAttackNamesAsList()) {
-            bug.addAttacks(AttackProvider.getInstance().getAttackById(id));
+            bug.addAttacks(attackProvider.getAttackById(id));
         }
     }
 

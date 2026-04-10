@@ -219,7 +219,7 @@ public class FightAgainstCPUController extends Controller<FightView> implements 
         if (!fight.isBattleOver()) return;
         GameStateHolder.getInstance().setCurrentTeamPlayer(fight.getTeamPlayer());
         view.setButtonsDisabled(true);
-        if (fight.playerWon()) controllerManager.goToVictoryScreen(fight.getTeamEnemy().getSize());
+        if (fight.playerWon()) controllerManager.goToVictoryScreen(fight.getEnemyTeamSize());
         else controllerManager.goToDefeatScreen();
     }
 

@@ -9,7 +9,7 @@ import java.util.List;
 
 public class AttackProviderTest extends TestCase {
 
-    private final AttackProvider provider = AttackProvider.getInstance();
+    private final AttackProvider provider = new AttackProvider();
 
     @Test
     public void testGetAttackByIdReturnsNotNull() throws AttackNotFoundException {

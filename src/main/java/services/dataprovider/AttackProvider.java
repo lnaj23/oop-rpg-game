@@ -9,17 +9,6 @@ import java.util.List;
 
 public class AttackProvider {
 
-    private static AttackProvider instance;
-
-    private AttackProvider() {}
-
-    public static AttackProvider getInstance() {
-        if (instance == null) {
-            instance = new AttackProvider();
-        }
-        return instance;
-    }
-
     public Attack getAttackById(String id) throws AttackNotFoundException {
         for (Attack attack : AttackRepository.getAllAttacks()) {
             if (attack.getId().equals(id)) return new Attack(attack);
@@ -30,6 +19,5 @@ public class AttackProvider {
     public List<Attack> getAllAttacks() {
         return new ArrayList<>(AttackRepository.getAllAttacks());
     }
-
 
 }
