@@ -1,10 +1,9 @@
 package views.fight;
 
 import configuration.AppConfig;
-import controllers.fight.DefeatController;
+import controllers.afterfight.DefeatController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import views.View;
 
 import java.io.IOException;

@@ -1,4 +1,4 @@
-package controllers.fight;
+package controllers.afterfight;
 
 import controllers.Controller;
 import controllers.ControllerManager;

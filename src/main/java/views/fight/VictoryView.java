@@ -1,7 +1,7 @@
 package views.fight;
 
 import configuration.AppConfig;
-import controllers.fight.VictoryController;
+import controllers.afterfight.VictoryController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;

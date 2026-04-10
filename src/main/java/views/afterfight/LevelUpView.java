@@ -1,7 +1,7 @@
-package views.AfterFight;
+package views.afterfight;
 
 import configuration.AppConfig;
-import controllers.AfterFight.LevelUpController;
+import controllers.afterfight.LevelUpController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;

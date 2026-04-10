@@ -1,0 +1,50 @@
+.root {
+    -fx-background-color: rgb(20, 20, 20);
+}
+
+.label-levelup {
+    -fx-text-fill: #F1C40F;
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+}
+
+.label-subtitle {
+    -fx-text-fill: #F1C40F;
+    -fx-font-size: 18px;
+}
+
+.label-hint {
+    -fx-text-fill: #aaaaaa;
+    -fx-font-size: 13px;
+}
+
+.btn-option {
+    -fx-text-fill: white;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8;
+    -fx-cursor: hand;
+    -fx-pref-height: 50px;
+    -fx-max-width: Infinity;
+}
+
+.btn-option-1 {
+    -fx-background-color: #4CAF50;
+}
+.btn-option-1:hover {
+    -fx-background-color: #43a047;
+}
+
+.btn-option-2 {
+    -fx-background-color: #F1C40F;
+}
+.btn-option-2:hover {
+    -fx-background-color: #d4ac0d;
+}
+
+.btn-option-3 {
+    -fx-background-color: #3498DB;
+}
+.btn-option-3:hover {
+    -fx-background-color: #2980b9;
+}

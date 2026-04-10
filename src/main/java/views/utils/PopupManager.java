@@ -71,6 +71,7 @@ public class PopupManager {
      */
     public void showStatsPopup(double x, double y, BugemonDTO b, Node anchor) {
         statsLabel.setText(
+                (b.getIsPlayer() ? "Niveau " + b.getlevel() + "\n" : "" ) +
                 "PV: "      + b.getPv()                 + "\n" +
                         "ATK: "     + b.getAttaque()             + "\n" +
                         "DEF: "     + b.getDefense()             + "\n" +

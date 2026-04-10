@@ -1,6 +1,8 @@
 package controllers;
 
-import controllers.AfterFight.LevelUpController;
+import controllers.afterfight.DefeatController;
+import controllers.afterfight.LevelUpController;
+import controllers.afterfight.VictoryController;
 import controllers.fight.*;
 import controllers.teamchoice.PreBuildTeamController;
 import controllers.teamchoice.SelectionController;
@@ -19,7 +21,6 @@ import views.View;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.logging.Level;
 
 /**
  * Central controller that manages navigation between scenes and holds shared application state.
@@ -41,7 +42,7 @@ public class ControllerManager {
         VICTORY,
         DEFEAT,
         REWARD,
-        LEVELUP
+        LEVEL_UP
     }
 
     private final Stage PrimaryStage;
@@ -95,7 +96,7 @@ public class ControllerManager {
             case VICTORY -> this.victoryController.show(PrimaryStage);
             case DEFEAT -> this.defeatController.show(PrimaryStage);
             case REWARD -> this.rewardController.show(PrimaryStage);
-            case LEVELUP -> this.levelUpController.show(PrimaryStage);
+            case LEVEL_UP -> this.levelUpController.show(PrimaryStage);
             default -> throw new IllegalArgumentException("Invalid scene: " + scene);
         }
         ensureFullScreen();
@@ -213,7 +214,7 @@ public class ControllerManager {
 
     public void goToLevelUpScreen(List<Bugemon> bugemonToLevelUp) {
         this.levelUpController.startLevelUpList(bugemonToLevelUp);
-        this.switchScene(Scenes.LEVELUP);
+        this.switchScene(Scenes.LEVEL_UP);
     }
 
     public void goToDefeatScreen() {

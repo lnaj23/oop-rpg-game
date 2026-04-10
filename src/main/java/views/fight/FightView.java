@@ -177,7 +177,7 @@ public class FightView extends View<Controller> {
         Label     effectLabel = bugemon.getIsPlayer() ? playerEffectLabel : enemyEffectLabel;
         ImageView sprite      = bugemon.getIsPlayer() ? playerSprite      : enemySprite;
 
-        nameLabel.setText(bugemon.getName());
+        nameLabel.setText(bugemon.getName() + ( bugemon.getIsPlayer() ? " (niveau " +  bugemon.getlevel() + ")" : "") );
         hpLabel.setText("HP: " + bugemon.getcurrenPv() + "/" + bugemon.getPv());
         effectLabel.setText(bugemon.getActifModifierAsStringToDisplay() );
 

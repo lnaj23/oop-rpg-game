@@ -1,11 +1,11 @@
-package controllers.AfterFight;
+package controllers.afterfight;
 
 import controllers.Controller;
 import controllers.ControllerManager;
 import models.bugemon.Bugemon;
 import models.game.LevelUpBonus;
 import services.fight.LevelUpBonusGenerator;
-import views.AfterFight.LevelUpView;
+import views.afterfight.LevelUpView;
 
 import java.io.IOException;
 import java.util.List;
