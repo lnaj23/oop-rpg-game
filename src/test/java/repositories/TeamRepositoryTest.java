@@ -6,6 +6,7 @@ import models.bugemon.TeamBugemon;
 import org.junit.Before;
 import org.junit.Test;
 import services.dataprovider.BugemonProvider;
+import services.dataprovider.TeamProvider;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -16,6 +17,7 @@ import static org.junit.Assert.*;
 public class TeamRepositoryTest {
 
     private BugemonProvider bugemonProvider = new BugemonProvider();
+    private TeamProvider teamProvider = new TeamProvider();
 
     @Before
     public void cleanup() {
@@ -27,7 +29,7 @@ public class TeamRepositoryTest {
 
     @Test
     public void testLoadTeamsEmptyWhenFileDoesNotExist() {
-        List<TeamBugemon> teams = TeamRepository.loadTeams();
+        List<TeamBugemon> teams = teamProvider.loadTeams();
         assertNotNull("Teams list should not be null", teams);
         assertTrue("Teams list should be empty", teams.isEmpty());
     }
@@ -41,10 +43,10 @@ public class TeamRepositoryTest {
         
         originalTeams.add(team1);
         originalTeams.add(team2);
+
+        teamProvider.saveTeams(originalTeams);
         
-        TeamRepository.saveTeams(originalTeams);
-        
-        List<TeamBugemon> loadedTeams = TeamRepository.loadTeams();
+        List<TeamBugemon> loadedTeams = teamProvider.loadTeams();
         
         assertNotNull("Loaded teams should not be null", loadedTeams);
         assertEquals("Should have 2 teams", 2, loadedTeams.size());

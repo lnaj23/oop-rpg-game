@@ -10,14 +10,14 @@ import java.util.List;
 public class AttackProvider {
 
     public Attack getAttackById(String id) throws AttackNotFoundException {
-        for (Attack attack : AttackRepository.getAllAttacks()) {
+        for (Attack attack : AttackRepository.getInstance().getAllAttacks()) {
             if (attack.getId().equals(id)) return new Attack(attack);
         }
         throw new AttackNotFoundException(id);
     }
 
     public List<Attack> getAllAttacks() {
-        return new ArrayList<>(AttackRepository.getAllAttacks());
+        return new ArrayList<>(AttackRepository.getInstance().getAllAttacks());
     }
 
 }

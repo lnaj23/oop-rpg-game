@@ -3,6 +3,8 @@ package repositories;
 import com.google.gson.annotations.SerializedName;
 import configuration.AppConfig;
 import models.bugemon.Attack;
+
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -13,7 +15,7 @@ import java.util.List;
  * Data is loaded once at class loading time via a static initializer.
  * </p>
  */
-public abstract class AttackRepository extends JsonRepository {
+public class AttackRepository extends JsonRepository {
 
     /**
      * Mirrors the structure of {@code attaques.json}, which contains a list of
@@ -30,10 +32,18 @@ public abstract class AttackRepository extends JsonRepository {
 
 
     /** All Attacks loaded from {@code attaques.json} at startup. */
-    private static final List<Attack> attackRepo;
+    private static List<Attack> attackRepo = new ArrayList<>();
+    private static AttackRepository instance;
 
-    static {
-        attackRepo = readJSON(AppConfig.JSON_ATTAQUES, JsonAttack.class);
+    private AttackRepository() {
+        attackRepo = readJSONFromAssets(AppConfig.JSON_ATTAQUES, AttackRepository.JsonAttack.class);
+    }
+
+    public static AttackRepository getInstance() {
+        if (instance == null){
+            instance = new AttackRepository();
+        }
+        return instance;
     }
 
     /**
@@ -41,7 +51,7 @@ public abstract class AttackRepository extends JsonRepository {
      *
      * @return the list of all Attacks
      */
-    public static List<Attack> getAllAttacks() {
+    public List<Attack> getAllAttacks() {
         return attackRepo;
     }
 }

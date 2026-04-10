@@ -18,6 +18,7 @@ public class PreBuildTeamController extends Controller<PreBuildTeamView> {
 
     /** The shared list of saved teams. */
     private final List<TeamBugemon> teams;
+    private TeamProvider teamProvider = new TeamProvider();
 
     /**
      * @param metaController the central controller
@@ -54,7 +55,7 @@ public class PreBuildTeamController extends Controller<PreBuildTeamView> {
      */
     public void deleteTeam(int index) {
         this.teams.remove(index);
-        TeamProvider.saveTeams(teams);
+        teamProvider.saveTeams(teams);
         this.view.refreshTeams(teams);
     }
 
@@ -65,7 +66,7 @@ public class PreBuildTeamController extends Controller<PreBuildTeamView> {
      */
     public void renameTeam(int index, String newName) {
         teams.get(index).setName(newName);
-        TeamProvider.saveTeams(teams);
+        teamProvider.saveTeams(teams);
         this.view.refreshTeamList();
     }
 

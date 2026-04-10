@@ -17,11 +17,11 @@ public class BugemonProvider {
     public BugemonProvider() {
         if (!initialized) {
             try {
-                for (Bugemon bug : BugemonRepository.getAllBugemons()) {
+                for (Bugemon bug : BugemonRepository.getInstance().getAllBugemons()) {
                     assignAttacks(bug);
                 }
-                BugemonRepository.getAllBugemons().forEach(Bugemon::initColor);
-                BugemonRepository.getAllBugemons().forEach(Bugemon::initPv);
+                BugemonRepository.getInstance().getAllBugemons().forEach(Bugemon::initColor);
+                BugemonRepository.getInstance().getAllBugemons().forEach(Bugemon::initPv);
                 initialized = true;
             } catch (AttackNotFoundException e) {
                 throw new IllegalStateException("Failed to assign attacks during initialization: " + e.getMessage(), e);
@@ -45,18 +45,18 @@ public class BugemonProvider {
     }
 
     private Bugemon getBugemon(String id) throws BugemonNotFoundException {
-        for (Bugemon bug : BugemonRepository.getAllBugemons()) {
+        for (Bugemon bug : BugemonRepository.getInstance().getAllBugemons()) {
             if (bug.getId().equals(id)) return new Bugemon(bug);
         }
         throw new BugemonNotFoundException(id);
     }
 
     public List<Bugemon> getAllBugemons() {
-        return new ArrayList<>(BugemonRepository.getAllBugemons());
+        return new ArrayList<>(BugemonRepository.getInstance().getAllBugemons());
     }
 
     public List<BugemonDTO> getAllBugemonsDTO() {
-        return new ArrayList<>(BugemonRepository.getAllBugemons());
+        return new ArrayList<>(BugemonRepository.getInstance().getAllBugemons());
     }
 
     public void initBugemonFromSavedTeam(Bugemon bugemon) {

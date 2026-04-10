@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 public abstract class EnemyTeamGenerator {
         public static TeamBugemon generateEnemyTeam() {
             int teamSize = GameStateHolder.getInstance().getCurrentTeamPlayer().getSize();
-            List<Bugemon> allBugemons = BugemonRepository.getAllBugemons()
+            List<Bugemon> allBugemons = BugemonRepository.getInstance().getAllBugemons()
                     .stream()
                     .map(bug -> {
                         Bugemon copy = new Bugemon(bug);

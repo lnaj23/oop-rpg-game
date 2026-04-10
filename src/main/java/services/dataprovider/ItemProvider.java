@@ -11,6 +11,7 @@ import java.util.Map;
 public class ItemProvider {
     private static ItemProvider instance;
 
+
     public static ItemProvider getInstance() {
         if (instance == null) {
             instance = new ItemProvider();
@@ -18,8 +19,8 @@ public class ItemProvider {
         return instance;
     }
 
-    public List<Item> getAllItems() {
-        return ItemRepository.getAllItems();
+    private List<Item> getAllItems() {
+        return ItemRepository.getInstance().getAllItems();
     }
 
     Map<String, Integer> defaultIventory = new HashMap<>();{

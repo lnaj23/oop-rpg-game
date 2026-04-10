@@ -30,6 +30,7 @@ public class SelectionController extends Controller<SelectionView> {
     private TeamBugemon playerTeam;
 
     private BugemonProvider bugemonProvider = new BugemonProvider();
+    private TeamProvider teamProvider = new TeamProvider();
 
     /**
      * @param metaController the central controller
@@ -135,7 +136,7 @@ public class SelectionController extends Controller<SelectionView> {
             playerTeam.setName(teamName);
             this.teams.add(playerTeam);
         }
-        TeamProvider.saveTeams(this.teams);
+        teamProvider.saveTeams(this.teams);
     }
 
     public void goToFight() {

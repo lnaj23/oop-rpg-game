@@ -2,6 +2,8 @@ package repositories;
 
 import configuration.AppConfig;
 import models.bugemon.Bugemon;
+
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -12,7 +14,7 @@ import java.util.List;
  * Data is loaded once at class loading time via a static initializer.
  * </p>
  */
-public abstract class BugemonRepository extends JsonRepository {
+public class BugemonRepository extends JsonRepository {
 
     /**
      * Mirrors the structure of {@code bugemons.json}, which contains a list of
@@ -27,10 +29,19 @@ public abstract class BugemonRepository extends JsonRepository {
     }
 
     /** All Bugémons loaded from {@code bugemons.json} at startup. */
-    private static final List<Bugemon> bugemonRepo;
+    private static List<Bugemon> bugemonRepo = new ArrayList<>();
 
-    static {
-        bugemonRepo = readJSON(AppConfig.JSON_BUGEMONS, JsonBugemons.class);
+    private static BugemonRepository instance;
+
+    private BugemonRepository() {
+        bugemonRepo = readJSONFromAssets(AppConfig.JSON_BUGEMONS, JsonBugemons.class);
+    }
+
+    public static BugemonRepository getInstance() {
+        if (instance == null){
+            instance = new BugemonRepository();
+        }
+        return instance;
     }
 
     /**
@@ -38,7 +49,7 @@ public abstract class BugemonRepository extends JsonRepository {
      *
      * @return the list of all Bugémons
      */
-    public static List<Bugemon> getAllBugemons() {
+    public List<Bugemon> getAllBugemons() {
         return bugemonRepo;
     }
 }

@@ -5,17 +5,17 @@ import repositories.TeamRepository;
 
 import java.util.List;
 
-public abstract class TeamProvider {
+public class TeamProvider {
 
-    static BugemonProvider bugemonProvider = new BugemonProvider();
+    BugemonProvider bugemonProvider = new BugemonProvider();
 
-    public static List<TeamBugemon> loadTeams() {
-        List<TeamBugemon> teams = TeamRepository.loadTeams();
+    public List<TeamBugemon> loadTeams() {
+        List<TeamBugemon> teams = TeamRepository.getInstance().loadTeams();
         teams.forEach(t -> t.getTeam().forEach(bugemonProvider::initBugemonFromSavedTeam));
         return teams;
     }
 
-    public static void saveTeams(List<TeamBugemon> teams) {
-        TeamRepository.saveTeams(teams);
+    public void saveTeams(List<TeamBugemon> teams) {
+        TeamRepository.getInstance().saveTeams(teams);
     }
 }

@@ -2,7 +2,6 @@ package repositories;
 
 import com.google.gson.annotations.SerializedName;
 import configuration.AppConfig;
-import models.bugemon.Bugemon;
 import models.game.Item;
 
 import java.util.ArrayList;
@@ -17,11 +16,22 @@ public class ItemRepository extends JsonRepository {
         @Override
         public List<Item> getItems() { return items; }
     }
-    private static final List<Item> itemRepo;
 
-    static {
-        itemRepo = readJSON(AppConfig.JSON_ITEMS, ItemRepository.JsonItem.class);
+    private static List<Item> itemRepo = new ArrayList<>();
+    private static ItemRepository instance;
+
+    private ItemRepository() {
+        itemRepo = readJSONFromAssets(AppConfig.JSON_ITEMS, ItemRepository.JsonItem.class);
     }
 
-    public static List<Item> getAllItems() { return itemRepo; }
+    public static ItemRepository getInstance() {
+        if (instance == null){
+            instance = new ItemRepository();
+        }
+        return instance;
+    }
+
+    public List<Item> getAllItems() {
+        return itemRepo;
+    }
 }

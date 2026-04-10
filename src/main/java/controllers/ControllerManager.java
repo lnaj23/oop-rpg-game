@@ -56,6 +56,8 @@ public class ControllerManager {
     private final RewardController rewardController;
     private final LevelUpController levelUpController;
 
+    private TeamProvider teamProvider = new TeamProvider();
+
     /**
      * Initializes all controllers and views.
      *
@@ -199,7 +201,7 @@ public class ControllerManager {
 
     public void goToTitleScreen() {
         if (GameStateHolder.getInstance().getCurrentTeamPlayer() != null) {
-            TeamProvider.saveTeams(GameStateHolder.getInstance().getSavedTeams());
+            teamProvider.saveTeams(GameStateHolder.getInstance().getSavedTeams());
         }
         GameStateHolder.getInstance().clearCurrentTeamPlayer();
         GameStateHolder.getInstance().clearCurrentLevelTower();

@@ -26,7 +26,8 @@ public class GameStateHolder {
 
     private TeamBugemon currentTeamPlayer;
 
-    private final List<TeamBugemon> savedTeams = new ArrayList<>(TeamProvider.loadTeams());
+    private TeamProvider teamProvider = new TeamProvider();
+    private final List<TeamBugemon> savedTeams = new ArrayList<>(teamProvider.loadTeams());
 
     private GameStateHolder() {}
 
