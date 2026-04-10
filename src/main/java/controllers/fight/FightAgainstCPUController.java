@@ -154,7 +154,6 @@ public class FightAgainstCPUController extends Controller<FightView> implements 
         viewReactToAttack();
         if (fight.isOnFieldEnemyBugemonKO()) {
             view.markBugemonAsFainted(fight.getOnFieldEnemyBugemon());
-            fight.removeOnFieldEnemyFromTeam();
             PauseTransition pauseKO = new PauseTransition(Duration.seconds(AppConfig.DEATH_DISPLAY_TIME));
             pauseKO.setOnFinished(e -> {
                 if (fight.isBattleOver()) {
@@ -220,7 +219,7 @@ public class FightAgainstCPUController extends Controller<FightView> implements 
         if (!fight.isBattleOver()) return;
         GameStateHolder.getInstance().setCurrentTeamPlayer(fight.getTeamPlayer());
         view.setButtonsDisabled(true);
-        if (fight.playerWon()) controllerManager.goToVictoryScreen(404);
+        if (fight.playerWon()) controllerManager.goToVictoryScreen(fight.getTeamEnemy().getSize());
         else controllerManager.goToDefeatScreen();
     }
 
