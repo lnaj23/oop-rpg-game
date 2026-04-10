@@ -159,7 +159,7 @@ public class ControllerManager {
         try {
             ItemChoiceController itemChoiceController = new ItemChoiceController(this);
             openSubScene(itemChoiceController.getView(), true);
-        } catch (IOException e) {
+        } catch (IOException | IllegalStateException e) {
             fatalError("Une erreur est survenue lors du chargement de la fenêtre des objets.");
         }
     }
@@ -176,7 +176,7 @@ public class ControllerManager {
         try {
             SwitchBugemonController switchController = new SwitchBugemonController(this);
             openSubScene(switchController.getView(), !GameStateHolder.getInstance().isSwitchOnPurpose());
-        } catch (IOException e) {
+        } catch (IOException | IllegalStateException e) {
             fatalError("Une erreur est survenue lors du chargement de la fenêtre de changement de Bugémon.");
         }
     }
