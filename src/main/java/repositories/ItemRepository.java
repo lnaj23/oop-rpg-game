@@ -32,6 +32,6 @@ public class ItemRepository extends JsonRepository {
     }
 
     public List<Item> getAllItems() {
-        return itemRepo;
+        return new ArrayList<>(itemRepo);
     }
 }

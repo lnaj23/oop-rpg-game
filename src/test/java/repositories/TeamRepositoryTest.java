@@ -3,6 +3,7 @@ package repositories;
 import configuration.AppConfig;
 import exceptions.BugemonNotFoundException;
 import models.bugemon.TeamBugemon;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import services.dataprovider.BugemonProvider;
@@ -56,5 +57,11 @@ public class TeamRepositoryTest {
         
         assertEquals("Second team name should match", "Mon équipe 2", loadedTeams.get(1).getName());
         assertEquals("Second team size should be 1", 1, loadedTeams.get(1).getSize());
+    }
+
+    @After
+    public void tearDown() {
+        File f = new File(AppConfig.TEAMS_FILE);
+        if (f.exists()) f.delete();
     }
 }

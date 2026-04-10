@@ -21,8 +21,6 @@ public class RewardController extends Controller<RewardView> {
     }
 
     public void onContinueClicked() {
-        GameStateHolder.getInstance().gainItem(ItemProvider.getInstance().getItemById("Baie Tonique"));
-        GameStateHolder.getInstance().gainItem(ItemProvider.getInstance().getItemById("Baie Tonique"));
         this.controllerManager.goToNextTowerStep();
     }
 

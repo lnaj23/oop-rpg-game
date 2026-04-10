@@ -36,7 +36,7 @@ public class GameStateHolder {
     private boolean switchOnPurpose;
 
     private static List<Item> availableItems =  new ArrayList<>();
-
+    private static ItemProvider itemProvider = new ItemProvider();
     /**
      * Returns the unique instance of {@link GameStateHolder}.
      *
@@ -44,7 +44,7 @@ public class GameStateHolder {
      */
     public static GameStateHolder getInstance() {
         if (instance == null) {
-            availableItems = ItemProvider.getInstance().getDefautItems();
+            availableItems = itemProvider.getDefautItems();
             instance = new GameStateHolder();
         }
         return instance;

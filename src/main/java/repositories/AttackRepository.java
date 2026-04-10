@@ -52,6 +52,6 @@ public class AttackRepository extends JsonRepository {
      * @return the list of all Attacks
      */
     public List<Attack> getAllAttacks() {
-        return attackRepo;
+        return new ArrayList<>(attackRepo);
     }
 }

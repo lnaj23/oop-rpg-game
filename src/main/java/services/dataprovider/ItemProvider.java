@@ -9,49 +9,30 @@ import java.util.List;
 import java.util.Map;
 
 public class ItemProvider {
-    private static ItemProvider instance;
-
-
-    public static ItemProvider getInstance() {
-        if (instance == null) {
-            instance = new ItemProvider();
-        }
-        return instance;
-    }
 
     private List<Item> getAllItems() {
         return ItemRepository.getInstance().getAllItems();
     }
 
-    Map<String, Integer> defaultIventory = new HashMap<>();{
-    defaultIventory.put("Baie Revigorante", 3);
-    defaultIventory.put("Baie Tonique", 2);
-    defaultIventory.put("Gel Défensif", 1);
-    defaultIventory.put("Sérum Offensif", 1);
+    Map<String, Integer> defaultInventory = new HashMap<>();{
+        defaultInventory.put("Baie Revigorante", 3);
+        defaultInventory.put("Baie Tonique", 2);
+        defaultInventory.put("Gel Défensif", 1);
+        defaultInventory.put("Sérum Offensif", 1);
     }
 
     public List<Item> getDefautItems() {
         List<Item> allItems = getAllItems();
         List<Item> defautItems = new ArrayList<>();
-        for(Item item : allItems) {
-            if(defaultIventory.containsKey(item.getName())) {
-                int count = defaultIventory.get(item.getName());
-                for(int i = 0; i < count; i++) {
+        for (Item item : allItems) {
+            if (defaultInventory.containsKey(item.getName())) {
+                int count = defaultInventory.get(item.getName());
+                for (int i = 0; i < count; i++) {
                     defautItems.add(item);
                 }
             }
         }
-        defautItems.add(new Item("pierre_de_retraite", "Pierre de Retraite", "changer sans perdre l'initiative",null,null,null));
+        defautItems.add(new Item("pierre_de_retraite", "Pierre de Retraite", "changer sans perdre l'initiative", null, null, null));
         return defautItems;
-    }
-
-    public Item getItemById(String id) {
-        List<Item> allItems = getAllItems();
-        for(Item item : allItems) {
-            if(item.getId().equals(id)) {
-                return item;
-            }
-        }
-        return null;
     }
 }
