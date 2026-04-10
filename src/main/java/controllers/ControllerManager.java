@@ -262,10 +262,14 @@ public class ControllerManager {
             this.goToTitleScreen();
             return;
         }
-        TowerNodeType nextStep = GameStateHolder.getInstance().getCurrentStepType();
-        switch (nextStep) {
-            case COMBAT, BOSS -> this.goToNextFight();
-            case REWARD -> this.goToRewardScreen();
+        try {
+            TowerNodeType nextStep = GameStateHolder.getInstance().getCurrentStepType();
+            switch (nextStep) {
+                case COMBAT, BOSS -> this.goToNextFight();
+                case REWARD -> this.goToRewardScreen();
+            }
+        } catch (TowerNotInitializedException e){
+            this.fatalError("Une erreur est survenue lors de la progression dans la tour.");
         }
     }
 

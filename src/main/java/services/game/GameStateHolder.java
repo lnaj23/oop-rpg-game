@@ -3,6 +3,7 @@ package services.game;
 import exceptions.AttackNotFoundException;
 import exceptions.JsonResourceNotFoundException;
 import exceptions.LoadingTeamFailedException;
+import exceptions.TowerNotInitializedException;
 import models.TowerNodeType;
 import configuration.AppConfig;
 import models.TowerNodeType;
@@ -61,9 +62,9 @@ public class GameStateHolder {
         }
         return instance;
     }
-    public TowerNodeType getCurrentStepType() {
-        if(currentLevelTower == null) {
-            throw new IllegalStateException("Current level tower is not set.");
+    public TowerNodeType getCurrentStepType() throws TowerNotInitializedException {
+        if (currentLevelTower == null) {
+            throw new TowerNotInitializedException();
         }
         return currentLevelTower.getCurrentStepType();
     }

@@ -1,5 +1,6 @@
 package models.game;
 
+import exceptions.BugemonNotFoundException;
 import exceptions.BugemonNotInTeamException;
 import models.bugemon.Attack;
 import models.bugemon.Bugemon;
