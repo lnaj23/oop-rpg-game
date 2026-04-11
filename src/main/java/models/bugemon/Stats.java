@@ -259,16 +259,6 @@ public class Stats {
         this.currentpv = this.pv;
     }
 
-    String getActifModifierAsStringToDisplay() {
-        int MODIFATTACK = this.attackModifier + this.attackModifierFromItem;
-        int MODIFDEFENSE = this.defenseModifier + this.defenseModifierFromItem;
-        int MODIFINIT = this.initiativeModifier + this.initiativeModifierFromItem;
-        return "Effets :"
-                + "\n attaque : "    + ( MODIFATTACK > 0 ? "+" + MODIFATTACK : MODIFATTACK)
-                + "\n defense : "    + ( MODIFDEFENSE > 0 ? "+" + MODIFDEFENSE : MODIFDEFENSE)
-                + "\n initiative : " + ( MODIFINIT > 0 ? "+" + MODIFINIT : MODIFINIT);
-    }
-
     public void updateAttackModifierFromItem(int amount){
         this.attackModifierFromItem += amount;
     }
@@ -291,4 +281,7 @@ public class Stats {
         initiativeModifierFromItem = 0;
     }
 
+    public int getTotalAttackModifier() { return attackModifier + attackModifierFromItem; }
+    public int getTotalDefenseModifier() { return defenseModifier + defenseModifierFromItem; }
+    public int getTotalInitiativeModifier() { return initiativeModifier + initiativeModifierFromItem; }
 }

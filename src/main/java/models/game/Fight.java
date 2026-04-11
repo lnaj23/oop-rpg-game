@@ -1,14 +1,14 @@
 package models.game;
 
-import exceptions.BugemonNotFoundException;
 import exceptions.BugemonNotInTeamException;
 import models.bugemon.Attack;
 import models.bugemon.Bugemon;
 import models.bugemon.TeamBugemon;
 import models.bugemon.dto.BugemonDTO;
 import services.fight.EffectManager;
+import services.fight.EffectResult;
 import services.fight.TypeEffectivenessService;
-
+import services.fight.AttackMessageService;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -24,7 +24,7 @@ public class Fight {
     private final TeamBugemon teamEnemy;
     private boolean isPlayerTurn;
     private String actionResulText;
-    private List<String> predictedEffectiveness = new ArrayList<>();
+    private final List<String> predictedEffectiveness = new ArrayList<>();
     private final Random random = new Random();
 
 
@@ -36,7 +36,7 @@ public class Fight {
     public Fight(TeamBugemon teamPlayer, TeamBugemon teamEnemy) throws BugemonNotInTeamException {
         this.teamPlayer = teamPlayer;
         this.teamEnemy  = teamEnemy;
-        this.teamPlayer.getTeam().forEach(b -> b.setIsPlayerToTrue());
+        this.teamPlayer.getTeam().forEach(Bugemon::setIsPlayerToTrue);
         this.teamPlayer.changeOnFieldBugemon(this.teamPlayer.getTeam().getFirst());
         for(Bugemon bug : this.teamPlayer.getTeam()){
             bug.initPv(); // Heal all bugemon at the start, maybe we'll remove if we want to make a real roguelike game
@@ -68,8 +68,11 @@ public class Fight {
         Bugemon defender         = isPlayerTurn ? teamEnemy.getOnFieldBugemon()  : teamPlayer.getOnFieldBugemon();
         TeamBugemon attackerTeam = isPlayerTurn ? teamPlayer : teamEnemy;
         TeamBugemon defenderTeam = isPlayerTurn ? teamEnemy  : teamPlayer;
-        actionResulText = attacker.attack(defender, attack) + "\n"
-                + EffectManager.handleEffect(attacker, defender, attackerTeam, defenderTeam, attack);
+
+        int damage = attacker.attack(defender, attack);
+        EffectResult effectResult = EffectManager.handleEffect(attacker, defender, attackerTeam, defenderTeam, attack);
+
+        actionResulText = AttackMessageService.buildAttackMessage(attacker, defender, attack, damage, effectResult);
         switchRole();
     }
 

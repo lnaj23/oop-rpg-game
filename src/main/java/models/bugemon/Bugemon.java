@@ -183,17 +183,6 @@ public class Bugemon implements BugemonDTO {
         return attacks.get(index).getColor();
     }
 
-    /**
-     * Returns a list of strings representing the names and values
-     * of all currently active effects on this Bugémon.
-     *
-     * @return a list of active effect descriptions
-     */
-    @Override
-    public String getActifModifierAsStringToDisplay() {
-        return this.stats.getActifModifierAsStringToDisplay();
-    }
-
 
     /**
      * Adds a new active effect to this Bugémon's ongoing effects list.
@@ -281,16 +270,11 @@ public class Bugemon implements BugemonDTO {
      * @param attack the attack to use
      * @return a message describing the attack result
      */
-    public String attack(Bugemon target, Attack attack) {
+    public int attack(Bugemon target, Attack attack) {
         int damage = computeDamage(this, target, attack);
-        //damage = isPlayer ? 9999 : 0; // godmode for development purposes
+        damage = isPlayer ? 9999 : 0; // godmode for development purposes
         target.takeDamage(damage);
-        return this.name + " utilise " + attack.getName() + "! "
-                + TypeEffectivenessService.getEffectivenessMessage(
-                attack.getType(),
-                target.getType()) + "\n"
-                + target.getName() + " perd " + damage + " PV ! "
-                + (target.isKO() ? target.getName() + " est mit KO" : "");
+        return damage;
     }
     /**
      * Chooses a random attack from the first three available attacks.
@@ -374,4 +358,8 @@ public class Bugemon implements BugemonDTO {
     public void levelUp() {
         stats.levelUp();
     }
+
+    @Override public int getAttackModifier() { return stats.getTotalAttackModifier(); }
+    @Override public int getDefenseModifier() { return stats.getTotalDefenseModifier(); }
+    @Override public int getInitiativeModifier() { return stats.getTotalInitiativeModifier(); }
 }

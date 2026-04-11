@@ -4,18 +4,14 @@ import exceptions.AttackNotFoundException;
 import exceptions.JsonResourceNotFoundException;
 import exceptions.LoadingTeamFailedException;
 import exceptions.TowerNotInitializedException;
-import models.TowerNodeType;
-import configuration.AppConfig;
-import models.TowerNodeType;
+import models.game.TowerNodeType;
 import models.bugemon.TeamBugemon;
 import models.bugemon.dto.BugemonDTO;
 import models.game.Item;
-import repositories.ItemRepository;
 import services.dataprovider.ItemProvider;
 import models.game.LevelTower;
-import services.dataprovider.ItemProvider;
 import services.dataprovider.TeamProvider;
-import models.game.LevelTower;
+
 import java.util.ArrayList;
 import java.util.List;
 

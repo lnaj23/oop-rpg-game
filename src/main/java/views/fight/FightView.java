@@ -10,6 +10,7 @@ import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
+import models.game.TowerNodeType;
 import views.listener.FightListener;
 import models.bugemon.dto.BugemonDTO;
 import views.View;
@@ -177,8 +178,13 @@ public class FightView extends View<Controller> {
 
         nameLabel.setText(bugemon.getName() + ( bugemon.getIsPlayer() ? " (niveau " +  bugemon.getlevel() + ")" : "") );
         hpLabel.setText("HP: " + bugemon.getcurrenPv() + "/" + bugemon.getPv());
-        effectLabel.setText(bugemon.getActifModifierAsStringToDisplay() );
-
+        int atk  = bugemon.getAttackModifier();
+        int def  = bugemon.getDefenseModifier();
+        int init = bugemon.getInitiativeModifier();
+        effectLabel.setText("Effets :"
+                + "\n attaque : "    + (atk  > 0 ? "+" + atk  : atk)
+                + "\n defense : "    + (def  > 0 ? "+" + def  : def)
+                + "\n initiative : " + (init > 0 ? "+" + init : init));
         Image img = new Image(Objects.requireNonNull(
                 getClass().getResourceAsStream(AppConfig.PNG_PREFIX + bugemon.getSprite())));
         sprite.setImage(img);
@@ -207,7 +213,13 @@ public class FightView extends View<Controller> {
         hpBar.setProgress(ratio);
         hpLabel.setText("HP: " + bugemon.getcurrenPv() + "/" + bugemon.getPv());
 
-        effectLabel.setText(bugemon.getActifModifierAsStringToDisplay() );
+        int atk  = bugemon.getAttackModifier();
+        int def  = bugemon.getDefenseModifier();
+        int init = bugemon.getInitiativeModifier();
+        effectLabel.setText("Effets :"
+                + "\n attaque : "    + (atk  > 0 ? "+" + atk  : atk)
+                + "\n defense : "    + (def  > 0 ? "+" + def  : def)
+                + "\n initiative : " + (init > 0 ? "+" + init : init));
     }
 
     /**
@@ -340,8 +352,23 @@ public class FightView extends View<Controller> {
         return view;
     }
 
-    public void updateFloorInfo(String progress) {
-        floorInfoLabel.setText(progress);
+    public void updateFloorInfo(int floor, int step, TowerNodeType type, boolean finished) {
+        if (finished) {
+            floorInfoLabel.setText("Tour terminée !");
+            return;
+        }
+        if (type == TowerNodeType.BOSS) {
+            floorInfoLabel.setText("NO" + floor + " - Boss");
+            return;
+        }
+        floorInfoLabel.setText("NO" + floor + " - Étape " + (step + 1) + " / 6");
     }
 
+    public void createStartMessage(String enemyBugemonName, boolean playerCanStart) {
+        String message = "L'adversaire envoie " + enemyBugemonName + " ! "
+                + (!playerCanStart
+                ? "L'adversaire a plus d'initiative, il lance les hostilités !"
+                : "L'adversaire a moins d'initiative, vous lancez les hostilités !");
+        choicePanelController.updateCombatMessage(message);
+    }
 }

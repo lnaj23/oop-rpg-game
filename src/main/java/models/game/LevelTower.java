@@ -1,7 +1,5 @@
 package models.game;
 
-import models.TowerNodeType;
-
 import java.util.List;
 
 /**
@@ -102,14 +100,8 @@ public class LevelTower {
         }
     }
 
-    public String getProgressAsString() {
-        if (finished) {
-            return "Tour terminée !";
-        }
-        TowerNodeType typeStep = getCurrentStepType();
-        if(typeStep ==TowerNodeType.BOSS){
-            return "NO" + currentFloor + " - Boss";
-        }
-        return "NO" + currentFloor + " - Étape " + (currentStep+1) + " / 6";
+
+    public int getCurrentStep() {
+        return currentStep;
     }
 }

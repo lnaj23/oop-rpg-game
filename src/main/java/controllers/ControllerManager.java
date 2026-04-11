@@ -11,7 +11,7 @@ import exceptions.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import models.TowerNodeType;
+import models.game.TowerNodeType;
 import models.bugemon.Bugemon;
 import models.game.Item;
 import models.game.LevelTower;

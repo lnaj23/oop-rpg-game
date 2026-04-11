@@ -4,7 +4,6 @@ import configuration.AppConfig;
 import controllers.Controller;
 import controllers.ControllerManager;
 import exceptions.AttackNotFoundException;
-import exceptions.BugemonNotFoundException;
 import exceptions.BugemonNotInTeamException;
 import exceptions.JsonResourceNotFoundException;
 import javafx.animation.PauseTransition;
@@ -13,6 +12,7 @@ import javafx.util.Duration;
 import models.bugemon.Bugemon;
 import models.game.Fight;
 import models.game.Item;
+import models.game.LevelTower;
 import views.listener.FightListener;
 import services.fight.EnemyTeamGenerator;
 import services.game.GameStateHolder;
@@ -49,17 +49,10 @@ public class FightAgainstCPUController extends Controller<FightView> implements 
         viewDisplayTeams();
         viewDisplayPredictedEffectiveness();
         viewInitDisplayedBugemon();
-        viewInitStartMessage();
+        view.createStartMessage(fight.getOnFieldEnemyBugemonName(), fight.playerCanStart());
         if (!fight.playerCanStart()) forceEnemyToAttack();
-        view.updateFloorInfo(GameStateHolder.getInstance().getCurrentLevelTower().getProgressAsString());
-    }
-
-    private void viewInitStartMessage() {
-        String startFightMessage = "L'adversaire envoie " + fight.getOnFieldEnemyBugemonName() + " ! "
-                + (!fight.playerCanStart()
-                ? "L'adversaire a plus d'initiative, il lance les hostilités !"
-                : "L'adversaire a moins d'initiative, vous lancez les hostilités !");
-        view.updateCombatMessage(startFightMessage);
+        LevelTower tower = GameStateHolder.getInstance().getCurrentLevelTower();
+        view.updateFloorInfo(tower.getCurrentFloor(), tower.getCurrentStep(), tower.getCurrentStepType(), tower.isFinished());
     }
 
     private void viewInitDisplayedBugemon() {

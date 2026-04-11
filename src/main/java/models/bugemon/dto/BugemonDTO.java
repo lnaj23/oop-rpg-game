@@ -81,12 +81,11 @@ public interface BugemonDTO {
      * @param index the attack index
      * @return a CSS hex colour string
      */
-    public String getAttackColor(int index);
+     String getAttackColor(int index);
 
-    /**
-     * @return the effects currently affecting this Bugémon
-     */
-    String getActifModifierAsStringToDisplay();
+    int getAttackModifier();
+    int getDefenseModifier();
+    int getInitiativeModifier();
 
     /**
      * @return the current level of the Bugémon
