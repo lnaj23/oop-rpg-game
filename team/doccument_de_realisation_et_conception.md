@@ -260,3 +260,40 @@ Pour l'histoire 7 (expérience et montée de niveau), nous avions attribué un r
 Pour l'histoire 9 (structure de la Tour NO), nous avions attribué un risque R1. Cette histoire s'est très bien déroulée sans aucune difficulté particulière, le risque élevé était donc surestimé.
 Pour l'histoire 10 (utiliser un objet), nous avions attribué un risque R3. Cette histoire s'est déroulée sans difficulté, la majeure partie du travail étant déjà réalisée dans les histoires précédentes.
 ### Commentaires sur la Burndown Chart
+La burndown chart de cette itération montre une progression en deux temps. Durant la première moitié de l'itération (jours 1 à 7), la courbe réelle descend nettement plus vite que la courbe idéale, témoignant d'un rythme de travail soutenu en début d'itération. La seconde moitié est plus calme, la courbe réelle et idéale se rejoignant progressivement vers le jour 13. Cette allure s'explique par le fait que nous préférons terminer les histoires rapidement afin de disposer de temps en fin d'itération pour corriger les éventuels commentaires du coach avant la remise finale.
+## Motivation des choix pris lors de la conception
+### Structure du code
+Par rapport à l'itération 2, la structure des packages a évolué avec l'ajout de nouveaux sous-packages liés aux nouvelles histoires implémentées.
+La nouvelle structure est la suivante :
+```
+├── configuration
+├── controllers
+│   ├── afterfight
+│   ├── fight
+│   ├── teamchoice
+│   └── tower
+├── exceptions
+├── models
+│   ├── bugemon
+│   │   └── dto
+│   └── game
+│       └── dto
+├── persistence
+├── repositories
+├── services
+│   ├── color
+│   ├── dataprovider
+│   ├── fight
+│   └── game
+└── views
+├── afterfight
+├── fight
+├── listener
+├── teamchoice
+│   └── selection
+├── tower
+└── utils
+```
+Les changements principaux par rapport à l'itération 2 sont les suivants. Un nouveau sous-package controllers/afterfight/ regroupe les controllers VictoryController, DefeatController et LevelUpController qui gèrent tous les écrans après un combat. De même, un sous-package views/afterfight/ et views/tower/ ont été créés pour leurs vues associées. Le package listener/ a été déplacé dans views/listener/ pour mieux refléter le fait que les interfaces listener sont définies du côté des vues. Enfin, JsonRepository a été introduite comme classe abstraite de base pour tous les repositories.
+### Justification du modèle MVC
+#### Modèle
