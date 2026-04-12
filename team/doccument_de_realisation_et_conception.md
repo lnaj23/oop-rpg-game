@@ -61,7 +61,6 @@
       - [Interfaces](#interfaces-2)
       - [Héritage](#héritage-2)
       - [Classes et méthodes abstraites](#classes-et-méthodes-abstraites-2)
-      - [Singleton — GameStateHolder](#singleton--gamstateholder-2)
     - [Design Patterns](#design-patterns-2)
     - [Programmation défensive](#programmation-défensive-2)
       - [Mécanismes de typage](#mécanismes-de-typage-2)
@@ -309,3 +308,18 @@ Afin de s'assurer que l'initialisation des Bugémons du BugemonRepository — as
 Par ailleurs, nous avons corrigé une violation MVC dans le modèle TeamBugemon, dont certains constructeurs faisaient appel directement à BugemonProvider pour résoudre des IDs en objets Bugémon. Cette dépendance d'un modèle envers une couche de service étant une mauvaise pratique, ces constructeurs ont été refactorisés pour recevoir directement une liste de Bugémons déjà résolue, la responsabilité de l'appel au Provider étant désormais déléguée aux controllers.
 ### Principe de la programmation orientée objet
 #### Encapsulation
+Le projet continue de respecter l'encapsulation avec des attributs private final dans les nouvelles classes modèles comme LevelUpBonus, dont tous les attributs sont immuables. Cela garantit l'intégrité des données et évite toute modification accidentelle.
+#### Interfaces
+Les interfaces listener FightListener et SelectBugemonFromTeamListener sont désormais regroupées dans views/listener/ ce qui renforce leur rôle d'interface de communication entre la vue et le controller. Aucune nouvelle interface n'a été ajoutée cette itération mais leur déplacement clarifie l'architecture.
+#### Héritage
+Cette itération enrichit les hiérarchies existantes avec LevelUpController, LevelUpView, VictoryController (refactorisé), DefeatController et RewardController qui héritent tous de Controller<T extends View> et View sans dupliquer de code.
+#### Classes et méthodes abstraites
+JsonRepository est introduite comme classe abstraite générique dont héritent tous les repositories (BugemonRepository, AttackRepository, ItemRepository, TeamRepository). Elle centralise la logique de désérialisation JSON via la méthode statique générique readJSONFromAssets(String path, Class<W> wrapperClass) et l'interface interne JsonWrapper<T> que chaque repository implémente. C'est un exemple typique du pattern Template Method du syllabus appliqué aux repositories.
+### Design Patterns
+Le Template Method est toujours appliqué via la classe abstraite View et ses sous-classes. Cette itération l'étend également à JsonRepository : la méthode readJSONFromAssets() définit le squelette de la désérialisation JSON et chaque repository fournit sa propre classe wrapper via l'interface JsonWrapper<T>.
+Le Singleton est désormais appliqué à deux niveaux : le GameStateHolder comme à l'itération 2, et les repositories (BugemonRepository, AttackRepository, ItemRepository, TeamRepository) qui garantissent chacun qu'un seul chargement du fichier JSON est effectué durant toute l'exécution.
+Le Prototype est toujours utilisé via les copies profondes Bugemon(Bugemon other), TeamBugemon(TeamBugemon other) et Stats(Stats other) pour isoler les données entre les équipes en combat.
+L'Iterator est toujours utilisé à travers les boucles for-each sur les listes de Bugémons, d'attaques et d'effets actifs.
+La Facade est toujours assurée par le ControllerManager qui centralise toute la navigation et masque la complexité de la gestion des scènes et sous-fenêtres modales.
+L'Observer est toujours appliqué via les interfaces FightListener et SelectBugemonFromTeamListener, désormais regroupées dans views/listener/.
+### Programmation défensive
