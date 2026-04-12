@@ -44,6 +44,30 @@
     - [Classes et méthodes abstraites](#classes-et-méthodes-abstraites)
     - [Singleton — GameStateHolder](#singleton--gamstateholder)
 
+- [Itération 3](#itération-3)
+  - [Suivi de planification du projet](#suivi-de-planification-du-projet-2)
+    - [Analyse de l'écart (Prévu vs Réalisé)](#analyse-de-lécart-prévu-vs-réalisé-2)
+    - [Gestion des risques (R1, R2, R3)](#gestion-des-risques-r1-r2-r3-2)
+    - [Commentaires sur la Burndown Chart](#commentaires-sur-la-burndown-chart-2)
+  - [Motivation des choix pris lors de la conception](#motivation-des-choix-pris-lors-de-la-conception-2)
+    - [Structure du code](#structure-du-code-2)
+    - [Justification du modèle MVC](#justification-du-modèle-mvc-2)
+      - [Modèle](#modèle-2)
+      - [Vue](#vue-2)
+      - [Contrôleur](#contrôleur-2)
+      - [Services et repositories](#services-et-repositories-2)
+    - [Principe de la programmation orientée objet](#principe-de-la-programmation-orientée-objet-2)
+      - [Encapsulation](#encapsulation-2)
+      - [Interfaces](#interfaces-2)
+      - [Héritage](#héritage-2)
+      - [Classes et méthodes abstraites](#classes-et-méthodes-abstraites-2)
+      - [Singleton — GameStateHolder](#singleton--gamstateholder-2)
+    - [Design Patterns](#design-patterns-2)
+    - [Programmation défensive](#programmation-défensive-2)
+      - [Mécanismes de typage](#mécanismes-de-typage-2)
+      - [Exceptions](#exceptions-2)
+      - [Assertions](#assertions-2)
+
 # Itération 1
 
 - Date : 09/03/2026
@@ -149,6 +173,7 @@ Dans notre nouvelle méthode de travail de la seconde itération, en limitant le
 
 Suite à notre réunion avec le coach, il a également été relevé une grande inégalité dans le nombre de commits entre les membres : certains avaient 25 commits ou plus tandis que d'autres en avaient 0 ou 1. Ce déséquilibre était en partie dû à une mauvaise pratique de l'itération 1, où au lieu de merger les branches vers le main, un membre du groupe se chargeait de copier-coller le code des branches directement sur le main, ce qui faisait que les commits sur les branches n'étaient pas comptabilisés. Ce problème a été corrigé durant cette seconde itération.
 Malgré cela, une grande inégalité persiste dans les commits.
+Cependant, une grande inégalité persiste dans les commits. Cela est dû au fait que certains membres du groupe sont trop investis et prennent des tâches qui ne leur sont pas attribuées. Nous en avons discuté en réunion et nous verrons si la situation s'améliore pour l'itération 3.
 ### Gestion des risques (R1, R2, R3)
 Pour l'histoire 8, nous avions attribué un risque R3. L'implémentation de l'EffectManager s'est avérée plus complexe que prévu notamment pour la gestion des effets temporaires et leur expiration, le risque aurait dû être évalué à R2.
 ### Commentaires sur la Burndown Chart
@@ -220,3 +245,14 @@ metaController.goToFight();
 Les controllers SwitchBugemonController et ItemChoiceController lisent directement depuis le holder sans recevoir aucun argument. À la fin du combat on peut aussi écrire l'état actuel de la team (Bugémons en vie, leurs PV restants, etc.) pour les combats d'après (feature pas encore implémentée), de même pour l'état de l'inventaire.
 
 Un singleton garantit une seule instance durant toute l'exécution, ce qui correspond exactement au pattern Singleton décrit dans le cours avec constructeur private et méthode getInstance().
+
+# Itération 3
+
+- Date : 12/04/2026
+## Suivi de planification du projet
+
+### Analyse de l'écart (Prévu vs Réalisé)
+Pour cette itération, la vélocité était fixée à 28 points. Nous avons réalisé 27,5 points. Cette amélioration s'explique par le recul accumulé au fil des deux premières itérations : en analysant notre manière de travailler sur les 2 itérations précédentes, nous comprenons mieux ce qu'il faut faire et comment le faire, ce qui nous permet désormais d'estimer bien plus précisément la charge de travail réelle de chaque histoire.
+Lors de la répartition des tâches en sous-tâches, nous avons constaté que l'histoire 7 prendrait un peu plus de temps que prévu et l'histoire 9 un peu moins. Nous avons donc simplement échangé les heures supplémentaires entre ces deux histoires tout en restant aux alentour de 28 points au total.
+Par rapport aux itérations précédentes, nous avons amélioré la répartition du nombre de commits entre les membres. La discussion que nous avions eue lors de l'itération 2 sur le fait que certaines personnes en faisaient trop a porté ses fruits, même si un déséquilibre persiste encore, nous sommes sur la bonne voie et nous allons continuer dans cette direction pour l'itération 4.
+### Gestion des risques (R1, R2, R3)
