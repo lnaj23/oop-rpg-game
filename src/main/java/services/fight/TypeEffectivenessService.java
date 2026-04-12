@@ -1,6 +1,5 @@
 package services.fight;
 
-import models.bugemon.Bugemon;
 
 /**
  * Utility service for type-based calculations and colour mappings.
@@ -46,7 +45,7 @@ public abstract class TypeEffectivenessService{
         if (score == 1.5)  return "C'est super efficace !";
         if (score == 0.75) return "Ce n'est pas très efficace...";
         return "";
-        };
+        }
 }
 
 

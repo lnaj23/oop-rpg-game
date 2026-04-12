@@ -1,7 +1,6 @@
 package services.fight;
 
 import models.bugemon.Bugemon;
-import models.bugemon.Effect;
 import models.game.Item;
 
 public class ItemEffectApplier {

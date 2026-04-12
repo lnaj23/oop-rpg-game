@@ -9,7 +9,7 @@ import java.util.Random;
 /**
  * Generates the 3 bonus options proposed to the player
  * when a Bugemon levels up.
- *
+ * <p>
  * According to the specification (Story 7), possible options are:
  * - +20 HP maximum (pure bonus)
  * - +10 Attack (pure bonus)
@@ -17,7 +17,7 @@ import java.util.Random;
  * - +20 Initiative (pure bonus)
  * - Random combination totaling 10 points
  *   (1 point = 2 HP = 1 Attack = 1 Defense = 2 Initiative)
- *
+ * <p>
  * The generator selects 3 options among these possibilities,
  * including at least one random combination for variety.
  */

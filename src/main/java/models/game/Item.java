@@ -4,7 +4,6 @@ import com.google.gson.annotations.SerializedName;
 import models.bugemon.Effect;
 import models.game.dto.ItemDTO;
 
-import java.util.List;
 
 /**
  * Represents an item that can be used during a fight.

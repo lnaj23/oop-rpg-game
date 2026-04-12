@@ -1,7 +1,5 @@
 package models.bugemon.dto;
 
-import models.bugemon.Attack;
-
 import java.util.List;
 
 /**

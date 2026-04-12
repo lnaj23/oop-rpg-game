@@ -1,6 +1,5 @@
 package services.dataprovider;
 
-import configuration.AppConfig;
 import exceptions.JsonResourceNotFoundException;
 import models.game.Item;
 import repositories.ItemRepository;
