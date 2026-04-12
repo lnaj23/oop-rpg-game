@@ -237,13 +237,13 @@ ___
 ## Itération 3
 ### Plan d'ensemble
 
-![Plan](gantt/plans/.jpg)
+![Plan](gantt/plans/02_04_26.jpg)
 
 ### Tâches
 <table>
     <tbody>
         <tr><td>Vélocité :</td><td>28</td></tr>
-        <tr><td>Total Points réel :</td><td></td></tr>
+        <tr><td>Total Points réel :</td><td>27,5</td></tr>
         <tr><td>Total Points estimé :</td><td>28</td></tr>
     </tbody>
 </table>
@@ -309,6 +309,25 @@ ___
   <tbody>
     <tr><td>Initialisation de l'inventaire de démarrage (deadline non définie) </td><td>Sajid</td><td>Louai</td><td>2</td><td>2</td></tr>
     <tr><td>Consommation des items (deadline non définie) </td><td>Sajid</td><td>Louai</td><td>3</td><td>3</td></tr>
+  </tbody>
+</table>
+
+<table>
+  <thead>
+    <tr>
+      <th colspan="5" style="text-align: center;">Refactor</th>
+    </tr>
+    <tr>
+      <th>Tâches</th>
+      <th>Pilote</th>
+      <th>Copilote</th>
+      <th>Points réels</th>
+      <th>Points estimés</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>refactor réunion coach</td><td>Sajid</td><td>Yanis</td><td>1</td><td>1</td></tr>
+    <tr><td>refactor bug</td><td>Yanis</td><td>Sajid</td><td>1</td><td>1</td></tr>
   </tbody>
 </table>
 
