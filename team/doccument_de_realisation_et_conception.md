@@ -252,7 +252,11 @@ Un singleton garantit une seule instance durant toute l'exécution, ce qui corre
 ## Suivi de planification du projet
 
 ### Analyse de l'écart (Prévu vs Réalisé)
-Pour cette itération, la vélocité était fixée à 28 points. Nous avons réalisé 27,5 points. Cette amélioration s'explique par le recul accumulé au fil des deux premières itérations : en analysant notre manière de travailler sur les 2 itérations précédentes, nous comprenons mieux ce qu'il faut faire et comment le faire, ce qui nous permet désormais d'estimer bien plus précisément la charge de travail réelle de chaque histoire.
+Pour cette itération, la vélocité était fixée à 28 points. Nous avons réalisé 27,5 points. Cette amélioration s'explique par le fait qu'en analysant notre manière de travailler sur les 2 itérations précédentes, nous comprenons mieux ce qu'il faut faire et comment le faire, ce qui nous permet désormais d'estimer bien plus précisément la charge de travail réelle de chaque histoire.
 Lors de la répartition des tâches en sous-tâches, nous avons constaté que l'histoire 7 prendrait un peu plus de temps que prévu et l'histoire 9 un peu moins. Nous avons donc simplement échangé les heures supplémentaires entre ces deux histoires tout en restant aux alentour de 28 points au total.
 Par rapport aux itérations précédentes, nous avons amélioré la répartition du nombre de commits entre les membres. La discussion que nous avions eue lors de l'itération 2 sur le fait que certaines personnes en faisaient trop a porté ses fruits, même si un déséquilibre persiste encore, nous sommes sur la bonne voie et nous allons continuer dans cette direction pour l'itération 4.
 ### Gestion des risques (R1, R2, R3)
+Pour l'histoire 7 (expérience et montée de niveau), nous avions attribué un risque R3. Ce risque s'est avéré sous-estimé car nous pensions que plusieurs fonctionnalités nécessaires seraient déjà implémentées dans les histoires précédentes, ce qui n'était pas le cas. Le risque aurait dû être évalué à R2.
+Pour l'histoire 9 (structure de la Tour NO), nous avions attribué un risque R1. Cette histoire s'est très bien déroulée sans aucune difficulté particulière, le risque élevé était donc surestimé.
+Pour l'histoire 10 (utiliser un objet), nous avions attribué un risque R3. Cette histoire s'est déroulée sans difficulté, la majeure partie du travail étant déjà réalisée dans les histoires précédentes.
+### Commentaires sur la Burndown Chart
