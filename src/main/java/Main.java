@@ -1,11 +1,8 @@
 import controllers.ControllerManager;
-import exceptions.LoadingTeamFailedException;
 import javafx.application.Application;
 import javafx.stage.Stage;
-import services.game.GameStateHolder;
 import views.FatalErrorView;
 
-import java.io.IOException;
 
 public class Main extends Application {
 

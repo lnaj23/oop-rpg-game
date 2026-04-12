@@ -2,9 +2,7 @@ package models.bugemon;
 
 import models.bugemon.dto.BugemonDTO;
 import models.bugemon.dto.TeamBugemonDTO;
-import exceptions.BugemonNotFoundException;
 import exceptions.BugemonNotInTeamException;
-import services.dataprovider.BugemonProvider;
 
 import java.util.ArrayList;
 import java.util.List;

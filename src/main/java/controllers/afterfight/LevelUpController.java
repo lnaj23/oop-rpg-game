@@ -93,7 +93,7 @@ public class LevelUpController extends Controller<LevelUpView> {
     /**
      * Counts the position of the current level up
      * inside the consecutive block of the same Bugemon.
-     *
+     * <p>
      * Example:
      * if the same Bugemon appears 3 times in a row,
      * this method returns 1, then 2, then 3.
