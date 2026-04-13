@@ -86,8 +86,9 @@ public class Effect {
      *
      * @return the effect duration
      */
-    public String getDuration() {
-        return duration;
+    public int getDurationInTurns() {
+        if (duration == null || "permanent".equals(duration)) return -1;
+        return Integer.parseInt(duration.split("_")[0]);
     }
     /**
      * Returns the heal value of this effect.

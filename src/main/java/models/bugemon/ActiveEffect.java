@@ -6,11 +6,8 @@ public class ActiveEffect {
 
     public ActiveEffect(Effect effect) {
         this.effect = effect;
-        if ("1_tour".equals(effect.getDuration())) {
-            this.turnsLeft = 2;
-        } else {
-            this.turnsLeft = null;
-        }
+        int d = effect.getDurationInTurns();
+        this.turnsLeft = d == -1 ? null : d + 1;
     }
 
     public Effect getEffect() { return effect; }
