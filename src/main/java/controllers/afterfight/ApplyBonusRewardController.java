@@ -3,7 +3,7 @@ package controllers.afterfight;
 import controllers.Controller;
 import controllers.ControllerManager;
 import models.bugemon.dto.BugemonDTO;
-import views.fight.SelectBugemonFromTeamView;
+import views.SelectBugemonFromTeamView;
 import views.listener.SelectBugemonFromTeamListener;
 
 import java.io.IOException;

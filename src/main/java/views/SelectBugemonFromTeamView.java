@@ -1,4 +1,4 @@
-package views.fight;
+package views;
 
 import configuration.AppConfig;
 import controllers.Controller;
@@ -14,7 +14,6 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.StageStyle;
 import views.listener.SelectBugemonFromTeamListener;
 import models.bugemon.dto.BugemonDTO;
-import views.View;
 
 import java.io.IOException;
 import java.util.List;

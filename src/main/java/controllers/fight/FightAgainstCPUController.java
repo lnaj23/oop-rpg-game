@@ -9,12 +9,11 @@ import exceptions.JsonResourceNotFoundException;
 import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.util.Duration;
-import models.bugemon.Bugemon;
 import models.game.Fight;
 import models.game.Item;
 import models.game.LevelTower;
 import views.listener.FightListener;
-import services.fight.EnemyTeamGenerator;
+import services.game.EnemyTeamGenerator;
 import services.game.GameStateHolder;
 import views.fight.FightView;
 

@@ -1,4 +1,4 @@
-package services.fight;
+package services.game;
 
 import models.bugemon.Bugemon;
 

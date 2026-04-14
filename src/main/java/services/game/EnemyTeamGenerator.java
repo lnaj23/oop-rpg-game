@@ -1,11 +1,10 @@
-package services.fight;
+package services.game;
 
 import exceptions.AttackNotFoundException;
 import exceptions.JsonResourceNotFoundException;
 import models.bugemon.Bugemon;
 import models.bugemon.TeamBugemon;
 import repositories.BugemonRepository;
-import services.game.GameStateHolder;
 
 import java.util.Collections;
 import java.util.List;

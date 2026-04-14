@@ -53,7 +53,7 @@ public class BugemonProvider {
     }
 
     public List<BugemonDTO> getAllBugemonsDTO() throws JsonResourceNotFoundException {
-        return new ArrayList<>(BugemonRepository.getInstance().getAllBugemons());
+        return new ArrayList<>(BugemonRepository.getInstance().getAllBugemons()); // + les bugemons de CustomBugemonRepositories;
     }
 
     public void initBugemonFromSavedTeam(Bugemon bugemon) throws AttackNotFoundException, JsonResourceNotFoundException {

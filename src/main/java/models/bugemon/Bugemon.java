@@ -366,4 +366,9 @@ public class Bugemon implements BugemonDTO {
     public void setIsPlayerToFalse() {
         isPlayer = false;
     }
+
+    Bugemon(String nom, String type, int pv, String spire,Attack attack1, Attack attack2, Attack attack3){
+
+
+    }
 }

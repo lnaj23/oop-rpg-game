@@ -4,7 +4,7 @@ import controllers.Controller;
 import controllers.ControllerManager;
 import models.bugemon.Bugemon;
 import models.bugemon.dto.BugemonDTO;
-import services.fight.ExperienceService;
+import services.game.ExperienceService;
 import services.game.GameStateHolder;
 import views.afterfight.VictoryView;
 

@@ -16,7 +16,7 @@ import models.bugemon.Bugemon;
 import models.game.Item;
 import models.game.LevelTower;
 import services.dataprovider.TeamProvider;
-import services.fight.ExperienceService;
+import services.game.ExperienceService;
 import services.game.GameStateHolder;
 import views.FatalErrorView;
 import views.View;
