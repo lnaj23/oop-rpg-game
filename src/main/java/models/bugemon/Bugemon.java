@@ -272,7 +272,7 @@ public class Bugemon implements BugemonDTO {
      */
     public int attack(Bugemon target, Attack attack) {
         int damage = computeDamage(this, target, attack);
-        //damage = isPlayer ? 9999 : 0; // godmode for development purposes
+        damage = isPlayer ? 9999 : 0; // godmode for development purposes
         target.takeDamage(damage);
         return damage;
     }
@@ -362,4 +362,8 @@ public class Bugemon implements BugemonDTO {
     @Override public int getAttackModifier() { return stats.getTotalAttackModifier(); }
     @Override public int getDefenseModifier() { return stats.getTotalDefenseModifier(); }
     @Override public int getInitiativeModifier() { return stats.getTotalInitiativeModifier(); }
+
+    public void setIsPlayerToFalse() {
+        isPlayer = false;
+    }
 }

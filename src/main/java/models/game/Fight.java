@@ -37,6 +37,7 @@ public class Fight {
         this.teamPlayer = teamPlayer;
         this.teamEnemy  = teamEnemy;
         this.teamPlayer.getTeam().forEach(Bugemon::setIsPlayerToTrue);
+        this.teamEnemy.getTeam().forEach(Bugemon::setIsPlayerToFalse);
         this.teamPlayer.changeOnFieldBugemon(this.teamPlayer.getTeam().getFirst());
         for(Bugemon bug : this.teamPlayer.getTeam()){
             bug.initPv(); // Heal all bugemon at the start, maybe we'll remove if we want to make a real roguelike game

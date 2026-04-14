@@ -143,18 +143,14 @@ public class FightAgainstCPUController extends Controller<FightView> implements 
     private void playerAttackEnemy(int attackIndex) {
         fight.playerAttack(attackIndex);
         viewReactToAttack();
+        handleEnemyGettingHit();
+    }
+
+    private void handleEnemyGettingHit() {
         if (fight.isOnFieldEnemyBugemonKO()) {
             view.markBugemonAsFainted(fight.getOnFieldEnemyBugemon());
             PauseTransition pauseKO = new PauseTransition(Duration.seconds(AppConfig.DEATH_DISPLAY_TIME));
-            pauseKO.setOnFinished(e -> {
-                if (fight.isBattleOver()) {
-                    endIfBattleOver();
-                } else {
-                    switchDisplayEnemyBugemon();
-                    if (fight.playerGoesFirstAfterSwitch()) view.setButtonsDisabled(false);
-                    else enemyAttackPlayer();
-                }
-            });
+            pauseKO.setOnFinished(e -> handleEnemyBeingKO());
             pauseKO.play();
         } else {
             if (fight.isBattleOver()) endIfBattleOver();
@@ -162,25 +158,39 @@ public class FightAgainstCPUController extends Controller<FightView> implements 
         }
     }
 
+    private void handleEnemyBeingKO() {
+        if (fight.isBattleOver()) endIfBattleOver();
+        else {
+            switchDisplayEnemyBugemon();
+            if (fight.playerGoesFirstAfterSwitch()) view.setButtonsDisabled(false);
+            else enemyAttackPlayer();
+        }
+    }
+
     private void enemyAttackPlayer() {
         PauseTransition pause = new PauseTransition(Duration.seconds(AppConfig.ENEMY_REACT_TIME));
         pause.setOnFinished(e -> {
-            Bugemon target = fight.getOnFieldPlayerBugemon();
             fight.enemyAttackFromIAChoice();
             viewReactToAttack();
-            if (fight.isOnFieldPlayerBugemonKO()) {
-                view.markBugemonAsFainted(target);
-                PauseTransition pauseKO = new PauseTransition(Duration.seconds(AppConfig.DEATH_DISPLAY_TIME));
-                pauseKO.setOnFinished(e2 -> {
-                    if (fight.isBattleOver()) endIfBattleOver();
-                    else Platform.runLater(() -> showSwitchWindow(false));
-                });
-                pauseKO.play();
-            } else {
-                view.setButtonsDisabled(false);
-            }
+            handlePlayerAfterHit();
         });
         pause.play();
+    }
+
+    private void handlePlayerAfterHit() {
+        if (fight.isOnFieldPlayerBugemonKO()) {
+            view.markBugemonAsFainted(fight.getOnFieldPlayerBugemon());
+            PauseTransition pauseKO = new PauseTransition(Duration.seconds(AppConfig.DEATH_DISPLAY_TIME));
+            pauseKO.setOnFinished(e -> handlePlayerBeingKO());
+            pauseKO.play();
+        } else {
+            view.setButtonsDisabled(false);
+        }
+    }
+
+    private void handlePlayerBeingKO() {
+        if (fight.isBattleOver()) endIfBattleOver();
+        else Platform.runLater(() -> showSwitchWindow(false));
     }
 
     private void switchDisplayEnemyBugemon() {
