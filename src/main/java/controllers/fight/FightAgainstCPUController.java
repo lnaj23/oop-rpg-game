@@ -75,7 +75,7 @@ public class FightAgainstCPUController extends Controller<FightView> implements 
         if (!fight.isPlayerTurn()) return;
         view.setButtonsDisabled(true);
         view.showAttackandActionPanels(false);
-        playerAttackEnemy(attackIndex);
+        view.animateAttack(fight.getOnFieldPlayerBugemon(), () -> playerAttackEnemy(attackIndex));
     }
 
     @Override
@@ -134,7 +134,7 @@ public class FightAgainstCPUController extends Controller<FightView> implements 
         viewReactToAttack();
         view.updateCombatMessage("Vous utilisez " + item.getName() + " !");
 
-        PauseTransition pause = new PauseTransition(Duration.seconds(AppConfig.ENEMY_REACT_TIME));
+        PauseTransition pause = new PauseTransition(Duration.seconds(1));
         pause.setOnFinished(e -> forceEnemyToAttack());
         pause.play();
     }
@@ -142,15 +142,13 @@ public class FightAgainstCPUController extends Controller<FightView> implements 
     private void playerAttackEnemy(int attackIndex) {
         fight.playerAttack(attackIndex);
         viewReactToAttack();
-        handleEnemyGettingHit();
+        view.animateHit(fight.getOnFieldEnemyBugemon(), this::handleEnemyGettingHit);
     }
 
     private void handleEnemyGettingHit() {
         if (fight.isOnFieldEnemyBugemonKO()) {
             view.markBugemonAsFainted(fight.getOnFieldEnemyBugemon());
-            PauseTransition pauseKO = new PauseTransition(Duration.seconds(AppConfig.DEATH_DISPLAY_TIME));
-            pauseKO.setOnFinished(e -> handleEnemyBeingKO());
-            pauseKO.play();
+            view.animateKO(fight.getOnFieldEnemyBugemon(), this::handleEnemyBeingKO);
         } else {
             if (fight.isBattleOver()) endIfBattleOver();
             else enemyAttackPlayer();
@@ -170,8 +168,10 @@ public class FightAgainstCPUController extends Controller<FightView> implements 
         PauseTransition pause = new PauseTransition(Duration.seconds(AppConfig.ENEMY_REACT_TIME));
         pause.setOnFinished(e -> {
             fight.enemyAttackFromIAChoice();
-            viewReactToAttack();
-            handlePlayerAfterHit();
+            view.animateAttack(fight.getOnFieldEnemyBugemon(), () -> {
+                viewReactToAttack();
+                view.animateHit(fight.getOnFieldPlayerBugemon(), this::handlePlayerAfterHit);
+            });
         });
         pause.play();
     }
@@ -179,9 +179,7 @@ public class FightAgainstCPUController extends Controller<FightView> implements 
     private void handlePlayerAfterHit() {
         if (fight.isOnFieldPlayerBugemonKO()) {
             view.markBugemonAsFainted(fight.getOnFieldPlayerBugemon());
-            PauseTransition pauseKO = new PauseTransition(Duration.seconds(AppConfig.DEATH_DISPLAY_TIME));
-            pauseKO.setOnFinished(e -> handlePlayerBeingKO());
-            pauseKO.play();
+            view.animateKO(fight.getOnFieldPlayerBugemon(), this::handlePlayerBeingKO);
         } else {
             view.setButtonsDisabled(false);
         }

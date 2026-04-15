@@ -2,6 +2,7 @@ package views.fight;
 
 import configuration.AppConfig;
 import controllers.Controller;
+import javafx.animation.*;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
@@ -10,6 +11,7 @@ import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
+import javafx.util.Duration;
 import models.game.TowerNodeType;
 import views.listener.FightListener;
 import models.bugemon.dto.BugemonDTO;
@@ -175,7 +177,8 @@ public class FightView extends View<Controller> {
         Label     hpLabel     = bugemon.getIsPlayer() ? playerHpLabel     : enemyHpLabel;
         Label     effectLabel = bugemon.getIsPlayer() ? playerEffectLabel : enemyEffectLabel;
         ImageView sprite      = bugemon.getIsPlayer() ? playerSprite      : enemySprite;
-
+        handleVisibility(bugemon, true);
+        sprite.setOpacity(1.0);
         nameLabel.setText(bugemon.getName() + ( bugemon.getIsPlayer() ? " (niveau " +  bugemon.getlevel() + ")" : "") );
         hpLabel.setText("HP: " + bugemon.getcurrenPv() + "/" + bugemon.getPv());
         int atk  = bugemon.getAttackModifier();
@@ -370,5 +373,52 @@ public class FightView extends View<Controller> {
                 ? "L'adversaire a plus d'initiative, il lance les hostilités !"
                 : "L'adversaire a moins d'initiative, vous lancez les hostilités !");
         choicePanelController.updateCombatMessage(message);
+    }
+
+    private void handleVisibility(BugemonDTO bugemon, boolean mustBeVisible) {
+        if (bugemon.getIsPlayer()) {
+            playerSprite.setVisible(mustBeVisible);
+            playerHpBarFill.setVisible(mustBeVisible);
+            playerHpLabel.setVisible(mustBeVisible);
+            playerNameLabel.setVisible(mustBeVisible);
+            playerEffectLabel.setVisible(mustBeVisible);
+        } else {
+            enemySprite.setVisible(mustBeVisible);
+            enemyHpBarFill.setVisible(mustBeVisible);
+            enemyHpLabel.setVisible(mustBeVisible);
+            enemyNameLabel.setVisible(mustBeVisible);
+            enemyEffectLabel.setVisible(mustBeVisible);
+        }
+    }
+
+    public void animateAttack(BugemonDTO bugemon, Runnable afterAttackAnimation) {
+        ImageView sprite = bugemon.getIsPlayer() ? playerSprite : enemySprite;
+        double direction = bugemon.getIsPlayer() ? 60 : -60;
+
+        // TODO: créer TranslateTransition aller (0.3s, +direction) et retour (0.2s, -direction)
+        SequentialTransition seq = new SequentialTransition(/* aller, retour */);
+        seq.setOnFinished(e -> afterAttackAnimation.run());
+        seq.play();
+    }
+
+    public void animateHit(BugemonDTO bugemon, Runnable afterHitAnimation) {
+        ImageView sprite = bugemon.getIsPlayer() ? playerSprite : enemySprite;
+
+        // TODO: créer Timeline qui fait flasher le sprite en rouge/blanc 3x en 0.3s total
+        Timeline flash = new Timeline(/* KeyFrames */);
+        flash.setOnFinished(e -> afterHitAnimation.run());
+        flash.play();
+    }
+
+    public void animateKO(BugemonDTO bugemon, Runnable afterKOAnimation) {
+        ImageView sprite = bugemon.getIsPlayer() ? playerSprite : enemySprite;
+
+        // TODO: créer FadeTransition opacity 1.0 -> 0.0 sur 0.5s
+        FadeTransition fade = new FadeTransition(/* duration, sprite */);
+        fade.setOnFinished(e -> {
+            handleVisibility(bugemon, false);
+            afterKOAnimation.run();
+        });
+        fade.play();
     }
 }
