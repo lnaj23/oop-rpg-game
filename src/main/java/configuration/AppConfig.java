@@ -28,16 +28,16 @@ public abstract class AppConfig {
     public static final String TEAMS_FILE     = props.getProperty("persistence.teams.file");
 
     // FXML
-    public static final String FXML_TITLESCREEN   = props.getProperty("fxml.titlescreen");
-    public static final String FXML_FIGHT         = props.getProperty("fxml.fight");
-    public static final String FXML_ITEMS         = props.getProperty("fxml.items");
-    public static final String FXML_SWITCHBUGEMON = props.getProperty("fxml.switchbugemon");
-    public static final String FXML_PREBUILDTEAM  = props.getProperty("fxml.prebuildteam");
-    public static final String FXML_SELECTION     = props.getProperty("fxml.selection");
-    public static final String FXML_VICTORY       = props.getProperty("fxml.victory");
-    public static final String FXML_DEFEAT        = props.getProperty("fxml.defeat") ;
-    public static final String FXML_REWARD = props.getProperty("fxml.reward");
-    public static final String FXML_LEVELUP       = props.getProperty("fxml.levelup");
+    public static final String FXML_TITLESCREEN           = props.getProperty("fxml.titlescreen");
+    public static final String FXML_FIGHT                 = props.getProperty("fxml.fight");
+    public static final String FXML_ITEMS                 = props.getProperty("fxml.items");
+    public static final String FXML_SELECTBUGEMONFROMTEAM = props.getProperty("fxml.selectbugemonfromteamview");
+    public static final String FXML_PREBUILDTEAM          = props.getProperty("fxml.prebuildteam");
+    public static final String FXML_SELECTION             = props.getProperty("fxml.selection");
+    public static final String FXML_VICTORY               = props.getProperty("fxml.victory");
+    public static final String FXML_DEFEAT                = props.getProperty("fxml.defeat") ;
+    public static final String FXML_REWARD                = props.getProperty("fxml.reward");
+    public static final String FXML_LEVELUP               = props.getProperty("fxml.levelup");
 
     // Assets PNG
     public static final String PNG_PREFIX     = props.getProperty("assets.png.prefix");

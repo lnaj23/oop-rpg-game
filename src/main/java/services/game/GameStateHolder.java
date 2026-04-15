@@ -13,6 +13,7 @@ import models.game.LevelTower;
 import services.dataprovider.TeamProvider;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -33,7 +34,8 @@ public class GameStateHolder {
         List<TeamBugemon> loaded;
         try {
             teamProvider = new TeamProvider();
-            availableItems = itemProvider.getDefautItems();
+            availableItems = new ArrayList<>(itemProvider.getDefautItems());
+            availableItems.sort(Comparator.comparing(Item::getName));  // ← ici
             loaded = new ArrayList<>(teamProvider.loadTeams());
         } catch (LoadingTeamFailedException | AttackNotFoundException | JsonResourceNotFoundException e) {
             loaded = new ArrayList<>();
@@ -148,8 +150,9 @@ public class GameStateHolder {
         this.availableItems.remove(items);
     }
 
-    public void gainItem(Item items) {
-        this.availableItems.add(items);
+    public void gainItem(Item item) {
+        this.availableItems.add(item);
+        this.availableItems.sort(Comparator.comparing(Item::getName));
     }
 
     public void setCurrentPlayerTeamDTO(List<BugemonDTO> team) { this.currentPlayerTeamDTO = team; }

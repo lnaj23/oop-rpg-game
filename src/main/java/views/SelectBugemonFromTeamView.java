@@ -39,7 +39,7 @@ public class SelectBugemonFromTeamView extends View<Controller> {
      * @throws IOException if the FXML file cannot be loaded
      */
     public SelectBugemonFromTeamView() throws IOException {
-        super(AppConfig.FXML_SWITCHBUGEMON);
+        super(AppConfig.FXML_SELECTBUGEMONFROMTEAM);
     }
 
     /**
@@ -49,7 +49,7 @@ public class SelectBugemonFromTeamView extends View<Controller> {
      */
     @Override
     protected String getTitle() {
-        return "Changer de Bugemon";
+        return "Selectionner un Bugemon";
     }
 
 

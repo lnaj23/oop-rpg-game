@@ -35,4 +35,8 @@ public class ItemProvider {
         defautItems.add(new Item("pierre_de_retraite", "Pierre de Retraite", "changer sans perdre l'initiative", null, null, null));
         return defautItems;
     }
+    public Item getRandomItem() throws JsonResourceNotFoundException {
+        List<Item> items = getAllItems();
+        return items.get(new Random().nextInt(items.size()));
+    }
 }

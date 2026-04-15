@@ -237,8 +237,12 @@ public class ControllerManager {
     }
 
     public void goToRewardScreen() {
-        this.rewardController.setReward();
-        this.switchScene(Scenes.REWARD);
+        try {
+            this.rewardController.setReward();
+            this.switchScene(Scenes.REWARD);
+        } catch (JsonResourceNotFoundException e){
+            this.fatalError("Une erreur est survenue lors du chargement des récompenses");
+        }
     }
 
     public void startNewTower() {

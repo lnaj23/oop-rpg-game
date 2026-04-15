@@ -11,7 +11,6 @@ import java.io.IOException;
 public class ApplyBonusRewardController extends Controller<SelectBugemonFromTeamView> implements SelectBugemonFromTeamListener {
     /**
      * @param metaController the central controller handling navigation
-     * @param view           the view managed by this controller
      */
     public ApplyBonusRewardController(ControllerManager metaController) throws IOException {
         super(metaController, new SelectBugemonFromTeamView());

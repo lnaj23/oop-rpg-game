@@ -7,6 +7,7 @@ import repositories.AttackRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class AttackProvider {
 
@@ -19,6 +20,11 @@ public class AttackProvider {
 
     public List<Attack> getAllAttacks() throws JsonResourceNotFoundException {
         return new ArrayList<>(AttackRepository.getInstance().getAllAttacks());
+    }
+
+    public Attack getRandomAttack() throws JsonResourceNotFoundException {
+        List<Attack> attacks = getAllAttacks();
+        return attacks.get(new Random().nextInt(attacks.size()));
     }
 
 }

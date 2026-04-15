@@ -115,4 +115,8 @@ public class LevelUpBonusGenerator {
                 initPoints * 2    // each point is worth 2 Initiative
         );
     }
+
+    public  LevelUpBonus generateSingleBonus() {
+        return generateRandomCombination();
+    }
 }

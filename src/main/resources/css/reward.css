@@ -1,0 +1,27 @@
+.reward-title {
+    -fx-text-fill: #f0c040;
+    -fx-font-size: 48px;
+    -fx-font-weight: bold;
+}
+
+.btn-reward {
+    -fx-font-size: 16px;
+    -fx-text-fill: white;
+    -fx-padding: 12px 20px;
+    -fx-min-width: 150px;
+    -fx-text-overrun: clip;
+    -fx-wrap-text: true;
+    -fx-pref-height: -1;
+    -fx-max-height: infinity;
+    -fx-text-alignment: center;
+    -fx-alignment: center;
+}
+
+.btn-item                { -fx-background-color: #2ecc71; }
+.btn-item:hover          { -fx-background-color: derive(#2ecc71, -15%); }
+
+.btn-attack              { -fx-background-color: #e74c3c; }
+.btn-attack:hover        { -fx-background-color: derive(#e74c3c, -15%); }
+
+.btn-bonus               { -fx-background-color: #e91e8c; }
+.btn-bonus:hover         { -fx-background-color: derive(#e91e8c, -15%); }
