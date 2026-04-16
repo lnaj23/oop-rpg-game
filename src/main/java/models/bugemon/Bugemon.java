@@ -367,8 +367,15 @@ public class Bugemon implements BugemonDTO {
         isPlayer = false;
     }
 
-    Bugemon(String nom, String type, int pv, String spire,Attack attack1, Attack attack2, Attack attack3){
+    Bugemon(String nom, String type, int pv, String spire,Attack attack1, Attack attack2, Attack attack3){}
 
-
+    public boolean hasAttack(String attackId){
+        for (Attack attack : attacks){
+            if (attack.getId().equals(attackId)){
+                return true;
+            }
+        }
+        return false;
     }
+
 }
