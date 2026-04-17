@@ -378,4 +378,15 @@ public class Bugemon implements BugemonDTO {
         return false;
     }
 
+    public void replaceAttack(Attack newAttack, Attack attackToReplace) {
+        for (int i = 0; i < attacks.size(); i++) {
+            if (attacks.get(i).equals(attackToReplace.getId())) {
+                attacks.set(i, newAttack);
+                attackNames.set(i, newAttack.getId());
+                newAttack.setColor(getTypeColorOfBugemon(newAttack));
+                return;
+            }
+        }
+    }
+
 }
