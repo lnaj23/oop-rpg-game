@@ -142,7 +142,7 @@
                                    text="Png de l'ordinateur"
                                    maxWidth="Infinity"
                                    HBox.hgrow="ALWAYS" />
-                        <Button fx:id="chooseSpriteButton"
+                        <Button fx:id="btnChooseSprite"
                                 mnemonicParsing="false"
                                 text="Parcourir" />
                      </children>

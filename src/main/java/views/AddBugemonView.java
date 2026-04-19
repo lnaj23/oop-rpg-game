@@ -14,6 +14,7 @@ public class AddBugemonView extends View<AddBugemonController> {
 
     @FXML private Button btnAdd;
     @FXML private Button btnCancel;
+    @FXML private Button btnChooseSprite;
 
     @FXML private Label titleLabel;
 
@@ -23,8 +24,6 @@ public class AddBugemonView extends View<AddBugemonController> {
     @FXML private TextField defenseField;
     @FXML private TextField spritePathField;
 
-    @FXML private Button chooseSpriteButton;
-
     @FXML private ChoiceBox<?> typeChoiceBox;
     @FXML private ChoiceBox<?> attack1ChoiceBox;
     @FXML private ChoiceBox<?> attack2ChoiceBox;
@@ -33,17 +32,12 @@ public class AddBugemonView extends View<AddBugemonController> {
 
     public AddBugemonView() throws IOException {
         super(AppConfig.FXML_ADDBUGEMON);
-
     }
-
 
     public void setActionButtons(){
         btnCancel.setOnAction(e -> this.controller.goToTitleScreen());
         btnAdd.setOnAction(e -> this.controller.addBugemon());
     }
-
-
-
 
     @Override
     public String getTitle() {
