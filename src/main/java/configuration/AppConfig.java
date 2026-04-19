@@ -38,6 +38,7 @@ public abstract class AppConfig {
     public static final String FXML_DEFEAT                = props.getProperty("fxml.defeat") ;
     public static final String FXML_REWARD                = props.getProperty("fxml.reward");
     public static final String FXML_LEVELUP               = props.getProperty("fxml.levelup");
+    public static final String FXML_ADDBUGEMON            = props.getProperty("fxml.addbugemon");
 
     // Assets PNG
     public static final String PNG_PREFIX     = props.getProperty("assets.png.prefix");

@@ -94,8 +94,8 @@
             </GridPane>
             <HBox alignment="TOP_CENTER" prefHeight="69.0" prefWidth="560.0" spacing="20.0">
                <children>
-                  <Button fx:id="AddButtton" mnemonicParsing="false" prefHeight="35.0" prefWidth="110.0" text="Ajouter" />
-                  <Button fx:id="RemoveButton" mnemonicParsing="false" prefHeight="36.0" prefWidth="118.0" text="Supprimer" />
+                  <Button fx:id="AddButtton" mnemonicParsing="false" prefHeight="35.0" prefWidth="110.0" text="Annuler" />
+                  <Button fx:id="RemoveButton" mnemonicParsing="false" prefHeight="36.0" prefWidth="118.0" text="Ajouter" />
                </children>
             </HBox>
          </children>
