@@ -44,7 +44,8 @@ public class ControllerManager {
         VICTORY,
         DEFEAT,
         REWARD,
-        LEVEL_UP
+        LEVEL_UP,
+        ADD_BUGEMON
     }
 
     private final Stage PrimaryStage;
@@ -56,6 +57,7 @@ public class ControllerManager {
     private final DefeatController defeatController;
     private final RewardController rewardController;
     private final LevelUpController levelUpController;
+    private final AddBugemonController addBugemonController;
 
     private TeamProvider teamProvider = new TeamProvider();
 
@@ -76,6 +78,7 @@ public class ControllerManager {
         this.defeatController = new DefeatController(this);
         this.rewardController = new RewardController(this);
         this.levelUpController = new LevelUpController(this);
+        this.addBugemonController = new AddBugemonController(this);
     }
 
     /**
@@ -102,6 +105,7 @@ public class ControllerManager {
             case DEFEAT -> this.defeatController.show(PrimaryStage);
             case REWARD -> this.rewardController.show(PrimaryStage);
             case LEVEL_UP -> this.levelUpController.show(PrimaryStage);
+            case ADD_BUGEMON -> this.addBugemonController.show(PrimaryStage);
             default -> throw new IllegalArgumentException("Invalid scene: " + scene);
         }
         ensureFullScreen();
