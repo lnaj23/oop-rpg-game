@@ -195,6 +195,10 @@ public class ControllerManager {
         this.switchScene(Scenes.PREBUILD_TEAM);
     }
 
+    public void goToAddBugemon() {
+        this.switchScene(Scenes.ADD_BUGEMON);
+    }
+
     /**
      * Resets the selection view, pre-selects the given team's Bugémons, and navigates to it.
      *

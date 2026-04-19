@@ -1,11 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.net.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="346.0" prefWidth="455.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.Addbugemonview">
+<?import java.net.URL?>
+<AnchorPane prefHeight="346.0" prefWidth="455.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1">
+
+   <stylesheets>
+      <URL value="@../css/addbugemonview.css" />
+      <URL value="@../css/common.css" />
+   </stylesheets>
+
    <children>
       <VBox alignment="TOP_CENTER" layoutX="3.0" layoutY="4.0" prefHeight="393.0" prefWidth="600.0" spacing="20.0">
          <padding>
