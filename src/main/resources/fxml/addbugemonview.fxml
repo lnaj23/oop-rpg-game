@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="346.0" prefWidth="455.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.Addbugemonview">
+   <children>
+      <VBox alignment="TOP_CENTER" layoutX="3.0" layoutY="4.0" prefHeight="393.0" prefWidth="600.0" spacing="20.0">
+         <padding>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+         </padding>
+         <children>
+            <Label fx:id="Title" text="AJOUTER UN BUGEMON">
+               <font>
+                  <Font name="System Bold" size="28.0" />
+               </font>
+            </Label>
+            <GridPane hgap="10.0" prefHeight="253.0" prefWidth="513.0" vgap="10.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="270.0" minWidth="10.0" prefWidth="132.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="460.0" minWidth="10.0" prefWidth="418.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Label text="Nom :">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font></Label>
+                  <Label text="Type :" GridPane.rowIndex="1">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font></Label>
+                  <Label text="HP :" GridPane.rowIndex="2">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font></Label>
+                  <Label text="Attaque :" GridPane.rowIndex="3">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font></Label>
+                  <Label text="Défense :" GridPane.rowIndex="4">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font></Label>
+                  <Label text="Sprite :" GridPane.rowIndex="5">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font></Label>
+                  <Label text="Attaque 1 :" GridPane.rowIndex="6">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font></Label>
+                  <Label text="Attaque 2 :" GridPane.rowIndex="7">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font></Label>
+                  <Label text="Attaque 3 :" GridPane.rowIndex="8">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font></Label>
+                  <Label text="Starter :" GridPane.rowIndex="9">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font></Label>
+                  <TextField fx:id="NameButton" promptText="Nom du Bugémon" GridPane.columnIndex="1" />
+                  <TextField fx:id="HPButton" text="Nbre de vie du Bugémon" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <TextField fx:id="AttackButton" text="Attaque du Bugémon" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                  <TextField fx:id="DefenseButton" text="Défense du Bugémon" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                  <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                     <children>
+                        <TextField fx:id="NameSpriteButton" text="Png de l'ordinateur" />
+                        <Button fx:id="ChooseSpriteButton" mnemonicParsing="false" text="Parcourir" />
+                     </children>
+                  </HBox>
+                  <ChoiceBox prefHeight="25.0" prefWidth="496.0" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                  <ChoiceBox prefHeight="25.0" prefWidth="462.0" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                  <ChoiceBox prefHeight="25.0" prefWidth="461.0" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+                  <ChoiceBox prefHeight="25.0" prefWidth="427.0" GridPane.columnIndex="1" GridPane.rowIndex="9" />
+                  <ChoiceBox prefHeight="25.0" prefWidth="461.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+               </children>
+            </GridPane>
+            <HBox alignment="TOP_CENTER" prefHeight="69.0" prefWidth="560.0" spacing="20.0">
+               <children>
+                  <Button fx:id="AddButtton" mnemonicParsing="false" prefHeight="35.0" prefWidth="110.0" text="Ajouter" />
+                  <Button fx:id="RemoveButton" mnemonicParsing="false" prefHeight="36.0" prefWidth="118.0" text="Supprimer" />
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>
