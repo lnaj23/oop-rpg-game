@@ -3,6 +3,7 @@ package controllers;
 import exceptions.JsonResourceNotFoundException;
 import models.bugemon.Attack;
 import services.dataprovider.AttackProvider;
+import services.game.AddBugemonValidationService;
 import views.AddBugemonView;
 
 import java.awt.image.BufferedImage;
@@ -19,6 +20,7 @@ public class AddBugemonController extends Controller<AddBugemonView> {
 
     private final AttackProvider attackProvider = new AttackProvider();
     private final List<Attack> attacksToShow;
+    private final AddBugemonValidationService validationService = new AddBugemonValidationService();
 
     public AddBugemonController(ControllerManager metaController) throws IOException, JsonResourceNotFoundException {
         super(metaController, new AddBugemonView());
@@ -33,70 +35,6 @@ public class AddBugemonController extends Controller<AddBugemonView> {
         this.view.setStarterChoiceBox();
     }
 
-    private String checkSpritePath(String spritePath) {
-        if (spritePath == null || spritePath.isBlank()) {
-            return "Le sprite est obligatoire.";
-        }
-
-        File spriteFile = new File(spritePath);
-
-        if (!spriteFile.exists()) {
-            return "Le fichier du sprite n'existe pas.";
-        }
-
-        if (!spriteFile.isFile()) {
-            return "Le chemin du sprite n'est pas un fichier valide.";
-        }
-
-        String lowerPath = spriteFile.getName().toLowerCase();
-        if (!(lowerPath.endsWith(".png") || lowerPath.endsWith(".jpg") || lowerPath.endsWith(".jpeg"))) {
-            return "Le sprite doit être une image PNG, JPG ou JPEG.";
-        }
-
-        try {
-            BufferedImage image = ImageIO.read(spriteFile);
-            if (image == null) {
-                return "Le fichier sélectionné n'est pas une image valide.";
-            }
-        } catch (IOException e) {
-            return "Impossible de lire le fichier image du sprite.";
-        }
-
-        return null;
-    }
-
-    private String checkAttack(Attack attack1, Attack attack2, Attack attack3) {
-        if (attack1 == null || attack2 == null || attack3 == null) {
-            return "Il faut sélectionner 3 attaques.";
-        }
-
-        if (attack1.equals(attack2) || attack1.equals(attack3) || attack2.equals(attack3)) {
-            return "Les 3 attaques doivent être différentes.";
-        }
-
-        return null;
-    }
-
-    private String checkStats(String hpText, String attackText, String defenseText) {
-        int hp;
-        int attack;
-        int defense;
-
-        try {
-            hp = Integer.parseInt(hpText);
-            attack = Integer.parseInt(attackText);
-            defense = Integer.parseInt(defenseText);
-        } catch (NumberFormatException e) {
-            return "HP, Attaque et Défense doivent être des nombres.";
-        }
-
-        if (hp <= 0 || attack < 0 || defense < 0) {
-            return "Les statistiques sont invalides.";
-        }
-
-        return null;
-    }
-
     public void addBugemon() {
         String name = view.getNameValue();
         String hpText = view.getHpValue();
@@ -109,51 +47,32 @@ public class AddBugemonController extends Controller<AddBugemonView> {
         Attack attack2 = view.getSelectedAttack2();
         Attack attack3 = view.getSelectedAttack3();
         String starterText = view.getSelectedStarter();
-        String errorMessage;
 
-        if (name == null || name.isBlank()) {
-            view.showMessage("Le nom est obligatoire.");
-            return;
-        }
+        String errorMessage = validationService.validate(
+                name,
+                type,
+                hpText,
+                attackText,
+                defenseText,
+                spritePath,
+                attack1,
+                attack2,
+                attack3,
+                starterText
+        );
 
-        if (type == null) {
-            view.showMessage("Le type est obligatoire.");
-            return;
-        }
-
-        errorMessage = checkStats(hpText, attackText, defenseText);
         if (errorMessage != null) {
             view.showMessage(errorMessage);
-            return;
-        }
-
-        errorMessage = checkAttack(attack1, attack2, attack3);
-        if (errorMessage != null) {
-            view.showMessage(errorMessage);
-            return;
-        }
-
-        errorMessage = checkSpritePath(spritePath);
-        if (errorMessage != null) {
-            view.showMessage(errorMessage);
-            return;
-        }
-
-        if (starterText == null) {
-            view.showMessage("Il faut choisir si le Bugémon est starter.");
             return;
         }
 
         int hp = Integer.parseInt(hpText);
         int attack = Integer.parseInt(attackText);
         int defense = Integer.parseInt(defenseText);
-
         boolean starter = "Oui".equals(starterText);
 
-
-        // A supprimer par la suite
         view.showMessage(
-                    "Bugémon ajouté avec succès !\n\n" +
+                "Bugémon ajouté avec succès !\n\n" +
                         "Nom : " + name + "\n" +
                         "Type : " + type + "\n" +
                         "HP : " + hp + "\n" +
