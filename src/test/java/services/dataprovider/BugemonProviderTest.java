@@ -3,6 +3,7 @@ package services.dataprovider;
 import exceptions.AttackNotFoundException;
 import exceptions.BugemonNotFoundException;
 import exceptions.JsonResourceNotFoundException;
+import exceptions.LoadingAddedBugemonFailedException;
 import junit.framework.TestCase;
 import models.bugemon.Attack;
 import models.bugemon.Bugemon;
@@ -97,13 +98,13 @@ public class BugemonProviderTest extends TestCase {
     }
 
     @Test
-    public void testGetAllBugemonsNotNull() throws JsonResourceNotFoundException {
+    public void testGetAllBugemonsNotNull() throws JsonResourceNotFoundException, LoadingAddedBugemonFailedException {
         List<Bugemon> list = provider.getAllBugemons();
         assertNotNull(list);
     }
 
     @Test
-    public void testGetAllBugemonsHaveAttacks() throws JsonResourceNotFoundException {
+    public void testGetAllBugemonsHaveAttacks() throws JsonResourceNotFoundException, LoadingAddedBugemonFailedException {
         List<Bugemon> list = provider.getAllBugemons();
         for (Bugemon bug : list) {
             assertFalse("Attacks should not be empty for " + bug.getId(), bug.getAttacks().isEmpty());
@@ -111,7 +112,7 @@ public class BugemonProviderTest extends TestCase {
     }
 
     @Test
-    public void testGetAllBugemonsNoNullElements() throws JsonResourceNotFoundException {
+    public void testGetAllBugemonsNoNullElements() throws JsonResourceNotFoundException, LoadingAddedBugemonFailedException {
         List<Bugemon> list = provider.getAllBugemons();
         for (Bugemon bug : list) {
             assertNotNull(bug);
@@ -119,7 +120,7 @@ public class BugemonProviderTest extends TestCase {
     }
 
     @Test
-    public void testGetAllBugemonsNotEmpty() throws JsonResourceNotFoundException {
+    public void testGetAllBugemonsNotEmpty() throws JsonResourceNotFoundException, LoadingAddedBugemonFailedException {
         List<Bugemon> list = provider.getAllBugemons();
         assertFalse(list.isEmpty());
     }

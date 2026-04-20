@@ -27,7 +27,7 @@ public class AddedBugemonRepository {
         List<Bugemon> addedBugemons;
     }
 
-    public static AddedBugemonRepository getInstance() throws IOException {
+    public static AddedBugemonRepository getInstance() {
         if (instance == null) instance = new AddedBugemonRepository();
         return instance;
     }
@@ -44,11 +44,15 @@ public class AddedBugemonRepository {
         }
     }
 
-    public void saveAddedBugemons(Bugemon bugemonToSave) throws SavingAddedBugemonFailedException, LoadingAddedBugemonFailedException, IOException {
+    public void saveAddedBugemons(Bugemon bugemonToSave) throws SavingAddedBugemonFailedException, LoadingAddedBugemonFailedException {
         File file = new File(AppConfig.ADDEDBUGEMON_FILE);
         if (!file.exists()) {
             file.getParentFile().mkdirs();
-            file.createNewFile();
+            try {
+                file.createNewFile();
+            } catch (IOException e) {
+                throw new SavingAddedBugemonFailedException("Error saving Added Bugemon: " + e.getMessage(), e);
+            }
         }
         List<Bugemon> addedBugemons = loadAddedBugemon();
         addedBugemons.add(bugemonToSave);

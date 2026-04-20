@@ -3,11 +3,15 @@ package services.dataprovider;
 import exceptions.AttackNotFoundException;
 import exceptions.BugemonNotFoundException;
 import exceptions.JsonResourceNotFoundException;
+import exceptions.LoadingAddedBugemonFailedException;
 import models.bugemon.Bugemon;
 import models.bugemon.dto.BugemonDTO;
+import repositories.AddedBugemonRepository;
 import repositories.BugemonRepository;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class BugemonProvider {
@@ -48,11 +52,11 @@ public class BugemonProvider {
         throw new BugemonNotFoundException(id);
     }
 
-    public List<Bugemon> getAllBugemons() throws JsonResourceNotFoundException {
-        // faut une liste qui contient BugemonRepository.getInstance().getAllBugemons()
-        // et AddedBugemonRepository.getInstance().loadAddedBugemon() en 1 seul liste
-        // et tout les objet bugemon doivent être trié selon leut attribut Type (qui est un string)
-        return new ArrayList<>(BugemonRepository.getInstance().getAllBugemons());
+    public List<Bugemon> getAllBugemons() throws JsonResourceNotFoundException, LoadingAddedBugemonFailedException {
+        List<Bugemon> allBugemons = new ArrayList<>(BugemonRepository.getInstance().getAllBugemons());
+        allBugemons.addAll(AddedBugemonRepository.getInstance().loadAddedBugemon());
+        allBugemons.sort(Comparator.comparing(Bugemon::getType));
+        return allBugemons;
     }
 
     public List<BugemonDTO> getAllBugemonsDTO() throws JsonResourceNotFoundException {
