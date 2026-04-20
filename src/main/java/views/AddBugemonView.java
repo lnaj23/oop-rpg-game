@@ -4,11 +4,13 @@ import configuration.AppConfig;
 import controllers.AddBugemonController;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.stage.StageStyle;
 import models.bugemon.Attack;
 import services.dataprovider.AttackProvider;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 
 public class AddBugemonView extends View<AddBugemonController> {
 
@@ -51,11 +53,21 @@ public class AddBugemonView extends View<AddBugemonController> {
         typeChoiceBox.getItems().setAll(types);
     }
 
+    /**
+     * Displays an error alert with the given title and message.
+     *
+     * @param message the alert message
+     */
     public void showMessage(String message) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Ajout d'un Bugémon");
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
         alert.setHeaderText(null);
         alert.setContentText(message);
+        alert.getDialogPane().getStylesheets().add(
+                Objects.requireNonNull(getClass().getResource(AppConfig.CSS_COMMON)).toExternalForm()
+        );
+        alert.initStyle(StageStyle.UNDECORATED);
+        alert.setGraphic(null);
         alert.showAndWait();
     }
 

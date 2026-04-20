@@ -150,8 +150,10 @@ public class AddBugemonController extends Controller<AddBugemonView> {
 
         boolean starter = "Oui".equals(starterText);
 
+
+        // A supprimer par la suite
         view.showMessage(
-                "Bugémon ajouté avec succès !\n\n" +
+                    "Bugémon ajouté avec succès !\n\n" +
                         "Nom : " + name + "\n" +
                         "Type : " + type + "\n" +
                         "HP : " + hp + "\n" +
