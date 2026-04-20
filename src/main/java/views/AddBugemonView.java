@@ -27,11 +27,11 @@ public class AddBugemonView extends View<AddBugemonController> {
     @FXML private TextField defenseField;
     @FXML private TextField spritePathField;
 
-    @FXML private ChoiceBox<?> typeChoiceBox;
+    @FXML private ChoiceBox<String> typeChoiceBox;
     @FXML private ChoiceBox<Attack> attack1ChoiceBox;
     @FXML private ChoiceBox<Attack> attack2ChoiceBox;
     @FXML private ChoiceBox<Attack> attack3ChoiceBox;
-    @FXML private ChoiceBox<?> starterChoiceBox;
+    @FXML private ChoiceBox<String> starterChoiceBox;
 
     public AddBugemonView() throws IOException {
         super(AppConfig.FXML_ADDBUGEMON);
@@ -46,6 +46,16 @@ public class AddBugemonView extends View<AddBugemonController> {
         attack1ChoiceBox.getItems().setAll(attacks);
         attack2ChoiceBox.getItems().setAll(attacks);
         attack3ChoiceBox.getItems().setAll(attacks);
+    }
+
+    public void setTypeChoiceBox() {
+        List<String> types = List.of("Flora", "Pyro", "Aqua", "Litho");
+        typeChoiceBox.getItems().setAll(types);
+    }
+
+    public void setStarterChoiceBox() {
+        List<String> yesno = List.of("Oui", "Non");
+        starterChoiceBox.getItems().setAll(yesno);
     }
 
     @Override

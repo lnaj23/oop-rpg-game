@@ -21,7 +21,9 @@ public class AddBugemonController extends Controller<AddBugemonView> {
     }
 
     public void init() {
+        this.view.setTypeChoiceBox();
         this.view.setAttackChoiceBox(attacksToShow);
+        this.view.setStarterChoiceBox();
     }
 
     public void addBugemon(){
