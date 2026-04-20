@@ -55,6 +55,16 @@ public class AddBugemonView extends View<AddBugemonController> {
         btnCancel.setOnAction(e -> this.controller.goToTitleScreen());
         btnAdd.setOnAction(e -> this.controller.addBugemon());
         btnChooseSprite.setOnAction(e -> this.controller.chooseSprite());
+        typeChoiceBox.setOnAction(e -> this.controller.onTypeSelected(typeChoiceBox.getValue()));
+    }
+    /**
+     * Fills the type choice box with the available Bugemon types.
+     */
+    public void setTypeChoiceBox() {
+
+        List<String> types = List.of("Flora", "Pyro", "Aqua", "Litho");
+        typeChoiceBox.getItems().setAll(types);
+
     }
 
     /**
@@ -63,17 +73,42 @@ public class AddBugemonView extends View<AddBugemonController> {
      * @param attacks the list of attacks available for selection
      */
     public void setAttackChoiceBox(List<Attack> attacks) {
+        attack1ChoiceBox.getSelectionModel().clearSelection();
+        attack2ChoiceBox.getSelectionModel().clearSelection();
+        attack3ChoiceBox.getSelectionModel().clearSelection();
+
         attack1ChoiceBox.getItems().setAll(attacks);
         attack2ChoiceBox.getItems().setAll(attacks);
         attack3ChoiceBox.getItems().setAll(attacks);
     }
 
     /**
-     * Fills the type choice box with the available Bugemon types.
+     * Enables or disables the three attack choice boxes.
+     *
+     * @param disabled {@code true} to disable the attack choice boxes,
+     *                 {@code false} to enable them
      */
-    public void setTypeChoiceBox() {
-        List<String> types = List.of("Flora", "Pyro", "Aqua", "Litho");
-        typeChoiceBox.getItems().setAll(types);
+    public void setAttackChoiceBoxesDisabled(boolean disabled) {
+        attack1ChoiceBox.setDisable(disabled);
+        attack2ChoiceBox.setDisable(disabled);
+        attack3ChoiceBox.setDisable(disabled);
+    }
+
+    /**
+     * Fills the starter choice box with the available yes/no values.
+     */
+    public void setStarterChoiceBox() {
+        List<String> yesno = List.of("Oui", "Non");
+        starterChoiceBox.getItems().setAll(yesno);
+    }
+
+    /**
+     * Updates the sprite path text field with the given file path.
+     *
+     * @param path the selected sprite file path
+     */
+    public void setSpritePath(String path) {
+        spritePathField.setText(path);
     }
 
     /**
@@ -92,23 +127,6 @@ public class AddBugemonView extends View<AddBugemonController> {
         alert.initStyle(StageStyle.UNDECORATED);
         alert.setGraphic(null);
         alert.showAndWait();
-    }
-
-    /**
-     * Fills the starter choice box with the available yes/no values.
-     */
-    public void setStarterChoiceBox() {
-        List<String> yesno = List.of("Oui", "Non");
-        starterChoiceBox.getItems().setAll(yesno);
-    }
-
-    /**
-     * Updates the sprite path text field with the given file path.
-     *
-     * @param path the selected sprite file path
-     */
-    public void setSpritePath(String path) {
-        spritePathField.setText(path);
     }
 
     /**

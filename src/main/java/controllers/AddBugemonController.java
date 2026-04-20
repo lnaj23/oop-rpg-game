@@ -56,6 +56,7 @@ public class AddBugemonController extends Controller<AddBugemonView> {
         this.view.setTypeChoiceBox();
         this.view.setAttackChoiceBox(attacksToShow);
         this.view.setStarterChoiceBox();
+        this.view.setAttackChoiceBoxesDisabled(true);
     }
 
     /**
@@ -140,6 +141,27 @@ public class AddBugemonController extends Controller<AddBugemonView> {
         if (selectedFile != null) {
             view.setSpritePath(selectedFile.getAbsolutePath());
         }
+    }
+
+    /**
+     * Updates the available attacks displayed in the attack choice boxes
+     * according to the selected Bugemon type.
+     *
+     * @param selectedType the type selected by the user
+     */
+    public void onTypeSelected(String selectedType) {
+        if (selectedType == null) {
+            view.setAttackChoiceBox(List.of());
+            view.setAttackChoiceBoxesDisabled(true);
+            return;
+        }
+
+        List<Attack> filteredAttacks = attacksToShow.stream()
+                .filter(attack -> selectedType.equals(attack.getType()))
+                .toList();
+
+        view.setAttackChoiceBox(filteredAttacks);
+        view.setAttackChoiceBoxesDisabled(false);
     }
 
     /**
