@@ -31,6 +31,7 @@ public class AddBugemonView extends View<AddBugemonController> {
     @FXML private TextField hpField;
     @FXML private TextField attackField;
     @FXML private TextField defenseField;
+    @FXML private TextField initiativeField;
     @FXML private TextField spritePathField;
 
     @FXML private ChoiceBox<String> typeChoiceBox;
@@ -46,25 +47,28 @@ public class AddBugemonView extends View<AddBugemonController> {
      */
     public AddBugemonView() throws IOException {
         super(AppConfig.FXML_ADDBUGEMON);
+        setActionButtons();
+        setTypeChoiceBox();
+        setStarterChoiceBox();
+        setAttackChoiceBoxesDisabled(true);
     }
 
     /**
      * Binds the action buttons of the view to the corresponding controller methods.
      */
-    public void setActionButtons() {
+    private void setActionButtons() {
         btnCancel.setOnAction(e -> this.controller.goToTitleScreen());
         btnAdd.setOnAction(e -> this.controller.addBugemon());
         btnChooseSprite.setOnAction(e -> this.controller.chooseSprite());
         typeChoiceBox.setOnAction(e -> this.controller.onTypeSelected(typeChoiceBox.getValue()));
     }
+
     /**
      * Fills the type choice box with the available Bugemon types.
      */
-    public void setTypeChoiceBox() {
-
+    private void setTypeChoiceBox() {
         List<String> types = List.of("Flora", "Pyro", "Aqua", "Litho");
         typeChoiceBox.getItems().setAll(types);
-
     }
 
     /**
@@ -97,7 +101,7 @@ public class AddBugemonView extends View<AddBugemonController> {
     /**
      * Fills the starter choice box with the available yes/no values.
      */
-    public void setStarterChoiceBox() {
+    private void setStarterChoiceBox() {
         List<String> yesno = List.of("Oui", "Non");
         starterChoiceBox.getItems().setAll(yesno);
     }
@@ -127,6 +131,24 @@ public class AddBugemonView extends View<AddBugemonController> {
         alert.initStyle(StageStyle.UNDECORATED);
         alert.setGraphic(null);
         alert.showAndWait();
+    }
+
+    public void ShowAddedMessage(String name, String type, int hp, int attack, int defense, int initiative,
+                                 String spritePath, Attack attack1, Attack attack2, Attack attack3, boolean starter) {
+        String message = "Bugémon ajouté avec succès !\n\n" +
+                "Nom : " + name + "\n" +
+                "Type : " + type + "\n" +
+                "HP : " + hp + "\n" +
+                "Attaque : " + attack + "\n" +
+                "Défense : " + defense + "\n" +
+                "Initiative : " + initiative + "\n" +
+                "Sprite : " + spritePath + "\n" +
+                "Attaque 1 : " + attack1.getName() + "\n" +
+                "Attaque 2 : " + attack2.getName() + "\n" +
+                "Attaque 3 : " + attack3.getName() + "\n" +
+                "Starter : " + starter;
+
+        this.showMessage(message);
     }
 
     /**
@@ -182,6 +204,15 @@ public class AddBugemonView extends View<AddBugemonController> {
      */
     public String getDefenseValue() {
         return defenseField.getText();
+    }
+
+    /**
+     * Returns the value entered in the initiative field.
+     *
+     * @return the initiative stat text value
+     */
+    public String getInitiativeValue() {
+        return initiativeField.getText();
     }
 
     /**

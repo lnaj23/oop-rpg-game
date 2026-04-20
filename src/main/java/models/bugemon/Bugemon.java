@@ -367,8 +367,16 @@ public class Bugemon implements BugemonDTO {
         isPlayer = false;
     }
 
-    Bugemon(String nom, String type, int pv, String spire,Attack attack1, Attack attack2, Attack attack3){
-
-
+    public Bugemon(String name, String type, int pv, int attack, int defense, int initiative,
+            boolean starter, String sprite,List<Attack> attacks, List<String> attackNames)
+    {
+        this.id = name.toLowerCase();
+        this.name = name;
+        this.type = type;
+        this.stats = new Stats(pv, attack, defense, initiative);
+        this.starter = starter;
+        this.sprite = sprite;
+        this.attacks = attacks;
+        this.attackNames = attackNames;
     }
 }

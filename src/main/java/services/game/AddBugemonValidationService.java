@@ -24,6 +24,7 @@ public class AddBugemonValidationService {
      * @param hpText the HP value entered as text
      * @param attackText the attack stat entered as text
      * @param defenseText the defense stat entered as text
+     * @param initiativeText the initiative stat entered as text
      * @param spritePath the file path of the selected sprite
      * @param attack1 the first selected attack
      * @param attack2 the second selected attack
@@ -37,6 +38,7 @@ public class AddBugemonValidationService {
             String hpText,
             String attackText,
             String defenseText,
+            String initiativeText,
             String spritePath,
             Attack attack1,
             Attack attack2,
@@ -51,7 +53,7 @@ public class AddBugemonValidationService {
             return "Le type est obligatoire.";
         }
 
-        String errorMessage = checkStats(hpText, attackText, defenseText);
+        String errorMessage = checkStats(hpText, attackText, defenseText, initiativeText);
         if (errorMessage != null) {
             return errorMessage;
         }
@@ -137,22 +139,25 @@ public class AddBugemonValidationService {
      * @param hpText the HP value entered as text
      * @param attackText the attack stat entered as text
      * @param defenseText the defense stat entered as text
+     * @param initiativeText the initiative stat entered as text
      * @return an error message if the stats are invalid, or {@code null} if they are valid
      */
-    private String checkStats(String hpText, String attackText, String defenseText) {
+    private String checkStats(String hpText, String attackText, String defenseText, String initiativeText) {
         int hp;
         int attack;
         int defense;
+        int initiative;
 
         try {
             hp = Integer.parseInt(hpText);
             attack = Integer.parseInt(attackText);
             defense = Integer.parseInt(defenseText);
+            initiative = Integer.parseInt(initiativeText);
         } catch (NumberFormatException e) {
-            return "HP, Attaque et Défense doivent être des nombres.";
+            return "HP, Attaque, Défense et Initiative doivent être des nombres.";
         }
 
-        if (hp <= 0 || attack < 0 || defense < 0) {
+        if (hp <= 0 || attack < 0 || defense < 0 || initiative < 0) {
             return "Les statistiques sont invalides.";
         }
 

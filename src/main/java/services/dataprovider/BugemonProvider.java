@@ -49,6 +49,9 @@ public class BugemonProvider {
     }
 
     public List<Bugemon> getAllBugemons() throws JsonResourceNotFoundException {
+        // faut une liste qui contient BugemonRepository.getInstance().getAllBugemons()
+        // et AddedBugemonRepository.getInstance().loadAddedBugemon() en 1 seul liste
+        // et tout les objet bugemon doivent être trié selon leut attribut Type (qui est un string)
         return new ArrayList<>(BugemonRepository.getInstance().getAllBugemons());
     }
 

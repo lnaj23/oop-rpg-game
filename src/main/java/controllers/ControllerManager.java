@@ -196,7 +196,7 @@ public class ControllerManager {
     }
 
     public void goToAddBugemon() {
-        this.addBugemonController.init();
+        this.addBugemonController.initAddBugemonMenu();
         this.switchScene(Scenes.ADD_BUGEMON);
     }
 

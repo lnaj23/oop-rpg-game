@@ -33,7 +33,21 @@
     -fx-pref-height: 34;
 }
 
+.text {
+    -fx-background-color: #d9d7cb;
+    -fx-text-fill: #1b2230;
+    -fx-prompt-text-fill: #6b7280;
+    -fx-background-radius: 4;
+    -fx-border-radius: 4;
+    -fx-border-color: transparent;
+    -fx-pref-height: 34;
+}
+
 .text-field:focused {
+    -fx-border-color: #5bb6df;
+    -fx-border-width: 1.5;
+}
+.text:focused {
     -fx-border-color: #5bb6df;
     -fx-border-width: 1.5;
 }

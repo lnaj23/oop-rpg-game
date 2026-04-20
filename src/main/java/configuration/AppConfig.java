@@ -26,6 +26,8 @@ public abstract class AppConfig {
     public static final String JSON_ITEMS  = props.getProperty("json.prefix") + props.getProperty("json.items");
     // Persistence
     public static final String TEAMS_FILE     = props.getProperty("persistence.teams.file");
+    public static final String ADDEDBUGEMON_FILE = props.getProperty("persistence.addedbug.file");
+    public static final String PNG_PREFIX_ADDEDBUEMON = props.getProperty("persistence.addedbug.pngprefix");
 
     // FXML
     public static final String FXML_TITLESCREEN           = props.getProperty("fxml.titlescreen");

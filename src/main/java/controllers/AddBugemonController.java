@@ -2,11 +2,14 @@ package controllers;
 
 import exceptions.JsonResourceNotFoundException;
 import models.bugemon.Attack;
+import models.bugemon.Bugemon;
+import repositories.AddedBugemonRepository;
 import services.dataprovider.AttackProvider;
 import services.game.AddBugemonValidationService;
 import views.AddBugemonView;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
 import javafx.stage.FileChooser;
@@ -34,6 +37,8 @@ public class AddBugemonController extends Controller<AddBugemonView> {
     /** Service used to validate the values entered in the Add Bugemon form. */
     private final AddBugemonValidationService validationService = new AddBugemonValidationService();
 
+    private File selectedFile;
+
     /**
      * Creates the controller and initializes the associated Add Bugemon view.
      *
@@ -44,7 +49,6 @@ public class AddBugemonController extends Controller<AddBugemonView> {
     public AddBugemonController(ControllerManager metaController) throws IOException, JsonResourceNotFoundException {
         super(metaController, new AddBugemonView());
         this.view.setController(this);
-        this.view.setActionButtons();
         attacksToShow = attackProvider.getAllAttacks();
     }
 
@@ -52,11 +56,8 @@ public class AddBugemonController extends Controller<AddBugemonView> {
      * Initializes the Add Bugemon view by populating its choice boxes
      * with the available types, attacks, and starter options.
      */
-    public void init() {
-        this.view.setTypeChoiceBox();
+    public void initAddBugemonMenu() {
         this.view.setAttackChoiceBox(attacksToShow);
-        this.view.setStarterChoiceBox();
-        this.view.setAttackChoiceBoxesDisabled(true);
     }
 
     /**
@@ -72,6 +73,7 @@ public class AddBugemonController extends Controller<AddBugemonView> {
         String hpText = view.getHpValue();
         String attackText = view.getAttackValue();
         String defenseText = view.getDefenseValue();
+        String initiativeText = view.getInitiativeValue();
         String spritePath = view.getSpritePathValue();
 
         String type = view.getSelectedType();
@@ -79,6 +81,12 @@ public class AddBugemonController extends Controller<AddBugemonView> {
         Attack attack2 = view.getSelectedAttack2();
         Attack attack3 = view.getSelectedAttack3();
         String starterText = view.getSelectedStarter();
+        List<Attack> attacks = Arrays.asList(attack1, attack2, attack3);
+        List<String> attackNames = Arrays.asList(
+                attack1.getName(),
+                attack2.getName(),
+                attack3.getName()
+        );
 
         String errorMessage = validationService.validate(
                 name,
@@ -86,6 +94,7 @@ public class AddBugemonController extends Controller<AddBugemonView> {
                 hpText,
                 attackText,
                 defenseText,
+                initiativeText,
                 spritePath,
                 attack1,
                 attack2,
@@ -101,23 +110,21 @@ public class AddBugemonController extends Controller<AddBugemonView> {
         int hp = Integer.parseInt(hpText);
         int attack = Integer.parseInt(attackText);
         int defense = Integer.parseInt(defenseText);
+        int initiative = Integer.parseInt(initiativeText);
         boolean starter = "Oui".equals(starterText);
+        String sprite = selectedFile.getName();
 
-        view.showMessage(
-                "Bugémon ajouté avec succès !\n\n" +
-                        "Nom : " + name + "\n" +
-                        "Type : " + type + "\n" +
-                        "HP : " + hp + "\n" +
-                        "Attaque : " + attack + "\n" +
-                        "Défense : " + defense + "\n" +
-                        "Sprite : " + spritePath + "\n" +
-                        "Attaque 1 : " + attack1.getName() + "\n" +
-                        "Attaque 2 : " + attack2.getName() + "\n" +
-                        "Attaque 3 : " + attack3.getName() + "\n" +
-                        "Starter : " + starter
-        );
+        view.ShowAddedMessage(name, type, hp, attack, defense, initiative, spritePath, attack1, attack2, attack3, starter);
 
         // ajout de l'appel au service pour Sajid
+        Bugemon BugemonToSave = new Bugemon(name, type, hp, attack, defense, initiative, starter, sprite, attacks, attackNames);
+
+        try {
+            AddedBugemonRepository.getInstance().saveAddedBugemons(BugemonToSave);
+            AddedBugemonRepository.getInstance().saveSprite(selectedFile);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     /**
@@ -136,7 +143,7 @@ public class AddBugemonController extends Controller<AddBugemonView> {
         );
 
         Window window = view.getBtnChooseSprite().getScene().getWindow();
-        File selectedFile = fileChooser.showOpenDialog(window);
+        selectedFile = fileChooser.showOpenDialog(window);
 
         if (selectedFile != null) {
             view.setSpritePath(selectedFile.getAbsolutePath());
