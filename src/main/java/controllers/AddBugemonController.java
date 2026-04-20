@@ -14,12 +14,33 @@ import javafx.stage.Window;
 
 import java.io.File;
 
+/**
+ * Controller responsible for the Add Bugemon screen.
+ * <p>
+ * This controller initializes the view, loads the available attacks,
+ * handles user interactions such as choosing a sprite file, validates
+ * the form input through the validation service, and triggers the
+ * creation flow for a new Bugemon.
+ * </p>
+ */
 public class AddBugemonController extends Controller<AddBugemonView> {
 
+    /** Provides access to the available attacks loaded from the game data. */
     private final AttackProvider attackProvider = new AttackProvider();
+
+    /** List of attacks displayed in the choice boxes of the form. */
     private final List<Attack> attacksToShow;
+
+    /** Service used to validate the values entered in the Add Bugemon form. */
     private final AddBugemonValidationService validationService = new AddBugemonValidationService();
 
+    /**
+     * Creates the controller and initializes the associated Add Bugemon view.
+     *
+     * @param metaController the main controller manager of the application
+     * @throws IOException if the FXML view cannot be loaded
+     * @throws JsonResourceNotFoundException if the attack data resource cannot be found
+     */
     public AddBugemonController(ControllerManager metaController) throws IOException, JsonResourceNotFoundException {
         super(metaController, new AddBugemonView());
         this.view.setController(this);
@@ -27,12 +48,24 @@ public class AddBugemonController extends Controller<AddBugemonView> {
         attacksToShow = attackProvider.getAllAttacks();
     }
 
+    /**
+     * Initializes the Add Bugemon view by populating its choice boxes
+     * with the available types, attacks, and starter options.
+     */
     public void init() {
         this.view.setTypeChoiceBox();
         this.view.setAttackChoiceBox(attacksToShow);
         this.view.setStarterChoiceBox();
     }
 
+    /**
+     * Validates the values entered in the form and, if valid,
+     * displays a success message summarizing the created Bugemon.
+     * <p>
+     * The actual creation and persistence logic is intended to be added later
+     * through a dedicated service.
+     * </p>
+     */
     public void addBugemon() {
         String name = view.getNameValue();
         String hpText = view.getHpValue();
@@ -86,6 +119,13 @@ public class AddBugemonController extends Controller<AddBugemonView> {
         // ajout de l'appel au service pour Sajid
     }
 
+    /**
+     * Opens a file chooser to let the user select a sprite image file.
+     * <p>
+     * Only PNG files are proposed in the chooser. If a file is selected,
+     * its absolute path is written into the sprite path field of the view.
+     * </p>
+     */
     public void chooseSprite() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Choisir un sprite");
@@ -102,9 +142,10 @@ public class AddBugemonController extends Controller<AddBugemonView> {
         }
     }
 
-    /** Navigates back to the main menu. */
+    /**
+     * Navigates back to the title screen.
+     */
     public void goToTitleScreen() {
         this.controllerManager.goToTitleScreen();
     }
-
 }

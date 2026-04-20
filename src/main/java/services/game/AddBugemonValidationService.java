@@ -7,8 +7,30 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * Service responsible for validating the data entered in the Add Bugemon form.
+ * This service checks whether the required fields are filled in correctly,
+ * verifies that the stats are valid numeric values, ensures that the selected
+ * attacks are valid and distinct, and confirms that the sprite path points to
+ * a readable image file.
+ */
 public class AddBugemonValidationService {
 
+    /**
+     * Validates all the data required to create a new Bugemon.
+     *
+     * @param name the Bugemon name
+     * @param type the Bugemon type
+     * @param hpText the HP value entered as text
+     * @param attackText the attack stat entered as text
+     * @param defenseText the defense stat entered as text
+     * @param spritePath the file path of the selected sprite
+     * @param attack1 the first selected attack
+     * @param attack2 the second selected attack
+     * @param attack3 the third selected attack
+     * @param starterText the selected starter value
+     * @return an error message if validation fails, or {@code null} if all data is valid
+     */
     public String validate(
             String name,
             String type,
@@ -51,6 +73,12 @@ public class AddBugemonValidationService {
         return null;
     }
 
+    /**
+     * Checks whether the provided sprite path points to a valid readable image file.
+     *
+     * @param spritePath the path of the sprite file
+     * @return an error message if the sprite is invalid, or {@code null} if it is valid
+     */
     private String checkSpritePath(String spritePath) {
         if (spritePath == null || spritePath.isBlank()) {
             return "Le sprite est obligatoire.";
@@ -83,6 +111,14 @@ public class AddBugemonValidationService {
         return null;
     }
 
+    /**
+     * Checks whether the selected attacks are all present and distinct.
+     *
+     * @param attack1 the first selected attack
+     * @param attack2 the second selected attack
+     * @param attack3 the third selected attack
+     * @return an error message if the attacks are invalid, or {@code null} if they are valid
+     */
     private String checkAttack(Attack attack1, Attack attack2, Attack attack3) {
         if (attack1 == null || attack2 == null || attack3 == null) {
             return "Il faut sélectionner 3 attaques.";
@@ -95,6 +131,14 @@ public class AddBugemonValidationService {
         return null;
     }
 
+    /**
+     * Checks whether the stat fields contain valid numeric values.
+     *
+     * @param hpText the HP value entered as text
+     * @param attackText the attack stat entered as text
+     * @param defenseText the defense stat entered as text
+     * @return an error message if the stats are invalid, or {@code null} if they are valid
+     */
     private String checkStats(String hpText, String attackText, String defenseText) {
         int hp;
         int attack;
