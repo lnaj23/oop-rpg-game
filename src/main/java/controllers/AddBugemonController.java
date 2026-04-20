@@ -6,14 +6,12 @@ import services.dataprovider.AttackProvider;
 import services.game.AddBugemonValidationService;
 import views.AddBugemonView;
 
-import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.List;
 
 import javafx.stage.FileChooser;
 import javafx.stage.Window;
 
-import javax.imageio.ImageIO;
 import java.io.File;
 
 public class AddBugemonController extends Controller<AddBugemonView> {
