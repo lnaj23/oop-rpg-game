@@ -3,10 +3,7 @@ package views;
 import configuration.AppConfig;
 import controllers.AddBugemonController;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import models.bugemon.Attack;
 import services.dataprovider.AttackProvider;
 
@@ -40,6 +37,7 @@ public class AddBugemonView extends View<AddBugemonController> {
     public void setActionButtons() {
         btnCancel.setOnAction(e -> this.controller.goToTitleScreen());
         btnAdd.setOnAction(e -> this.controller.addBugemon());
+        btnChooseSprite.setOnAction(e -> this.controller.chooseSprite());
     }
 
     public void setAttackChoiceBox(List<Attack> attacks) {
@@ -53,13 +51,69 @@ public class AddBugemonView extends View<AddBugemonController> {
         typeChoiceBox.getItems().setAll(types);
     }
 
+    public void showMessage(String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Ajout d'un Bugémon");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
     public void setStarterChoiceBox() {
         List<String> yesno = List.of("Oui", "Non");
         starterChoiceBox.getItems().setAll(yesno);
     }
 
+    public void setSpritePath(String path) {
+        spritePathField.setText(path);
+    }
+
+    public Button getBtnChooseSprite() {
+        return btnChooseSprite;
+    }
+
     @Override
     public String getTitle() {
         return "Add Bugemon";
+    }
+
+    public String getNameValue() {
+        return nameField.getText();
+    }
+
+    public String getHpValue() {
+        return hpField.getText();
+    }
+
+    public String getAttackValue() {
+        return attackField.getText();
+    }
+
+    public String getDefenseValue() {
+        return defenseField.getText();
+    }
+
+    public String getSpritePathValue() {
+        return spritePathField.getText();
+    }
+
+    public String getSelectedType() {
+        return typeChoiceBox.getValue();
+    }
+
+    public Attack getSelectedAttack1() {
+        return attack1ChoiceBox.getValue();
+    }
+
+    public Attack getSelectedAttack2() {
+        return attack2ChoiceBox.getValue();
+    }
+
+    public Attack getSelectedAttack3() {
+        return attack3ChoiceBox.getValue();
+    }
+
+    public String getSelectedStarter() {
+        return starterChoiceBox.getValue();
     }
 }
