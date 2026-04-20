@@ -7,8 +7,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import models.bugemon.Attack;
+import services.dataprovider.AttackProvider;
 
 import java.io.IOException;
+import java.util.List;
 
 public class AddBugemonView extends View<AddBugemonController> {
 
@@ -25,18 +28,24 @@ public class AddBugemonView extends View<AddBugemonController> {
     @FXML private TextField spritePathField;
 
     @FXML private ChoiceBox<?> typeChoiceBox;
-    @FXML private ChoiceBox<?> attack1ChoiceBox;
-    @FXML private ChoiceBox<?> attack2ChoiceBox;
-    @FXML private ChoiceBox<?> attack3ChoiceBox;
+    @FXML private ChoiceBox<Attack> attack1ChoiceBox;
+    @FXML private ChoiceBox<Attack> attack2ChoiceBox;
+    @FXML private ChoiceBox<Attack> attack3ChoiceBox;
     @FXML private ChoiceBox<?> starterChoiceBox;
 
     public AddBugemonView() throws IOException {
         super(AppConfig.FXML_ADDBUGEMON);
     }
 
-    public void setActionButtons(){
+    public void setActionButtons() {
         btnCancel.setOnAction(e -> this.controller.goToTitleScreen());
         btnAdd.setOnAction(e -> this.controller.addBugemon());
+    }
+
+    public void setAttackChoiceBox(List<Attack> attacks) {
+        attack1ChoiceBox.getItems().setAll(attacks);
+        attack2ChoiceBox.getItems().setAll(attacks);
+        attack3ChoiceBox.getItems().setAll(attacks);
     }
 
     @Override

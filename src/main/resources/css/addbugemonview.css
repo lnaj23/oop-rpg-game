@@ -92,3 +92,28 @@
 .hbox {
     -fx-background-color: transparent;
 }
+
+.choice-box {
+    -fx-background-color: #d9d7cb;
+    -fx-mark-color: #1b2230;
+}
+
+.choice-box > .label {
+    -fx-text-fill: #1b2230;
+}
+
+.choice-box .context-menu {
+    -fx-background-color: #d9d7cb;
+}
+
+.choice-box .menu-item > .label {
+    -fx-text-fill: #1b2230;
+}
+
+.choice-box .menu-item:focused {
+    -fx-background-color: #59b7df;
+}
+
+.choice-box .menu-item:focused > .label {
+    -fx-text-fill: white;
+}
