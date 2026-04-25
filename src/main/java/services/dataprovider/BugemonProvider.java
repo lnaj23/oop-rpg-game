@@ -71,7 +71,9 @@ public class BugemonProvider {
         for (Bugemon bug : addedBugemons) {
             try { initBugemonFromSavedTeam(bug); } catch (AttackNotFoundException ignored) {}
         }
-        List<BugemonDTO> newList = Stream.concat(allDefaultBugemon.stream(), addedBugemons.stream()).collect(Collectors.toList());
+        List<BugemonDTO> newList = Stream.concat(allDefaultBugemon.stream(), addedBugemons.stream())
+                .sorted(Comparator.comparing(BugemonDTO::getType))
+                .collect(Collectors.toList());
         return newList;
     }
 
