@@ -83,9 +83,9 @@ public class AddBugemonController extends Controller<AddBugemonView> {
         String starterText = view.getSelectedStarter();
         List<Attack> attacks = Arrays.asList(attack1, attack2, attack3);
         List<String> attackNames = Arrays.asList(
-                attack1.getName(),
-                attack2.getName(),
-                attack3.getName()
+                attack1.getId(),
+                attack2.getId(),
+                attack3.getId()
         );
 
         String errorMessage = validationService.validate(

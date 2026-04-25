@@ -13,7 +13,7 @@ public class AttackProvider {
 
     public Attack getAttackById(String id) throws AttackNotFoundException, JsonResourceNotFoundException {
         for (Attack attack : AttackRepository.getInstance().getAllAttacks()) {
-            if (attack.getId().equals(id)) return new Attack(attack);
+            if (attack.getId().equals(id) || attack.getName().equals(id)) return new Attack(attack);
         }
         throw new AttackNotFoundException(id);
     }

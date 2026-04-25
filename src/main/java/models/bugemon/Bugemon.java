@@ -89,6 +89,7 @@ public class Bugemon implements BugemonDTO {
         this.Color = other.Color;
         this.hasParticiped = other.hasParticiped;
         this.level = other.level;
+        this.isDefault = other.isDefault;
         initAttackColors();
     }
 
