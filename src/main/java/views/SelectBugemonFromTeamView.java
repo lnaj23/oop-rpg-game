@@ -105,8 +105,9 @@ public class SelectBugemonFromTeamView extends View<Controller> {
      * @return a configured ImageView displaying the Bugemon sprite
      */
     private ImageView createSprite(BugemonDTO bugemon) {
+        String prefix = bugemon.isDefault() ? AppConfig.PNG_PREFIX : AppConfig.PNG_PREFIX_ADDEDBUEMON;
         Image img  = new Image(Objects.requireNonNull(
-                getClass().getResourceAsStream(AppConfig.PNG_PREFIX + bugemon.getSprite())));
+                getClass().getResourceAsStream(prefix + bugemon.getSprite())));
         ImageView view = new ImageView(img);
         view.setFitHeight(80);
         view.setFitWidth(80);

@@ -156,7 +156,8 @@ public class BugemonGridSubView {
     }
 
     private void applyButtonStyle(Button btn, BugemonDTO bugemon) {
-        String path = AppConfig.PNG_PREFIX + bugemon.getSprite();
+        String prefix = bugemon.isDefault() ? AppConfig.PNG_PREFIX : AppConfig.PNG_PREFIX_ADDEDBUEMON;
+        String path = prefix + bugemon.getSprite();
         Image img = new Image(Objects.requireNonNull(getClass().getResourceAsStream(path)));
         ImageView imgView = new ImageView(img);
         imgView.setFitHeight(50);

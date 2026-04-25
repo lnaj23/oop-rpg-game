@@ -367,6 +367,11 @@ public class Bugemon implements BugemonDTO {
         isPlayer = false;
     }
 
+    boolean isDefault = true;
+    @Override
+    public boolean isDefault(){
+        return isDefault;
+    }
     public Bugemon(String name, String type, int pv, int attack, int defense, int initiative,
             boolean starter, String sprite,List<Attack> attacks, List<String> attackNames)
     {
@@ -378,5 +383,6 @@ public class Bugemon implements BugemonDTO {
         this.sprite = sprite;
         this.attacks = attacks;
         this.attackNames = attackNames;
+        isDefault = false;
     }
 }

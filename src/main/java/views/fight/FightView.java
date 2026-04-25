@@ -122,8 +122,9 @@ public class FightView extends View<Controller> {
 
         for (int i = 0; i < team.size(); i++) {
             BugemonDTO bugemon = team.get(i);
+            String prefix = bugemon.isDefault() ? AppConfig.PNG_PREFIX : AppConfig.PNG_PREFIX_ADDEDBUEMON;
             String     path    = isPlayer
-                    ? AppConfig.PNG_PREFIX + bugemon.getSprite()
+                    ? prefix + bugemon.getSprite()
                     : AppConfig.PNG_NOBUGEMON;
 
             ImageView imgView = createSprite(path, 60);
@@ -188,8 +189,9 @@ public class FightView extends View<Controller> {
                 + "\n attaque : "    + (atk  > 0 ? "+" + atk  : atk)
                 + "\n defense : "    + (def  > 0 ? "+" + def  : def)
                 + "\n initiative : " + (init > 0 ? "+" + init : init));
+        String prefix = bugemon.isDefault() ? AppConfig.PNG_PREFIX : AppConfig.PNG_PREFIX_ADDEDBUEMON;
         Image img = new Image(Objects.requireNonNull(
-                getClass().getResourceAsStream(AppConfig.PNG_PREFIX + bugemon.getSprite())));
+                getClass().getResourceAsStream(prefix + bugemon.getSprite())));
         sprite.setImage(img);
 
         if (bugemon.getIsPlayer()) {

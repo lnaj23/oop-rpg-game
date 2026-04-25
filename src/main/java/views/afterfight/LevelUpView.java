@@ -48,8 +48,9 @@ public class LevelUpView extends View<LevelUpController> {
      * @param bugemon the Bugemon whose sprite must be displayed
      */
     public void updateBugemonSprite (BugemonDTO bugemon) {
+        String prefix = bugemon.isDefault() ? AppConfig.PNG_PREFIX : AppConfig.PNG_PREFIX_ADDEDBUEMON;
         Image img = new Image(Objects.requireNonNull(
-                getClass().getResourceAsStream(AppConfig.PNG_PREFIX + bugemon.getSprite())));
+                getClass().getResourceAsStream(prefix + bugemon.getSprite())));
         bugemonImage.setImage(img);
     }
 

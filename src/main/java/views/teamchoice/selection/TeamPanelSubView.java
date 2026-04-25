@@ -116,7 +116,8 @@ public class TeamPanelSubView {
         teamGrid.getChildren().clear();
         for (int i = 0; i < team.size(); i++) {
             BugemonDTO bugemon = team.get(i);
-            String path = AppConfig.PNG_PREFIX + bugemon.getSprite();
+            String prefix = bugemon.isDefault() ? AppConfig.PNG_PREFIX : AppConfig.PNG_PREFIX_ADDEDBUEMON;
+            String path = prefix + bugemon.getSprite();
             Image img = new Image(Objects.requireNonNull(getClass().getResourceAsStream(path)));
             ImageView imgView = new ImageView(img);
             imgView.setFitHeight(60);

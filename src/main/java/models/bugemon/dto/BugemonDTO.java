@@ -93,4 +93,6 @@ public interface BugemonDTO {
     boolean isHasParticipedToTrue();
 
     boolean isKO();
+
+    boolean isDefault();
 }
