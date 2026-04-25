@@ -98,13 +98,13 @@ public class BugemonProviderTest extends TestCase {
     }
 
     @Test
-    public void testGetAllBugemonsNotNull() throws JsonResourceNotFoundException, LoadingAddedBugemonFailedException {
+    public void testGetAllBugemonsNotNull() throws JsonResourceNotFoundException, LoadingAddedBugemonFailedException, AttackNotFoundException {
         List<Bugemon> list = provider.getAllBugemons();
         assertNotNull(list);
     }
 
     @Test
-    public void testGetAllBugemonsHaveAttacks() throws JsonResourceNotFoundException, LoadingAddedBugemonFailedException {
+    public void testGetAllBugemonsHaveAttacks() throws JsonResourceNotFoundException, LoadingAddedBugemonFailedException, AttackNotFoundException {
         List<Bugemon> list = provider.getAllBugemons();
         for (Bugemon bug : list) {
             assertFalse("Attacks should not be empty for " + bug.getId(), bug.getAttacks().isEmpty());
@@ -112,7 +112,7 @@ public class BugemonProviderTest extends TestCase {
     }
 
     @Test
-    public void testGetAllBugemonsNoNullElements() throws JsonResourceNotFoundException, LoadingAddedBugemonFailedException {
+    public void testGetAllBugemonsNoNullElements() throws JsonResourceNotFoundException, LoadingAddedBugemonFailedException, AttackNotFoundException {
         List<Bugemon> list = provider.getAllBugemons();
         for (Bugemon bug : list) {
             assertNotNull(bug);
@@ -120,25 +120,25 @@ public class BugemonProviderTest extends TestCase {
     }
 
     @Test
-    public void testGetAllBugemonsNotEmpty() throws JsonResourceNotFoundException, LoadingAddedBugemonFailedException {
+    public void testGetAllBugemonsNotEmpty() throws JsonResourceNotFoundException, LoadingAddedBugemonFailedException, AttackNotFoundException {
         List<Bugemon> list = provider.getAllBugemons();
         assertFalse(list.isEmpty());
     }
 
     @Test
-    public void testGetAllBugemonsDTONotNull() throws JsonResourceNotFoundException {
+    public void testGetAllBugemonsDTONotNull() throws JsonResourceNotFoundException, LoadingAddedBugemonFailedException, AttackNotFoundException {
         List<BugemonDTO> list = provider.getAllBugemonsDTO();
         assertNotNull(list);
     }
 
     @Test
-    public void testGetAllBugemonsDTONotEmpty() throws JsonResourceNotFoundException {
+    public void testGetAllBugemonsDTONotEmpty() throws JsonResourceNotFoundException, LoadingAddedBugemonFailedException, AttackNotFoundException {
         List<BugemonDTO> list = provider.getAllBugemonsDTO();
         assertFalse(list.isEmpty());
     }
 
     @Test
-    public void testGetAllBugemonsDTONoNullElements() throws JsonResourceNotFoundException {
+    public void testGetAllBugemonsDTONoNullElements() throws JsonResourceNotFoundException, LoadingAddedBugemonFailedException, AttackNotFoundException {
         List<BugemonDTO> list = provider.getAllBugemonsDTO();
         for (BugemonDTO dto : list) {
             assertNotNull(dto);

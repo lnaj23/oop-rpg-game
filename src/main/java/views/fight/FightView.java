@@ -12,10 +12,12 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.util.Duration;
+import models.bugemon.Bugemon;
 import models.game.TowerNodeType;
 import views.listener.FightListener;
 import models.bugemon.dto.BugemonDTO;
 import views.View;
+import views.utils.SpriteLoader;
 
 import java.io.IOException;
 import java.util.List;
@@ -115,20 +117,14 @@ public class FightView extends View<Controller> {
      *
      * @param team the list of Bugémon DTOs to display
      */
-    public void displayTeam(List<BugemonDTO> team) {
+    public void displayTeam(List<BugemonDTO> team) throws IOException {
         boolean  isPlayer = team.getFirst().getIsPlayer();
         GridPane grid     = isPlayer ? teamGrid : enemyGrid;
         grid.getChildren().clear();
 
         for (int i = 0; i < team.size(); i++) {
             BugemonDTO bugemon = team.get(i);
-            String prefix = bugemon.isDefault() ? AppConfig.PNG_PREFIX : AppConfig.PNG_PREFIX_ADDEDBUEMON;
-            String     path    = isPlayer
-                    ? prefix + bugemon.getSprite()
-                    : AppConfig.PNG_NOBUGEMON;
-
-            ImageView imgView = createSprite(path, 60);
-
+            ImageView imgView = createSprite(60, bugemon);
             if (isPlayer) {
                 bindTeamSpriteEvents(imgView, bugemon);
                 imgView.setUserData(bugemon);
@@ -189,10 +185,12 @@ public class FightView extends View<Controller> {
                 + "\n attaque : "    + (atk  > 0 ? "+" + atk  : atk)
                 + "\n defense : "    + (def  > 0 ? "+" + def  : def)
                 + "\n initiative : " + (init > 0 ? "+" + init : init));
-        String prefix = bugemon.isDefault() ? AppConfig.PNG_PREFIX : AppConfig.PNG_PREFIX_ADDEDBUEMON;
-        Image img = new Image(Objects.requireNonNull(
-                getClass().getResourceAsStream(prefix + bugemon.getSprite())));
-        sprite.setImage(img);
+        try {
+            Image img = SpriteLoader.loadSprite(bugemon);
+            sprite.setImage(img);
+        } catch (IOException e) {
+            throw new RuntimeException("Sprite introuvable pour " + bugemon.getName(), e);
+        }
 
         if (bugemon.getIsPlayer()) {
             sprite.setScaleX(-1);
@@ -344,12 +342,11 @@ public class FightView extends View<Controller> {
      * Creates an ImageView sprite from a resource path with the specified size.
      * Preserves the aspect ratio of the image.
      *
-     * @param resourcePath the classpath resource path to the image file
      * @param size the width and height to fit the image to
      * @return a configured ImageView with the loaded sprite
      */
-    private ImageView createSprite(String resourcePath, int size) {
-        Image     img  = new Image(Objects.requireNonNull(getClass().getResourceAsStream(resourcePath)));
+    private ImageView createSprite(int size, BugemonDTO bugemon ) throws IOException {
+        Image     img  = SpriteLoader.loadSprite(bugemon);
         ImageView view = new ImageView(img);
         view.setFitHeight(size);
         view.setFitWidth(size);

@@ -41,7 +41,7 @@ public class FightAgainstCPUController extends Controller<FightView> implements 
      * Initialises the fight from {@link GameStateHolder} against a randomly generated enemy team
      * with the same number of Bugemons as the player's team.
      */
-    public void setFight() throws BugemonNotInTeamException, AttackNotFoundException, JsonResourceNotFoundException {
+    public void setFight() throws BugemonNotInTeamException, AttackNotFoundException, JsonResourceNotFoundException, IOException {
         view.resetDisplay();
         TeamBugemon team = GameStateHolder.getInstance().getCurrentTeamPlayer();
         fight = new Fight(team, EnemyTeamGenerator.generateEnemyTeam());
@@ -64,7 +64,7 @@ public class FightAgainstCPUController extends Controller<FightView> implements 
         view.updatePredictedEffectiveness(fight.getPredictedEffectiveness());
     }
 
-    private void viewDisplayTeams() {
+    private void viewDisplayTeams() throws IOException {
         view.displayTeam(fight.getTeamPlayerToDisplay());
         view.displayTeam(fight.getTeamEnemyToDisplay());
     }

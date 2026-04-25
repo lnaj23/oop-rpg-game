@@ -13,6 +13,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class BugemonProvider {
 
@@ -59,8 +61,11 @@ public class BugemonProvider {
         return allBugemons;
     }
 
-    public List<BugemonDTO> getAllBugemonsDTO() throws JsonResourceNotFoundException {
-        return new ArrayList<>(BugemonRepository.getInstance().getAllBugemons()); // + les bugemons de CustomBugemonRepositories;
+    public List<BugemonDTO> getAllBugemonsDTO() throws JsonResourceNotFoundException, LoadingAddedBugemonFailedException {
+        List<BugemonDTO> allDefaultBugemon = new ArrayList<> (BugemonRepository.getInstance().getAllBugemons());
+        List<BugemonDTO> allAddedBugemon = new ArrayList<> (AddedBugemonRepository.getInstance().loadAddedBugemon());
+        List<BugemonDTO> newList = Stream.concat(allDefaultBugemon.stream(), allAddedBugemon.stream()).toList();
+        return newList;
     }
 
     public void initBugemonFromSavedTeam(Bugemon bugemon) throws AttackNotFoundException, JsonResourceNotFoundException {

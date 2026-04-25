@@ -9,10 +9,14 @@ import javafx.scene.control.ContentDisplay;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
+import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Priority;
 import models.bugemon.dto.BugemonDTO;
 import views.utils.PopupManager;
+import views.utils.SpriteLoader;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -60,13 +64,27 @@ public class BugemonGridSubView {
      *
      * @param allBugemons the list of all available Bugémons
      */
-    public void displayBugemons(List<BugemonDTO> allBugemons) {
-        List<Node> buttons = gridPane.getChildren().filtered(n -> n instanceof Button);
-        for (int i = 0; i < allBugemons.size() && i < buttons.size(); i++) {
+    public void displayBugemons(List<BugemonDTO> allBugemons) throws IOException {
+        gridPane.getChildren().clear();
+        gridPane.getColumnConstraints().clear();
+
+        int cols = 6;
+        for (int c = 0; c < cols; c++) {
+            ColumnConstraints cc = new ColumnConstraints();
+            cc.setPercentWidth(100.0 / cols);
+            gridPane.getColumnConstraints().add(cc);
+        }
+
+        for (int i = 0; i < allBugemons.size(); i++) {
             BugemonDTO bugemon = allBugemons.get(i);
-            Button btn = (Button) buttons.get(i);
+            Button btn = new Button();
+            btn.setMaxWidth(Double.MAX_VALUE);
+            btn.setMaxHeight(Double.MAX_VALUE);
+            GridPane.setHgrow(btn, Priority.ALWAYS);
+            GridPane.setFillWidth(btn, true);
             displayedBugemons.add(bugemon);
             setupButton(btn, bugemon, i);
+            gridPane.add(btn, i % cols, i / cols);
         }
     }
 
@@ -93,7 +111,7 @@ public class BugemonGridSubView {
      *
      * @param allBugemons the full list of Bugémons to reload
      */
-    public void reset(List<BugemonDTO> allBugemons) {
+    public void reset(List<BugemonDTO> allBugemons) throws IOException {
         selectedButtons.forEach(btn -> btn.setStyle(""));
         selectedButtons.clear();
         displayedBugemons.clear();
@@ -135,7 +153,7 @@ public class BugemonGridSubView {
     }
 
 
-    private void setupButton(Button btn, BugemonDTO bugemon, int index) {
+    private void setupButton(Button btn, BugemonDTO bugemon, int index) throws IOException {
         btn.setText(bugemon.getName());
         applyButtonStyle(btn, bugemon);
 
@@ -155,10 +173,8 @@ public class BugemonGridSubView {
         controller.onBugemonClicked(btn, selected, wasSelected, selectedButtons.size() >= MAX_TEAM_SIZE);
     }
 
-    private void applyButtonStyle(Button btn, BugemonDTO bugemon) {
-        String prefix = bugemon.isDefault() ? AppConfig.PNG_PREFIX : AppConfig.PNG_PREFIX_ADDEDBUEMON;
-        String path = prefix + bugemon.getSprite();
-        Image img = new Image(Objects.requireNonNull(getClass().getResourceAsStream(path)));
+    private void applyButtonStyle(Button btn, BugemonDTO bugemon) throws IOException {
+        Image img = SpriteLoader.loadSprite(bugemon);
         ImageView imgView = new ImageView(img);
         imgView.setFitHeight(50);
         imgView.setFitWidth(50);

@@ -4,6 +4,7 @@ import controllers.Controller;
 import controllers.ControllerManager;
 import exceptions.AttackNotFoundException;
 import exceptions.JsonResourceNotFoundException;
+import exceptions.LoadingAddedBugemonFailedException;
 import exceptions.SavingTeamFailedException;
 import models.bugemon.dto.BugemonDTO;
 import models.bugemon.TeamBugemon;
@@ -74,7 +75,11 @@ public class SelectionController extends Controller<SelectionView> {
         TeamBugemon team = GameStateHolder.getInstance().getSavedTeams().get(index);
         this.teamBeingEdited = team;
         team.getTeamDTO().forEach(bug -> this.playerTeam.addBugemonDTO(bug));
-        this.view.preSelectTeam(team);
+        try {
+            this.view.preSelectTeam(team);
+        } catch (IOException e) {
+            this.controllerManager.fatalError("Un erreur est survenu lors du chargement des équipes");
+        }
         this.view.setEditMode(true);
     }
 
@@ -84,7 +89,7 @@ public class SelectionController extends Controller<SelectionView> {
         this.playerTeam = new TeamBugemon();
         try {
             this.view.reset(bugemonProvider.getAllBugemonsDTO());
-        } catch (JsonResourceNotFoundException e){
+        } catch (JsonResourceNotFoundException | LoadingAddedBugemonFailedException | IOException e){
             this.controllerManager.fatalError("Une erreur est survenue lors du chargement des Bugémons.");
         }
         this.view.setEditMode(false);
@@ -125,7 +130,11 @@ public class SelectionController extends Controller<SelectionView> {
             this.view.onBugemonAdded(bugemon);
             this.view.showBugemonStats(bugemon);
         }
-        this.view.refreshTeamGrid(playerTeam.getTeamDTO());
+        try {
+            this.view.refreshTeamGrid(playerTeam.getTeamDTO());
+        } catch (IOException e) {
+            this.controllerManager.fatalError("Une erreur est survenue lors du chargement des Bugémons.");
+        }
     }
 
     /**

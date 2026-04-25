@@ -69,7 +69,7 @@ public class AddedBugemonRepository {
     public void saveSprite(File selectedFile) throws IOException {
         Path source = selectedFile.toPath();
         Path destination = Path.of(AppConfig.PNG_PREFIX_ADDEDBUEMON, selectedFile.getName());
-        Files.move(source, destination, StandardCopyOption.REPLACE_EXISTING);
+        Files.copy(source, destination, StandardCopyOption.REPLACE_EXISTING);
     }
 
 }

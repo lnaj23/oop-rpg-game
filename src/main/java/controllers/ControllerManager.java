@@ -262,7 +262,7 @@ public class ControllerManager {
     private void goToNextFight() {
         try {
             this.fightAgainstCPUController.setFight();
-        } catch (BugemonNotInTeamException | AttackNotFoundException | JsonResourceNotFoundException e){
+        } catch (BugemonNotInTeamException | AttackNotFoundException | JsonResourceNotFoundException | IOException e){
             this.fatalError("Une erreur est survenue lors du chargement du combat.");
             return;
         }

@@ -9,6 +9,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import models.bugemon.dto.BugemonDTO;
 import views.View;
+import views.utils.SpriteLoader;
 
 
 import java.io.IOException;
@@ -47,11 +48,8 @@ public class LevelUpView extends View<LevelUpController> {
      *
      * @param bugemon the Bugemon whose sprite must be displayed
      */
-    public void updateBugemonSprite (BugemonDTO bugemon) {
-        String prefix = bugemon.isDefault() ? AppConfig.PNG_PREFIX : AppConfig.PNG_PREFIX_ADDEDBUEMON;
-        Image img = new Image(Objects.requireNonNull(
-                getClass().getResourceAsStream(prefix + bugemon.getSprite())));
-        bugemonImage.setImage(img);
+    public void updateBugemonSprite (BugemonDTO bugemon) throws IOException {
+        bugemonImage.setImage(SpriteLoader.loadSprite(bugemon));
     }
 
     /**
