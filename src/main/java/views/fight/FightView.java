@@ -125,7 +125,7 @@ public class FightView extends View<Controller> {
         for (int i = 0; i < team.size(); i++) {
             BugemonDTO bugemon = team.get(i);
             ImageView imgView = createSprite(60, bugemon);
-            if (isPlayer) {
+            if (isPlayer && bugemon.isDefault()) {
                 bindTeamSpriteEvents(imgView, bugemon);
                 imgView.setUserData(bugemon);
                 imgView.setScaleX(-1);
@@ -192,7 +192,7 @@ public class FightView extends View<Controller> {
             throw new RuntimeException("Sprite introuvable pour " + bugemon.getName(), e);
         }
 
-        if (bugemon.getIsPlayer()) {
+        if (bugemon.getIsPlayer() && bugemon.isDefault()) {
             sprite.setScaleX(-1);
         } else {
             sprite.setScaleX(1);
