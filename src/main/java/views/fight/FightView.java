@@ -8,6 +8,10 @@ import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.effect.ColorAdjust;
+import javafx.scene.effect.Blend;
+import javafx.scene.effect.BlendMode;
+import javafx.scene.effect.ColorInput;
+import javafx.scene.paint.Color;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
@@ -22,6 +26,8 @@ import views.utils.SpriteLoader;
 import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
+import javafx.application.Platform;
+import javafx.geometry.Bounds;
 
 /**
  * View for the fight screen.
@@ -410,11 +416,47 @@ public class FightView extends View<Controller> {
 
     public void animateHit(BugemonDTO bugemon, Runnable afterHitAnimation) {
         ImageView sprite = bugemon.getIsPlayer() ? playerSprite : enemySprite;
+        ProgressBar hpBar = bugemon.getIsPlayer() ? playerHpBarFill : enemyHpBarFill;
 
-        // TODO: créer Timeline qui fait flasher le sprite en rouge/blanc 3x en 0.3s total
-        Timeline flash = new Timeline(/* KeyFrames */);
-        flash.setOnFinished(e -> afterHitAnimation.run());
-        flash.play();
+        // Compute target progress from DTO (assumes DTO already updated with new HP)
+        double targetProgress;
+        try {
+            targetProgress = Math.round((bugemon.getcurrenPv() / (double) bugemon.getPv()) * 10000d) / 10000d;
+        } catch (Exception e) {
+            targetProgress = hpBar.getProgress();
+        }
+
+        // HP bar animation
+        KeyValue kv = new KeyValue(hpBar.progressProperty(), targetProgress, Interpolator.EASE_BOTH);
+        KeyFrame kf = new KeyFrame(Duration.seconds(0.3), kv);
+        Timeline hpTimeline = new Timeline(kf);
+
+        // Apply effect directly to the ImageView using its local bounds to cover the entire visible sprite
+        Platform.runLater(() -> {
+            Bounds b = sprite.getBoundsInLocal();
+            double w = b.getWidth() > 0 ? b.getWidth() : (sprite.getFitWidth() > 0 ? sprite.getFitWidth() : 100);
+            double h = b.getHeight() > 0 ? b.getHeight() : (sprite.getFitHeight() > 0 ? sprite.getFitHeight() : 100);
+
+            ColorInput redInput = new ColorInput(0, 0, w, h, Color.rgb(255, 0, 0, 0.6));
+            Blend redTint = new Blend(BlendMode.SRC_ATOP, null, redInput);
+
+            Timeline flash = new Timeline(
+                    new KeyFrame(Duration.seconds(0.0), e -> sprite.setEffect(redTint)),
+                    new KeyFrame(Duration.seconds(0.05), e -> sprite.setEffect(null)),
+                    new KeyFrame(Duration.seconds(0.1), e -> sprite.setEffect(redTint)),
+                    new KeyFrame(Duration.seconds(0.15), e -> sprite.setEffect(null)),
+                    new KeyFrame(Duration.seconds(0.2), e -> sprite.setEffect(redTint)),
+                    new KeyFrame(Duration.seconds(0.25), e -> sprite.setEffect(null)),
+                    new KeyFrame(Duration.seconds(0.3), e -> sprite.setEffect(null))
+            );
+
+            ParallelTransition parallel = new ParallelTransition(flash, hpTimeline);
+            parallel.setOnFinished(e -> {
+                sprite.setEffect(null);
+                if (afterHitAnimation != null) afterHitAnimation.run();
+            });
+            parallel.play();
+        });
     }
 
     public void animateKO(BugemonDTO bugemon, Runnable afterKOAnimation) {
