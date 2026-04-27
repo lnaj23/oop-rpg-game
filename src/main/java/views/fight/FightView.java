@@ -462,11 +462,13 @@ public class FightView extends View<Controller> {
     public void animateKO(BugemonDTO bugemon, Runnable afterKOAnimation) {
         ImageView sprite = bugemon.getIsPlayer() ? playerSprite : enemySprite;
 
-        // TODO: créer FadeTransition opacity 1.0 -> 0.0 sur 0.5s
-        FadeTransition fade = new FadeTransition(/* duration, sprite */);
+        FadeTransition fade = new FadeTransition(Duration.seconds(0.5), sprite);
+        fade.setFromValue(1.0);
+        fade.setToValue(0.0);
         fade.setOnFinished(e -> {
+            // hide after fade completes and call callback
             handleVisibility(bugemon, false);
-            afterKOAnimation.run();
+            if (afterKOAnimation != null) afterKOAnimation.run();
         });
         fade.play();
     }
