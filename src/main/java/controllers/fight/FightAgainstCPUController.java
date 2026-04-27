@@ -8,10 +8,12 @@ import exceptions.BugemonNotInTeamException;
 import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.util.Duration;
+import models.GameState;
 import models.bugemon.Bugemon;
 import models.game.Fight;
 import models.game.Item;
 import listener.FightListener;
+import services.Music_player;
 import services.fight.EnemyTeamGenerator;
 import services.game.GameStateHolder;
 import views.fight.FightView;
@@ -52,6 +54,7 @@ public class FightAgainstCPUController extends Controller<FightView> implements 
             viewInitStartMessage();
             if (!fight.playerCanStart()) forceEnemyToAttack();
             view.updateFloorInfo(GameStateHolder.getInstance().getCurrentLevelTower().getProgressAsString());
+            Music_player.chose_ambiance(GameState.COMBAT_STATE);
         } catch (BugemonNotInTeamException e) {
             controllerManager.fatalError("couldn't load the fight : " + e.getMessage());
         }

@@ -61,6 +61,12 @@ public abstract class AppConfig {
     public static final int    ENEMY_REACT_TIME      = Integer.parseInt(props.getProperty("game.fight.enemy_react_time"));
     public static final double DEATH_DISPLAY_TIME    = Double.parseDouble(props.getProperty("game.fight.death_display_time"));
 
+    // Game music
+
+    public static String MUSIC_COMBAT =  props.getProperty("game.music.fight");
+    public static String MUSIC_EXPLORATION =  props.getProperty("game.music.explore");
+    public static String MUSIC_TEAM_CREATION =  props.getProperty("game.music.teamcreation");
+
     public static List<String> getEnemyTeam() {
         return Arrays.asList(props.getProperty("game.fight.enemy_team").split(","));
     }

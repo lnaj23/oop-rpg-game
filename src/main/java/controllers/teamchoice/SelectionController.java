@@ -2,8 +2,10 @@ package controllers.teamchoice;
 
 import controllers.Controller;
 import controllers.ControllerManager;
+import models.GameState;
 import models.bugemon.dto.BugemonDTO;
 import models.bugemon.TeamBugemon;
+import services.Music_player;
 import services.dataprovider.TeamProvider;
 import services.dataprovider.BugemonProvider;
 import services.game.GameStateHolder;
@@ -79,6 +81,7 @@ public class SelectionController extends Controller<SelectionView> {
         this.playerTeam = new TeamBugemon();
         this.view.reset(BugemonProvider.getInstance().getAllBugemonsDTO());
         this.view.setEditMode(false);
+        Music_player.chose_ambiance(GameState.TEAM_CREATION);
     }
 
     /**
