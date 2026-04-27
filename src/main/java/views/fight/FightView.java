@@ -394,9 +394,17 @@ public class FightView extends View<Controller> {
         ImageView sprite = bugemon.getIsPlayer() ? playerSprite : enemySprite;
         double direction = bugemon.getIsPlayer() ? 60 : -60;
 
-        // TODO: créer TranslateTransition aller (0.3s, +direction) et retour (0.2s, -direction)
-        SequentialTransition seq = new SequentialTransition(/* aller, retour */);
-        seq.setOnFinished(e -> afterAttackAnimation.run());
+        TranslateTransition forward = new TranslateTransition(Duration.seconds(0.3), sprite);
+        forward.setByX(direction);
+        TranslateTransition back = new TranslateTransition(Duration.seconds(0.2), sprite);
+        back.setByX(-direction);
+
+        SequentialTransition seq = new SequentialTransition(forward, back);
+        seq.setOnFinished(e -> {
+            // Ensure sprite is exactly at original position and then run callback
+            sprite.setTranslateX(0);
+            if (afterAttackAnimation != null) afterAttackAnimation.run();
+        });
         seq.play();
     }
 
