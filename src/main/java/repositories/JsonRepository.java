@@ -50,7 +50,7 @@ public abstract class JsonRepository {
         Gson gson = new Gson();
         InputStream stream = JsonRepository.class.getResourceAsStream(path);
         if (stream == null) throw new JsonResourceNotFoundException(path);
-        JsonWrapper<T> wrapper = gson.fromJson(new InputStreamReader(stream), wrapperClass);
+        JsonWrapper<T> wrapper = gson.fromJson(new InputStreamReader(stream, java.nio.charset.StandardCharsets.UTF_8), wrapperClass);
         return wrapper.getItems();
     }
 }

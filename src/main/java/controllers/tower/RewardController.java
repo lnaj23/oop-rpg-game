@@ -43,7 +43,7 @@ public class RewardController extends Controller<RewardView> {
     }
 
     public void onlearnAttackBtnClicked() {
-        this.controllerManager.goToNextTowerStep();
+        this.controllerManager.openLearnAttackWindow(attackToLearn);
     }
 
     public void onGainBonusBtnClicked() {
