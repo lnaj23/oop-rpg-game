@@ -6,11 +6,13 @@ import controllers.afterfight.VictoryController;
 import controllers.fight.*;
 import controllers.teamchoice.PreBuildTeamController;
 import controllers.teamchoice.SelectionController;
+import controllers.tower.ApplyBonusRewardController;
 import controllers.tower.RewardController;
 import exceptions.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import models.game.LevelUpBonus;
 import models.game.TowerNodeType;
 import models.bugemon.Bugemon;
 import models.game.Item;
@@ -304,5 +306,15 @@ public class ControllerManager {
     public void fatalError(String reason) {
         FatalErrorView.show(reason);
         this.switchScene(Scenes.TITLE_SCREEN);
+    }
+    public void openBonusRewardWindow(LevelUpBonus bonus) {
+        try {
+            ApplyBonusRewardController bonusController = new ApplyBonusRewardController(this);
+            bonusController.setBonus(bonus);
+            bonusController.displayTeam();
+            openSubScene(bonusController.getView(), true);
+        } catch (IOException e) {
+            fatalError("Une erreur est survenue lors du chargement de la fenêtre de bonus.");
+        }
     }
 }

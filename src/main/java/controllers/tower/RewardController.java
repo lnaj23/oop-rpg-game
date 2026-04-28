@@ -47,7 +47,7 @@ public class RewardController extends Controller<RewardView> {
     }
 
     public void onGainBonusBtnClicked() {
-        this.controllerManager.goToNextTowerStep();
+        this.controllerManager.openBonusRewardWindow(bonus);
     }
 
 }
