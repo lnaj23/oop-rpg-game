@@ -2,7 +2,10 @@ package controllers.tower;
 
 import controllers.Controller;
 import controllers.ControllerManager;
+import exceptions.BugemonNotInTeamException;
+import models.bugemon.Bugemon;
 import models.bugemon.dto.BugemonDTO;
+import models.game.LevelUpBonus;
 import services.game.GameStateHolder;
 import views.SelectBugemonFromTeamView;
 import views.listener.SelectBugemonFromTeamListener;
@@ -10,6 +13,11 @@ import views.listener.SelectBugemonFromTeamListener;
 import java.io.IOException;
 
 public class ApplyBonusRewardController extends Controller<SelectBugemonFromTeamView> implements SelectBugemonFromTeamListener {
+    private LevelUpBonus bonus;
+
+    public void setBonus(LevelUpBonus bonus) {
+        this.bonus = bonus;
+    }
     /**
      * @param metaController the central controller handling navigation
      */
@@ -19,9 +27,13 @@ public class ApplyBonusRewardController extends Controller<SelectBugemonFromTeam
 
     @Override
     public void onBugemonClickedRequest(BugemonDTO bugemon) {
-        int id = GameStateHolder.getInstance().getCurrentTeamPlayer().getBugemonById(bugemon.getId());
-
-
+        try {
+            Bugemon bug = GameStateHolder.getInstance().getCurrentTeamPlayer().getBugemonById(bugemon.getId());
+            bonus.applyTo(bug);
+            this.controllerManager.goToNextTowerStep();
+        } catch (BugemonNotInTeamException e) {
+            view.showMessageKO("Erreur", "Ce Bugémon n'est pas dans votre équipe !");
+        }
     }
 
     @Override
