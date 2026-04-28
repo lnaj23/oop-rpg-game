@@ -2,21 +2,14 @@ package views.fight;
 
 import configuration.AppConfig;
 import controllers.Controller;
-import javafx.animation.*;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.effect.ColorAdjust;
-import javafx.scene.effect.Blend;
-import javafx.scene.effect.BlendMode;
-import javafx.scene.effect.ColorInput;
-import javafx.scene.paint.Color;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
-import javafx.util.Duration;
-import models.bugemon.Bugemon;
 import models.game.TowerNodeType;
 import views.listener.FightListener;
 import models.bugemon.dto.BugemonDTO;
@@ -26,8 +19,6 @@ import views.utils.SpriteLoader;
 import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
-import javafx.application.Platform;
-import javafx.geometry.Bounds;
 
 /**
  * View for the fight screen.
@@ -46,6 +37,9 @@ public class FightView extends View<Controller> {
      * Set via {@link #setListener(FightListener)}.
      */
     private FightListener listener;
+
+    /** Handles all JavaFX animations (attack lunge, hit flash, KO fade). */
+    private FightAnimator animator;
 
     @FXML private FightChoicePanelSubView choicePanelController;
     /** Label displaying the enemy Bugémon's name. */
@@ -98,6 +92,12 @@ public class FightView extends View<Controller> {
      */
     public FightView() throws IOException {
         super(AppConfig.FXML_FIGHT);
+        // @FXML fields are injected by the time super() returns
+        this.animator = new FightAnimator(
+                playerSprite, enemySprite,
+                playerHpBarFill, enemyHpBarFill,
+                bugemon -> handleVisibility(bugemon, false)
+        );
     }
 
     /**
@@ -396,80 +396,33 @@ public class FightView extends View<Controller> {
         }
     }
 
+    /**
+     * Delegates to {@link FightAnimator#animateAttack}.
+     *
+     * @param bugemon              the attacking Bugémon
+     * @param afterAttackAnimation optional callback run after the animation completes
+     */
     public void animateAttack(BugemonDTO bugemon, Runnable afterAttackAnimation) {
-        ImageView sprite = bugemon.getIsPlayer() ? playerSprite : enemySprite;
-        double direction = bugemon.getIsPlayer() ? 60 : -60;
-
-        TranslateTransition forward = new TranslateTransition(Duration.seconds(0.3), sprite);
-        forward.setByX(direction);
-        TranslateTransition back = new TranslateTransition(Duration.seconds(0.2), sprite);
-        back.setByX(-direction);
-
-        SequentialTransition seq = new SequentialTransition(forward, back);
-        seq.setOnFinished(e -> {
-            // Ensure sprite is exactly at original position and then run callback
-            sprite.setTranslateX(0);
-            if (afterAttackAnimation != null) afterAttackAnimation.run();
-        });
-        seq.play();
+        animator.animateAttack(bugemon, afterAttackAnimation);
     }
 
+    /**
+     * Delegates to {@link FightAnimator#animateHit}.
+     *
+     * @param bugemon            the Bugémon that was hit (DTO already updated with new HP)
+     * @param afterHitAnimation  optional callback run after the animation completes
+     */
     public void animateHit(BugemonDTO bugemon, Runnable afterHitAnimation) {
-        ImageView sprite = bugemon.getIsPlayer() ? playerSprite : enemySprite;
-        ProgressBar hpBar = bugemon.getIsPlayer() ? playerHpBarFill : enemyHpBarFill;
-
-        // Compute target progress from DTO (assumes DTO already updated with new HP)
-        double targetProgress;
-        try {
-            targetProgress = Math.round((bugemon.getcurrenPv() / (double) bugemon.getPv()) * 10000d) / 10000d;
-        } catch (Exception e) {
-            targetProgress = hpBar.getProgress();
-        }
-
-        // HP bar animation
-        KeyValue kv = new KeyValue(hpBar.progressProperty(), targetProgress, Interpolator.EASE_BOTH);
-        KeyFrame kf = new KeyFrame(Duration.seconds(0.3), kv);
-        Timeline hpTimeline = new Timeline(kf);
-
-        // Apply effect directly to the ImageView using its local bounds to cover the entire visible sprite
-        Platform.runLater(() -> {
-            Bounds b = sprite.getBoundsInLocal();
-            double w = b.getWidth() > 0 ? b.getWidth() : (sprite.getFitWidth() > 0 ? sprite.getFitWidth() : 100);
-            double h = b.getHeight() > 0 ? b.getHeight() : (sprite.getFitHeight() > 0 ? sprite.getFitHeight() : 100);
-
-            ColorInput redInput = new ColorInput(0, 0, w, h, Color.rgb(255, 0, 0, 0.6));
-            Blend redTint = new Blend(BlendMode.SRC_ATOP, null, redInput);
-
-            Timeline flash = new Timeline(
-                    new KeyFrame(Duration.seconds(0.0), e -> sprite.setEffect(redTint)),
-                    new KeyFrame(Duration.seconds(0.05), e -> sprite.setEffect(null)),
-                    new KeyFrame(Duration.seconds(0.1), e -> sprite.setEffect(redTint)),
-                    new KeyFrame(Duration.seconds(0.15), e -> sprite.setEffect(null)),
-                    new KeyFrame(Duration.seconds(0.2), e -> sprite.setEffect(redTint)),
-                    new KeyFrame(Duration.seconds(0.25), e -> sprite.setEffect(null)),
-                    new KeyFrame(Duration.seconds(0.3), e -> sprite.setEffect(null))
-            );
-
-            ParallelTransition parallel = new ParallelTransition(flash, hpTimeline);
-            parallel.setOnFinished(e -> {
-                sprite.setEffect(null);
-                if (afterHitAnimation != null) afterHitAnimation.run();
-            });
-            parallel.play();
-        });
+        animator.animateHit(bugemon, afterHitAnimation);
     }
 
+    /**
+     * Delegates to {@link FightAnimator#animateKO}.
+     *
+     * @param bugemon           the KO'd Bugémon
+     * @param afterKOAnimation  optional callback run after the animation completes
+     */
     public void animateKO(BugemonDTO bugemon, Runnable afterKOAnimation) {
-        ImageView sprite = bugemon.getIsPlayer() ? playerSprite : enemySprite;
-
-        FadeTransition fade = new FadeTransition(Duration.seconds(0.5), sprite);
-        fade.setFromValue(1.0);
-        fade.setToValue(0.0);
-        fade.setOnFinished(e -> {
-            // hide after fade completes and call callback
-            handleVisibility(bugemon, false);
-            if (afterKOAnimation != null) afterKOAnimation.run();
-        });
-        fade.play();
+        animator.animateKO(bugemon, afterKOAnimation);
     }
 }
