@@ -3,6 +3,7 @@ package controllers.tower;
 import controllers.Controller;
 import controllers.ControllerManager;
 import models.bugemon.dto.BugemonDTO;
+import services.game.GameStateHolder;
 import views.SelectBugemonFromTeamView;
 import views.listener.SelectBugemonFromTeamListener;
 
@@ -18,6 +19,8 @@ public class ApplyBonusRewardController extends Controller<SelectBugemonFromTeam
 
     @Override
     public void onBugemonClickedRequest(BugemonDTO bugemon) {
+        int id = GameStateHolder.getInstance().getCurrentTeamPlayer().getBugemonById(bugemon.getId());
+
 
     }
 

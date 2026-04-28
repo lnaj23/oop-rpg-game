@@ -127,4 +127,23 @@ public class TeamBugemonTest extends TestCase {
         TeamBugemon team = new TeamBugemon("test", bugemonProvider.getListBugemon(Arrays.asList("florachu", "exceflam", "commitide")));
         for (Attack attack : team.getAllAttacks()) assertNotNull(attack.getId());
     }
+
+     @Test
+    public void testGetBugemonByIdNotINTeamThrows() throws JsonResourceNotFoundException, BugemonNotFoundException {
+        TeamBugemon team = new TeamBugemon("test", bugemonProvider.getListBugemon(Arrays.asList("florachu")));
+        try {
+            team.getBugemonById("exceflam");
+            fail("Expected BugemonNotInTeamException");
+        } catch (BugemonNotInTeamException e) {
+            assertTrue(e.getMessage().contains("exceflam"));
+        }
+     }
+
+     @Test
+    public void testGetBugemonByIdValid() throws JsonResourceNotFoundException, BugemonNotFoundException, BugemonNotInTeamException {
+        TeamBugemon team = new TeamBugemon("test", bugemonProvider.getListBugemon(Arrays.asList("florachu", "exceflam")));
+        Bugemon bug = team.getBugemonById("exceflam");
+        assertNotNull(bug);
+        assertEquals("exceflam", bug.getId());
+     }
 }
