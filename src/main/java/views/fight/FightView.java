@@ -3,10 +3,8 @@ package views.fight;
 import configuration.AppConfig;
 import controllers.Controller;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
-import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
@@ -18,7 +16,6 @@ import views.utils.SpriteLoader;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * View for the fight screen.
@@ -40,6 +37,9 @@ public class FightView extends View<Controller> {
 
     /** Handles all JavaFX animations (attack lunge, hit flash, KO fade). */
     private FightAnimator animator;
+
+    /** Manages the player and enemy team grids (display, faint marking, popups). */
+    private FightTeamGridManager teamGridManager;
 
     @FXML private FightChoicePanelSubView choicePanelController;
     /** Label displaying the enemy Bugémon's name. */
@@ -98,6 +98,9 @@ public class FightView extends View<Controller> {
                 playerHpBarFill, enemyHpBarFill,
                 bugemon -> handleVisibility(bugemon, false)
         );
+        this.teamGridManager = new FightTeamGridManager(
+                teamGrid, enemyGrid, popup, HPPopup
+        );
     }
 
     /**
@@ -124,46 +127,7 @@ public class FightView extends View<Controller> {
      * @param team the list of Bugémon DTOs to display
      */
     public void displayTeam(List<BugemonDTO> team) throws IOException {
-        boolean  isPlayer = team.getFirst().getIsPlayer();
-        GridPane grid     = isPlayer ? teamGrid : enemyGrid;
-        grid.getChildren().clear();
-
-        for (int i = 0; i < team.size(); i++) {
-            BugemonDTO bugemon = team.get(i);
-            ImageView imgView = createSprite(60, bugemon);
-            if (isPlayer && bugemon.isDefault()) {
-                bindTeamSpriteEvents(imgView, bugemon);
-                imgView.setUserData(bugemon);
-                imgView.setScaleX(-1);
-                if (bugemon.isKO()){
-                    imgView.setEffect(new ColorAdjust(0, -1, 0, 0));
-                }
-            }
-
-            grid.add(imgView, i % 3, i / 3);
-        }
-    }
-
-    /**
-     * Binds mouse events (enter, move, exit, click) to a team sprite ImageView.
-     * Shows HP popup on hover and toggles stats popup on click.
-     *
-     * @param imgView the ImageView to bind events to
-     * @param bugemon the Bugémon DTO associated with this sprite
-     */
-    private void bindTeamSpriteEvents(ImageView imgView, BugemonDTO bugemon) {
-        imgView.setOnMouseEntered(e -> showHpPopup(e, bugemon, imgView));
-        imgView.setOnMouseMoved(this::updatePopupPosition);
-        imgView.setOnMouseExited(e -> HPPopup.hide());
-        imgView.setOnMouseClicked(e -> {
-            if (popup.isStatsShowing()) {
-                popup.hideStats();
-                showHpPopup(e, bugemon, imgView);
-            } else {
-                HPPopup.hide();
-                showStatsPopup(e.getScreenX(), e.getScreenY(), bugemon, imgView);
-            }
-        });
+        teamGridManager.displayTeam(team);
     }
 
 
@@ -257,21 +221,7 @@ public class FightView extends View<Controller> {
      * @param bugemon the fainted Bugémon DTO
      */
     public void markBugemonAsFainted(BugemonDTO bugemon) {
-        GridPane grid = bugemon.getIsPlayer() ? teamGrid : enemyGrid;
-        for (Node node : grid.getChildren()) {
-            if (bugemon.getIsPlayer()) {
-                if (node instanceof ImageView iv &&
-                        Objects.equals(bugemon.getId(), ((BugemonDTO) iv.getUserData()).getId())) {
-                    iv.setEffect(new ColorAdjust(0, -1, 0, 0));
-                    break;
-                }
-            } else {
-                if (!(node.getEffect() instanceof ColorAdjust ca && ca.getSaturation() == -1.0)) {
-                    node.setEffect(new ColorAdjust(0, -1, 0, 0));
-                    break;
-                }
-            }
-        }
+        teamGridManager.markBugemonAsFainted(bugemon);
     }
 
     /**
@@ -281,25 +231,7 @@ public class FightView extends View<Controller> {
      * @param bugemon the Bugémon DTO to unmark
      */
     public void unMarkBugemonAsFainted(BugemonDTO bugemon) {
-        GridPane grid = bugemon.getIsPlayer() ? teamGrid : enemyGrid;
-        if (bugemon.getIsPlayer()) {
-            for (Node node : grid.getChildren()) {
-                if (node instanceof ImageView iv &&
-                        Objects.equals(bugemon.getId(), ((BugemonDTO) iv.getUserData()).getId())) {
-                    iv.setEffect(null);
-                    break;
-                }
-            }
-        } else {
-            List<Node> children = grid.getChildren();
-            for (int i = children.size() - 1; i >= 0; i--) {
-                Node node = children.get(i);
-                if (node.getEffect() instanceof ColorAdjust ca && ca.getSaturation() == -1.0) {
-                    node.setEffect(null);
-                    break;
-                }
-            }
-        }
+        teamGridManager.unMarkBugemonAsFainted(bugemon);
     }
 
 
@@ -327,8 +259,7 @@ public class FightView extends View<Controller> {
      */
     public void resetDisplay() {
         choicePanelController.reset();
-        teamGrid.getChildren().clear();
-        enemyGrid.getChildren().clear();
+        teamGridManager.clear();
 
         playerSprite.setImage(null);  playerSprite.setVisible(false);
         enemySprite.setImage(null);   enemySprite.setVisible(false);
@@ -343,22 +274,6 @@ public class FightView extends View<Controller> {
         popup.hideStats();
     }
 
-
-    /**
-     * Creates an ImageView sprite from a resource path with the specified size.
-     * Preserves the aspect ratio of the image.
-     *
-     * @param size the width and height to fit the image to
-     * @return a configured ImageView with the loaded sprite
-     */
-    private ImageView createSprite(int size, BugemonDTO bugemon ) throws IOException {
-        Image     img  = SpriteLoader.loadSprite(bugemon);
-        ImageView view = new ImageView(img);
-        view.setFitHeight(size);
-        view.setFitWidth(size);
-        view.setPreserveRatio(true);
-        return view;
-    }
 
     public void updateFloorInfo(int floor, int step, TowerNodeType type, boolean finished) {
         if (finished) {
