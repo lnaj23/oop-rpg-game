@@ -6,6 +6,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Popup;
+import javafx.fxml.FXML;
 import models.bugemon.dto.BugemonDTO;
 import views.utils.PopupManager;
 import views.utils.SpriteLoader;
@@ -25,33 +26,15 @@ import java.util.Objects;
  */
 public class FightTeamGridManager {
 
-    /** The 2×3 grid displaying the player's team sprites. */
-    private final GridPane teamGrid;
+    @FXML private GridPane teamGrid;
+    @FXML private GridPane enemyGrid;
 
-    /** The 2×3 grid displaying the enemy's team sprites. */
-    private final GridPane enemyGrid;
+    private PopupManager popup;
+    private Popup hpPopup;
 
-    /** Shared popup helper used for HP and stats popups on team sprites. */
-    private final PopupManager popup;
-
-    /** Direct reference to the HP popup for hide operations. */
-    private final Popup hpPopup;
-
-    /**
-     * Constructs a {@code FightTeamGridManager} bound to the given grid panes
-     * and popup infrastructure.
-     *
-     * @param teamGrid  the player's team grid
-     * @param enemyGrid the enemy's team grid
-     * @param popup     the shared {@link PopupManager} for HP / stats popups
-     * @param hpPopup   the raw HP {@link Popup} (for {@code hide()} calls)
-     */
-    public FightTeamGridManager(GridPane teamGrid, GridPane enemyGrid,
-                                PopupManager popup, Popup hpPopup) {
-        this.teamGrid  = teamGrid;
-        this.enemyGrid = enemyGrid;
-        this.popup     = popup;
-        this.hpPopup   = hpPopup;
+    public void setPopups(PopupManager popup, Popup hpPopup) {
+        this.popup = popup;
+        this.hpPopup = hpPopup;
     }
 
     /**

@@ -16,52 +16,9 @@
 
         <Label fx:id="floorInfoLabel" alignment="CENTER" layoutX="-14.0" layoutY="62.0" scaleX="2.0" scaleY="2.0" styleClass="floor-info-label" text="Progression" AnchorPane.leftAnchor="-14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="62.0" />
 
-        <VBox id="enemy" alignment="CENTER" layoutX="783.0" layoutY="135.0" prefHeight="516.0" prefWidth="220" spacing="8" AnchorPane.rightAnchor="285.0" AnchorPane.topAnchor="135.0">
-            <Label fx:id="enemyNameLabel" styleClass="bugemon-name-label" text="Enemy" />
-            <Label fx:id="enemyEffectLabel" prefHeight="77.0" prefWidth="220.0" styleClass="effect-label" text="EnemyEffect" />
-            <Label fx:id="enemyHpLabel" styleClass="hp-text-label" text="EnemyHP" />
-            <ProgressBar fx:id="enemyHpBarFill" prefWidth="210.0" progress="1.0" />
-            <ImageView fx:id="enemySprite" fitHeight="180" preserveRatio="true" />
-         <VBox id="team" alignment="CENTER" prefWidth="200" spacing="10">
-            <children>
-               <Label style="-fx-font-size:18; -fx-font-weight:bold;" text="Équipe de l'adversaire" />
-               <GridPane fx:id="enemyGrid" hgap="10" vgap="10">
-                  <columnConstraints>
-                     <ColumnConstraints percentWidth="33" />
-                     <ColumnConstraints percentWidth="33" />
-                     <ColumnConstraints percentWidth="33" />
-                  </columnConstraints>
-                  <rowConstraints>
-                     <RowConstraints percentHeight="50" />
-                     <RowConstraints percentHeight="50" />
-                  </rowConstraints>
-               </GridPane>
-            </children>
-         </VBox>
-        </VBox>
-
-        <VBox id="player" alignment="CENTER" layoutX="373.0" layoutY="135.0" prefHeight="537.0" prefWidth="220" spacing="8" AnchorPane.leftAnchor="373.0" AnchorPane.topAnchor="135.0">
-            <Label fx:id="playerNameLabel" styleClass="bugemon-name-label" text="player" />
-            <Label fx:id="playerEffectLabel" prefHeight="77.0" prefWidth="220.0" styleClass="effect-label" text="PlayerEffect" />
-            <Label fx:id="playerHpLabel" styleClass="hp-text-label" text="PlayerHP" />
-            <ProgressBar fx:id="playerHpBarFill" prefWidth="210.0" progress="1.0" />
-            <ImageView fx:id="playerSprite" fitHeight="180" preserveRatio="true" />
-   
-           <VBox id="team" alignment="CENTER" prefWidth="200" spacing="10">
-               <Label style="-fx-font-size:18; -fx-font-weight:bold;" text="Équipe du joueur" />
-               <GridPane fx:id="teamGrid" hgap="10" vgap="10">
-                   <columnConstraints>
-                       <ColumnConstraints percentWidth="33" />
-                       <ColumnConstraints percentWidth="33" />
-                       <ColumnConstraints percentWidth="33" />
-                   </columnConstraints>
-                   <rowConstraints>
-                       <RowConstraints percentHeight="50" />
-                       <RowConstraints percentHeight="50" />
-                   </rowConstraints>
-               </GridPane>
-           </VBox>
-        </VBox>
+        <fx:include fx:id="activeBugemonManager" source="fight_active_bugemon.fxml" AnchorPane.topAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.bottomAnchor="0"/>
+        
+        <fx:include fx:id="teamGridManager" source="fight_team_grid.fxml" AnchorPane.topAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.bottomAnchor="0"/>
 
         <fx:include fx:id="choicePanel" source="fight_choice_panel.fxml" AnchorPane.bottomAnchor="20" AnchorPane.leftAnchor="10" AnchorPane.rightAnchor="10" />
 
