@@ -46,21 +46,21 @@ public class FightTest extends TestCase {
     @Test
     public void testPlayerBugemonsMarkedAsPlayer() {
         fightPlayerHighInitiative.getTeamPlayer().getTeam()
-                .forEach(b -> assertTrue(b.getIsPlayer()));
+                .forEach(b -> assertTrue(b.isPlayer()));
     }
 
     @Test
     public void testEnemyBugemonsMarkedAsNotPlayer() {
         fightPlayerHighInitiative.getTeamEnemy().getTeam()
-                .forEach(b -> assertFalse(b.getIsPlayer()));
+                .forEach(b -> assertFalse(b.isPlayer()));
     }
 
     @Test
     public void testBugemonsHpInitialisedToMax() {
         fightPlayerHighInitiative.getTeamPlayer().getTeam()
-                .forEach(b -> assertEquals(b.getPv(), b.getcurrenPv()));
+                .forEach(b -> assertEquals(b.getPv(), b.getCurrenPv()));
         fightPlayerHighInitiative.getTeamEnemy().getTeam()
-                .forEach(b -> assertEquals(b.getPv(), b.getcurrenPv()));
+                .forEach(b -> assertEquals(b.getPv(), b.getCurrenPv()));
     }
 
     @Test
@@ -107,16 +107,16 @@ public class FightTest extends TestCase {
     @Test
     public void testPlayerAttackReducesEnemyHp() {
         Bugemon enemy = fightPlayerHighInitiative.getOnFieldEnemyBugemon();
-        int hpBefore = enemy.getcurrenPv();
+        int hpBefore = enemy.getCurrenPv();
         fightPlayerHighInitiative.playerAttack(0);
-        assertTrue(enemy.getcurrenPv() < hpBefore);
+        assertTrue(enemy.getCurrenPv() < hpBefore);
     }
 
     @Test
     public void testEnemyAttackFromIAChoiceReducesPlayerHp() {
         fightPlayerHighInitiative.forceEnemyTurn();
         Bugemon player = fightPlayerHighInitiative.getOnFieldPlayerBugemon();
-        int hpBefore = player.getcurrenPv();
+        int hpBefore = player.getCurrenPv();
         fightPlayerHighInitiative.enemyAttackFromIAChoice();
         // Note: Skipping assertion for now - tests need debugging
         // assertTrue(player.getcurrenPv() < hpBefore);
@@ -139,14 +139,14 @@ public class FightTest extends TestCase {
     @Test
     public void testIsOnFieldEnemyBugemonKO() {
         Bugemon enemy = fightPlayerHighInitiative.getOnFieldEnemyBugemon();
-        enemy.takeDamage(enemy.getcurrenPv());
+        enemy.takeDamage(enemy.getCurrenPv());
         assertTrue(fightPlayerHighInitiative.isOnFieldEnemyBugemonKO());
     }
 
     @Test
     public void testIsOnFieldPlayerBugemonKO() {
         Bugemon player = fightPlayerHighInitiative.getOnFieldPlayerBugemon();
-        player.takeDamage(player.getcurrenPv());
+        player.takeDamage(player.getCurrenPv());
         assertTrue(fightPlayerHighInitiative.isOnFieldPlayerBugemonKO());
     }
 
@@ -158,28 +158,28 @@ public class FightTest extends TestCase {
     @Test
     public void testBattleOverWhenAllEnemyKO() {
         fightPlayerHighInitiative.getTeamEnemy().getTeam()
-                .forEach(b -> b.takeDamage(b.getcurrenPv()));
+                .forEach(b -> b.takeDamage(b.getCurrenPv()));
         assertTrue(fightPlayerHighInitiative.isBattleOver());
     }
 
     @Test
     public void testBattleOverWhenAllPlayerKO() {
         fightPlayerHighInitiative.getTeamPlayer().getTeam()
-                .forEach(b -> b.takeDamage(b.getcurrenPv()));
+                .forEach(b -> b.takeDamage(b.getCurrenPv()));
         assertTrue(fightPlayerHighInitiative.isBattleOver());
     }
 
     @Test
     public void testPlayerWonWhenAllEnemyKO() {
         fightPlayerHighInitiative.getTeamEnemy().getTeam()
-                .forEach(b -> b.takeDamage(b.getcurrenPv()));
+                .forEach(b -> b.takeDamage(b.getCurrenPv()));
         assertTrue(fightPlayerHighInitiative.playerWon());
     }
 
     @Test
     public void testPlayerLostWhenAllPlayerKO() {
         fightPlayerHighInitiative.getTeamPlayer().getTeam()
-                .forEach(b -> b.takeDamage(b.getcurrenPv()));
+                .forEach(b -> b.takeDamage(b.getCurrenPv()));
         assertFalse(fightPlayerHighInitiative.playerWon());
     }
 
@@ -191,7 +191,7 @@ public class FightTest extends TestCase {
     @Test
     public void testAvailablePlayerBugemonsDecreasesAfterKO() {
         fightPlayerHighInitiative.getTeamPlayer().getTeam().getFirst()
-                .takeDamage(fightPlayerHighInitiative.getTeamPlayer().getTeam().getFirst().getcurrenPv());
+                .takeDamage(fightPlayerHighInitiative.getTeamPlayer().getTeam().getFirst().getCurrenPv());
         List<Bugemon> available = fightPlayerHighInitiative.getAvailablePlayerBugemons();
         assertEquals(2, available.size());
     }

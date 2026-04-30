@@ -60,7 +60,7 @@ public class LevelUpController extends Controller<LevelUpView> {
 
         int totalOccurrencesForThisBugemon = countTotalOccurrencesInCurrentBlock();
         int currentOccurrenceIndex = countCurrentOccurrenceIndexInBlock();
-        int displayedLevel = currentBugemon.getlevel() - totalOccurrencesForThisBugemon + currentOccurrenceIndex;
+        int displayedLevel = currentBugemon.getLevel() - totalOccurrencesForThisBugemon + currentOccurrenceIndex;
         view.updateBugemonSprite(currentBugemon);
         view.updateLevelUpText(currentBugemon, displayedLevel);
         setOptions(

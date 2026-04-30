@@ -134,6 +134,6 @@ public class StatsTest extends TestCase {
         int pvBefore = florachu.getPv();
         stats.addPermanentHp(20);
         assertEquals(pvBefore + 20, florachu.getPv());
-        assertEquals(florachu.getPv(), florachu.getcurrenPv());
+        assertEquals(florachu.getPv(), florachu.getCurrenPv());
     }
 }

@@ -31,7 +31,7 @@ public class VictoryController extends Controller<VictoryView> {
 
         int participants = 0;
         for (Bugemon bug : team) {
-            if (bug.isHasParticipedToTrue()) {
+            if (bug.hasParticipated()) {
                 participants++;
             }
         }
@@ -47,7 +47,7 @@ public class VictoryController extends Controller<VictoryView> {
         List<Bugemon> participants = new ArrayList<>();
 
         for (Bugemon bug : team) {
-            if (bug.isHasParticipedToTrue()) {
+            if (bug.hasParticipated()) {
                 participants.add(bug);
                 bug.setHasParticipedToFalse();
             }

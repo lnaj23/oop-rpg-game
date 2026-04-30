@@ -140,14 +140,14 @@ public class FightView extends View<Controller> {
     public void updateActiveBugemonSprite(BugemonDTO bugemon) {
         updateBugemonHPAndEffectDisplay(bugemon);
 
-        Label     nameLabel   = bugemon.getIsPlayer() ? playerNameLabel   : enemyNameLabel;
-        Label     hpLabel     = bugemon.getIsPlayer() ? playerHpLabel     : enemyHpLabel;
-        Label     effectLabel = bugemon.getIsPlayer() ? playerEffectLabel : enemyEffectLabel;
-        ImageView sprite      = bugemon.getIsPlayer() ? playerSprite      : enemySprite;
+        Label     nameLabel   = bugemon.isPlayer() ? playerNameLabel   : enemyNameLabel;
+        Label     hpLabel     = bugemon.isPlayer() ? playerHpLabel     : enemyHpLabel;
+        Label     effectLabel = bugemon.isPlayer() ? playerEffectLabel : enemyEffectLabel;
+        ImageView sprite      = bugemon.isPlayer() ? playerSprite      : enemySprite;
         handleVisibility(bugemon, true);
         sprite.setOpacity(1.0);
-        nameLabel.setText(bugemon.getName() + ( bugemon.getIsPlayer() ? " (niveau " +  bugemon.getlevel() + ")" : "") );
-        hpLabel.setText("HP: " + bugemon.getcurrenPv() + "/" + bugemon.getPv());
+        nameLabel.setText(bugemon.getName() + ( bugemon.isPlayer() ? " (niveau " +  bugemon.getLevel() + ")" : "") );
+        hpLabel.setText("HP: " + bugemon.getCurrenPv() + "/" + bugemon.getPv());
         int atk  = bugemon.getAttackModifier();
         int def  = bugemon.getDefenseModifier();
         int init = bugemon.getInitiativeModifier();
@@ -162,13 +162,13 @@ public class FightView extends View<Controller> {
             throw new RuntimeException("Sprite introuvable pour " + bugemon.getName(), e);
         }
 
-        if (bugemon.getIsPlayer() && bugemon.isDefault()) {
+        if (bugemon.isPlayer() && bugemon.isDefault()) {
             sprite.setScaleX(-1);
         } else {
             sprite.setScaleX(1);
         }
 
-        if (bugemon.getIsPlayer()) choicePanelController.updateAttackButtons(bugemon);
+        if (bugemon.isPlayer()) choicePanelController.updateAttackButtons(bugemon);
         sprite.setVisible(true);
     }
 
@@ -178,13 +178,13 @@ public class FightView extends View<Controller> {
      * @param bugemon the Bugémon DTO whose HP to update
      */
     public void updateBugemonHPAndEffectDisplay(BugemonDTO bugemon) {
-        ProgressBar hpBar       = bugemon.getIsPlayer() ? playerHpBarFill  : enemyHpBarFill;
-        Label       hpLabel     = bugemon.getIsPlayer() ? playerHpLabel    : enemyHpLabel;
-        Label       effectLabel = bugemon.getIsPlayer() ? playerEffectLabel : enemyEffectLabel;
+        ProgressBar hpBar       = bugemon.isPlayer() ? playerHpBarFill  : enemyHpBarFill;
+        Label       hpLabel     = bugemon.isPlayer() ? playerHpLabel    : enemyHpLabel;
+        Label       effectLabel = bugemon.isPlayer() ? playerEffectLabel : enemyEffectLabel;
 
-        float ratio = Math.round((bugemon.getcurrenPv() / (float) bugemon.getPv()) * 10000f) / 10000f;
+        float ratio = Math.round((bugemon.getCurrenPv() / (float) bugemon.getPv()) * 10000f) / 10000f;
         hpBar.setProgress(ratio);
-        hpLabel.setText("HP: " + bugemon.getcurrenPv() + "/" + bugemon.getPv());
+        hpLabel.setText("HP: " + bugemon.getCurrenPv() + "/" + bugemon.getPv());
 
         int atk  = bugemon.getAttackModifier();
         int def  = bugemon.getDefenseModifier();
@@ -296,7 +296,7 @@ public class FightView extends View<Controller> {
     }
 
     private void handleVisibility(BugemonDTO bugemon, boolean mustBeVisible) {
-        if (bugemon.getIsPlayer()) {
+        if (bugemon.isPlayer()) {
             playerSprite.setVisible(mustBeVisible);
             playerHpBarFill.setVisible(mustBeVisible);
             playerHpLabel.setVisible(mustBeVisible);

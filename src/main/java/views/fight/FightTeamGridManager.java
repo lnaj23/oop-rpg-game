@@ -61,7 +61,7 @@ public class FightTeamGridManager {
      * @param team the list of Bugémon DTOs to display
      */
     public void displayTeam(List<BugemonDTO> team) throws IOException {
-        boolean  isPlayer = team.getFirst().getIsPlayer();
+        boolean  isPlayer = team.getFirst().isPlayer();
         GridPane grid     = isPlayer ? teamGrid : enemyGrid;
         grid.getChildren().clear();
 
@@ -87,9 +87,9 @@ public class FightTeamGridManager {
      * @param bugemon the fainted Bugémon DTO
      */
     public void markBugemonAsFainted(BugemonDTO bugemon) {
-        GridPane grid = bugemon.getIsPlayer() ? teamGrid : enemyGrid;
+        GridPane grid = bugemon.isPlayer() ? teamGrid : enemyGrid;
         for (Node node : grid.getChildren()) {
-            if (bugemon.getIsPlayer()) {
+            if (bugemon.isPlayer()) {
                 if (node instanceof ImageView iv &&
                         Objects.equals(bugemon.getId(), ((BugemonDTO) iv.getUserData()).getId())) {
                     iv.setEffect(new ColorAdjust(0, -1, 0, 0));
@@ -111,8 +111,8 @@ public class FightTeamGridManager {
      * @param bugemon the Bugémon DTO to unmark
      */
     public void unMarkBugemonAsFainted(BugemonDTO bugemon) {
-        GridPane grid = bugemon.getIsPlayer() ? teamGrid : enemyGrid;
-        if (bugemon.getIsPlayer()) {
+        GridPane grid = bugemon.isPlayer() ? teamGrid : enemyGrid;
+        if (bugemon.isPlayer()) {
             for (Node node : grid.getChildren()) {
                 if (node instanceof ImageView iv &&
                         Objects.equals(bugemon.getId(), ((BugemonDTO) iv.getUserData()).getId())) {

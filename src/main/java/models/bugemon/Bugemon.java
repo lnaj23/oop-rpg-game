@@ -67,7 +67,7 @@ public class Bugemon implements BugemonDTO {
     public void setHasParticipedToFalse() {
         this.hasParticiped = false;
     }
-    @Override public boolean isHasParticipedToTrue() {
+    @Override public boolean hasParticipated() {
         return this.hasParticiped;
     }
     /**
@@ -129,7 +129,7 @@ public class Bugemon implements BugemonDTO {
     }
 
     @Override
-    public int getcurrenPv() {
+    public int getCurrenPv() {
         return stats.getCurrentPv();
     }
 
@@ -172,7 +172,7 @@ public class Bugemon implements BugemonDTO {
     }
 
     @Override
-    public boolean getIsPlayer() {
+    public boolean isPlayer() {
         return isPlayer;
     }
 
@@ -322,7 +322,7 @@ public class Bugemon implements BugemonDTO {
      *
      * @return the current level
      */
-    public int getlevel() {
+    public int getLevel() {
         return stats.getLevel();
     }
 

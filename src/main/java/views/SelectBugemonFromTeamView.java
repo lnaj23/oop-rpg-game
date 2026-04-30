@@ -113,7 +113,7 @@ public class SelectBugemonFromTeamView extends View<Controller> {
         view.setFitHeight(80);
         view.setFitWidth(80);
         view.setPreserveRatio(true);
-        if (bugemon.getcurrenPv() <= 0) {
+        if (bugemon.getCurrenPv() <= 0) {
             view.setEffect(new ColorAdjust(0, -1, 0, 0));
         }
         return view;

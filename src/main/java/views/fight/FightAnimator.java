@@ -71,8 +71,8 @@ public class FightAnimator {
      * @param afterAttackAnimation optional callback run after the animation completes
      */
     public void animateAttack(BugemonDTO bugemon, Runnable afterAttackAnimation) {
-        ImageView sprite    = bugemon.getIsPlayer() ? playerSprite : enemySprite;
-        double    direction = bugemon.getIsPlayer() ? 60 : -60;
+        ImageView sprite    = bugemon.isPlayer() ? playerSprite : enemySprite;
+        double    direction = bugemon.isPlayer() ? 60 : -60;
 
         TranslateTransition forward = new TranslateTransition(Duration.seconds(0.3), sprite);
         forward.setByX(direction);
@@ -101,13 +101,13 @@ public class FightAnimator {
      * @param afterHitAnimation  optional callback run after the animation completes
      */
     public void animateHit(BugemonDTO bugemon, Runnable afterHitAnimation) {
-        ImageView   sprite = bugemon.getIsPlayer() ? playerSprite : enemySprite;
-        ProgressBar hpBar  = bugemon.getIsPlayer() ? playerHpBar  : enemyHpBar;
+        ImageView   sprite = bugemon.isPlayer() ? playerSprite : enemySprite;
+        ProgressBar hpBar  = bugemon.isPlayer() ? playerHpBar  : enemyHpBar;
 
         double targetProgress;
         try {
             targetProgress = Math.round(
-                    (bugemon.getcurrenPv() / (double) bugemon.getPv()) * 10000d) / 10000d;
+                    (bugemon.getCurrenPv() / (double) bugemon.getPv()) * 10000d) / 10000d;
         } catch (Exception e) {
             targetProgress = hpBar.getProgress();
         }
@@ -152,7 +152,7 @@ public class FightAnimator {
      * @param afterKOAnimation  optional callback run after the animation and hide complete
      */
     public void animateKO(BugemonDTO bugemon, Runnable afterKOAnimation) {
-        ImageView sprite = bugemon.getIsPlayer() ? playerSprite : enemySprite;
+        ImageView sprite = bugemon.isPlayer() ? playerSprite : enemySprite;
 
         FadeTransition fade = new FadeTransition(Duration.seconds(0.5), sprite);
         fade.setFromValue(1.0);
