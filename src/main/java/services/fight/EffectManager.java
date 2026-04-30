@@ -27,7 +27,7 @@ public abstract class EffectManager {
 
         for (Effect effet : attack.getEffects()) {
             if (effet.getType().equals("soin")) {
-                int valeur = effet.getValeur();
+                int valeur = effet.getValue();
                 if (effet.getTarget().equals("equipe")) {
                     for (Bugemon membre : attackerTeam.getTeam()) {
                         if (!membre.isKO()) {

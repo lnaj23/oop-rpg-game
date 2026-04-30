@@ -40,7 +40,7 @@ public class Item implements ItemDTO {
     public String getName() { return name; }
     public String getDescription() { return description; }
     public String getCategory() { return category; }
-    public int getEffectValue() {return this.effect.getValeur();}
+    public int getEffectValue() {return this.effect.getValue();}
     public String getStatToModifie(){ return this.effect.getStat();}
     public int getModifier() { return this.effect.getModifier();}
     public Effect getEffect() { return this.effect; }
