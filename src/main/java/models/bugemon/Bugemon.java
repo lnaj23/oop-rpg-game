@@ -303,7 +303,7 @@ public class Bugemon implements BugemonDTO {
 
     public void updatestatModifierFromItem(Item item){
         int amount = item.getModifier();
-        switch (item.getStatToModifie()){
+        switch (item.getStatToModify()){
             case "attaque":   this.stats.updateAttackModifierFromItem(amount); break;
             case "defense":   this.stats.updateDefenseModifierFromItem(amount); break;
             case "initiative": this.stats.updateInitiativeModifierFromItem(amount); break;

@@ -35,13 +35,18 @@ public class Item implements ItemDTO {
 
 
 
-
+    @Override
     public String getId() { return id; }
+
+    @Override
     public String getName() { return name; }
+
+    @Override
     public String getDescription() { return description; }
+
     public String getCategory() { return category; }
     public int getEffectValue() {return this.effect.getValue();}
-    public String getStatToModifie(){ return this.effect.getStat();}
+    public String getStatToModify(){ return this.effect.getStat();}
     public int getModifier() { return this.effect.getModifier();}
     public Effect getEffect() { return this.effect; }
     @Override
