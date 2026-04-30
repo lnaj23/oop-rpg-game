@@ -44,7 +44,6 @@ public abstract class AppConfig {
 
     // Assets PNG
     public static final String PNG_PREFIX     = props.getProperty("assets.png.prefix");
-    public static final String PNG_NOBUGEMON  = PNG_PREFIX + props.getProperty("assets.png.nobugemon");
 
     // CSS
     public static final String CSS_COMMON     = props.getProperty("css.common");
@@ -53,5 +52,4 @@ public abstract class AppConfig {
     public static final int    MAX_TEAM_SIZE         = Integer.parseInt(props.getProperty("game.team.max_size"));
     public static final int    MIN_TEAM_SIZE         = Integer.parseInt(props.getProperty("game.team.min_size"));
     public static final int    ENEMY_REACT_TIME      = Integer.parseInt(props.getProperty("game.fight.enemy_react_time"));
-    public static final double DEATH_DISPLAY_TIME    = Double.parseDouble(props.getProperty("game.fight.death_display_time"));
 }
