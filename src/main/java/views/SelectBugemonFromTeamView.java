@@ -12,13 +12,14 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.stage.StageStyle;
-import views.listener.SelectBugemonFromTeamListener;
 import models.bugemon.dto.BugemonDTO;
+import views.listener.SelectBugemonFromTeamListener;
 import views.utils.SpriteLoader;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
+
 /**
  * View for the Bugemon switch sub-window displayed during a fight.
  * <p>
@@ -30,8 +31,9 @@ import java.util.Objects;
 public class SelectBugemonFromTeamView extends View<Controller> {
 
     @FXML private GridPane grid;
-    @FXML private Button   btnCancel;
-    @FXML private Label    titleLabel;
+    @FXML private Button btnCancel;
+    @FXML private Label titleLabel;
+
     private SelectBugemonFromTeamListener listener;
 
     /**
@@ -52,7 +54,6 @@ public class SelectBugemonFromTeamView extends View<Controller> {
     protected String getTitle() {
         return "Selectionner un Bugemon";
     }
-
 
     /**
      * Sets the listener for Bugemon selection and cancellation events.
@@ -76,10 +77,17 @@ public class SelectBugemonFromTeamView extends View<Controller> {
 
         for (int i = 0; i < team.size(); i++) {
             BugemonDTO bugemon = team.get(i);
+
             ImageView imgView = createSprite(bugemon);
+
             if (bugemon.isDefault()) {
                 imgView.setScaleX(-1);
             }
+
+            if (bugemon.isKO()) {
+                applyFaintedStyle(imgView);
+            }
+
             bindEvents(imgView, bugemon);
             grid.add(imgView, i % 3, i / 3);
         }
@@ -88,8 +96,10 @@ public class SelectBugemonFromTeamView extends View<Controller> {
         btnCancel.setManaged(showCancel);
 
         if (showCancel) {
-            btnCancel.setOnAction(e -> this.listener.onCancelClickedRequest());
+            btnCancel.setOnAction(e -> listener.onCancelClickedRequest());
+
             int row = (team.size() - 1) / 3 + 1;
+
             grid.add(btnCancel, 0, row);
             GridPane.setColumnSpan(btnCancel, 3);
             GridPane.setHalignment(btnCancel, HPos.CENTER);
@@ -100,22 +110,21 @@ public class SelectBugemonFromTeamView extends View<Controller> {
     /**
      * Creates and configures a sprite ImageView for a Bugemon.
      * <p>
-     * Loads the Bugemon's sprite image from the assets directory, sets fixed
-     * dimensions (80x80), and applies a grayscale effect if the Bugemon is KO.
+     * Loads the Bugemon's sprite image, sets fixed dimensions,
+     * and lets displayTeam apply the KO style if needed.
      * </p>
      *
      * @param bugemon the Bugemon for which to create the sprite
      * @return a configured ImageView displaying the Bugemon sprite
      */
     private ImageView createSprite(BugemonDTO bugemon) throws IOException {
-        Image img  = SpriteLoader.loadSprite(bugemon);
+        Image img = SpriteLoader.loadSprite(bugemon);
         ImageView view = new ImageView(img);
+
         view.setFitHeight(80);
         view.setFitWidth(80);
         view.setPreserveRatio(true);
-        if (bugemon.getCurrenPv() <= 0) {
-            view.setEffect(new ColorAdjust(0, -1, 0, 0));
-        }
+
         return view;
     }
 
@@ -133,26 +142,38 @@ public class SelectBugemonFromTeamView extends View<Controller> {
         imgView.setOnMouseEntered(e -> showHpPopup(e, bugemon, imgView));
         imgView.setOnMouseMoved(this::updatePopupPosition);
         imgView.setOnMouseExited(e -> popup.hideHp());
-        imgView.setOnMouseClicked(e -> this.listener.onBugemonClickedRequest(bugemon));
+        imgView.setOnMouseClicked(e -> listener.onBugemonClickedRequest(bugemon));
+    }
+
+    private void applyFaintedStyle(ImageView imgView) {
+        ColorAdjust grayFilter = new ColorAdjust();
+
+        grayFilter.setSaturation(-1);
+        grayFilter.setBrightness(-0.35);
+
+        imgView.setEffect(grayFilter);
+        imgView.setOpacity(0.45);
     }
 
     /**
      * Shows an alert when the player clicks a KO or already on-field Bugémon.
      *
-     * @param title   the alert title
+     * @param title the alert title
      * @param message the alert message
      */
     public void showMessageKO(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
+
         alert.setTitle(title);
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.initStyle(StageStyle.UNDECORATED);
         alert.setGraphic(null);
+
         alert.getDialogPane().getStylesheets().add(
                 Objects.requireNonNull(getClass().getResource(AppConfig.CSS_COMMON)).toExternalForm()
         );
+
         alert.showAndWait();
     }
-
 }

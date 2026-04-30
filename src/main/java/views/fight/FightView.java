@@ -224,16 +224,6 @@ public class FightView extends View<Controller> {
         teamGridManager.markBugemonAsFainted(bugemon);
     }
 
-    /**
-     * Removes the greyscale effect from the team grid sprite of the given Bugémon.
-     * For the enemy grid, targets the last greyed-out sprite.
-     *
-     * @param bugemon the Bugémon DTO to unmark
-     */
-    public void unMarkBugemonAsFainted(BugemonDTO bugemon) {
-        teamGridManager.unMarkBugemonAsFainted(bugemon);
-    }
-
 
     /**
      * Toggles between the attack panel and the action panel.

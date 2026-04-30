@@ -1,5 +1,6 @@
 package views.fight;
 
+import configuration.AppConfig;
 import javafx.scene.Node;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
@@ -14,165 +15,156 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 
-/**
- * Manages the player and enemy team grids in the fight view.
- * <p>
- * Extracted from {@link FightView} to respect the Single Responsibility Principle.
- * Responsible for: displaying team sprites in the grids, binding hover/click
- * popup events on player sprites, and marking/unmarking fainted Bugémon
- * with a greyscale effect.
- * </p>
- */
 public class FightTeamGridManager {
 
-    /** The 2×3 grid displaying the player's team sprites. */
     private final GridPane teamGrid;
-
-    /** The 2×3 grid displaying the enemy's team sprites. */
     private final GridPane enemyGrid;
-
-    /** Shared popup helper used for HP and stats popups on team sprites. */
     private final PopupManager popup;
-
-    /** Direct reference to the HP popup for hide operations. */
     private final Popup hpPopup;
 
-    /**
-     * Constructs a {@code FightTeamGridManager} bound to the given grid panes
-     * and popup infrastructure.
-     *
-     * @param teamGrid  the player's team grid
-     * @param enemyGrid the enemy's team grid
-     * @param popup     the shared {@link PopupManager} for HP / stats popups
-     * @param hpPopup   the raw HP {@link Popup} (for {@code hide()} calls)
-     */
     public FightTeamGridManager(GridPane teamGrid, GridPane enemyGrid,
                                 PopupManager popup, Popup hpPopup) {
-        this.teamGrid  = teamGrid;
+        this.teamGrid = teamGrid;
         this.enemyGrid = enemyGrid;
-        this.popup     = popup;
-        this.hpPopup   = hpPopup;
+        this.popup = popup;
+        this.hpPopup = hpPopup;
     }
 
-    /**
-     * Populates the player's or enemy's team grid with sprites for each Bugémon.
-     * Player sprites show an HP popup on hover and toggle a stats popup on click.
-     *
-     * @param team the list of Bugémon DTOs to display
-     */
     public void displayTeam(List<BugemonDTO> team) throws IOException {
-        boolean  isPlayer = team.getFirst().isPlayer();
-        GridPane grid     = isPlayer ? teamGrid : enemyGrid;
+        if (team == null || team.isEmpty()) {
+            return;
+        }
+
+        boolean isPlayerTeam = team.get(0).isPlayer();
+        GridPane grid = isPlayerTeam ? teamGrid : enemyGrid;
+
         grid.getChildren().clear();
 
         for (int i = 0; i < team.size(); i++) {
             BugemonDTO bugemon = team.get(i);
-            ImageView imgView = createSprite(60, bugemon);
-            imgView.setUserData(bugemon);
 
-            if (isPlayer) {
-                bindTeamSpriteEvents(imgView, bugemon);
+            ImageView sprite = isPlayerTeam
+                    ? createBugemonSprite(bugemon)
+                    : createNoBugemonSprite();
+
+            sprite.setFitWidth(60);
+            sprite.setFitHeight(60);
+            sprite.setPreserveRatio(true);
+
+            if (isPlayerTeam) {
+                sprite.setUserData(bugemon);
+                bindPlayerSpriteEvents(sprite, bugemon);
+
                 if (bugemon.isDefault()) {
-                    imgView.setScaleX(-1);
+                    sprite.setScaleX(-1);
                 }
             }
 
             if (bugemon.isKO()) {
-                imgView.setEffect(new ColorAdjust(0, -1, 0, 0));
+                applyFaintedStyle(sprite);
             }
 
-            grid.add(imgView, i % 3, i / 3);
+            grid.add(sprite, i % 3, i / 3);
         }
     }
 
-    /**
-     * Applies a greyscale effect to the team grid sprite of the given fainted Bugémon.
-     *
-     * @param bugemon the fainted Bugémon DTO
-     */
     public void markBugemonAsFainted(BugemonDTO bugemon) {
-        GridPane grid = bugemon.isPlayer() ? teamGrid : enemyGrid;
-        for (Node node : grid.getChildren()) {
-            if (node instanceof ImageView iv && isSpriteOfBugemon(iv, bugemon)) {
-                iv.setEffect(new ColorAdjust(0, -1, 0, 0));
-                break;
-            }
+        if (bugemon == null) {
+            return;
+        }
+
+        if (bugemon.isPlayer()) {
+            markPlayerBugemonAsFainted(bugemon);
+        } else {
+            markNextEnemyBugemonAsFainted();
         }
     }
 
-    /**
-     * Removes the greyscale effect from the team grid sprite of the given Bugémon.
-     * For the enemy grid, targets the last greyed-out sprite.
-     *
-     * @param bugemon the Bugémon DTO to unmark
-     */
-    public void unMarkBugemonAsFainted(BugemonDTO bugemon) {
-        GridPane grid = bugemon.isPlayer() ? teamGrid : enemyGrid;
-        for (Node node : grid.getChildren()) {
-            if (node instanceof ImageView iv && isSpriteOfBugemon(iv, bugemon)) {
-                iv.setEffect(null);
-                break;
-            }
-        }
-    }
-
-    /**
-     * Clears both team grids. Called during display reset.
-     */
     public void clear() {
         teamGrid.getChildren().clear();
         enemyGrid.getChildren().clear();
     }
 
-    /**
-     * Binds mouse events (enter, move, exit, click) to a team sprite ImageView.
-     * Shows HP popup on hover and toggles stats popup on click.
-     *
-     * @param imgView the ImageView to bind events to
-     * @param bugemon the Bugémon DTO associated with this sprite
-     */
-    private void bindTeamSpriteEvents(ImageView imgView, BugemonDTO bugemon) {
-        imgView.setOnMouseEntered(e -> popup.showHpPopup(e, bugemon, imgView));
-        imgView.setOnMouseMoved(popup::updateHpPosition);
-        imgView.setOnMouseExited(e -> hpPopup.hide());
-        imgView.setOnMouseClicked(e -> {
+    private ImageView createBugemonSprite(BugemonDTO bugemon) throws IOException {
+        Image image = SpriteLoader.loadSprite(bugemon);
+        return new ImageView(image);
+    }
+
+    private ImageView createNoBugemonSprite() {
+        Image image = new Image(Objects.requireNonNull(
+                FightTeamGridManager.class.getResourceAsStream(
+                        AppConfig.PNG_PREFIX + "nobugemon/ulb.png"
+                )
+        ));
+
+        return new ImageView(image);
+    }
+
+    private void bindPlayerSpriteEvents(ImageView sprite, BugemonDTO bugemon) {
+        sprite.setOnMouseEntered(e -> popup.showHpPopup(e, bugemon, sprite));
+        sprite.setOnMouseMoved(popup::updateHpPosition);
+        sprite.setOnMouseExited(e -> hpPopup.hide());
+
+        sprite.setOnMouseClicked(e -> {
             if (popup.isStatsShowing()) {
                 popup.hideStats();
-                popup.showHpPopup(e, bugemon, imgView);
+                popup.showHpPopup(e, bugemon, sprite);
             } else {
                 hpPopup.hide();
-                popup.showStatsPopup(e.getScreenX(), e.getScreenY(), bugemon, imgView);
+                popup.showStatsPopup(e.getScreenX(), e.getScreenY(), bugemon, sprite);
             }
         });
     }
 
-    /**
-     * Creates an ImageView sprite from a resource path with the specified size.
-     * Preserves the aspect ratio of the image.
-     *
-     * @param size    the width and height to fit the image to
-     * @param bugemon the Bugémon whose sprite to load
-     * @return a configured ImageView with the loaded sprite
-     */
-    private ImageView createSprite(int size, BugemonDTO bugemon) throws IOException {
-        Image     img  = SpriteLoader.loadSprite(bugemon);
-        ImageView view = new ImageView(img);
-        view.setFitHeight(size);
-        view.setFitWidth(size);
-        view.setPreserveRatio(true);
-        return view;
+    private void markPlayerBugemonAsFainted(BugemonDTO bugemon) {
+        for (Node node : teamGrid.getChildren()) {
+            if (node instanceof ImageView sprite && isSameBugemon(sprite.getUserData(), bugemon)) {
+                applyFaintedStyle(sprite);
+                return;
+            }
+        }
     }
 
-    /**
-     * Checks whether an ImageView is associated with the given Bugémon.
-     *
-     * @param imageView the sprite node to check
-     * @param bugemon   the Bugémon DTO to compare with
-     * @return true if the sprite represents the given Bugémon
-     */
-    private boolean isSpriteOfBugemon(ImageView imageView, BugemonDTO bugemon) {
-        Object data = imageView.getUserData();
-        return data instanceof BugemonDTO displayedBugemon
-                && Objects.equals(bugemon.getId(), displayedBugemon.getId());
+    private void markNextEnemyBugemonAsFainted() {
+        for (Node node : enemyGrid.getChildren()) {
+            if (node instanceof ImageView sprite && !isAlreadyFainted(sprite)) {
+                applyFaintedStyle(sprite);
+                return;
+            }
+        }
+    }
+
+    private boolean isSameBugemon(Object data, BugemonDTO bugemon) {
+        if (!(data instanceof BugemonDTO displayedBugemon)) {
+            return false;
+        }
+
+        if (displayedBugemon == bugemon) {
+            return true;
+        }
+
+        if (bugemon.getId() != null
+                && displayedBugemon.getId() != null
+                && bugemon.getId().equals(displayedBugemon.getId())) {
+            return true;
+        }
+
+        return Objects.equals(bugemon.getName(), displayedBugemon.getName())
+                && Objects.equals(bugemon.getSprite(), displayedBugemon.getSprite())
+                && bugemon.isDefault() == displayedBugemon.isDefault();
+    }
+
+    private void applyFaintedStyle(ImageView sprite) {
+        ColorAdjust grayFilter = new ColorAdjust();
+
+        grayFilter.setSaturation(-1);
+        grayFilter.setBrightness(-0.35);
+
+        sprite.setEffect(grayFilter);
+        sprite.setOpacity(0.45);
+    }
+
+    private boolean isAlreadyFainted(ImageView sprite) {
+        return sprite.getEffect() instanceof ColorAdjust;
     }
 }
