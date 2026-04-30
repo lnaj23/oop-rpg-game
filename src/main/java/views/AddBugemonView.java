@@ -148,7 +148,16 @@ public class AddBugemonView extends View<AddBugemonController> {
                 "Attaque 3 : " + attack3.getName() + "\n" +
                 "Starter : " + starter;
 
-        this.showMessage(message);
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Succès");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.getDialogPane().getStylesheets().add(
+                Objects.requireNonNull(getClass().getResource(AppConfig.CSS_COMMON)).toExternalForm()
+        );
+        alert.initStyle(StageStyle.UNDECORATED);
+        alert.setGraphic(null);
+        alert.showAndWait();
     }
 
     /**
@@ -267,5 +276,26 @@ public class AddBugemonView extends View<AddBugemonController> {
      */
     public String getSelectedStarter() {
         return starterChoiceBox.getValue();
+    }
+    public void cleanUI() {
+        nameField.clear();
+        hpField.clear();
+        attackField.clear();
+        defenseField.clear();
+        initiativeField.clear();
+        spritePathField.clear();
+
+        typeChoiceBox.getSelectionModel().clearSelection();
+        starterChoiceBox.getSelectionModel().clearSelection();
+
+        attack1ChoiceBox.getSelectionModel().clearSelection();
+        attack2ChoiceBox.getSelectionModel().clearSelection();
+        attack3ChoiceBox.getSelectionModel().clearSelection();
+
+        attack1ChoiceBox.getItems().clear();
+        attack2ChoiceBox.getItems().clear();
+        attack3ChoiceBox.getItems().clear();
+
+        setAttackChoiceBoxesDisabled(true);
     }
 }

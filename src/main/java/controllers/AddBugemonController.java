@@ -57,7 +57,8 @@ public class AddBugemonController extends Controller<AddBugemonView> {
      * with the available types, attacks, and starter options.
      */
     public void initAddBugemonMenu() {
-        this.view.setAttackChoiceBox(attacksToShow);
+        selectedFile = null;
+        this.view.cleanUI();
     }
 
     /**
@@ -81,12 +82,6 @@ public class AddBugemonController extends Controller<AddBugemonView> {
         Attack attack2 = view.getSelectedAttack2();
         Attack attack3 = view.getSelectedAttack3();
         String starterText = view.getSelectedStarter();
-        List<Attack> attacks = Arrays.asList(attack1, attack2, attack3);
-        List<String> attackNames = Arrays.asList(
-                attack1.getId(),
-                attack2.getId(),
-                attack3.getId()
-        );
 
         String errorMessage = validationService.validate(
                 name,
@@ -107,24 +102,51 @@ public class AddBugemonController extends Controller<AddBugemonView> {
             return;
         }
 
+        if (selectedFile == null) {
+            view.showMessage("Il faut choisir un sprite avec le bouton Parcourir.");
+            return;
+        }
+
         int hp = Integer.parseInt(hpText);
         int attack = Integer.parseInt(attackText);
         int defense = Integer.parseInt(defenseText);
         int initiative = Integer.parseInt(initiativeText);
         boolean starter = "Oui".equals(starterText);
+
+        List<Attack> attacks = Arrays.asList(attack1, attack2, attack3);
+        List<String> attackNames = Arrays.asList(
+                attack1.getId(),
+                attack2.getId(),
+                attack3.getId()
+        );
+
         String sprite = selectedFile.getName();
+
+        Bugemon bugemonToSave = new Bugemon(
+                name,
+                type,
+                hp,
+                attack,
+                defense,
+                initiative,
+                starter,
+                sprite,
+                attacks,
+                attackNames
+        );
+
+        try {
+            AddedBugemonRepository.getInstance().saveAddedBugemons(bugemonToSave);
+            AddedBugemonRepository.getInstance().saveSprite(selectedFile);
+        } catch (Exception e) {
+            view.showMessage("Impossible d'ajouter le Bugémon : " + e.getMessage());
+            return;
+        }
 
         view.ShowAddedMessage(name, type, hp, attack, defense, initiative, spritePath, attack1, attack2, attack3, starter);
 
-        // ajout de l'appel au service pour Sajid
-        Bugemon BugemonToSave = new Bugemon(name, type, hp, attack, defense, initiative, starter, sprite, attacks, attackNames);
-
-        try {
-            AddedBugemonRepository.getInstance().saveAddedBugemons(BugemonToSave);
-            AddedBugemonRepository.getInstance().saveSprite(selectedFile);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
+        selectedFile = null;
+        view.cleanUI();
     }
 
     /**
