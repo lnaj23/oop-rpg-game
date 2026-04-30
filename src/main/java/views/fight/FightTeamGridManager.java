@@ -68,13 +68,17 @@ public class FightTeamGridManager {
         for (int i = 0; i < team.size(); i++) {
             BugemonDTO bugemon = team.get(i);
             ImageView imgView = createSprite(60, bugemon);
-            if (isPlayer && bugemon.isDefault()) {
+            imgView.setUserData(bugemon);
+
+            if (isPlayer) {
                 bindTeamSpriteEvents(imgView, bugemon);
-                imgView.setUserData(bugemon);
-                imgView.setScaleX(-1);
-                if (bugemon.isKO()){
-                    imgView.setEffect(new ColorAdjust(0, -1, 0, 0));
+                if (bugemon.isDefault()) {
+                    imgView.setScaleX(-1);
                 }
+            }
+
+            if (bugemon.isKO()) {
+                imgView.setEffect(new ColorAdjust(0, -1, 0, 0));
             }
 
             grid.add(imgView, i % 3, i / 3);
@@ -89,17 +93,9 @@ public class FightTeamGridManager {
     public void markBugemonAsFainted(BugemonDTO bugemon) {
         GridPane grid = bugemon.isPlayer() ? teamGrid : enemyGrid;
         for (Node node : grid.getChildren()) {
-            if (bugemon.isPlayer()) {
-                if (node instanceof ImageView iv &&
-                        Objects.equals(bugemon.getId(), ((BugemonDTO) iv.getUserData()).getId())) {
-                    iv.setEffect(new ColorAdjust(0, -1, 0, 0));
-                    break;
-                }
-            } else {
-                if (!(node.getEffect() instanceof ColorAdjust ca && ca.getSaturation() == -1.0)) {
-                    node.setEffect(new ColorAdjust(0, -1, 0, 0));
-                    break;
-                }
+            if (node instanceof ImageView iv && isSpriteOfBugemon(iv, bugemon)) {
+                iv.setEffect(new ColorAdjust(0, -1, 0, 0));
+                break;
             }
         }
     }
@@ -112,22 +108,10 @@ public class FightTeamGridManager {
      */
     public void unMarkBugemonAsFainted(BugemonDTO bugemon) {
         GridPane grid = bugemon.isPlayer() ? teamGrid : enemyGrid;
-        if (bugemon.isPlayer()) {
-            for (Node node : grid.getChildren()) {
-                if (node instanceof ImageView iv &&
-                        Objects.equals(bugemon.getId(), ((BugemonDTO) iv.getUserData()).getId())) {
-                    iv.setEffect(null);
-                    break;
-                }
-            }
-        } else {
-            List<Node> children = grid.getChildren();
-            for (int i = children.size() - 1; i >= 0; i--) {
-                Node node = children.get(i);
-                if (node.getEffect() instanceof ColorAdjust ca && ca.getSaturation() == -1.0) {
-                    node.setEffect(null);
-                    break;
-                }
+        for (Node node : grid.getChildren()) {
+            if (node instanceof ImageView iv && isSpriteOfBugemon(iv, bugemon)) {
+                iv.setEffect(null);
+                break;
             }
         }
     }
@@ -177,5 +161,18 @@ public class FightTeamGridManager {
         view.setFitWidth(size);
         view.setPreserveRatio(true);
         return view;
+    }
+
+    /**
+     * Checks whether an ImageView is associated with the given Bugémon.
+     *
+     * @param imageView the sprite node to check
+     * @param bugemon   the Bugémon DTO to compare with
+     * @return true if the sprite represents the given Bugémon
+     */
+    private boolean isSpriteOfBugemon(ImageView imageView, BugemonDTO bugemon) {
+        Object data = imageView.getUserData();
+        return data instanceof BugemonDTO displayedBugemon
+                && Objects.equals(bugemon.getId(), displayedBugemon.getId());
     }
 }
