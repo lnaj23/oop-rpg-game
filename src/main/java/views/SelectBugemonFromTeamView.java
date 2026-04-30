@@ -14,6 +14,7 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.StageStyle;
 import views.listener.SelectBugemonFromTeamListener;
 import models.bugemon.dto.BugemonDTO;
+import views.utils.SpriteLoader;
 
 import java.io.IOException;
 import java.util.List;
@@ -70,13 +71,15 @@ public class SelectBugemonFromTeamView extends View<Controller> {
      * @param showCancel {@code true} if the cancel button should be visible,
      *                   {@code false} otherwise
      */
-    public void displayTeam(List<BugemonDTO> team, boolean showCancel) {
+    public void displayTeam(List<BugemonDTO> team, boolean showCancel) throws IOException {
         grid.getChildren().clear();
 
         for (int i = 0; i < team.size(); i++) {
             BugemonDTO bugemon = team.get(i);
             ImageView imgView = createSprite(bugemon);
-            imgView.setScaleX(-1);
+            if (bugemon.isDefault()) {
+                imgView.setScaleX(-1);
+            }
             bindEvents(imgView, bugemon);
             grid.add(imgView, i % 3, i / 3);
         }
@@ -104,14 +107,13 @@ public class SelectBugemonFromTeamView extends View<Controller> {
      * @param bugemon the Bugemon for which to create the sprite
      * @return a configured ImageView displaying the Bugemon sprite
      */
-    private ImageView createSprite(BugemonDTO bugemon) {
-        Image img  = new Image(Objects.requireNonNull(
-                getClass().getResourceAsStream(AppConfig.PNG_PREFIX + bugemon.getSprite())));
+    private ImageView createSprite(BugemonDTO bugemon) throws IOException {
+        Image img  = SpriteLoader.loadSprite(bugemon);
         ImageView view = new ImageView(img);
         view.setFitHeight(80);
         view.setFitWidth(80);
         view.setPreserveRatio(true);
-        if (bugemon.getcurrenPv() <= 0) {
+        if (bugemon.getCurrenPv() <= 0) {
             view.setEffect(new ColorAdjust(0, -1, 0, 0));
         }
         return view;

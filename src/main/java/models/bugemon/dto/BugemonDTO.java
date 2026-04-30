@@ -32,7 +32,7 @@ public interface BugemonDTO {
     /**
      * @return the current HP of the Bugémon
      */
-    int getcurrenPv();
+    int getCurrenPv();
 
     /**
      * @return the attack stat of the Bugémon
@@ -62,7 +62,7 @@ public interface BugemonDTO {
     /**
      * @return tell if the bugemon is from the player team
      */
-    boolean getIsPlayer();
+    boolean isPlayer();
 
     /**
      * @return the type fo the Bugémon
@@ -88,9 +88,11 @@ public interface BugemonDTO {
     /**
      * @return the current level of the Bugémon
      */
-    int getlevel();
+    int getLevel();
 
-    boolean isHasParticipedToTrue();
+    boolean hasParticipated();
 
     boolean isKO();
+
+    boolean isDefault();
 }

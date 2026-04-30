@@ -1,0 +1,133 @@
+.root {
+    -fx-background-color: #05070d;
+}
+
+.anchor-pane {
+    -fx-background-color: #05070d;
+}
+
+#Title {
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+.label {
+    -fx-text-fill: white;
+}
+
+.grid-pane {
+    -fx-background-color: rgba(255,255,255,0.04);
+    -fx-background-radius: 10;
+    -fx-border-color: rgba(255,255,255,0.10);
+    -fx-border-radius: 10;
+    -fx-padding: 12;
+}
+
+.text-field {
+    -fx-background-color: #d9d7cb;
+    -fx-text-fill: #1b2230;
+    -fx-prompt-text-fill: #6b7280;
+    -fx-background-radius: 4;
+    -fx-border-radius: 4;
+    -fx-border-color: transparent;
+    -fx-pref-height: 34;
+}
+
+.text {
+    -fx-background-color: #d9d7cb;
+    -fx-text-fill: #1b2230;
+    -fx-prompt-text-fill: #6b7280;
+    -fx-background-radius: 4;
+    -fx-border-radius: 4;
+    -fx-border-color: transparent;
+    -fx-pref-height: 34;
+}
+
+.text-field:focused {
+    -fx-border-color: #5bb6df;
+    -fx-border-width: 1.5;
+}
+.text:focused {
+    -fx-border-color: #5bb6df;
+    -fx-border-width: 1.5;
+}
+
+.choice-box {
+    -fx-background-color: #d9d7cb;
+    -fx-mark-color: #1b2230;
+    -fx-background-radius: 4;
+    -fx-border-radius: 4;
+}
+
+.choice-box > .label {
+    -fx-text-fill: #1b2230;
+}
+
+.button {
+    -fx-background-color: #59b7df;
+    -fx-text-fill: white;
+    -fx-font-size: 18px;
+    -fx-background-radius: 4;
+    -fx-border-radius: 4;
+    -fx-cursor: hand;
+}
+
+.button:hover {
+    -fx-background-color: #6ac2e8;
+}
+
+.button:pressed {
+    -fx-background-color: #469fc6;
+}
+
+#ChooseSpriteButton {
+    -fx-font-size: 14px;
+    -fx-pref-height: 34;
+}
+
+#AddButtton {
+    -fx-background-color: #346679;
+    -fx-text-fill: #d6dde3;
+}
+
+#AddButtton:hover {
+    -fx-background-color: #3c7287;
+}
+
+#RemoveButton {
+    -fx-background-color: #59b7df;
+    -fx-text-fill: white;
+}
+
+.vbox {
+    -fx-background-color: transparent;
+}
+
+.hbox {
+    -fx-background-color: transparent;
+}
+
+.choice-box {
+    -fx-background-color: #d9d7cb;
+    -fx-mark-color: #1b2230;
+}
+
+.choice-box > .label {
+    -fx-text-fill: #1b2230;
+}
+
+.choice-box .context-menu {
+    -fx-background-color: #d9d7cb;
+}
+
+.choice-box .menu-item > .label {
+    -fx-text-fill: #1b2230;
+}
+
+.choice-box .menu-item:focused {
+    -fx-background-color: #59b7df;
+}
+
+.choice-box .menu-item:focused > .label {
+    -fx-text-fill: white;
+}

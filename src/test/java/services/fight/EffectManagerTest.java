@@ -45,11 +45,11 @@ public class EffectManagerTest extends TestCase {
 
         Bugemon player = fight.getOnFieldPlayerBugemon();
         player.takeDamage(20);
-        int hpAfterDamage = player.getcurrenPv();
+        int hpAfterDamage = player.getCurrenPv();
 
         fight.playerAttack(2); // pluie_calme → soin +15
 
-        assertEquals(hpAfterDamage + 15, player.getcurrenPv());
+        assertEquals(hpAfterDamage + 15, player.getCurrenPv());
     }
 
     @Test
@@ -57,7 +57,7 @@ public class EffectManagerTest extends TestCase {
         Bugemon player = fightMergeauVsLoopine.getOnFieldPlayerBugemon();
         int maxHp = player.getPv();
         player.getStats().heal(9999);
-        assertEquals(maxHp, player.getcurrenPv());
+        assertEquals(maxHp, player.getCurrenPv());
     }
 
     // Stat modifier permanement

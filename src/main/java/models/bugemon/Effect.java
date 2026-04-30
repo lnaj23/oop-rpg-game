@@ -29,7 +29,7 @@ public class Effect {
 
     /** Heal value applied by this effect (only used when type is "soin"). */
     @SerializedName("valeur")
-    private int valeur;
+    private int value;
 
     /**
      * Copy constructor. Creates a deep copy of the given effect.
@@ -42,7 +42,7 @@ public class Effect {
         this.stat     = other.stat;
         this.modifier = other.modifier;
         this.duration = other.duration;
-        this.valeur = other.valeur;
+        this.value = other.value;
     }
 
     /**
@@ -95,5 +95,5 @@ public class Effect {
      *
      * @return the heal value, or null if this effect is not a heal
      */
-    public int getValeur() { return valeur; }
+    public int getValue() { return value; }
 }

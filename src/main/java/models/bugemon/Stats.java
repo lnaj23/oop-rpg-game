@@ -63,6 +63,14 @@ public class Stats {
         this.xp = other.xp;
     }
 
+    public Stats(int pv, int attack, int defense, int initiative){
+        this.pv         = pv;
+        this.currentpv  = pv;
+        this.attack     =   attack;
+        this.defense    = defense;
+        this.initiative = initiative;
+    }
+
     /**
      * Returns the maximum HP.
      *

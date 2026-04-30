@@ -29,11 +29,12 @@
     </AnchorPane>
 
     <VBox fx:id="btnquit" alignment="CENTER" spacing="30.0">
-        <Label fx:id="titelLabel" text="BUGÉMON" textAlignment="CENTER" />
+        <Label fx:id="titleLabel" text="BUGÉMON" textAlignment="CENTER" />
         <VBox alignment="CENTER" spacing="15.0">
             <Button fx:id="btnNewGame" mnemonicParsing="false" text="Nouvelle équipe" />
             <Button fx:id="btnPreBuildTeam" mnemonicParsing="false" text="Vos équipes" />
-         <Button fx:id="btnQuit" mnemonicParsing="false" text="Quitter" />
+            <Button fx:id="btnAddBugemon" mnemonicParsing="false" text="Ajouter un Bugemon" />
+            <Button fx:id="btnQuit" mnemonicParsing="false" text="Quitter" />
         </VBox>
     </VBox>
 

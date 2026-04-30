@@ -50,7 +50,8 @@ public class ControllerManager {
         VICTORY,
         DEFEAT,
         REWARD,
-        LEVEL_UP
+        LEVEL_UP,
+        ADD_BUGEMON
     }
 
     private final Stage PrimaryStage;
@@ -62,6 +63,7 @@ public class ControllerManager {
     private final DefeatController defeatController;
     private final RewardController rewardController;
     private final LevelUpController levelUpController;
+    private final AddBugemonController addBugemonController;
 
     private TeamProvider teamProvider = new TeamProvider();
 
@@ -82,6 +84,7 @@ public class ControllerManager {
         this.defeatController = new DefeatController(this);
         this.rewardController = new RewardController(this);
         this.levelUpController = new LevelUpController(this);
+        this.addBugemonController = new AddBugemonController(this);
     }
 
     /**
@@ -108,6 +111,7 @@ public class ControllerManager {
             case DEFEAT -> this.defeatController.show(PrimaryStage);
             case REWARD -> this.rewardController.show(PrimaryStage);
             case LEVEL_UP -> this.levelUpController.show(PrimaryStage);
+            case ADD_BUGEMON -> this.addBugemonController.show(PrimaryStage);
             default -> throw new IllegalArgumentException("Invalid scene: " + scene);
         }
         ensureFullScreen();
@@ -197,6 +201,11 @@ public class ControllerManager {
         this.switchScene(Scenes.PREBUILD_TEAM);
     }
 
+    public void goToAddBugemon() {
+        this.addBugemonController.initAddBugemonMenu();
+        this.switchScene(Scenes.ADD_BUGEMON);
+    }
+
     /**
      * Resets the selection view, pre-selects the given team's Bugémons, and navigates to it.
      *
@@ -259,7 +268,7 @@ public class ControllerManager {
     private void goToNextFight() {
         try {
             this.fightAgainstCPUController.setFight();
-        } catch (BugemonNotInTeamException | AttackNotFoundException | JsonResourceNotFoundException e){
+        } catch (BugemonNotInTeamException | AttackNotFoundException | JsonResourceNotFoundException | IOException e){
             this.fatalError("Une erreur est survenue lors du chargement du combat.");
             return;
         }

@@ -61,21 +61,12 @@ public class SelectionView extends View<SelectionController> {
     }
 
     /**
-     * Populates the grid with all available Bugémons.
-     *
-     * @param allBugemons the full list of Bugémons to display
-     */
-    public void displayBugemons(List<BugemonDTO> allBugemons) {
-        bugemonGridController.displayBugemons(allBugemons);
-    }
-
-    /**
      * Pre-selects the Bugémons of an existing team in the grid
      * and pushes the team list to the team panel.
      *
      * @param team the team to pre-select
      */
-    public void preSelectTeam(TeamBugemonDTO team) {
+    public void preSelectTeam(TeamBugemonDTO team) throws IOException {
         bugemonGridController.preSelectTeam(team.getTeamDTO(), teamPanelController);
         teamPanelController.refreshTeamGrid(team.getTeamDTO());
     }
@@ -85,7 +76,7 @@ public class SelectionView extends View<SelectionController> {
      *
      * @param allBugemons the full list of Bugémons to reload in the grid
      */
-    public void reset(List<BugemonDTO> allBugemons) {
+    public void reset(List<BugemonDTO> allBugemons) throws IOException {
         bugemonGridController.reset(allBugemons);
         teamPanelController.reset();
     }
@@ -142,7 +133,7 @@ public class SelectionView extends View<SelectionController> {
      *
      * @param team the updated list of Bugémons to display
      */
-    public void refreshTeamGrid(List<BugemonDTO> team) {
+    public void refreshTeamGrid(List<BugemonDTO> team) throws IOException {
         teamPanelController.refreshTeamGrid(team);
     }
 

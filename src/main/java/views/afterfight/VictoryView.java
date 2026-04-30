@@ -31,8 +31,8 @@ public class VictoryView extends View<VictoryController> {
     public void showBugemonXpList(List<BugemonDTO> bugemons, int expForEachBug) {
         bugemonXpList.getChildren().clear();
         for (BugemonDTO b : bugemons) {
-            int expGainedByThisBugemon = b.isHasParticipedToTrue() ? expForEachBug : 0;
-            Label l = new Label(b.getName() + ": (" + b.getcurrenPv() + "/" + b.getPv() + ") + " + expGainedByThisBugemon + "XP");
+            int expGainedByThisBugemon = b.hasParticipated() ? expForEachBug : 0;
+            Label l = new Label(b.getName() + ": (" + b.getCurrenPv() + "/" + b.getPv() + ") + " + expGainedByThisBugemon + "XP");
             l.setStyle("-fx-text-fill: white; -fx-font-size: 16px;");
             bugemonXpList.getChildren().add(l);
         }

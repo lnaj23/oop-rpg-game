@@ -67,7 +67,7 @@ public class Bugemon implements BugemonDTO {
     public void setHasParticipedToFalse() {
         this.hasParticiped = false;
     }
-    @Override public boolean isHasParticipedToTrue() {
+    @Override public boolean hasParticipated() {
         return this.hasParticiped;
     }
     /**
@@ -89,6 +89,7 @@ public class Bugemon implements BugemonDTO {
         this.Color = other.Color;
         this.hasParticiped = other.hasParticiped;
         this.level = other.level;
+        this.isDefault = other.isDefault;
         initAttackColors();
     }
 
@@ -128,7 +129,7 @@ public class Bugemon implements BugemonDTO {
     }
 
     @Override
-    public int getcurrenPv() {
+    public int getCurrenPv() {
         return stats.getCurrentPv();
     }
 
@@ -171,7 +172,7 @@ public class Bugemon implements BugemonDTO {
     }
 
     @Override
-    public boolean getIsPlayer() {
+    public boolean isPlayer() {
         return isPlayer;
     }
 
@@ -272,7 +273,7 @@ public class Bugemon implements BugemonDTO {
      */
     public int attack(Bugemon target, Attack attack) {
         int damage = computeDamage(this, target, attack);
-        damage = isPlayer ? 9999 : 0; // godmode for development purposes
+        //damage = isPlayer ? 9999 : 0; // godmode for development purposes
         target.takeDamage(damage);
         return damage;
     }
@@ -302,7 +303,7 @@ public class Bugemon implements BugemonDTO {
 
     public void updatestatModifierFromItem(Item item){
         int amount = item.getModifier();
-        switch (item.getStatToModifie()){
+        switch (item.getStatToModify()){
             case "attaque":   this.stats.updateAttackModifierFromItem(amount); break;
             case "defense":   this.stats.updateDefenseModifierFromItem(amount); break;
             case "initiative": this.stats.updateInitiativeModifierFromItem(amount); break;
@@ -321,7 +322,7 @@ public class Bugemon implements BugemonDTO {
      *
      * @return the current level
      */
-    public int getlevel() {
+    public int getLevel() {
         return stats.getLevel();
     }
 
@@ -367,8 +368,24 @@ public class Bugemon implements BugemonDTO {
         isPlayer = false;
     }
 
-    Bugemon(String nom, String type, int pv, String spire,Attack attack1, Attack attack2, Attack attack3){}
-
+    boolean isDefault = true;
+    @Override
+    public boolean isDefault(){
+        return isDefault;
+    }
+    public Bugemon(String name, String type, int pv, int attack, int defense, int initiative,
+            boolean starter, String sprite,List<Attack> attacks, List<String> attackNames)
+    {
+        this.id = name.toLowerCase();
+        this.name = name;
+        this.type = type;
+        this.stats = new Stats(pv, attack, defense, initiative);
+        this.starter = starter;
+        this.sprite = sprite;
+        this.attacks = attacks;
+        this.attackNames = attackNames;
+        isDefault = false;
+    }
     public boolean hasAttack(String attackId){
         for (Attack attack : attacks){
             if (attack.getId().equals(attackId)){
@@ -377,7 +394,6 @@ public class Bugemon implements BugemonDTO {
         }
         return false;
     }
-
     public void replaceAttack(Attack newAttack, Attack attackToReplace) {
         for (int i = 0; i < attacks.size(); i++) {
             if (attacks.get(i).equals(attackToReplace)) {
@@ -388,5 +404,4 @@ public class Bugemon implements BugemonDTO {
             }
         }
     }
-
 }

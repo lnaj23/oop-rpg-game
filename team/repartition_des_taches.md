@@ -9,6 +9,7 @@
 - [Itération 1](#itération-1)
 - [Itération 2](#itération-2)
 - [Itération 3](#itération-3)
+- [Itération 4](#itération-4)
 
 
 ## Itération 0
@@ -336,3 +337,99 @@ ___
 ### Risques et problèmes
 Pendant la séparation des tâches en sous-tâches, on a constaté que l'histoire 7 prendrait plus de temps que ce qu'on avait prévu parce que l'histoire 7 impliquait d'implémenter des fonctionnalités qu'on pensait déjà présente lors des itérations précédentes. Pour palier à celà, on a réduit le temps attribué sur l'histoire 9 qui elle nécessite moins de temps suite à la séparation des tâches en sous-tâches afin de respecter notre régime de 28h.
 ___
+
+## Itération 4
+### Plan d'ensemble
+
+![Plan](gantt/plans/26_04_26.jpg)
+
+### Tâches
+<table>
+    <tbody>
+        <tr><td>Vélocité :</td><td>28</td></tr>
+        <tr><td>Total Points réel :</td><td></td></tr>
+        <tr><td>Total Points estimé :</td><td>28</td></tr>
+    </tbody>
+</table>
+
+<table>
+  <thead>
+    <tr>
+      <th colspan="5" style="text-align: center;">HISTOIRE 11</th>
+    </tr>
+    <tr>
+      <th>Tâches</th>
+      <th>Pilote</th>
+      <th>Copilote</th>
+      <th>Points réels</th>
+      <th>Points estimés</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Disposition des récompenses possibles</td><td>Luqman</td><td>Maxime</td><td></td><td>2</td></tr>
+    <tr><td>Attributions des bonus de statistiques au Bugemon </td><td>Maxime</td><td>Luqman</td><td></td><td>3</td></tr>
+  </tbody>
+</table>
+
+<table>
+  <thead>
+    <tr>
+      <th colspan="5" style="text-align: center;">HISTOIRE 13</th>
+    </tr>
+    <tr>
+      <th>Tâches</th>
+      <th>Pilote</th>
+      <th>Copilote</th>
+      <th>Points réels</th>
+      <th>Points estimés</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Fxml Création Bugemon</td><td>Mohamed</td><td>Louai</td><td>2,5</td><td>3</td></tr>
+    <tr><td>View/Controller Création Bugemon</td><td>Louai</td><td>Zakaria</td><td>5</td><td>5</td></tr>
+    <tr><td>Repository Custom Bugemon</td><td>Sajid</td><td>Harry</td><td>5</td><td>5</td></tr>
+</tbody>
+</table>
+
+<table>
+  <thead>
+    <tr>
+      <th colspan="5" style="text-align: center;">HISTOIRE 15</th>
+    </tr>
+    <tr>
+      <th>Tâches</th>
+      <th>Pilote</th>
+      <th>Copilote</th>
+      <th>Points réels</th>
+      <th>Points estimés</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Animations attaques + dégats</td><td>Yanis</td><td>Maxime</td></td><td></td><td>3</td></tr>
+    <tr><td>Animations KO</td><td>Maxime</td><td>Yanis</td><td></td><td>2</td></tr>
+  </tbody>
+</table>
+
+<table>
+  <thead>
+    <tr>
+      <th colspan="5" style="text-align: center;">HISTOIRE 24</th>
+    </tr>
+    <tr>
+      <th>Tâches</th>
+      <th>Pilote</th>
+      <th>Copilote</th>
+      <th>Points réels</th>
+      <th>Points estimés</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Musique création d'équipe</td><td>Alexandre</td><td>Enzo</td><td></td><td>3</td></tr>
+    <tr><td>Musique combat</td><td>Enzo</td><td>Alexandre</td><td></td><td>2</td></tr>
+  </tbody>
+</table>
+
+### Discussions de contenu
+
+
+### Risques et problèmes

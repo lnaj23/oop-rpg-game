@@ -43,7 +43,7 @@ public class PopupManager {
      * @param anchor the node used as owner for the popup
      */
     public void showHpPopup(MouseEvent e, BugemonDTO b, Node anchor) {
-        hpLabel.setText("HP : " + b.getcurrenPv() + " / " + b.getPv());
+        hpLabel.setText("HP : " + b.getCurrenPv() + " / " + b.getPv());
         hpPopup.show(anchor, e.getScreenX() + 15, e.getScreenY() + 15);
     }
 
@@ -71,7 +71,7 @@ public class PopupManager {
      */
     public void showStatsPopup(double x, double y, BugemonDTO b, Node anchor) {
         statsLabel.setText(
-                (b.getIsPlayer() ? "Niveau " + b.getlevel() + "\n" : "" ) +
+                (b.isPlayer() ? "Niveau " + b.getLevel() + "\n" : "" ) +
                 "PV: "      + b.getPv()                 + "\n" +
                         "ATK: "     + b.getAttaque()             + "\n" +
                         "DEF: "     + b.getDefense()             + "\n" +

@@ -43,22 +43,24 @@ public class LevelUpController extends Controller<LevelUpView> {
             controllerManager.goToNextTowerStep();
             return;
         }
-
-        setBugemonLevelUp();
+        try {
+            setBugemonLevelUp();
+        } catch (IOException e) {
+            this.controllerManager.fatalError("Error lors du chargement du level up");
+        }
     }
 
     /**
      * Updates the level up screen with the Bugemon sprite
      * and the text indicating its new level.
      */
-    public void setBugemonLevelUp() {
+    public void setBugemonLevelUp() throws IOException {
         this.currentBugemon = this.bugemonToLevelUp.get(indexLevelUp);
         this.allOptions = bonusGenerator.generateOptions();
 
         int totalOccurrencesForThisBugemon = countTotalOccurrencesInCurrentBlock();
         int currentOccurrenceIndex = countCurrentOccurrenceIndexInBlock();
-        int displayedLevel = currentBugemon.getlevel() - totalOccurrencesForThisBugemon + currentOccurrenceIndex;
-
+        int displayedLevel = currentBugemon.getLevel() - totalOccurrencesForThisBugemon + currentOccurrenceIndex;
         view.updateBugemonSprite(currentBugemon);
         view.updateLevelUpText(currentBugemon, displayedLevel);
         setOptions(
@@ -128,16 +130,20 @@ public class LevelUpController extends Controller<LevelUpView> {
      * @param option the chosen option number
      */
     public void onOptionChosen(int option) {
-        // Apply level up stats
-        LevelUpBonus chosenBonus = allOptions.get(option - 1);
-        chosenBonus.applyTo(currentBugemon);
+        try {
+            // Apply level up stats
+            LevelUpBonus chosenBonus = allOptions.get(option - 1);
+            chosenBonus.applyTo(currentBugemon);
 
-        indexLevelUp++;
-        if (indexLevelUp < bugemonToLevelUp.size()) {
-            setBugemonLevelUp();
-        } else {
-            indexLevelUp = 0;
-            controllerManager.goToNextTowerStep();
+            indexLevelUp++;
+            if (indexLevelUp < bugemonToLevelUp.size()) {
+                setBugemonLevelUp();
+            } else {
+                indexLevelUp = 0;
+                controllerManager.goToNextTowerStep();
+            }
+        } catch (IOException e) {
+            this.controllerManager.fatalError("Error lors du chargement du level up");
         }
     }
 }
