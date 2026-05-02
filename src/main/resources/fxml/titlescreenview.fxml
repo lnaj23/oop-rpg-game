@@ -33,7 +33,7 @@
         <VBox alignment="CENTER" spacing="15.0">
             <Button fx:id="btnNewGame" mnemonicParsing="false" text="Nouvelle équipe" />
             <Button fx:id="btnPreBuildTeam" mnemonicParsing="false" text="Vos équipes" />
-            <Button fx:id="btnAddBugemon" mnemonicParsing="false" text="Ajouter un Bugemon" />
+            <Button fx:id="btnAddBugemon" mnemonicParsing="false" text="Ajouter un Bugémon" />
             <Button fx:id="btnQuit" mnemonicParsing="false" text="Quitter" />
         </VBox>
     </VBox>
