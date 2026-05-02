@@ -366,8 +366,8 @@ ___
     </tr>
   </thead>
   <tbody>
-    <tr><td>Disposition des récompenses possibles</td><td>Luqman</td><td>Maxime</td><td></td><td>2</td></tr>
-    <tr><td>Attributions des bonus de statistiques au Bugemon </td><td>Maxime</td><td>Luqman</td><td></td><td>3</td></tr>
+    <tr><td>Disposition des récompenses possibles</td><td>Luqman</td><td>Maxime</td><td>2</td><td>2</td></tr>
+    <tr><td>Attributions des bonus de statistiques au Bugemon </td><td>Maxime</td><td>Luqman</td><td>3</td><td>3</td></tr>
   </tbody>
 </table>
 
@@ -405,8 +405,8 @@ ___
     </tr>
   </thead>
   <tbody>
-    <tr><td>Animations attaques + dégats</td><td>Yanis</td><td>Maxime</td></td><td></td><td>3</td></tr>
-    <tr><td>Animations KO</td><td>Maxime</td><td>Yanis</td><td></td><td>2</td></tr>
+    <tr><td>Animations attaques + dégats</td><td>Yanis</td><td>Maxime</td></td><td>3</td><td>3</td></tr>
+    <tr><td>Animations KO</td><td>Maxime</td><td>Yanis</td><td>2</td><td>2</td></tr>
   </tbody>
 </table>
 
@@ -424,7 +424,7 @@ ___
     </tr>
   </thead>
   <tbody>
-    <tr><td>Musique création d'équipe</td><td>Alexandre</td><td>Enzo</td><td></td><td>3</td></tr>
+    <tr><td>Musique création d'équipe</td><td>Alexandre</td><td>Enzo</td><td>3</td><td>3</td></tr>
     <tr><td>Musique combat</td><td>Enzo</td><td>Alexandre</td><td></td><td>2</td></tr>
   </tbody>
 </table>
