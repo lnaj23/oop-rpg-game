@@ -2,9 +2,7 @@ package models.bugemon;
 
 import models.bugemon.dto.BugemonDTO;
 import models.bugemon.dto.TeamBugemonDTO;
-import exceptions.BugemonNotFoundException;
 import exceptions.BugemonNotInTeamException;
-import services.dataprovider.BugemonProvider;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,40 +14,26 @@ import java.util.stream.Collectors;
  */
 public class TeamBugemon implements TeamBugemonDTO {
 
-    /** Display name of this team. */
+    /**
+     * Display name of this team.
+     */
     private String name = null;
 
-    /** List of Bugémons belonging to this team. */
+    /**
+     * List of Bugémons belonging to this team.
+     */
     private final List<Bugemon> team;
 
-    /** The Bugémon currently active on the battlefield. */
+    /**
+     * The Bugémon currently active on the battlefield.
+     */
     private transient Bugemon onFieldBugemon = null;
 
-    /** No-arg constructor. Initialises an empty team. */
+    /**
+     * No-arg constructor. Initialises an empty team.
+     */
     public TeamBugemon() {
         team = new ArrayList<>();
-    }
-
-    /**
-     * Constructs a team from a list of Bugémon IDs.
-     *
-     * @param listeOfId the list of Bugémon IDs to load
-     * @throws BugemonNotFoundException if any ID does not match a known Bugémon
-     */
-    public TeamBugemon(List<String> listeOfId) throws BugemonNotFoundException {
-        this.team = BugemonProvider.getInstance().getListBugemon(listeOfId);
-    }
-
-    /**
-     * Constructs a named team from a list of Bugémon IDs.
-     *
-     * @param name      the name of the team
-     * @param listeOfId the list of Bugémon IDs to load
-     * @throws BugemonNotFoundException if any ID does not match a known Bugémon
-     */
-    public TeamBugemon(String name, List<String> listeOfId) throws BugemonNotFoundException {
-        this.name = name;
-        this.team = BugemonProvider.getInstance().getListBugemon(listeOfId);
     }
 
     /**
@@ -59,9 +43,18 @@ public class TeamBugemon implements TeamBugemonDTO {
      * @param other the team to copy
      */
     public TeamBugemon(TeamBugemon other) {
-        this.name           = other.name;
+        this.name = other.name;
         this.team = other.team.stream().map(Bugemon::new).collect(Collectors.toList());
         this.onFieldBugemon = null;
+    }
+
+    public TeamBugemon(String name, List<Bugemon> Bugemons) {
+        this.name = name;
+        this.team = Bugemons;
+    }
+
+    public TeamBugemon(List<Bugemon> Bugemons) {
+        this.team = Bugemons;
     }
 
     @Override
@@ -97,11 +90,11 @@ public class TeamBugemon implements TeamBugemonDTO {
         return onFieldBugemon;
     }
 
-    public String getOnFieldBugemonType(){
+    public String getOnFieldBugemonType() {
         return onFieldBugemon.getType();
     }
 
-    public List<Attack> getOnFieldBugemonAttacks(){
+    public List<Attack> getOnFieldBugemonAttacks() {
         return onFieldBugemon.getAttacks();
     }
 
@@ -231,5 +224,14 @@ public class TeamBugemon implements TeamBugemonDTO {
             if (attack == null) return true;
         }
         return false;
+    }
+
+    public Bugemon getBugemonById(String id) throws BugemonNotInTeamException {
+        for (Bugemon bug : this.getTeam()) {
+            if (bug.getId().equals(id)) {
+                return bug;
+            }
+        }
+        throw new BugemonNotInTeamException(id);
     }
 }

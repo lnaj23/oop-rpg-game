@@ -1,7 +1,5 @@
 package models.bugemon.dto;
 
-import models.bugemon.Attack;
-
 import java.util.List;
 
 /**
@@ -34,7 +32,7 @@ public interface BugemonDTO {
     /**
      * @return the current HP of the Bugémon
      */
-    int getcurrenPv();
+    int getCurrenPv();
 
     /**
      * @return the attack stat of the Bugémon
@@ -64,7 +62,7 @@ public interface BugemonDTO {
     /**
      * @return tell if the bugemon is from the player team
      */
-    boolean getIsPlayer();
+    boolean isPlayer();
 
     /**
      * @return the type fo the Bugémon
@@ -81,19 +79,20 @@ public interface BugemonDTO {
      * @param index the attack index
      * @return a CSS hex colour string
      */
-    public String getAttackColor(int index);
+     String getAttackColor(int index);
 
-    /**
-     * @return the effects currently affecting this Bugémon
-     */
-    String getActifModifierAsStringToDisplay();
+    int getAttackModifier();
+    int getDefenseModifier();
+    int getInitiativeModifier();
 
     /**
      * @return the current level of the Bugémon
      */
-    int getlevel();
+    int getLevel();
 
-    boolean isHasParticipedToTrue();
+    boolean hasParticipated();
 
     boolean isKO();
+
+    boolean isDefault();
 }

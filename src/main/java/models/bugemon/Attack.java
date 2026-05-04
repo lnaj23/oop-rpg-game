@@ -115,5 +115,10 @@ public class Attack{
         return color;
     }
 
+    @Override
+    public String toString() {
+        return name;
+    }
+
 
 }

@@ -4,11 +4,11 @@ import models.bugemon.Bugemon;
 
 /**
  * Represents a bonus option proposed to the player when a Bugemon levels up.
- *
+ * <p>
  * Each bonus is composed of stat modifications
  * (HP, attack, defense, initiative) with a total of 10 points.
  * Conversion: 1 point = 2 HP or 2 Initiative or 1 Attack or 1 Defense.
- *
+ * <p>
  * Examples of pure bonuses:
  * - +20 HP (10 points * 2 HP/point)
  * - +10 Attack (10 points * 1 Atk/point)

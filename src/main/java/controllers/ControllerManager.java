@@ -1,25 +1,34 @@
 package controllers;
 
-import controllers.AfterFight.LevelUpController;
+import controllers.afterfight.DefeatController;
+import controllers.afterfight.LevelUpController;
+import controllers.afterfight.VictoryController;
 import controllers.fight.*;
 import controllers.teamchoice.PreBuildTeamController;
 import controllers.teamchoice.SelectionController;
+import controllers.tower.ApplyBonusRewardController;
+import controllers.tower.LearnNewAttackController;
 import controllers.tower.RewardController;
+import exceptions.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import models.TowerNodeType;
+import models.bugemon.Attack;
+import models.game.LevelUpBonus;
+import models.game.TowerNodeType;
 import models.bugemon.Bugemon;
 import models.game.Item;
 import models.game.LevelTower;
-import services.fight.ExperienceService;
+import services.dataprovider.TeamProvider;
+import services.game.ExperienceService;
 import services.game.GameStateHolder;
 import views.FatalErrorView;
 import views.View;
+import views.listener.SelectAttackListener;
+import views.tower.SelectAttackView;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.logging.Level;
 
 /**
  * Central controller that manages navigation between scenes and holds shared application state.
@@ -41,7 +50,8 @@ public class ControllerManager {
         VICTORY,
         DEFEAT,
         REWARD,
-        LEVELUP
+        LEVEL_UP,
+        ADD_BUGEMON
     }
 
     private final Stage PrimaryStage;
@@ -53,6 +63,9 @@ public class ControllerManager {
     private final DefeatController defeatController;
     private final RewardController rewardController;
     private final LevelUpController levelUpController;
+    private final AddBugemonController addBugemonController;
+
+    private TeamProvider teamProvider = new TeamProvider();
 
     /**
      * Initializes all controllers and views.
@@ -60,7 +73,8 @@ public class ControllerManager {
      * @param stage the primary JavaFX stage
      * @throws IOException if any FXML file fails to load
      */
-    public ControllerManager(Stage stage) throws IOException {
+    public ControllerManager(Stage stage) throws IOException, AttackNotFoundException, JsonResourceNotFoundException {
+        GameStateHolder.getInstance();
         this.PrimaryStage = stage;
         this.titleScreenController = new TitleScreenController(this);
         this.preBuildTeamController = new PreBuildTeamController(this);
@@ -70,6 +84,7 @@ public class ControllerManager {
         this.defeatController = new DefeatController(this);
         this.rewardController = new RewardController(this);
         this.levelUpController = new LevelUpController(this);
+        this.addBugemonController = new AddBugemonController(this);
     }
 
     /**
@@ -95,7 +110,8 @@ public class ControllerManager {
             case VICTORY -> this.victoryController.show(PrimaryStage);
             case DEFEAT -> this.defeatController.show(PrimaryStage);
             case REWARD -> this.rewardController.show(PrimaryStage);
-            case LEVELUP -> this.levelUpController.show(PrimaryStage);
+            case LEVEL_UP -> this.levelUpController.show(PrimaryStage);
+            case ADD_BUGEMON -> this.addBugemonController.show(PrimaryStage);
             default -> throw new IllegalArgumentException("Invalid scene: " + scene);
         }
         ensureFullScreen();
@@ -150,8 +166,8 @@ public class ControllerManager {
         try {
             ItemChoiceController itemChoiceController = new ItemChoiceController(this);
             openSubScene(itemChoiceController.getView(), true);
-        } catch (IOException e) {
-            fatalError("couldn't load the view for the items : " + e.getMessage());
+        } catch (IOException | IllegalStateException e) {
+            fatalError("Une erreur est survenue lors du chargement de la fenêtre des objets.");
         }
     }
 
@@ -167,8 +183,8 @@ public class ControllerManager {
         try {
             SwitchBugemonController switchController = new SwitchBugemonController(this);
             openSubScene(switchController.getView(), !GameStateHolder.getInstance().isSwitchOnPurpose());
-        } catch (IOException e) {
-            fatalError("couldn't load the view for the bugemon of the team : " + e.getMessage());
+        } catch (IOException | IllegalStateException e) {
+            fatalError("Une erreur est survenue lors du chargement de la fenêtre de changement de Bugémon.");
         }
     }
 
@@ -185,6 +201,11 @@ public class ControllerManager {
         this.switchScene(Scenes.PREBUILD_TEAM);
     }
 
+    public void goToAddBugemon() {
+        this.addBugemonController.initAddBugemonMenu();
+        this.switchScene(Scenes.ADD_BUGEMON);
+    }
+
     /**
      * Resets the selection view, pre-selects the given team's Bugémons, and navigates to it.
      *
@@ -196,6 +217,16 @@ public class ControllerManager {
     }
 
     public void goToTitleScreen() {
+        if (GameStateHolder.getInstance().getCurrentTeamPlayer() != null) {
+            try {
+                teamProvider.saveTeams(GameStateHolder.getInstance().getSavedTeams());
+            } catch (SavingTeamFailedException e ) {
+                this.fatalError("Sauvegarde échouée. Les équipes n'ont pas été sauvegardées.");
+                return;
+            }
+        }
+        GameStateHolder.getInstance().clearCurrentTeamPlayer();
+        GameStateHolder.getInstance().clearCurrentLevelTower();
         this.switchScene(Scenes.TITLE_SCREEN);
     }
 
@@ -213,7 +244,7 @@ public class ControllerManager {
 
     public void goToLevelUpScreen(List<Bugemon> bugemonToLevelUp) {
         this.levelUpController.startLevelUpList(bugemonToLevelUp);
-        this.switchScene(Scenes.LEVELUP);
+        this.switchScene(Scenes.LEVEL_UP);
     }
 
     public void goToDefeatScreen() {
@@ -221,8 +252,12 @@ public class ControllerManager {
     }
 
     public void goToRewardScreen() {
-        this.rewardController.setReward();
-        this.switchScene(Scenes.REWARD);
+        try {
+            this.rewardController.setReward();
+            this.switchScene(Scenes.REWARD);
+        } catch (JsonResourceNotFoundException e){
+            this.fatalError("Une erreur est survenue lors du chargement des récompenses");
+        }
     }
 
     public void startNewTower() {
@@ -231,7 +266,12 @@ public class ControllerManager {
     }
 
     private void goToNextFight() {
-        this.fightAgainstCPUController.setFight();
+        try {
+            this.fightAgainstCPUController.setFight();
+        } catch (BugemonNotInTeamException | AttackNotFoundException | JsonResourceNotFoundException | IOException e){
+            this.fatalError("Une erreur est survenue lors du chargement du combat.");
+            return;
+        }
         this.switchScene(Scenes.FIGHT_AGAINST_CPU);
     }
 
@@ -241,18 +281,26 @@ public class ControllerManager {
             this.goToTitleScreen();
             return;
         }
-        TowerNodeType nextStep = GameStateHolder.getInstance().getCurrentStepType();
-        switch (nextStep) {
-            case COMBAT, BOSS -> this.goToNextFight();
-            case REWARD -> this.goToRewardScreen();
+        try {
+            TowerNodeType nextStep = GameStateHolder.getInstance().getCurrentStepType();
+            switch (nextStep) {
+                case COMBAT, BOSS -> this.goToNextFight();
+                case REWARD -> this.goToRewardScreen();
+            }
+        } catch (TowerNotInitializedException e){
+            this.fatalError("Une erreur est survenue lors de la progression dans la tour.");
         }
     }
 
     public void onSwitchBugemonChosen(String selectedId) {
-        fightAgainstCPUController.onSwitchBugemonChosen(
-                selectedId,
-                GameStateHolder.getInstance().isSwitchOnPurpose()
-        );
+        try {
+            fightAgainstCPUController.onSwitchBugemonChosen(
+                    selectedId,
+                    GameStateHolder.getInstance().isSwitchOnPurpose()
+            );
+        } catch (BugemonNotInTeamException e){
+            fatalError("Une erreur est survenue lors du changement de Bugemon Actif");
+        }
     }
 
     public void onSwitchCancelled() {
@@ -264,12 +312,44 @@ public class ControllerManager {
     }
 
     /**
-     * Displays a fatal error message and exits the application.
+     * Displays a fatal error message and return to the Title screen.
      *
      * @param reason description of the error
      */
     public void fatalError(String reason) {
-        FatalErrorView.show("Fatal error, closing the application.\nReason: " + reason);
-        System.exit(1);
+        FatalErrorView.show(reason);
+        this.switchScene(Scenes.TITLE_SCREEN);
+    }
+    public void openBonusRewardWindow(LevelUpBonus bonus) {
+        try {
+            ApplyBonusRewardController bonusController = new ApplyBonusRewardController(this);
+            bonusController.setBonus(bonus);
+            bonusController.displayTeam();
+            openSubScene(bonusController.getView(), true);
+        } catch (IOException e) {
+            fatalError("Une erreur est survenue lors du chargement de la fenêtre de bonus.");
+        }
+    }
+    public void openLearnAttackWindow(Attack newAttack) {
+        try {
+            LearnNewAttackController learnController = new LearnNewAttackController(this);
+            learnController.setNewAttack(newAttack);
+            learnController.displayTeam();
+            openSubScene(learnController.getView(), true);
+        } catch (IOException e) {
+            fatalError("Une erreur est survenue lors du chargement de la fenêtre d'apprentissage d'attaque.");
+        }
+    }
+
+    public void openAttackSelectionWindow(Bugemon bugemon, Attack newAttack, LearnNewAttackController controller) {
+        try {
+            SelectAttackView attackView = new SelectAttackView();
+            attackView.setListener(controller);
+            attackView.displayAttacks(bugemon.getAttacks(), newAttack.getName());
+            controller.setAttackView(attackView);
+            openSubScene(attackView, true);
+        } catch (IOException e) {
+            fatalError("Une erreur est survenue lors du chargement de la sélection d'attaque.");
+        }
     }
 }

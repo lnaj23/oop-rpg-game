@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import services.fight.TypeEffectivenessService;
+
 import services.color.TypeColorService;
 
 
@@ -67,7 +67,7 @@ public class Bugemon implements BugemonDTO {
     public void setHasParticipedToFalse() {
         this.hasParticiped = false;
     }
-    @Override public boolean isHasParticipedToTrue() {
+    @Override public boolean hasParticipated() {
         return this.hasParticiped;
     }
     /**
@@ -89,6 +89,7 @@ public class Bugemon implements BugemonDTO {
         this.Color = other.Color;
         this.hasParticiped = other.hasParticiped;
         this.level = other.level;
+        this.isDefault = other.isDefault;
         initAttackColors();
     }
 
@@ -128,7 +129,7 @@ public class Bugemon implements BugemonDTO {
     }
 
     @Override
-    public int getcurrenPv() {
+    public int getCurrenPv() {
         return stats.getCurrentPv();
     }
 
@@ -171,7 +172,7 @@ public class Bugemon implements BugemonDTO {
     }
 
     @Override
-    public boolean getIsPlayer() {
+    public boolean isPlayer() {
         return isPlayer;
     }
 
@@ -181,17 +182,6 @@ public class Bugemon implements BugemonDTO {
     @Override
     public String getAttackColor(int index) {
         return attacks.get(index).getColor();
-    }
-
-    /**
-     * Returns a list of strings representing the names and values
-     * of all currently active effects on this Bugémon.
-     *
-     * @return a list of active effect descriptions
-     */
-    @Override
-    public String getActifModifierAsStringToDisplay() {
-        return this.stats.getActifModifierAsStringToDisplay();
     }
 
 
@@ -281,16 +271,11 @@ public class Bugemon implements BugemonDTO {
      * @param attack the attack to use
      * @return a message describing the attack result
      */
-    public String attack(Bugemon target, Attack attack) {
+    public int attack(Bugemon target, Attack attack) {
         int damage = computeDamage(this, target, attack);
-        damage = isPlayer ? 9999 : 0;
+        //damage = isPlayer ? 9999 : 0; // godmode for development purposes
         target.takeDamage(damage);
-        return this.name + " utilise " + attack.getName() + "! "
-                + TypeEffectivenessService.getEffectivenessMessage(
-                attack.getType(),
-                target.getType()) + "\n"
-                + target.getName() + " perd " + damage + " PV ! "
-                + (target.isKO() ? target.getName() + " est mit KO" : "");
+        return damage;
     }
     /**
      * Chooses a random attack from the first three available attacks.
@@ -306,7 +291,7 @@ public class Bugemon implements BugemonDTO {
     }
 
     /** Associates each attack with its type color. */
-    private void initAttackColors() {
+    public void initAttackColors() {
         for (Attack attack : this.attacks) {
             attack.setColor(getTypeColorOfBugemon(attack));
         }
@@ -318,7 +303,7 @@ public class Bugemon implements BugemonDTO {
 
     public void updatestatModifierFromItem(Item item){
         int amount = item.getModifier();
-        switch (item.getStatToModifie()){
+        switch (item.getStatToModify()){
             case "attaque":   this.stats.updateAttackModifierFromItem(amount); break;
             case "defense":   this.stats.updateDefenseModifierFromItem(amount); break;
             case "initiative": this.stats.updateInitiativeModifierFromItem(amount); break;
@@ -337,7 +322,7 @@ public class Bugemon implements BugemonDTO {
      *
      * @return the current level
      */
-    public int getlevel() {
+    public int getLevel() {
         return stats.getLevel();
     }
 
@@ -373,5 +358,50 @@ public class Bugemon implements BugemonDTO {
      */
     public void levelUp() {
         stats.levelUp();
+    }
+
+    @Override public int getAttackModifier() { return stats.getTotalAttackModifier(); }
+    @Override public int getDefenseModifier() { return stats.getTotalDefenseModifier(); }
+    @Override public int getInitiativeModifier() { return stats.getTotalInitiativeModifier(); }
+
+    public void setIsPlayerToFalse() {
+        isPlayer = false;
+    }
+
+    boolean isDefault = true;
+    @Override
+    public boolean isDefault(){
+        return isDefault;
+    }
+    public Bugemon(String name, String type, int pv, int attack, int defense, int initiative,
+            boolean starter, String sprite,List<Attack> attacks, List<String> attackNames)
+    {
+        this.id = name.toLowerCase();
+        this.name = name;
+        this.type = type;
+        this.stats = new Stats(pv, attack, defense, initiative);
+        this.starter = starter;
+        this.sprite = sprite;
+        this.attacks = attacks;
+        this.attackNames = attackNames;
+        isDefault = false;
+    }
+    public boolean hasAttack(String attackId){
+        for (Attack attack : attacks){
+            if (attack.getId().equals(attackId)){
+                return true;
+            }
+        }
+        return false;
+    }
+    public void replaceAttack(Attack newAttack, Attack attackToReplace) {
+        for (int i = 0; i < attacks.size(); i++) {
+            if (attacks.get(i).equals(attackToReplace)) {
+                attacks.set(i, newAttack);
+                attackNames.set(i, newAttack.getId());
+                newAttack.setColor(getTypeColorOfBugemon(newAttack));
+                return;
+            }
+        }
     }
 }

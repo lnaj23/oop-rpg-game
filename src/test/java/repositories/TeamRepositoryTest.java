@@ -1,10 +1,13 @@
 package repositories;
 
 import configuration.AppConfig;
-import exceptions.BugemonNotFoundException;
+import exceptions.*;
 import models.bugemon.TeamBugemon;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import services.dataprovider.BugemonProvider;
+import services.dataprovider.TeamProvider;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -13,6 +16,12 @@ import java.util.List;
 import static org.junit.Assert.*;
 
 public class TeamRepositoryTest {
+
+    private BugemonProvider bugemonProvider = new BugemonProvider();
+    private TeamProvider teamProvider = new TeamProvider();
+
+    public TeamRepositoryTest() throws AttackNotFoundException, JsonResourceNotFoundException {
+    }
 
     @Before
     public void cleanup() {
@@ -23,25 +32,25 @@ public class TeamRepositoryTest {
     }
 
     @Test
-    public void testLoadTeamsEmptyWhenFileDoesNotExist() {
-        List<TeamBugemon> teams = TeamRepository.loadTeams();
+    public void testLoadTeamsEmptyWhenFileDoesNotExist() throws LoadingTeamFailedException, AttackNotFoundException, JsonResourceNotFoundException {
+        List<TeamBugemon> teams = teamProvider.loadTeams();
         assertNotNull("Teams list should not be null", teams);
         assertTrue("Teams list should be empty", teams.isEmpty());
     }
 
     @Test
-    public void testSaveAndLoadTeams() throws BugemonNotFoundException {
+    public void testSaveAndLoadTeams() throws BugemonNotFoundException, SavingTeamFailedException, LoadingTeamFailedException, JsonResourceNotFoundException, AttackNotFoundException {
         List<TeamBugemon> originalTeams = new ArrayList<>();
         
-        TeamBugemon team1 = new TeamBugemon("Mon équipe 1", List.of("florachu", "exceflam"));
-        TeamBugemon team2 = new TeamBugemon("Mon équipe 2", List.of("moussil"));
+        TeamBugemon team1 = new TeamBugemon("Mon équipe 1", bugemonProvider.getListBugemon(List.of("florachu", "exceflam")));
+        TeamBugemon team2 = new TeamBugemon("Mon équipe 2", bugemonProvider.getListBugemon(List.of("moussil")));
         
         originalTeams.add(team1);
         originalTeams.add(team2);
+
+        teamProvider.saveTeams(originalTeams);
         
-        TeamRepository.saveTeams(originalTeams);
-        
-        List<TeamBugemon> loadedTeams = TeamRepository.loadTeams();
+        List<TeamBugemon> loadedTeams = teamProvider.loadTeams();
         
         assertNotNull("Loaded teams should not be null", loadedTeams);
         assertEquals("Should have 2 teams", 2, loadedTeams.size());
@@ -52,4 +61,11 @@ public class TeamRepositoryTest {
         assertEquals("Second team name should match", "Mon équipe 2", loadedTeams.get(1).getName());
         assertEquals("Second team size should be 1", 1, loadedTeams.get(1).getSize());
     }
+
+    @After
+    public void tearDown() {
+        File f = new File(AppConfig.TEAMS_FILE);
+        if (f.exists()) f.delete();
+    }
 }
+

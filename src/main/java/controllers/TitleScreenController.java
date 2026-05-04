@@ -29,6 +29,10 @@ public class TitleScreenController extends Controller<TitleScreenView> {
         this.controllerManager.goToPrebuildTeam();
     }
 
+    public void goToAddBugemon() {
+        this.controllerManager.goToAddBugemon();
+    }
+
     /** Quit the application */
     public void quit() {
         System.exit(0);

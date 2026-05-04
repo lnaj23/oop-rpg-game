@@ -9,6 +9,7 @@
 - [Itération 1](#itération-1)
 - [Itération 2](#itération-2)
 - [Itération 3](#itération-3)
+- [Itération 4](#itération-4)
 
 
 ## Itération 0
@@ -237,13 +238,13 @@ ___
 ## Itération 3
 ### Plan d'ensemble
 
-![Plan](gantt/plans/.jpg)
+![Plan](gantt/plans/02_04_26.jpg)
 
 ### Tâches
 <table>
     <tbody>
         <tr><td>Vélocité :</td><td>28</td></tr>
-        <tr><td>Total Points réel :</td><td></td></tr>
+        <tr><td>Total Points réel :</td><td>27,5</td></tr>
         <tr><td>Total Points estimé :</td><td>28</td></tr>
     </tbody>
 </table>
@@ -262,13 +263,14 @@ ___
     </tr>
   </thead>
   <tbody>
-    <tr><td>View/Controller Victoire pour le vendredi 03/04 </td><td>Harry</td><td>Enzo</td><td></td><td></td></tr>
-    <tr><td>View/Controller Défaite pour le vendredi 03/04 </td><td>Enzo</td><td>Harry</td><td></td><td></td></tr>
-    <tr><td>View/Controller LevelUp pour le vendredi 03/04 </td><td>Maxime</td><td></td><td></td><td></td></tr>
-    <tr><td>Système d'exp pour le samedi 04/04</td><td>Zakaria</td><td></td><td></td><td></td></tr>
-    <tr><td>View/Controller Reward pour le dimanche 05/04</td><td>Luqman</td><td>Yanis</td><td></td><td></td></tr>
-    <tr><td>Calcule XP à la fin d'un combat + affichage LevelUp pour le mercredi 08/04</td><td>Alexandre</td><td>Enzo</td><td></td><td></td></tr>
-    <tr><td>Ajouter levelBugemon dans les View (deadline non définie)</td><td>Alexandre</td><td>Mohamed</td><td></td><td></td></tr>
+    <tr><td>View/Controller Victoire pour le vendredi 03/04 </td><td>Harry</td><td>Enzo</td><td>1,5</td><td>2</td></tr>
+    <tr><td>View/Controller Défaite pour le vendredi 03/04 </td><td>Enzo</td><td>Harry</td><td>1</td><td>1</td></tr>
+    <tr><td>View/Controller LevelUp pour le vendredi 03/04 </td><td>Maxime</td><td>Yanis</td><td>2</td><td>2</td></tr>
+    <tr><td>Affichage de l'exp gagné pour chacun des Bugémon qui ont combattu pour le vendredi 03/04</td><td>Sajid</td><td>Mohamed</td><td>2</td><td>2</td></tr>
+    <tr><td>Système d'exp pour le samedi 04/04</td><td>Zakaria</td><td>Sajid</td><td>3</td><td>3</td></tr>
+    <tr><td>View/Controller Reward pour le dimanche 05/04</td><td>Luqman</td><td>Yanis</td><td>2</td><td>2</td></tr>
+    <tr><td>Calcule XP à la fin d'un combat + affichage LevelUp pour le mercredi 08/04</td><td>Alexandre</td><td>Enzo</td><td>1</td><td>1</td></tr>
+    <tr><td>Ajouter levelBugemon dans les View (deadline non définie)</td><td>Alexandre</td><td>Mohamed</td><td>1</td><td>1</td></tr>
 
   </tbody>
 </table>
@@ -287,8 +289,8 @@ ___
     </tr>
   </thead>
   <tbody>
-    <tr><td>Model TowerLevel pour tracker -> GameStateHolder pour vendredi 03/04</td><td>Mohamed</td><td></td><td></td><td></td></tr>
-    <tr><td>Implementer TowerLevel dans FightView/Controller pour Dimanche 05/04</td><td>Luqman</td><td>Yanis</td><td></td><td></td></tr>
+    <tr><td>Model TowerLevel pour tracker -> GameStateHolder pour vendredi 03/04</td><td>Mohamed</td><td>Alexandre</td><td>3</td><td>3</td></tr>
+    <tr><td>Implementer TowerLevel dans FightView/Controller pour Dimanche 05/04</td><td>Luqman</td><td>Yanis</td><td>4</td><td>4</td></tr>
   </tbody>
 </table>
 
@@ -306,12 +308,128 @@ ___
     </tr>
   </thead>
   <tbody>
-    <tr><td>Initialisation de l'inventaire de démarrage (deadline non définie) </td><td>Sajid</td><td></td><td></td><td></td></tr>
-    <tr><td>Consommation des items (deadline non définie) </td><td>Sajid</td><td></td><td></td><td></td></tr>
+    <tr><td>Initialisation de l'inventaire de démarrage (deadline non définie) </td><td>Sajid</td><td>Louai</td><td>2</td><td>2</td></tr>
+    <tr><td>Consommation des items (deadline non définie) </td><td>Sajid</td><td>Louai</td><td>3</td><td>3</td></tr>
+  </tbody>
+</table>
+
+<table>
+  <thead>
+    <tr>
+      <th colspan="5" style="text-align: center;">Refactor</th>
+    </tr>
+    <tr>
+      <th>Tâches</th>
+      <th>Pilote</th>
+      <th>Copilote</th>
+      <th>Points réels</th>
+      <th>Points estimés</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>refactor réunion coach</td><td>Sajid</td><td>Yanis</td><td>1</td><td>1</td></tr>
+    <tr><td>refactor bug</td><td>Yanis</td><td>Sajid</td><td>1</td><td>1</td></tr>
   </tbody>
 </table>
 
 ### Discussions de contenu
 
 ### Risques et problèmes
+Pendant la séparation des tâches en sous-tâches, on a constaté que l'histoire 7 prendrait plus de temps que ce qu'on avait prévu parce que l'histoire 7 impliquait d'implémenter des fonctionnalités qu'on pensait déjà présente lors des itérations précédentes. Pour palier à celà, on a réduit le temps attribué sur l'histoire 9 qui elle nécessite moins de temps suite à la séparation des tâches en sous-tâches afin de respecter notre régime de 28h.
 ___
+
+## Itération 4
+### Plan d'ensemble
+
+![Plan](gantt/plans/26_04_26.jpg)
+
+### Tâches
+<table>
+    <tbody>
+        <tr><td>Vélocité :</td><td>28</td></tr>
+        <tr><td>Total Points réel :</td><td></td></tr>
+        <tr><td>Total Points estimé :</td><td>28</td></tr>
+    </tbody>
+</table>
+
+<table>
+  <thead>
+    <tr>
+      <th colspan="5" style="text-align: center;">HISTOIRE 11</th>
+    </tr>
+    <tr>
+      <th>Tâches</th>
+      <th>Pilote</th>
+      <th>Copilote</th>
+      <th>Points réels</th>
+      <th>Points estimés</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Disposition des récompenses possibles</td><td>Luqman</td><td>Maxime</td><td>2</td><td>2</td></tr>
+    <tr><td>Attributions des bonus de statistiques au Bugemon </td><td>Maxime</td><td>Luqman</td><td>3</td><td>3</td></tr>
+  </tbody>
+</table>
+
+<table>
+  <thead>
+    <tr>
+      <th colspan="5" style="text-align: center;">HISTOIRE 13</th>
+    </tr>
+    <tr>
+      <th>Tâches</th>
+      <th>Pilote</th>
+      <th>Copilote</th>
+      <th>Points réels</th>
+      <th>Points estimés</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Fxml Création Bugemon</td><td>Mohamed</td><td>Louai</td><td>2,5</td><td>3</td></tr>
+    <tr><td>View/Controller Création Bugemon</td><td>Louai</td><td>Zakaria</td><td>5</td><td>5</td></tr>
+    <tr><td>Repository Custom Bugemon</td><td>Sajid</td><td>Harry</td><td>5</td><td>5</td></tr>
+</tbody>
+</table>
+
+<table>
+  <thead>
+    <tr>
+      <th colspan="5" style="text-align: center;">HISTOIRE 15</th>
+    </tr>
+    <tr>
+      <th>Tâches</th>
+      <th>Pilote</th>
+      <th>Copilote</th>
+      <th>Points réels</th>
+      <th>Points estimés</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Animations attaques + dégats</td><td>Yanis</td><td>Maxime</td></td><td>3</td><td>3</td></tr>
+    <tr><td>Animations KO</td><td>Maxime</td><td>Yanis</td><td>2</td><td>2</td></tr>
+  </tbody>
+</table>
+
+<table>
+  <thead>
+    <tr>
+      <th colspan="5" style="text-align: center;">HISTOIRE 24</th>
+    </tr>
+    <tr>
+      <th>Tâches</th>
+      <th>Pilote</th>
+      <th>Copilote</th>
+      <th>Points réels</th>
+      <th>Points estimés</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Musique création d'équipe</td><td>Alexandre</td><td>Enzo</td><td>3</td><td>3</td></tr>
+    <tr><td>Musique combat</td><td>Enzo</td><td>Alexandre</td><td></td><td>2</td></tr>
+  </tbody>
+</table>
+
+### Discussions de contenu
+
+
+### Risques et problèmes

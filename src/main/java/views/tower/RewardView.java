@@ -4,23 +4,28 @@ import configuration.AppConfig;
 import controllers.tower.RewardController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
+import models.game.dto.ItemDTO;
 import views.View;
 
 import java.io.IOException;
 
 public class RewardView extends View<RewardController> {
 
-    @FXML private Label rewardLabel;
-    @FXML private Button continueButton;
+    @FXML private Button gainItemBtn;
+    @FXML private Button learnAttackBtn;
+    @FXML private Button gainBonusBtn;
 
     public RewardView() throws IOException {
         super(AppConfig.FXML_REWARD);
-        continueButton.setOnAction(e -> this.controller.onContinueClicked());
+        gainItemBtn.setOnAction(e -> this.controller.onGainItemBtnClicked());
+        learnAttackBtn.setOnAction(e -> {this.controller.onlearnAttackBtnClicked();});
+        gainBonusBtn.setOnAction(e -> {this.controller.onGainBonusBtnClicked();});
     }
 
-    public void setRewardText(String text) {
-        rewardLabel.setText(text);
+    public void setRewardDisplay(ItemDTO item, String attackName, String bonus) {
+        gainItemBtn.setText("Obtenir cet objet : " + "\n" + item.getName());
+        learnAttackBtn.setText("Apprendre cette attaque à un Bugemon : " + "\n" + attackName);
+        gainBonusBtn.setText("Appliquer ce Bonus à un Bugemon : " + "\n" + bonus);
     }
 
     @Override

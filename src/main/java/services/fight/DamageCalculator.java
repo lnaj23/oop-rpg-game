@@ -2,7 +2,6 @@ package services.fight;
 
 import models.bugemon.Attack;
 import models.bugemon.Bugemon;
-import services.fight.TypeEffectivenessService;
 
 import java.util.Random;
 

@@ -44,6 +44,29 @@
     - [Classes et méthodes abstraites](#classes-et-méthodes-abstraites)
     - [Singleton — GameStateHolder](#singleton--gamstateholder)
 
+- [Itération 3](#itération-3)
+  - [Suivi de planification du projet](#suivi-de-planification-du-projet-2)
+    - [Analyse de l'écart (Prévu vs Réalisé)](#analyse-de-lécart-prévu-vs-réalisé-2)
+    - [Gestion des risques (R1, R2, R3)](#gestion-des-risques-r1-r2-r3-2)
+    - [Commentaires sur la Burndown Chart](#commentaires-sur-la-burndown-chart-1)
+  - [Motivation des choix pris lors de la conception](#motivation-des-choix-pris-lors-de-la-conception-2)
+    - [Structure du code](#structure-du-code-2)
+    - [Justification du modèle MVC](#justification-du-modèle-mvc-2)
+      - [Modèle](#modèle-2)
+      - [Vue](#vue-2)
+      - [Contrôleur](#contrôleur-2)
+      - [Services et repositories](#services-et-repositories-2)
+    - [Principe de la programmation orientée objet](#principe-de-la-programmation-orientée-objet)
+      - [Encapsulation](#encapsulation-1)
+      - [Interfaces](#interfaces-1)
+      - [Héritage](#héritage-1)
+      - [Classes et méthodes abstraites](#classes-et-méthodes-abstraites-1)
+    - [Design Patterns](#design-patterns-1)
+    - [Programmation défensive](#programmation-défensive-1)
+      - [Mécanismes de typage](#mécanismes-de-typage-1)
+      - [Exceptions](#exceptions-1)
+      - [Assertions](#assertions-1)
+
 # Itération 1
 
 - Date : 09/03/2026
@@ -149,6 +172,7 @@ Dans notre nouvelle méthode de travail de la seconde itération, en limitant le
 
 Suite à notre réunion avec le coach, il a également été relevé une grande inégalité dans le nombre de commits entre les membres : certains avaient 25 commits ou plus tandis que d'autres en avaient 0 ou 1. Ce déséquilibre était en partie dû à une mauvaise pratique de l'itération 1, où au lieu de merger les branches vers le main, un membre du groupe se chargeait de copier-coller le code des branches directement sur le main, ce qui faisait que les commits sur les branches n'étaient pas comptabilisés. Ce problème a été corrigé durant cette seconde itération.
 Malgré cela, une grande inégalité persiste dans les commits.
+Cependant, une grande inégalité persiste dans les commits. Cela est dû au fait que certains membres du groupe sont trop investis et prennent des tâches qui ne leur sont pas attribuées. Nous en avons discuté en réunion et nous verrons si la situation s'améliore pour l'itération 3.
 ### Gestion des risques (R1, R2, R3)
 Pour l'histoire 8, nous avions attribué un risque R3. L'implémentation de l'EffectManager s'est avérée plus complexe que prévu notamment pour la gestion des effets temporaires et leur expiration, le risque aurait dû être évalué à R2.
 ### Commentaires sur la Burndown Chart
@@ -220,3 +244,95 @@ metaController.goToFight();
 Les controllers SwitchBugemonController et ItemChoiceController lisent directement depuis le holder sans recevoir aucun argument. À la fin du combat on peut aussi écrire l'état actuel de la team (Bugémons en vie, leurs PV restants, etc.) pour les combats d'après (feature pas encore implémentée), de même pour l'état de l'inventaire.
 
 Un singleton garantit une seule instance durant toute l'exécution, ce qui correspond exactement au pattern Singleton décrit dans le cours avec constructeur private et méthode getInstance().
+
+# Itération 3
+
+- Date : 12/04/2026
+## Suivi de planification du projet
+
+### Analyse de l'écart (Prévu vs Réalisé)
+Pour cette itération, la vélocité était fixée à 28 points. Nous avons réalisé 27,5 points. Cette amélioration s'explique par le fait qu'en analysant notre manière de travailler sur les 2 itérations précédentes, nous comprenons mieux ce qu'il faut faire et comment le faire, ce qui nous permet désormais d'estimer bien plus précisément la charge de travail réelle de chaque histoire.
+Lors de la répartition des tâches en sous-tâches, nous avons constaté que l'histoire 7 prendrait un peu plus de temps que prévu et l'histoire 9 un peu moins. Nous avons donc simplement échangé les heures supplémentaires entre ces deux histoires tout en restant aux alentour de 28 points au total.
+Par rapport aux itérations précédentes, nous avons amélioré la répartition du nombre de commits entre les membres. La discussion que nous avions eue lors de l'itération 2 sur le fait que certaines personnes en faisaient trop a porté ses fruits, même si un déséquilibre persiste encore, nous sommes sur la bonne voie et nous allons continuer dans cette direction pour l'itération 4.
+### Gestion des risques (R1, R2, R3)
+Pour l'histoire 7 (expérience et montée de niveau), nous avions attribué un risque R3. Ce risque s'est avéré sous-estimé car nous pensions que plusieurs fonctionnalités nécessaires seraient déjà implémentées dans les histoires précédentes, ce qui n'était pas le cas. Le risque aurait dû être évalué à R2.
+Pour l'histoire 9 (structure de la Tour NO), nous avions attribué un risque R1. Cette histoire s'est très bien déroulée sans aucune difficulté particulière, le risque élevé était donc surestimé.
+Pour l'histoire 10 (utiliser un objet), nous avions attribué un risque R3. Cette histoire s'est déroulée sans difficulté, la majeure partie du travail étant déjà réalisée dans les histoires précédentes.
+### Commentaires sur la Burndown Chart
+La burndown chart de cette itération montre une progression en deux temps. Durant la première moitié de l'itération (jours 1 à 7), la courbe réelle descend nettement plus vite que la courbe idéale, témoignant d'un rythme de travail soutenu en début d'itération. La seconde moitié est plus calme, la courbe réelle et idéale se rejoignant progressivement vers le jour 13. Cette allure s'explique par le fait que nous préférons terminer les histoires rapidement afin de disposer de temps en fin d'itération pour corriger les éventuels commentaires du coach avant la remise finale.
+## Motivation des choix pris lors de la conception
+### Structure du code
+Par rapport à l'itération 2, la structure des packages a évolué avec l'ajout de nouveaux sous-packages liés aux nouvelles histoires implémentées.
+La nouvelle structure est la suivante :
+```
+├── configuration
+├── controllers
+│   ├── afterfight
+│   ├── fight
+│   ├── teamchoice
+│   └── tower
+├── exceptions
+├── models
+│   ├── bugemon
+│   │   └── dto
+│   └── game
+│       └── dto
+├── persistence
+├── repositories
+├── services
+│   ├── color
+│   ├── dataprovider
+│   ├── fight
+│   └── game
+└── views
+├── afterfight
+├── fight
+├── listener
+├── teamchoice
+│   └── selection
+├── tower
+└── utils
+```
+Les changements principaux par rapport à l'itération 2 sont les suivants. Un nouveau sous-package controllers/afterfight/ regroupe les controllers VictoryController, DefeatController et LevelUpController qui gèrent tous les écrans après un combat. 
+De même, un sous-package views/afterfight/ et views/tower/ ont été créés pour leurs vues associées. Le package listener/ a été déplacé dans views/listener/ pour mieux refléter le fait que les interfaces listener sont définies du côté des vues. Enfin, JsonRepository a été introduite comme classe abstraite de base pour presque tous les repositories.
+Seul TeamRepository n'hérite pas de JsonRepository car il ne lit pas ses données depuis le package resources, contrairement aux autres repositories, mais depuis le package persistence, dédié aux données propres à l'utilisateur qui ne doivent pas être versionnées sur Git. 
+Si l'histoire 13 "Ajouter des Bugémons" est implémentée, il sera pertinent d'introduire une méthode générique readJSONFromPersistence dans JsonRepository et de créer une classe CustomBugemonRepository qui en hérite, afin d'éviter la duplication de logique similaire entre les deux types de lecture. Nous garderons cette piste en tête pour une itération 4.
+### Justification du modèle MVC
+#### Modèle
+Le modèle s'est enrichi cette itération avec l'ajout de nouvelles classes. LevelUpBonus représente un bonus de montée de niveau avec ses quatre composantes (HP, attaque, défense, initiative) et sa méthode applyTo(Bugemon) qui applique directement le bonus sur le Bugémon concerné. LevelTower gère la progression dans la Tour NO avec son pattern fixe de 6 étapes par étage. TowerNodeType est un enum qui représente les trois types de nœuds possibles (COMBAT, REWARD, BOSS). Conformément aux principes du cours, ces classes restent totalement indépendantes de JavaFX.
+#### Vue
+Les vues ont été enrichies avec plusieurs nouveaux écrans. LevelUpView affiche le Bugémon qui monte de niveau, son sprite, le message de niveau atteint et les trois boutons d'options de bonus proposées au joueur. VictoryView affiche l'XP totale gagnée ainsi que la liste de tous les Bugémons de l'équipe avec leur XP individuelle. RewardView affiche la récompense obtenue après une case bonus et un bouton "Continuer". ItemsView est une sous-fenêtre modale affichant la liste des objets disponibles via une ListView<ItemDTO> et permet au joueur de sélectionner et utiliser un objet durant le combat.
+#### Contrôleur
+Le LevelUpController orchestre l'enchaînement des montées de niveau après un combat : 
+il gère la file de Bugémons à faire monter de niveau, affiche les options de bonus et applique le choix du joueur avant de passer au 
+Bugémon suivant ou de continuer dans la tour.
+#### Services et repositories
+Cette itération ajoute plusieurs nouveaux services. ExperienceService calcule et distribue l'XP après un combat selon la formule de la spécification. LevelUpBonusGenerator génère les 3 options de bonus proposées au joueur lors d'une montée de niveau. ItemEffectApplier applique les effets des objets sur les Bugémons. ItemProvider et ItemRepository gèrent l'accès aux données des objets. Enfin, JsonRepository est introduite comme classe abstraite générique dont héritent tous les repositories, centralisant la logique de désérialisation JSON.
+Suite à notre deuxième réunion avec le coach, nous avons revu l'architecture de notre couche de données. Initialement, les Provider étaient implémentés en tant que singletons tandis que les Repository utilisaient des méthodes statiques. Après discussion, nous avons réalisé que cette approche inversait les responsabilités : le pattern singleton est particulièrement pertinent lorsqu'on a besoin d'un point d'accès unique à une ressource partagée, ce qui correspond exactement au rôle des Repository qui encapsulent l'accès aux fichiers JSON. Les Provider, quant à eux, n'ont pas cette contrainte et peuvent être instanciés directement là où on en a besoin. Nous avons donc inversé la logique : les Repository (BugemonRepository, AttackRepository, ItemRepository, TeamRepository) sont désormais des singletons, garantissant qu'un seul chargement du fichier JSON est effectué, tandis que les Provider sont de simples classes instanciables.
+Afin de s'assurer que l'initialisation des Bugémons du BugemonRepository — assignation des attaques, des couleurs et des PV — ne soit effectuée qu'une seule fois quel que soit le nombre d'instanciations du BugemonProvider, nous avons introduit un booléen statique initialized qui garantit que ce traitement n'est exécuté qu'au premier appel du constructeur.
+Par ailleurs, nous avons corrigé une violation MVC dans le modèle TeamBugemon, dont certains constructeurs faisaient appel directement à BugemonProvider pour résoudre des IDs en objets Bugémon. Cette dépendance d'un modèle envers une couche de service étant une mauvaise pratique, ces constructeurs ont été refactorisés pour recevoir directement une liste de Bugémons déjà résolue, la responsabilité de l'appel au Provider étant désormais déléguée aux controllers.
+### Principe de la programmation orientée objet
+#### Encapsulation
+Le projet continue de respecter l'encapsulation avec des attributs private final dans les nouvelles classes modèles comme LevelUpBonus, dont tous les attributs sont immuables. Cela garantit l'intégrité des données et évite toute modification accidentelle.
+#### Interfaces
+Les interfaces listener FightListener et SelectBugemonFromTeamListener sont désormais regroupées dans views/listener/ ce qui renforce leur rôle d'interface de communication entre la vue et le controller. Aucune nouvelle interface n'a été ajoutée cette itération mais leur déplacement clarifie l'architecture.
+#### Héritage
+Cette itération enrichit les hiérarchies existantes avec LevelUpController, LevelUpView, VictoryController (refactorisé), DefeatController et RewardController qui héritent tous de Controller<T extends View> et View sans dupliquer de code.
+#### Classes et méthodes abstraites
+JsonRepository est introduite comme classe abstraite générique dont héritent tous les repositories (BugemonRepository, AttackRepository, ItemRepository, TeamRepository). Elle centralise la logique de désérialisation JSON via la méthode statique générique readJSONFromAssets(String path, Class<W> wrapperClass) et l'interface interne JsonWrapper<T> que chaque repository implémente. C'est un exemple typique du pattern Template Method du syllabus appliqué aux repositories.
+### Design Patterns
+Le Template Method est toujours appliqué via la classe abstraite View et ses sous-classes. Cette itération l'étend également à JsonRepository : la méthode readJSONFromAssets() définit le squelette de la désérialisation JSON et chaque repository fournit sa propre classe wrapper via l'interface JsonWrapper<T>.
+Le Singleton est désormais appliqué à deux niveaux : le GameStateHolder comme à l'itération 2, et les repositories (BugemonRepository, AttackRepository, ItemRepository, TeamRepository) qui garantissent chacun qu'un seul chargement du fichier JSON est effectué durant toute l'exécution.
+Le Prototype est toujours utilisé via les copies profondes Bugemon(Bugemon other), TeamBugemon(TeamBugemon other) et Stats(Stats other) pour isoler les données entre les équipes en combat.
+L'Iterator est toujours utilisé à travers les boucles for-each sur les listes de Bugémons, d'attaques et d'effets actifs.
+La Facade est toujours assurée par le ControllerManager qui centralise toute la navigation et masque la complexité de la gestion des scènes et sous-fenêtres modales.
+L'Observer est toujours appliqué via les interfaces FightListener et SelectBugemonFromTeamListener, désormais regroupées dans views/listener/.
+### Programmation défensive
+#### Mécanismes de typage
+Le typage générique Controller<T extends View> et JsonRepository avec son interface interne JsonWrapper<T> garantissent toujours le bon typage sans cast. Les interfaces DTO protègent toujours les modèles d'une modification directe depuis les vues.
+#### Exceptions
+Cette itération apporte une refonte complète de la gestion des erreurs suite au feedback du coach. Initialement, les exceptions étaient soit ignorées silencieusement avec un simple System.err.println, soit converties en RuntimeException sans retour visuel à l'utilisateur. Désormais, dans les couches inférieures comme les repositories et les services, les exceptions sont déclarées dans les signatures de méthodes via throws et remontent jusqu'aux controllers sans être catchées inutilement en chemin. C'est au niveau des controllers que l'exception est finalement traitée, ce qui permet de donner un retour visuel clair à l'utilisateur.
+Lorsque c'est possible, on préfère faire remonter l'exception jusqu'au ControllerManager plutôt que de la catcher dans chaque controller individuellement, car cela centralise la logique de gestion d'erreur et rend le code plus lisible. C'est le ControllerManager qui affiche le message d'erreur via sa méthode fatalError(), laquelle délègue l'affichage à FatalErrorView. Cette classe n'hérite pas de View car elle n'est associée à aucun controller — elle est statique et indépendante du cycle de vie des scènes JavaFX.
+De nouvelles exceptions ont également été ajoutées : JsonResourceNotFoundException, LoadingTeamFailedException, SavingTeamFailedException et TowerNotInitializedException, chacune représentant un cas d'erreur précis et explicite.
+#### Assertions
+Les tests JUnit constituent toujours notre principale forme de programmation défensive. Cette itération ajoute ExperienceServiceTest, LevelUpBonusGeneratorTest, LevelUpBonusTest, StatsTest, ItemRepositoryTest et enrichit les tests existants, couvrant notamment le calcul d'XP, la génération des options de bonus, la montée de niveau et l'application des bonus sur les stats.

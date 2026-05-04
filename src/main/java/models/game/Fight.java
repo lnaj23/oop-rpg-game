@@ -6,8 +6,9 @@ import models.bugemon.Bugemon;
 import models.bugemon.TeamBugemon;
 import models.bugemon.dto.BugemonDTO;
 import services.fight.EffectManager;
+import services.fight.EffectResult;
 import services.fight.TypeEffectivenessService;
-
+import services.fight.AttackMessageService;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -23,9 +24,8 @@ public class Fight {
     private final TeamBugemon teamEnemy;
     private boolean isPlayerTurn;
     private String actionResulText;
-    private List<String> predictedEffectiveness = new ArrayList<>();
+    private final List<String> predictedEffectiveness = new ArrayList<>();
     private final Random random = new Random();
-    private final java.util.Set<Bugemon> participatingBugemons = new java.util.LinkedHashSet<>();
 
 
     /**
@@ -34,12 +34,11 @@ public class Fight {
      * @throws BugemonNotInTeamException if the first Bugémon cannot be placed on the field
      */
     public Fight(TeamBugemon teamPlayer, TeamBugemon teamEnemy) throws BugemonNotInTeamException {
-        this.teamPlayer = new TeamBugemon(teamPlayer);
-        this.teamEnemy  = new TeamBugemon(teamEnemy);
-        this.teamPlayer.getTeam().forEach(b -> b.setIsPlayerToTrue());
+        this.teamPlayer = teamPlayer;
+        this.teamEnemy  = teamEnemy;
+        this.teamPlayer.getTeam().forEach(Bugemon::setIsPlayerToTrue);
+        this.teamEnemy.getTeam().forEach(Bugemon::setIsPlayerToFalse);
         this.teamPlayer.changeOnFieldBugemon(this.teamPlayer.getTeam().getFirst());
-        // The first Bugemon sent to the field is a participant
-        participatingBugemons.add(this.teamPlayer.getOnFieldBugemon());
         for(Bugemon bug : this.teamPlayer.getTeam()){
             bug.initPv(); // Heal all bugemon at the start, maybe we'll remove if we want to make a real roguelike game
             bug.resetAllModifiers();
@@ -70,8 +69,11 @@ public class Fight {
         Bugemon defender         = isPlayerTurn ? teamEnemy.getOnFieldBugemon()  : teamPlayer.getOnFieldBugemon();
         TeamBugemon attackerTeam = isPlayerTurn ? teamPlayer : teamEnemy;
         TeamBugemon defenderTeam = isPlayerTurn ? teamEnemy  : teamPlayer;
-        actionResulText = attacker.attack(defender, attack) + "\n"
-                + EffectManager.handleEffect(attacker, defender, attackerTeam, defenderTeam, attack);
+
+        int damage = attacker.attack(defender, attack);
+        EffectResult effectResult = EffectManager.handleEffect(attacker, defender, attackerTeam, defenderTeam, attack);
+
+        actionResulText = AttackMessageService.buildAttackMessage(attacker, defender, attack, damage, effectResult);
         switchRole();
     }
 
@@ -86,8 +88,6 @@ public class Fight {
                 .findFirst()
                 .orElseThrow(() -> new BugemonNotInTeamException(id));
         teamPlayer.changeOnFieldBugemon(bugemon);
-        // The Bugemon sent to the field is added to combat participant
-        participatingBugemons.add(bugemon);
     }
 
     /**
@@ -159,16 +159,7 @@ public class Fight {
     public List<Bugemon> getAvailableEnemyBugemons() { return teamEnemy.getAvailableBugemons(); }
     public String getActionResultText() { return actionResulText; }
 
-    /**
-     * Returns the list of player Bugemons that participated in the combat.
-     * Used by ExperienceService for XP distribution
-     * only participants receive XP.
-     *
-     * @return the list of participating Bugemons (no duplicates)
-     */
-    public List<Bugemon> getParticipatingBugemons() {
-        return new ArrayList<>(participatingBugemons);
-    }
+
 
     /**
      * Returns the number of Bugemons in the enemy team for XP computation enemy_count factor
@@ -213,8 +204,5 @@ public class Fight {
         if (available.isEmpty()) return;
         Bugemon randomBug = available.get(random.nextInt(available.size()));
         changeEnemyOnField(randomBug);
-    }
-    public void removeOnFieldEnemyFromTeam() {
-        teamEnemy.getTeam().remove(teamEnemy.getOnFieldBugemon());
     }
 }

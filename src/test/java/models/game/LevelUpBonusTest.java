@@ -1,24 +1,32 @@
 package models.game;
 
+import exceptions.AttackNotFoundException;
 import exceptions.BugemonNotFoundException;
 import exceptions.BugemonNotInTeamException;
+import exceptions.JsonResourceNotFoundException;
 import junit.framework.TestCase;
 import models.bugemon.Bugemon;
 import models.bugemon.TeamBugemon;
 import org.junit.Test;
+import services.dataprovider.BugemonProvider;
 
 import java.util.List;
 
 
 public class LevelUpBonusTest extends TestCase {
 
+    private BugemonProvider bugemonProvider = new BugemonProvider();
+
+    public LevelUpBonusTest() throws AttackNotFoundException, JsonResourceNotFoundException {
+    }
+
     /**
      * Helper to get a fresh Bugemon from a Fight,
      * following the same pattern as EffectManagerTest.
      */
-    private Bugemon createBugemon(String id) throws BugemonNotFoundException, BugemonNotInTeamException {
-        TeamBugemon teamPlayer = new TeamBugemon(List.of(id));
-        TeamBugemon teamEnemy  = new TeamBugemon(List.of("loopine"));
+    private Bugemon createBugemon(String id) throws BugemonNotFoundException, BugemonNotInTeamException, JsonResourceNotFoundException {
+        TeamBugemon teamPlayer = new TeamBugemon(bugemonProvider.getListBugemon(List.of(id)));
+        TeamBugemon teamEnemy  = new TeamBugemon(bugemonProvider.getListBugemon(List.of("loopine")));
         Fight fight = new Fight(teamPlayer, teamEnemy);
         return fight.getOnFieldPlayerBugemon();
     }
@@ -27,7 +35,7 @@ public class LevelUpBonusTest extends TestCase {
      * Verifies that a pure HP bonus correctly increases max HP.
      */
     @Test
-    public void testApplyHpBonus() throws BugemonNotFoundException, BugemonNotInTeamException {
+    public void testApplyHpBonus() throws BugemonNotFoundException, BugemonNotInTeamException, JsonResourceNotFoundException {
         Bugemon bugemon = createBugemon("florachu");
         int pvBefore = bugemon.getPv();
 
@@ -41,7 +49,7 @@ public class LevelUpBonusTest extends TestCase {
      * Verifies that a pure attack bonus correctly increases attack.
      */
     @Test
-    public void testApplyAttackBonus() throws BugemonNotFoundException, BugemonNotInTeamException {
+    public void testApplyAttackBonus() throws BugemonNotFoundException, BugemonNotInTeamException, JsonResourceNotFoundException {
         Bugemon bugemon = createBugemon("florachu");
         int atkBefore = bugemon.getAttaque();
 
@@ -55,7 +63,7 @@ public class LevelUpBonusTest extends TestCase {
      * Verifies that a pure defense bonus correctly increases defense.
      */
     @Test
-    public void testApplyDefenseBonus() throws BugemonNotFoundException, BugemonNotInTeamException {
+    public void testApplyDefenseBonus() throws BugemonNotFoundException, BugemonNotInTeamException, JsonResourceNotFoundException {
         Bugemon bugemon = createBugemon("exceflam");
         int defBefore = bugemon.getDefense();
 
@@ -69,7 +77,7 @@ public class LevelUpBonusTest extends TestCase {
      * Verifies that a mixed bonus (attack + defense) applies correctly.
      */
     @Test
-    public void testApplyMixedBonus() throws BugemonNotFoundException, BugemonNotInTeamException {
+    public void testApplyMixedBonus() throws BugemonNotFoundException, BugemonNotInTeamException, JsonResourceNotFoundException {
         Bugemon bugemon = createBugemon("exceflam");
         int atkBefore = bugemon.getAttaque();
         int defBefore = bugemon.getDefense();

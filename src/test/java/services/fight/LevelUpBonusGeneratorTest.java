@@ -3,6 +3,7 @@ package services.fight;
 import junit.framework.TestCase;
 import models.game.LevelUpBonus;
 import org.junit.Test;
+import services.game.LevelUpBonusGenerator;
 
 import java.util.List;
 

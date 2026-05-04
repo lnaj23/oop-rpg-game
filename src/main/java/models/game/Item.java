@@ -4,7 +4,6 @@ import com.google.gson.annotations.SerializedName;
 import models.bugemon.Effect;
 import models.game.dto.ItemDTO;
 
-import java.util.List;
 
 /**
  * Represents an item that can be used during a fight.
@@ -36,13 +35,18 @@ public class Item implements ItemDTO {
 
 
 
-
+    @Override
     public String getId() { return id; }
+
+    @Override
     public String getName() { return name; }
+
+    @Override
     public String getDescription() { return description; }
+
     public String getCategory() { return category; }
-    public int getEffectValue() {return this.effect.getValeur();}
-    public String getStatToModifie(){ return this.effect.getStat();}
+    public int getEffectValue() {return this.effect.getValue();}
+    public String getStatToModify(){ return this.effect.getStat();}
     public int getModifier() { return this.effect.getModifier();}
     public Effect getEffect() { return this.effect; }
     @Override

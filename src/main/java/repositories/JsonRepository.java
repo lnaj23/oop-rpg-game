@@ -1,7 +1,7 @@
 package repositories;
 
 import com.google.gson.Gson;
-import com.google.gson.stream.JsonReader;
+import exceptions.JsonResourceNotFoundException;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -11,7 +11,7 @@ import java.util.List;
  * Abstract base repository providing a generic JSON deserialization utility.
  * <p>
  * Subclasses must define an inner wrapper class implementing {@link JsonWrapper}
- * in order to use {@link #readJSON}.
+ * in order to use {@link #readJSONFromAssets}.
  * </p>
  */
 public abstract class JsonRepository {
@@ -20,7 +20,7 @@ public abstract class JsonRepository {
      * Contract imposed on every wrapper class used for JSON deserialization.
      * <p>
      * Each wrapper must expose its list via {@link #getItems()}, allowing
-     * {@link #readJSON} to extract the content without an external extractor.
+     * {@link #readJSONFromAssets} to extract the content without an external extractor.
      * </p>
      *
      * @param <T> the type of the elements contained in the list
@@ -46,11 +46,11 @@ public abstract class JsonRepository {
      * @return the list extracted from the JSON file
      * @throws IllegalStateException if the file is not found in the classpath
      */
-    protected static <W extends JsonWrapper<T>, T> List<T> readJSON(String path, Class<W> wrapperClass) {
+    protected static <W extends JsonWrapper<T>, T> List<T> readJSONFromAssets(String path, Class<W> wrapperClass) throws JsonResourceNotFoundException {
         Gson gson = new Gson();
         InputStream stream = JsonRepository.class.getResourceAsStream(path);
-        if (stream == null) throw new IllegalStateException("Resource not found: " + path);
-        JsonWrapper<T> wrapper = gson.fromJson(new InputStreamReader(stream), wrapperClass);
+        if (stream == null) throw new JsonResourceNotFoundException(path);
+        JsonWrapper<T> wrapper = gson.fromJson(new InputStreamReader(stream, java.nio.charset.StandardCharsets.UTF_8), wrapperClass);
         return wrapper.getItems();
     }
 }

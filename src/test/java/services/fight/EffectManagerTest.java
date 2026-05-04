@@ -1,13 +1,16 @@
 package services.fight;
 
+import exceptions.AttackNotFoundException;
 import exceptions.BugemonNotFoundException;
 import exceptions.BugemonNotInTeamException;
+import exceptions.JsonResourceNotFoundException;
 import junit.framework.TestCase;
 import models.bugemon.Bugemon;
 import models.bugemon.TeamBugemon;
 import models.game.Fight;
 import org.junit.Before;
 import org.junit.Test;
+import services.dataprovider.BugemonProvider;
 
 import java.util.List;
 
@@ -19,30 +22,34 @@ public class EffectManagerTest extends TestCase {
     //             [1] pollen_sournois (adversaire, initiative, -10, 1_tour)
     //             [2] feuille_tranchante (aucun effet)
     private Fight fightMergeauVsLoopine;
+    private BugemonProvider bugemonProvider = new BugemonProvider();
+
+    public EffectManagerTest() throws AttackNotFoundException, JsonResourceNotFoundException {
+    }
 
     @Before
-    public void setUp() throws BugemonNotFoundException, BugemonNotInTeamException {
-        TeamBugemon teamPlayer = new TeamBugemon(List.of("mergeau"));
-        TeamBugemon teamEnemy  = new TeamBugemon(List.of("loopine"));
+    public void setUp() throws BugemonNotFoundException, BugemonNotInTeamException, JsonResourceNotFoundException {
+        TeamBugemon teamPlayer = new TeamBugemon(bugemonProvider.getListBugemon(List.of("mergeau")));
+        TeamBugemon teamEnemy  = new TeamBugemon(bugemonProvider.getListBugemon(List.of("loopine")));
         fightMergeauVsLoopine  = new Fight(teamPlayer, teamEnemy);
     }
 
     // Soin
 
     @Test
-    public void testHealRestoresPlayerHp() throws BugemonNotFoundException, BugemonNotInTeamException {
+    public void testHealRestoresPlayerHp() throws BugemonNotFoundException, BugemonNotInTeamException, JsonResourceNotFoundException {
         // commitide a pluie_calme (index 2) = soin lanceur +15 PV
-        TeamBugemon teamPlayer = new TeamBugemon(List.of("commitide"));
-        TeamBugemon teamEnemy  = new TeamBugemon(List.of("loopine"));
+        TeamBugemon teamPlayer = new TeamBugemon(bugemonProvider.getListBugemon(List.of("commitide")));
+        TeamBugemon teamEnemy  = new TeamBugemon(bugemonProvider.getListBugemon(List.of("loopine")));
         Fight fight = new Fight(teamPlayer, teamEnemy);
 
         Bugemon player = fight.getOnFieldPlayerBugemon();
         player.takeDamage(20);
-        int hpAfterDamage = player.getcurrenPv();
+        int hpAfterDamage = player.getCurrenPv();
 
         fight.playerAttack(2); // pluie_calme → soin +15
 
-        assertEquals(hpAfterDamage + 15, player.getcurrenPv());
+        assertEquals(hpAfterDamage + 15, player.getCurrenPv());
     }
 
     @Test
@@ -50,7 +57,7 @@ public class EffectManagerTest extends TestCase {
         Bugemon player = fightMergeauVsLoopine.getOnFieldPlayerBugemon();
         int maxHp = player.getPv();
         player.getStats().heal(9999);
-        assertEquals(maxHp, player.getcurrenPv());
+        assertEquals(maxHp, player.getCurrenPv());
     }
 
     // Stat modifier permanement

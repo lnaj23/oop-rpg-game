@@ -20,24 +20,27 @@ public abstract class EffectManager {
      * @param targetTeam   the team of the target
      * @param attack       the attack being used
      */
-    public static String handleEffect(Bugemon attacker, Bugemon target, TeamBugemon attackerTeam, TeamBugemon targetTeam, Attack attack) {
-        if (attack.getEffects() == null) return "";
+    public static EffectResult handleEffect(Bugemon attacker, Bugemon target, TeamBugemon attackerTeam, TeamBugemon targetTeam, Attack attack) {
+        if (attack.getEffects() == null) return new EffectResult(new ArrayList<>());
 
         List<String> lines = new ArrayList<>();
 
         for (Effect effet : attack.getEffects()) {
             if (effet.getType().equals("soin")) {
-                int valeur = effet.getValeur();
+                int valeur = effet.getValue();
                 if (effet.getTarget().equals("equipe")) {
                     for (Bugemon membre : attackerTeam.getTeam()) {
-                        membre.getStats().heal(valeur);
+                        if (!membre.isKO()) {
+                            membre.getStats().heal(valeur);
+                        }
                     }
                     lines.add("L'équipe de " + attacker.getName() + " récupère " + valeur + " PV !");
                 } else if (effet.getTarget().equals("lanceur")) {
-                    attacker.getStats().heal(valeur);
-                    lines.add(attacker.getName() + " récupère " + valeur + " PV !");
+                    if (!attacker.isKO()) {
+                        attacker.getStats().heal(valeur);
+                        lines.add(attacker.getName() + " récupère " + valeur + " PV !");
+                    }
                 }
-
             } else if (effet.getType().equals("stat_modifier")) {
                 Bugemon finalTarget = switch (effet.getTarget()) {
                     case "lanceur"    -> attacker;
@@ -57,7 +60,7 @@ public abstract class EffectManager {
         tickEffects(attacker);
         tickEffects(target);
 
-        return String.join("\n", lines);
+        return new EffectResult(lines);
     }
     /**
      * Applies a stat modifier effect to the given Bugémon.

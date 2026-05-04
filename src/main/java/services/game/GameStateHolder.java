@@ -1,18 +1,19 @@
 package services.game;
 
-import models.TowerNodeType;
-import configuration.AppConfig;
-import models.TowerNodeType;
+import exceptions.AttackNotFoundException;
+import exceptions.JsonResourceNotFoundException;
+import exceptions.LoadingTeamFailedException;
+import exceptions.TowerNotInitializedException;
+import models.game.TowerNodeType;
 import models.bugemon.TeamBugemon;
 import models.bugemon.dto.BugemonDTO;
 import models.game.Item;
-import repositories.ItemRepository;
 import services.dataprovider.ItemProvider;
 import models.game.LevelTower;
-import services.dataprovider.ItemProvider;
 import services.dataprovider.TeamProvider;
-import models.game.LevelTower;
+
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -26,31 +27,42 @@ public class GameStateHolder {
 
     private TeamBugemon currentTeamPlayer;
 
-    private final List<TeamBugemon> savedTeams = new ArrayList<>(TeamProvider.loadTeams());
+    private TeamProvider teamProvider;
+    private List<TeamBugemon> savedTeams;
 
-    private GameStateHolder() {}
+    private GameStateHolder(){
+        List<TeamBugemon> loaded;
+        try {
+            teamProvider = new TeamProvider();
+            availableItems = new ArrayList<>(itemProvider.getDefautItems());
+            availableItems.sort(Comparator.comparing(Item::getName));  // ← ici
+            loaded = new ArrayList<>(teamProvider.loadTeams());
+        } catch (LoadingTeamFailedException | AttackNotFoundException | JsonResourceNotFoundException e) {
+            loaded = new ArrayList<>();
+        }
+        this.savedTeams = loaded;
+    }
 
     private List<BugemonDTO> currentPlayerTeamDTO;
     private String currentOnFieldId;
     private boolean switchOnPurpose;
 
     private static List<Item> availableItems =  new ArrayList<>();
-
+    private static ItemProvider itemProvider = new ItemProvider();
     /**
      * Returns the unique instance of {@link GameStateHolder}.
      *
      * @return the singleton instance
      */
-    public static GameStateHolder getInstance() {
+    public static GameStateHolder getInstance(){
         if (instance == null) {
-            availableItems = ItemProvider.getInstance().getDefautItems();
             instance = new GameStateHolder();
         }
         return instance;
     }
-    public TowerNodeType getCurrentStepType() {
-        if(currentLevelTower == null) {
-            throw new IllegalStateException("Current level tower is not set.");
+    public TowerNodeType getCurrentStepType() throws TowerNotInitializedException {
+        if (currentLevelTower == null) {
+            throw new TowerNotInitializedException();
         }
         return currentLevelTower.getCurrentStepType();
     }
@@ -138,8 +150,9 @@ public class GameStateHolder {
         this.availableItems.remove(items);
     }
 
-    public void gainItem(Item items) {
-        this.availableItems.add(items);
+    public void gainItem(Item item) {
+        this.availableItems.add(item);
+        this.availableItems.sort(Comparator.comparing(Item::getName));
     }
 
     public void setCurrentPlayerTeamDTO(List<BugemonDTO> team) { this.currentPlayerTeamDTO = team; }

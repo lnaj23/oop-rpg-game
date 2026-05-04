@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import java.net.URL?>
+
+<VBox spacing="10" alignment="CENTER"
+      style="-fx-background-color: #2b2b2b; -fx-padding: 20;"
+      xmlns="http://javafx.com/javafx/8"
+      xmlns:fx="http://javafx.com/fxml/1">
+
+    <stylesheets>
+        <URL value="@/css/common.css"/>
+    </stylesheets>
+
+    <Label fx:id="titleLabel" text="Choisir une attaque à remplacer"
+           style="-fx-text-fill: white; -fx-font-size: 14; -fx-font-weight: bold;"/>
+
+    <Label fx:id="newAttackLabel" text=""
+           style="-fx-text-fill: #4fc3f7; -fx-font-size: 12;"/>
+
+    <VBox fx:id="attackButtonsBox" spacing="8" alignment="CENTER"/>
+
+    <Button fx:id="btnCancel" text="Annuler"/>
+
+</VBox>

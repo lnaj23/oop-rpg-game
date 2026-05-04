@@ -3,8 +3,8 @@ package controllers.fight;
 import controllers.Controller;
 import controllers.ControllerManager;
 import models.bugemon.dto.BugemonDTO;
-import views.fight.SelectBugemonFromTeamView;
-import listener.SelectBugemonFromTeamListener;
+import views.SelectBugemonFromTeamView;
+import views.listener.SelectBugemonFromTeamListener;
 import services.game.GameStateHolder;
 
 import java.io.IOException;
@@ -50,7 +50,7 @@ public class SwitchBugemonController extends Controller<SelectBugemonFromTeamVie
      * @param bugemon the Bugemon selected by the user
      */
     public void onBugemonClicked(BugemonDTO bugemon) {
-        if (bugemon.getcurrenPv() <= 0) {
+        if (bugemon.getCurrenPv() <= 0) {
             view.showMessageKO("Erreur", "Ce Bugemon est KO.");
             return;
         }

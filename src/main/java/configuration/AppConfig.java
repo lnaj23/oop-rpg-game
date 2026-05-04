@@ -1,15 +1,6 @@
 package configuration;
-
-import models.game.Item;
-
-import models.game.Item;
-
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Properties;
 
 /**
@@ -35,22 +26,24 @@ public abstract class AppConfig {
     public static final String JSON_ITEMS  = props.getProperty("json.prefix") + props.getProperty("json.items");
     // Persistence
     public static final String TEAMS_FILE     = props.getProperty("persistence.teams.file");
+    public static final String ADDEDBUGEMON_FILE = props.getProperty("persistence.addedbug.file");
+    public static final String PNG_PREFIX_ADDEDBUEMON = props.getProperty("persistence.addedbug.pngprefix");
 
     // FXML
-    public static final String FXML_TITLESCREEN   = props.getProperty("fxml.titlescreen");
-    public static final String FXML_FIGHT         = props.getProperty("fxml.fight");
-    public static final String FXML_ITEMS         = props.getProperty("fxml.items");
-    public static final String FXML_SWITCHBUGEMON = props.getProperty("fxml.switchbugemon");
-    public static final String FXML_PREBUILDTEAM  = props.getProperty("fxml.prebuildteam");
-    public static final String FXML_SELECTION     = props.getProperty("fxml.selection");
-    public static final String FXML_VICTORY       = props.getProperty("fxml.victory");
-    public static final String FXML_DEFEAT        = props.getProperty("fxml.defeat") ;
-    public static final String FXML_REWARD = props.getProperty("fxml.reward");
-    public static final String FXML_LEVELUP       = props.getProperty("fxml.levelup");
+    public static final String FXML_TITLESCREEN           = props.getProperty("fxml.titlescreen");
+    public static final String FXML_FIGHT                 = props.getProperty("fxml.fight");
+    public static final String FXML_ITEMS                 = props.getProperty("fxml.items");
+    public static final String FXML_SELECTBUGEMONFROMTEAM = props.getProperty("fxml.selectbugemonfromteamview");
+    public static final String FXML_PREBUILDTEAM          = props.getProperty("fxml.prebuildteam");
+    public static final String FXML_SELECTION             = props.getProperty("fxml.selection");
+    public static final String FXML_VICTORY               = props.getProperty("fxml.victory");
+    public static final String FXML_DEFEAT                = props.getProperty("fxml.defeat") ;
+    public static final String FXML_REWARD                = props.getProperty("fxml.reward");
+    public static final String FXML_LEVELUP               = props.getProperty("fxml.levelup");
+    public static final String FXML_ADDBUGEMON            = props.getProperty("fxml.addbugemon");
 
     // Assets PNG
     public static final String PNG_PREFIX     = props.getProperty("assets.png.prefix");
-    public static final String PNG_NOBUGEMON  = PNG_PREFIX + props.getProperty("assets.png.nobugemon");
 
     // CSS
     public static final String CSS_COMMON     = props.getProperty("css.common");
@@ -59,7 +52,6 @@ public abstract class AppConfig {
     public static final int    MAX_TEAM_SIZE         = Integer.parseInt(props.getProperty("game.team.max_size"));
     public static final int    MIN_TEAM_SIZE         = Integer.parseInt(props.getProperty("game.team.min_size"));
     public static final int    ENEMY_REACT_TIME      = Integer.parseInt(props.getProperty("game.fight.enemy_react_time"));
-    public static final double DEATH_DISPLAY_TIME    = Double.parseDouble(props.getProperty("game.fight.death_display_time"));
 
     // Game music
 
@@ -67,10 +59,6 @@ public abstract class AppConfig {
     public static String MUSIC_EXPLORATION =  props.getProperty("game.music.explore");
     public static String MUSIC_TEAM_CREATION =  props.getProperty("game.music.teamcreation");
 
-    public static List<String> getEnemyTeam() {
-        return Arrays.asList(props.getProperty("game.fight.enemy_team").split(","));
-    }
 
-    public static final String DEFAUT_ITEMS = props.getProperty("game.fight.defaut_items");
 
 }
