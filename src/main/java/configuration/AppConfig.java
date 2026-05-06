@@ -58,6 +58,7 @@ public abstract class AppConfig {
     public static String MUSIC_COMBAT =  props.getProperty("game.music.fight");
     public static String MUSIC_EXPLORATION =  props.getProperty("game.music.explore");
     public static String MUSIC_TEAM_CREATION =  props.getProperty("game.music.teamcreation");
+    public static String MUSIC_DEFEAT = props.getProperty("game.music.defeat");
 
 
 
