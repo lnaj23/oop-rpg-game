@@ -56,6 +56,7 @@ public class Music_player {
                     FloatControl gainControl = (FloatControl) currentClip.getControl(FloatControl.Type.MASTER_GAIN);
                     gainControl.setValue(volume);
                 }
+                currentClip.loop(Clip.LOOP_CONTINUOUSLY);
                 currentClip.start();
             }
         }
