@@ -98,7 +98,6 @@ public class SelectionController extends Controller<SelectionView> {
             this.controllerManager.fatalError("Une erreur est survenue lors du chargement des Bugémons.");
         }
         this.view.setEditMode(false);
-        Music_player.chose_ambiance(GameState.TEAM_CREATION);
     }
 
     /**

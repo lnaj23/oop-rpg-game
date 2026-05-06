@@ -40,9 +40,6 @@ public class Music_player {
                 currentClip.open(audioInput);
                 currentClip.start();
             }
-            else{
-                System.out.println("cant find");
-            }
         }
         catch (Exception e){
             System.out.println(e);
