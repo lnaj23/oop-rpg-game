@@ -55,7 +55,6 @@ public class FightAgainstCPUController extends Controller<FightView> implements 
         if (!fight.playerCanStart()) forceEnemyToAttack();
         LevelTower tower = GameStateHolder.getInstance().getCurrentLevelTower();
         view.updateFloorInfo(tower.getCurrentFloor(), tower.getCurrentStep(), tower.getCurrentStepType(), tower.isFinished());
-        Music_player.chose_ambiance(GameState.COMBAT_STATE);
     }
 
     private void viewInitDisplayedBugemon() {
