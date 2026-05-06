@@ -19,7 +19,6 @@ public class TitleScreenController extends Controller<TitleScreenView> {
     public TitleScreenController(ControllerManager metaController) throws IOException {
         super(metaController, new TitleScreenView());
         this.view.setController(this);
-        Music_player.chose_ambiance(GameState.TEAM_CREATION);
     }
 
     /** Opens the selection screen to create a new team. */

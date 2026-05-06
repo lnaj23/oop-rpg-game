@@ -19,6 +19,7 @@ import models.game.TowerNodeType;
 import models.bugemon.Bugemon;
 import models.game.Item;
 import models.game.LevelTower;
+import services.MusicService;
 import services.dataprovider.TeamProvider;
 import services.game.ExperienceService;
 import services.game.GameStateHolder;
@@ -41,19 +42,6 @@ public class ControllerManager {
     private double x;
     private double y;
 
-    /** Enumeration of all available scenes in the application. */
-    private enum Scenes {
-        TITLE_SCREEN,
-        PREBUILD_TEAM,
-        SELECTION,
-        FIGHT_AGAINST_CPU,
-        VICTORY,
-        DEFEAT,
-        REWARD,
-        LEVEL_UP,
-        ADD_BUGEMON
-    }
-
     private final Stage PrimaryStage;
     private final TitleScreenController titleScreenController;
     private final PreBuildTeamController preBuildTeamController;
@@ -66,6 +54,19 @@ public class ControllerManager {
     private final AddBugemonController addBugemonController;
 
     private TeamProvider teamProvider = new TeamProvider();
+
+    /** Enumeration of all available scenes in the application. */
+    public enum Scenes {
+        TITLE_SCREEN,
+        PREBUILD_TEAM,
+        SELECTION,
+        FIGHT_AGAINST_CPU,
+        VICTORY,
+        DEFEAT,
+        REWARD,
+        LEVEL_UP,
+        ADD_BUGEMON
+    }
 
     /**
      * Initializes all controllers and views.
@@ -101,6 +102,7 @@ public class ControllerManager {
      * @param scene the scene to switch to
      */
     private void switchScene(Scenes scene) {
+        MusicService.getInstance().updateMusicForScene(scene);
         getPrimaryStageProperties();
         switch (scene) {
             case TITLE_SCREEN -> this.titleScreenController.show(PrimaryStage);
