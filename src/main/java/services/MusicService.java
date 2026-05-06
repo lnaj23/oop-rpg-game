@@ -53,7 +53,7 @@ public class MusicService {
         }
 
         currentState = nextState;
-        Music_player.chose_ambiance(currentState);
+        MusicPlayer.chose_ambiance(currentState);
     }
 
     /**

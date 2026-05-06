@@ -9,7 +9,7 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.FloatControl;
 
-public class Music_player {
+class MusicPlayer {
 
 
     private static Clip currentClip = null;
