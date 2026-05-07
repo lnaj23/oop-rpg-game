@@ -73,8 +73,7 @@ public class CustomBugemonRepositoryTest {
 
         // Persist: JSON + sprite copy
         repo.saveAddedBugemons(original);
-        repo.saveSprite(SPRITE_SOURCE);
-
+        repo.saveSprite(SPRITE_SOURCE, false);
         // Reload and verify the Bugémon
         List<Bugemon> loaded = repo.loadAddedBugemon();
         assertEquals("Should contain exactly 1 saved Bugémon", 1, loaded.size());

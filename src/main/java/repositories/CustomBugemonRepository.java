@@ -7,6 +7,8 @@ import exceptions.LoadingAddedBugemonFailedException;
 import exceptions.SavingAddedBugemonFailedException;
 import models.bugemon.Bugemon;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -65,10 +67,34 @@ public class CustomBugemonRepository extends JsonRepository {
         }
     }
 
-    /** Copies the given image file into the configured sprite directory. */
-    public void saveSprite(File selectedFile) throws IOException {
-        Path source = selectedFile.toPath();
+    /**
+     * Copies the given image file into the configured sprite directory,
+     * optionally flipping it horizontally before writing.
+     *
+     * @param selectedFile      the source PNG file
+     * @param flipHorizontally  if {@code true}, mirrors the image left-to-right before saving
+     */
+    public void saveSprite(File selectedFile, boolean flipHorizontally) throws IOException {
         Path destination = Path.of(AppConfig.PNG_PREFIX_ADDEDBUEMON, selectedFile.getName());
-        Files.copy(source, destination, StandardCopyOption.REPLACE_EXISTING);
+
+        if (flipHorizontally) {
+            BufferedImage src = ImageIO.read(selectedFile);
+            BufferedImage flipped = horizontalFlip(src);
+            ImageIO.write(flipped, "png", destination.toFile());
+        } else {
+            Files.copy(selectedFile.toPath(), destination, StandardCopyOption.REPLACE_EXISTING);
+        }
+    }
+
+    private static BufferedImage horizontalFlip(BufferedImage src) {
+        int w = src.getWidth();
+        int h = src.getHeight();
+        BufferedImage dst = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+        for (int y = 0; y < h; y++) {
+            for (int x = 0; x < w; x++) {
+                dst.setRGB(w - 1 - x, y, src.getRGB(x, y));
+            }
+        }
+        return dst;
     }
 }

@@ -39,6 +39,7 @@ public class AddBugemonView extends View<AddBugemonController> {
     @FXML private ChoiceBox<Attack> attack2ChoiceBox;
     @FXML private ChoiceBox<Attack> attack3ChoiceBox;
     @FXML private ChoiceBox<String> starterChoiceBox;
+    @FXML private CheckBox flipImageCheckBox;
 
     /**
      * Creates the Add Bugemon view and loads its FXML definition.
@@ -297,5 +298,10 @@ public class AddBugemonView extends View<AddBugemonController> {
         attack3ChoiceBox.getItems().clear();
 
         setAttackChoiceBoxesDisabled(true);
+        flipImageCheckBox.setSelected(false);
+    }
+
+    public boolean isFlipImageSelected() {
+        return flipImageCheckBox.isSelected();
     }
 }

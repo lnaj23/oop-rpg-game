@@ -137,7 +137,7 @@ public class AddBugemonController extends Controller<AddBugemonView> {
 
         try {
             CustomBugemonRepository.getInstance().saveAddedBugemons(bugemonToSave);
-            CustomBugemonRepository.getInstance().saveSprite(selectedFile);
+            CustomBugemonRepository.getInstance().saveSprite(selectedFile, view.isFlipImageSelected());
         } catch (Exception e) {
             view.showMessage("Impossible d'ajouter le Bugémon : " + e.getMessage());
             return;
