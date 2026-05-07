@@ -4,11 +4,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import configuration.AppConfig;
 import exceptions.LoadingAddedBugemonFailedException;
-import exceptions.LoadingTeamFailedException;
 import exceptions.SavingAddedBugemonFailedException;
-import exceptions.SavingTeamFailedException;
 import models.bugemon.Bugemon;
-import models.bugemon.TeamBugemon;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -17,9 +14,9 @@ import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AddedBugemonRepository {
+public class CustomBugemon {
 
-    private static AddedBugemonRepository instance;
+    private static CustomBugemon instance;
 
     private static final Gson SAVE_GSON = new GsonBuilder().setPrettyPrinting().create();
 
@@ -27,8 +24,8 @@ public class AddedBugemonRepository {
         List<Bugemon> addedBugemons;
     }
 
-    public static AddedBugemonRepository getInstance() {
-        if (instance == null) instance = new AddedBugemonRepository();
+    public static CustomBugemon getInstance() {
+        if (instance == null) instance = new CustomBugemon();
         return instance;
     }
 

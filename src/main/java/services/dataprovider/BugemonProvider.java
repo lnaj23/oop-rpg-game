@@ -6,10 +6,9 @@ import exceptions.JsonResourceNotFoundException;
 import exceptions.LoadingAddedBugemonFailedException;
 import models.bugemon.Bugemon;
 import models.bugemon.dto.BugemonDTO;
-import repositories.AddedBugemonRepository;
+import repositories.CustomBugemon;
 import repositories.BugemonRepository;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -56,7 +55,7 @@ public class BugemonProvider {
 
     public List<Bugemon> getAllBugemons() throws JsonResourceNotFoundException, LoadingAddedBugemonFailedException {
         List<Bugemon> allBugemons = new ArrayList<>(BugemonRepository.getInstance().getAllBugemons());
-        List<Bugemon> addedBugemons = AddedBugemonRepository.getInstance().loadAddedBugemon();
+        List<Bugemon> addedBugemons = CustomBugemon.getInstance().loadAddedBugemon();
         for (Bugemon bug : addedBugemons) {
             try { initBugemonFromSavedTeam(bug); } catch (AttackNotFoundException ignored) {}
         }
@@ -67,7 +66,7 @@ public class BugemonProvider {
 
     public List<BugemonDTO> getAllBugemonsDTO() throws JsonResourceNotFoundException, LoadingAddedBugemonFailedException {
         List<BugemonDTO> allDefaultBugemon = new ArrayList<>(BugemonRepository.getInstance().getAllBugemons());
-        List<Bugemon> addedBugemons = AddedBugemonRepository.getInstance().loadAddedBugemon();
+        List<Bugemon> addedBugemons = CustomBugemon.getInstance().loadAddedBugemon();
         for (Bugemon bug : addedBugemons) {
             try { initBugemonFromSavedTeam(bug); } catch (AttackNotFoundException ignored) {}
         }

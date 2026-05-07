@@ -3,7 +3,7 @@ package controllers;
 import exceptions.JsonResourceNotFoundException;
 import models.bugemon.Attack;
 import models.bugemon.Bugemon;
-import repositories.AddedBugemonRepository;
+import repositories.CustomBugemon;
 import services.dataprovider.AttackProvider;
 import services.game.AddBugemonValidationService;
 import views.AddBugemonView;
@@ -136,8 +136,8 @@ public class AddBugemonController extends Controller<AddBugemonView> {
         );
 
         try {
-            AddedBugemonRepository.getInstance().saveAddedBugemons(bugemonToSave);
-            AddedBugemonRepository.getInstance().saveSprite(selectedFile);
+            CustomBugemon.getInstance().saveAddedBugemons(bugemonToSave);
+            CustomBugemon.getInstance().saveSprite(selectedFile);
         } catch (Exception e) {
             view.showMessage("Impossible d'ajouter le Bugémon : " + e.getMessage());
             return;
