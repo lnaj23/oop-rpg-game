@@ -28,7 +28,7 @@ public class AttackRepository extends JsonRepository {
         public List<Attack> attacks;
 
         @Override
-        public List<Attack> getItems() { return attacks; }
+        public List<Attack> getJsonData() { return attacks; }
     }
 
 

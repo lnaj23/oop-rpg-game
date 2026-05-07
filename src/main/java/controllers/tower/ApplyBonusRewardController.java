@@ -40,15 +40,6 @@ public class ApplyBonusRewardController extends Controller<SelectBugemonFromTeam
     }
 
     /**
-     * Sets the bonus that will be applied when a Bugémon is selected.
-     *
-     * @param bonus the {@link LevelUpBonus} to apply
-     */
-    public void setBonus(LevelUpBonus bonus) {
-
-    }
-
-    /**
      * Displays the player's team in the sub-window.
      *
      * @throws IOException if the team display fails

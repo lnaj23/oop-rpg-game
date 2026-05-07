@@ -40,12 +40,12 @@ public abstract class JsonRepository {
      */
     protected interface JsonWrapper<T> {
         /** @return the list extracted from the deserialized wrapper */
-        List<T> getItems();
+        List<T> getJsonData();
     }
 
     /**
      * Reads a JSON file from the classpath, deserializes it into the given wrapper class,
-     * and returns the list exposed by that wrapper via {@link JsonWrapper#getItems()}.
+     * and returns the list exposed by that wrapper via {@link JsonWrapper#getJsonData()}.
      *
      * @param path         the classpath-relative path to the JSON file
      * @param wrapperClass the wrapper class mirroring the JSON structure
@@ -56,7 +56,7 @@ public abstract class JsonRepository {
         InputStream stream = JsonRepository.class.getResourceAsStream(path);
         if (stream == null) throw new JsonResourceNotFoundException(path);
         JsonWrapper<T> wrapper = gson.fromJson(new InputStreamReader(stream, StandardCharsets.UTF_8), wrapperClass);
-        return wrapper.getItems();
+        return wrapper.getJsonData();
     }
 
     /**
@@ -72,8 +72,8 @@ public abstract class JsonRepository {
         if (!file.exists()) return new ArrayList<>();
         try (Reader reader = new FileReader(file)) {
             JsonWrapper<T> wrapper = new Gson().fromJson(reader, wrapperClass);
-            if (wrapper == null || wrapper.getItems() == null) return new ArrayList<>();
-            return wrapper.getItems();
+            if (wrapper == null || wrapper.getJsonData() == null) return new ArrayList<>();
+            return wrapper.getJsonData();
         } catch (IOException e) {
             throw new JsonPersistenceLoadingException("Error loading from " + path + ": " + e.getMessage(), e);
         }

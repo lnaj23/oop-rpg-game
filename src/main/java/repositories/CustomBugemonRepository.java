@@ -32,7 +32,7 @@ public class CustomBugemonRepository extends JsonRepository {
     private static class JsonCustomBugemons implements JsonWrapper<Bugemon> {
         List<Bugemon> addedBugemons;
         @Override
-        public List<Bugemon> getItems() { return addedBugemons; }
+        public List<Bugemon> getJsonData() { return addedBugemons; }
     }
 
     private CustomBugemonRepository() {}

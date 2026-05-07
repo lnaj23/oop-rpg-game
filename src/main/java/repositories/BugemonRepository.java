@@ -26,7 +26,7 @@ public class BugemonRepository extends JsonRepository {
         public List<Bugemon> bugemons;
 
         @Override
-        public List<Bugemon> getItems() { return bugemons; }
+        public List<Bugemon> getJsonData() { return bugemons; }
     }
 
     /** All Bugémons loaded from {@code bugemons.json} at startup. */

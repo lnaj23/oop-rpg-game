@@ -15,7 +15,7 @@ public class ItemRepository extends JsonRepository {
         public List<Item> items;
 
         @Override
-        public List<Item> getItems() { return items; }
+        public List<Item> getJsonData() { return items; }
     }
 
     private static List<Item> itemRepo = new ArrayList<>();

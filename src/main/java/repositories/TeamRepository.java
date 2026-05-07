@@ -21,7 +21,7 @@ public class TeamRepository extends JsonRepository {
     private static class JsonTeams implements JsonWrapper<TeamBugemon> {
         List<TeamBugemon> teams;
         @Override
-        public List<TeamBugemon> getItems() { return teams; }
+        public List<TeamBugemon> getJsonData() { return teams; }
     }
 
     private TeamRepository() {}
