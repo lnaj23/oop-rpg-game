@@ -6,11 +6,8 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="2026-groupe-05" />
+        <module name="infof307" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="infof307" target="24" />
-    </bytecodeTargetLevel>
   </component>
 </project>

@@ -148,18 +148,6 @@ public abstract class View<T extends Controller> {
         popup.updateHpPosition(event);
     }
 
-    /**
-     * Shows the stats popup at the given screen position for the given Bugémon.
-     *
-     * @param x      screen X of the triggering event
-     * @param y      screen Y of the triggering event
-     * @param bugemon the Bugémon whose stats to display
-     * @param node   the node used as owner for the popup
-     */
-    protected void showStatsPopup(double x, double y, BugemonDTO bugemon, ImageView node) {
-        popup.showStatsPopup(x, y, bugemon, node);
-    }
-
 
     /**
      * Shows a styled {@link TextInputDialog} pre-filled with the team's current name.

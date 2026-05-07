@@ -321,6 +321,7 @@ public class ControllerManager {
         FatalErrorView.show(reason);
         this.switchScene(Scenes.TITLE_SCREEN);
     }
+
     public void openBonusRewardWindow(LevelUpBonus bonus) {
         try {
             ApplyBonusRewardController bonusController = new ApplyBonusRewardController(this, bonus);
