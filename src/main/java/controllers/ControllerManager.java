@@ -323,9 +323,7 @@ public class ControllerManager {
     }
     public void openBonusRewardWindow(LevelUpBonus bonus) {
         try {
-            ApplyBonusRewardController bonusController = new ApplyBonusRewardController(this);
-            bonusController.setBonus(bonus);
-            bonusController.displayTeam();
+            ApplyBonusRewardController bonusController = new ApplyBonusRewardController(this, bonus);
             openSubScene(bonusController.getView(), true);
         } catch (IOException e) {
             fatalError("Une erreur est survenue lors du chargement de la fenêtre de bonus.");
@@ -335,7 +333,6 @@ public class ControllerManager {
     public void openLearnAttackWindow(Attack newAttack) {
         try {
             LearnNewAttackController learnController = new LearnNewAttackController(this, newAttack);
-            learnController.displayTeam();
             openSubScene(learnController.getView(), true);
         } catch (IOException e) {
             fatalError("Une erreur est survenue lors du chargement de la fenêtre d'apprentissage d'attaque.");

@@ -32,14 +32,7 @@ public class LearnNewAttackController extends Controller<SelectBugemonFromTeamVi
         super(metaController, new SelectBugemonFromTeamView());
         this.newAttack = newAttack;
         this.view.setListener(this);
-    }
-
-    /** Displays the player's team in the sub-window. */
-    public void displayTeam() throws IOException {
-        this.view.displayTeam(
-                GameStateHolder.getInstance().getCurrentTeamPlayer().getTeamDTO(),
-                true
-        );
+        this.view.displayTeam(GameStateHolder.getInstance().getCurrentTeamPlayer().getTeamDTO(), true);
     }
 
     /**

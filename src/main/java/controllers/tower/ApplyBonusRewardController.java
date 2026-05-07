@@ -31,10 +31,12 @@ public class ApplyBonusRewardController extends Controller<SelectBugemonFromTeam
      * @param metaController the central controller handling navigation
      * @throws IOException if the FXML view cannot be loaded
      */
-    public ApplyBonusRewardController(ControllerManager metaController) throws IOException {
+    public ApplyBonusRewardController(ControllerManager metaController, LevelUpBonus bonus) throws IOException {
         super(metaController, new SelectBugemonFromTeamView());
         this.view.setController(this);
         this.view.setListener(this);
+        this.bonus = bonus;
+        this.view.displayTeam(GameStateHolder.getInstance().getCurrentTeamPlayer().getTeamDTO(), true);
     }
 
     /**
@@ -43,7 +45,7 @@ public class ApplyBonusRewardController extends Controller<SelectBugemonFromTeam
      * @param bonus the {@link LevelUpBonus} to apply
      */
     public void setBonus(LevelUpBonus bonus) {
-        this.bonus = bonus;
+
     }
 
     /**
@@ -52,10 +54,7 @@ public class ApplyBonusRewardController extends Controller<SelectBugemonFromTeam
      * @throws IOException if the team display fails
      */
     public void displayTeam() throws IOException {
-        this.view.displayTeam(
-                GameStateHolder.getInstance().getCurrentTeamPlayer().getTeamDTO(),
-                true
-        );
+        this.view.displayTeam(GameStateHolder.getInstance().getCurrentTeamPlayer().getTeamDTO(), true);
     }
 
     /**
