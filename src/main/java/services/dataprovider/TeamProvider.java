@@ -1,9 +1,6 @@
 package services.dataprovider;
 
-import exceptions.AttackNotFoundException;
-import exceptions.JsonResourceNotFoundException;
-import exceptions.LoadingTeamFailedException;
-import exceptions.SavingTeamFailedException;
+import exceptions.*;
 import models.bugemon.Bugemon;
 import models.bugemon.TeamBugemon;
 import repositories.TeamRepository;
