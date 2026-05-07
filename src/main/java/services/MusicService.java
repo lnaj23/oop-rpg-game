@@ -1,35 +1,24 @@
 package services;
 
-import models.GameState;
+import configuration.AppConfig;
 import controllers.ControllerManager.Scenes;
+import models.GameState;
 
-/**
- * Service responsible for managing the application's musical logic.
- * <p>
- * This service implements the <b>Singleton</b> design pattern to ensure a single instance
- * and maintain the current music state across scene transitions.
- * It prevents unnecessary audio cuts when two consecutive scenes share
- * the same musical atmosphere.
- * </p>
- */
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.FloatControl;
+import java.io.File;
+
 public class MusicService {
 
-    /** The unique instance of the service (Singleton Pattern). */
     private static MusicService instance;
 
-    /** The game state corresponding to the currently playing music. */
     private GameState currentState;
+    private Clip currentClip;
 
-    /**
-     * Private constructor to prevent external instantiation.
-     */
     private MusicService() {}
 
-    /**
-     * Retrieves the unique instance of the music service.
-     *
-     * @return The {@link MusicService} instance.
-     */
     public static MusicService getInstance() {
         if (instance == null) {
             instance = new MusicService();
@@ -37,31 +26,17 @@ public class MusicService {
         return instance;
     }
 
-    /**
-     * Analyzes the target scene and updates the background music if necessary.
-     * <p>
-     * If the requested scene matches the currently playing atmosphere, the method
-     * ignores the request to ensure a seamless transition (no audio stutter or restart).
-     * </p>
-     *
-     * @param scene The target application scene defined in {@link Scenes}.
-     */
     public void updateMusicForScene(Scenes scene) {
         GameState nextState = determineGameState(scene);
+
         if (nextState == currentState) {
             return;
         }
 
         currentState = nextState;
-        MusicPlayer.chose_ambiance(currentState);
+        chooseAmbiance(currentState);
     }
 
-    /**
-     * Maps a UI scene to a specific musical game state.
-     *
-     * @param scene The scene to be analyzed.
-     * @return The {@link GameState} corresponding to the desired musical ambiance.
-     */
     private GameState determineGameState(Scenes scene) {
         return switch (scene) {
             case FIGHT_AGAINST_CPU -> GameState.COMBAT_STATE;
@@ -69,5 +44,66 @@ public class MusicService {
             case TITLE_SCREEN, PREBUILD_TEAM, SELECTION, ADD_BUGEMON -> GameState.TEAM_CREATION;
             default -> GameState.EXPLORATION;
         };
+    }
+
+    private void chooseAmbiance(GameState state) {
+        String filepath = "";
+        float volume = 0.0f;
+
+        switch (state) {
+            case COMBAT_STATE -> {
+                filepath = AppConfig.MUSIC_COMBAT;
+                volume = -6.0f;
+            }
+            case TEAM_CREATION -> {
+                filepath = AppConfig.MUSIC_TEAM_CREATION;
+                volume = 0.0f;
+            }
+            case EXPLORATION -> {
+                filepath = AppConfig.MUSIC_EXPLORATION;
+                volume = 0.0f;
+            }
+            case DEFEAT -> {
+                filepath = AppConfig.MUSIC_DEFEAT;
+                volume = -16.0f;
+            }
+        }
+
+        stopCurrentMusic();
+        playMusic(filepath, volume);
+    }
+
+    private void playMusic(String filepath, float volume) {
+        try {
+            File musicPath = new File(filepath);
+
+            if (!musicPath.exists()) {
+                return;
+            }
+
+            AudioInputStream audioInput = AudioSystem.getAudioInputStream(musicPath);
+
+            currentClip = AudioSystem.getClip();
+            currentClip.open(audioInput);
+
+            if (currentClip.isControlSupported(FloatControl.Type.MASTER_GAIN)) {
+                FloatControl gainControl = (FloatControl) currentClip.getControl(FloatControl.Type.MASTER_GAIN);
+                gainControl.setValue(volume);
+            }
+
+            currentClip.loop(Clip.LOOP_CONTINUOUSLY);
+            currentClip.start();
+
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+
+    private void stopCurrentMusic() {
+        if (currentClip != null) {
+            currentClip.stop();
+            currentClip.close();
+            currentClip = null;
+        }
     }
 }
