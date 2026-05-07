@@ -4,8 +4,8 @@ import exceptions.JsonResourceNotFoundException;
 import models.bugemon.Attack;
 import models.bugemon.Bugemon;
 import repositories.CustomBugemonRepository;
-import services.dataprovider.AttackProvider;
-import services.game.AddBugemonValidationService;
+import services.models.dataprovider.AttackProvider;
+import services.controller.AddBugemonValidationService;
 import views.AddBugemonView;
 
 import java.io.IOException;

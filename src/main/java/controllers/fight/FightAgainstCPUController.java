@@ -1,7 +1,6 @@
 package controllers.fight;
 
 
-import models.GameState;
 import configuration.AppConfig;
 import controllers.Controller;
 import controllers.ControllerManager;
@@ -15,15 +14,15 @@ import models.game.Fight;
 import models.game.Item;
 import models.game.LevelTower;
 import views.listener.FightListener;
-import services.game.EnemyTeamGenerator;
-import services.game.GameStateHolder;
+import services.models.game.EnemyTeamGenerator;
+import services.GameStateHolder;
 import views.fight.FightView;
 
 import java.io.IOException;
 
 import models.bugemon.TeamBugemon;
 
-import static services.fight.ItemEffectApplier.ApplyItems;
+import static services.models.fight.ItemEffectApplier.ApplyItems;
 
 /**
  * Controller for the fight screen.

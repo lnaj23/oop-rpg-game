@@ -1,4 +1,4 @@
-package services.game;
+package services.controller;
 
 import models.bugemon.Attack;
 

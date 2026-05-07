@@ -9,8 +9,8 @@ import models.bugemon.Bugemon;
 import models.bugemon.TeamBugemon;
 import models.game.Fight;
 import org.junit.Test;
-import services.dataprovider.BugemonProvider;
-import services.game.ExperienceService;
+import services.models.dataprovider.BugemonProvider;
+import services.models.game.ExperienceService;
 
 import java.util.ArrayList;
 import java.util.List;

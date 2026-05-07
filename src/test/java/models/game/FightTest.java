@@ -9,7 +9,7 @@ import models.bugemon.Bugemon;
 import models.bugemon.TeamBugemon;
 import org.junit.Before;
 import org.junit.Test;
-import services.dataprovider.BugemonProvider;
+import services.models.dataprovider.BugemonProvider;
 
 import java.util.List;
 

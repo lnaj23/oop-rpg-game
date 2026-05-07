@@ -49,6 +49,8 @@ public interface BugemonDTO {
      */
     int getInitiative();
 
+    List<String> getAttackTypesAsList();
+
     /**
      * @return the attacks as a String
      */
@@ -68,18 +70,9 @@ public interface BugemonDTO {
      * @return the type fo the Bugémon
      */
     String getType();
-    /**
-     * @return the color fo the Bugémon
-     */
-    String getColor();
 
-    /**
-     * Returns the display colour of the attack at the given index.
-     *
-     * @param index the attack index
-     * @return a CSS hex colour string
-     */
-     String getAttackColor(int index);
+
+
 
     int getAttackModifier();
     int getDefenseModifier();

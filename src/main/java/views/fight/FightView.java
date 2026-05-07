@@ -12,7 +12,7 @@ import models.game.TowerNodeType;
 import views.listener.FightListener;
 import models.bugemon.dto.BugemonDTO;
 import views.View;
-import views.utils.SpriteLoader;
+import services.view.SpriteLoader;
 
 import java.io.IOException;
 import java.util.List;

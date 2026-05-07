@@ -4,7 +4,6 @@ import controllers.Controller;
 import controllers.ControllerManager;
 
 
-import models.GameState;
 import exceptions.AttackNotFoundException;
 import exceptions.JsonResourceNotFoundException;
 import exceptions.LoadingAddedBugemonFailedException;
@@ -12,9 +11,9 @@ import exceptions.SavingTeamFailedException;
 
 import models.bugemon.dto.BugemonDTO;
 import models.bugemon.TeamBugemon;
-import services.dataprovider.TeamProvider;
-import services.dataprovider.BugemonProvider;
-import services.game.GameStateHolder;
+import services.models.dataprovider.TeamProvider;
+import services.models.dataprovider.BugemonProvider;
+import services.GameStateHolder;
 import views.teamchoice.selection.SelectionView;
 import javafx.scene.control.Button;
 

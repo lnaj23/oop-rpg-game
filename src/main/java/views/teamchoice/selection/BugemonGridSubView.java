@@ -13,13 +13,13 @@ import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import models.bugemon.dto.BugemonDTO;
-import views.utils.PopupManager;
-import views.utils.SpriteLoader;
+import services.view.PopupManager;
+import services.view.SpriteLoader;
+import services.view.TypeColorService;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * Sub-view managing the Bugémon selection grid.
@@ -126,7 +126,7 @@ public class BugemonGridSubView {
      */
     public void selectButton(Button btn, BugemonDTO bugemon) {
         selectedButtons.add(btn);
-        String color = bugemon.getColor();
+        String color = TypeColorService.getColor(bugemon.getType());
         btn.setStyle(
                 "-fx-background-color: derive(" + color + ", -50%); " +
                         "-fx-border-color: derive("     + color + ", -80%); " +
@@ -143,7 +143,7 @@ public class BugemonGridSubView {
         selectedButtons.remove(btn);
         BugemonDTO bugemon = (BugemonDTO) btn.getUserData();
         if (bugemon != null) {
-            String color = bugemon.getColor();
+            String color = TypeColorService.getColor(bugemon.getType());
             btn.setStyle(
                     "-fx-background-color: " + color + "; " +
                             "-fx-border-color: derive(" + color + ", -30%); " +
@@ -184,7 +184,7 @@ public class BugemonGridSubView {
         btn.setContentDisplay(ContentDisplay.TOP);
         btn.setUserData(bugemon);
 
-        String color = bugemon.getColor();
+        String color = TypeColorService.getColor(bugemon.getType());
         btn.setStyle(
                 "-fx-background-color: " + color + "; " +
                         "-fx-border-color: derive(" + color + ", -30%); " +

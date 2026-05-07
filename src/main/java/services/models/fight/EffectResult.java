@@ -1,4 +1,4 @@
-package services.fight;
+package services.models.fight;
 
 import java.util.List;
 

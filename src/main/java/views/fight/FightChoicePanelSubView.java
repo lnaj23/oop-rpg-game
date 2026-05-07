@@ -6,7 +6,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import views.listener.FightListener;
 import models.bugemon.dto.BugemonDTO;
-
+import services.view.TypeColorService;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -134,7 +134,7 @@ public class FightChoicePanelSubView {
         for (int i = 0; i < btns.size(); i++) {
             Button btn = btns.get(i);
             if (i < attackNames.size()) {
-                String typeColor = bugemon.getAttackColor(i);
+                String typeColor = TypeColorService.getColor(bugemon.getAttackTypesAsList().get(i));
                 String borderColor = getEffectivenessColor(predictedEffectiveness.get(i));
                 btn.setText(attackNames.get(i) + "\n" + predictedEffectiveness.get(i));
                 btn.setStyle(

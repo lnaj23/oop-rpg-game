@@ -6,8 +6,8 @@ import exceptions.AttackNotFoundException;
 import exceptions.JsonResourceNotFoundException;
 import exceptions.SavingTeamFailedException;
 import models.bugemon.TeamBugemon;
-import services.dataprovider.TeamProvider;
-import services.game.GameStateHolder;
+import services.models.dataprovider.TeamProvider;
+import services.GameStateHolder;
 import views.teamchoice.PreBuildTeamView;
 
 import java.io.IOException;

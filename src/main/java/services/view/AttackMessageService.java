@@ -1,7 +1,9 @@
-package services.fight;
+package services.view;
 
 import models.bugemon.Attack;
 import models.bugemon.Bugemon;
+import services.models.fight.EffectResult;
+import services.models.fight.TypeEffectivenessService;
 
 public abstract class AttackMessageService {
 

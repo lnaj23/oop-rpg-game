@@ -1,4 +1,4 @@
-package services.dataprovider;
+package services.models.dataprovider;
 
 import exceptions.AttackNotFoundException;
 import exceptions.BugemonNotFoundException;
@@ -25,7 +25,6 @@ public class BugemonProvider {
             for (Bugemon bug : BugemonRepository.getInstance().getAllBugemons()) {
                 assignAttacks(bug);
             }
-            BugemonRepository.getInstance().getAllBugemons().forEach(Bugemon::initColor);
             BugemonRepository.getInstance().getAllBugemons().forEach(Bugemon::initPv);
             initialized = true;
         }
@@ -79,7 +78,5 @@ public class BugemonProvider {
     public void initBugemonFromSavedTeam(Bugemon bugemon) throws AttackNotFoundException, JsonResourceNotFoundException {
         assignAttacks(bugemon);
         bugemon.initPv();
-        bugemon.initColor();
-        bugemon.initAttackColors();
     }
 }

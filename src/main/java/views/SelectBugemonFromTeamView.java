@@ -14,7 +14,7 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.StageStyle;
 import models.bugemon.dto.BugemonDTO;
 import views.listener.SelectBugemonFromTeamListener;
-import views.utils.SpriteLoader;
+import services.view.SpriteLoader;
 
 import java.io.IOException;
 import java.util.List;

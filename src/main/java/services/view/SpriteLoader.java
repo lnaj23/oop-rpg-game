@@ -1,4 +1,4 @@
-package views.utils;
+package services.view;
 
 import configuration.AppConfig;
 import javafx.scene.image.Image;

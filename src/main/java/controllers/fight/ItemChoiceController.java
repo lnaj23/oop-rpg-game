@@ -4,7 +4,7 @@ import controllers.Controller;
 import controllers.ControllerManager;
 import models.game.Item;
 import models.game.dto.ItemDTO;
-import services.game.GameStateHolder;
+import services.GameStateHolder;
 import views.fight.ItemsView;
 
 import java.io.IOException;

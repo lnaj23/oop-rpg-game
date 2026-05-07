@@ -8,11 +8,9 @@ import java.util.List;
 import java.util.Random;
 
 
-import services.color.TypeColorService;
 
 
-import static services.fight.DamageCalculator.computeDamage;
-import static services.color.TypeColorService.getTypeColorOfBugemon;
+import static services.models.fight.DamageCalculator.computeDamage;
 
 /**
  * Represents a Bugémon with its stats, attacks and sprite.
@@ -55,7 +53,6 @@ public class Bugemon implements BugemonDTO {
     public Bugemon() {}
 
     /** Color to display in the selectionView */
-    private String Color;
 
     private transient List<ActiveEffect> ongoingEffects = new ArrayList<>();
 
@@ -86,11 +83,9 @@ public class Bugemon implements BugemonDTO {
         this.sprite   = other.sprite;
         this.starter  = other.starter;
         this.isPlayer = other.isPlayer;
-        this.Color = other.Color;
         this.hasParticiped = other.hasParticiped;
         this.level = other.level;
         this.isDefault = other.isDefault;
-        initAttackColors();
     }
 
 
@@ -167,6 +162,11 @@ public class Bugemon implements BugemonDTO {
     }
 
     @Override
+    public List<String> getAttackTypesAsList() {
+        return attacks.stream().map(Attack::getType).toList();
+    }
+
+    @Override
     public String getAttackNamesAsString() {
         return String.join(", ", attackNames);
     }
@@ -176,13 +176,7 @@ public class Bugemon implements BugemonDTO {
         return isPlayer;
     }
 
-    @Override
-    public String getColor() { return Color; }
 
-    @Override
-    public String getAttackColor(int index) {
-        return attacks.get(index).getColor();
-    }
 
 
     /**
@@ -286,16 +280,8 @@ public class Bugemon implements BugemonDTO {
         return this.attacks.get(new Random().nextInt(3));
     }
 
-    public void initColor() {
-        this.Color = TypeColorService.getTypeColorOfBugemon(this);
-    }
 
-    /** Associates each attack with its type color. */
-    public void initAttackColors() {
-        for (Attack attack : this.attacks) {
-            attack.setColor(getTypeColorOfBugemon(attack));
-        }
-    }
+
 
     public void heal(int healAmount){
         this.stats.heal(healAmount);
@@ -399,7 +385,6 @@ public class Bugemon implements BugemonDTO {
             if (attacks.get(i).equals(attackToReplace)) {
                 attacks.set(i, newAttack);
                 attackNames.set(i, newAttack.getId());
-                newAttack.setColor(getTypeColorOfBugemon(newAttack));
                 return;
             }
         }

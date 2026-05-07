@@ -5,15 +5,13 @@ import controllers.afterfight.LevelUpController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import models.bugemon.dto.BugemonDTO;
 import views.View;
-import views.utils.SpriteLoader;
+import services.view.SpriteLoader;
 
 
 import java.io.IOException;
-import java.util.Objects;
 
 public class LevelUpView extends View<LevelUpController> {
 

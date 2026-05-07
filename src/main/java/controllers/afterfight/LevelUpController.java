@@ -4,7 +4,7 @@ import controllers.Controller;
 import controllers.ControllerManager;
 import models.bugemon.Bugemon;
 import models.game.LevelUpBonus;
-import services.game.LevelUpBonusGenerator;
+import services.models.game.LevelUpBonusGenerator;
 import views.afterfight.LevelUpView;
 
 import java.io.IOException;

@@ -6,8 +6,8 @@ import models.bugemon.TeamBugemon;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import services.dataprovider.BugemonProvider;
-import services.dataprovider.TeamProvider;
+import services.models.dataprovider.BugemonProvider;
+import services.models.dataprovider.TeamProvider;
 
 import java.io.File;
 import java.io.IOException;

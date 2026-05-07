@@ -21,9 +21,9 @@ import models.bugemon.Bugemon;
 import models.game.Item;
 import models.game.LevelTower;
 import services.MusicService;
-import services.dataprovider.TeamProvider;
-import services.game.ExperienceService;
-import services.game.GameStateHolder;
+import services.models.dataprovider.TeamProvider;
+import services.models.game.ExperienceService;
+import services.GameStateHolder;
 import views.FatalErrorView;
 import views.View;
 

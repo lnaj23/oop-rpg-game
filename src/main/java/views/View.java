@@ -20,7 +20,7 @@ import javafx.stage.Window;
 import controllers.Controller;
 import models.bugemon.dto.BugemonDTO;
 import models.bugemon.dto.TeamBugemonDTO;
-import views.utils.PopupManager;
+import services.view.PopupManager;
 
 /**
  * Abstract base class for all views.

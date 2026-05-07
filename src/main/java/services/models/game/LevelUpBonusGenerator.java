@@ -1,4 +1,4 @@
-package services.game;
+package services.models.game;
 
 import models.game.LevelUpBonus;
 
