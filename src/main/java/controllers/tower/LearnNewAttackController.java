@@ -9,66 +9,32 @@ import models.bugemon.Bugemon;
 import models.bugemon.dto.BugemonDTO;
 import services.game.GameStateHolder;
 import views.SelectBugemonFromTeamView;
-import views.listener.SelectAttackListener;
 import views.listener.SelectBugemonFromTeamListener;
-import views.tower.SelectAttackView;
 
 import java.io.IOException;
 
 /**
- * Controller for the "learn new attack" reward.
+ * Controller for the "learn new attack" reward — Bugémon-selection step.
  * <p>
- * First step: the player selects which Bugémon will learn the attack.
- * Second step: the player selects which existing attack to replace.
+ * The player selects which Bugémon will learn the attack. Once a target is
+ * chosen, this controller delegates to the {@link ControllerManager} to open
+ * the attack-replacement sub-window.
  * </p>
  */
 public class LearnNewAttackController extends Controller<SelectBugemonFromTeamView>
-        implements SelectBugemonFromTeamListener, SelectAttackListener {
+        implements SelectBugemonFromTeamListener {
 
-    /** The new attack to teach to the selected Bugémon. */
-    private Attack newAttack;
+    /** The new attack to teach to whichever Bugémon the player selects. */
+    private final Attack newAttack;
 
-    /** The Bugémon selected in step 1, kept for step 2. */
-    private Bugemon selectedBugemon;
-
-    /** The attack selection view, kept to close it after selection. */
-    private SelectAttackView attackView;
-
-    /**
-     * Creates the controller and wires the listener to the view.
-     *
-     * @param metaController the central controller handling navigation
-     * @throws IOException if the FXML view cannot be loaded
-     */
-    public LearnNewAttackController(ControllerManager metaController) throws IOException {
+    public LearnNewAttackController(ControllerManager metaController, Attack newAttack)
+            throws IOException {
         super(metaController, new SelectBugemonFromTeamView());
-        this.view.setController(this);
+        this.newAttack = newAttack;
         this.view.setListener(this);
     }
 
-    /**
-     * Sets the new attack that will replace an existing one.
-     *
-     * @param attack the new {@link Attack} to learn
-     */
-    public void setNewAttack(Attack attack) {
-        this.newAttack = attack;
-    }
-
-    /**
-     * Stores a reference to the attack selection view so it can be closed later.
-     *
-     * @param attackView the attack selection view
-     */
-    public void setAttackView(SelectAttackView attackView) {
-        this.attackView = attackView;
-    }
-
-    /**
-     * Displays the player's team in the sub-window.
-     *
-     * @throws IOException if the team display fails
-     */
+    /** Displays the player's team in the sub-window. */
     public void displayTeam() throws IOException {
         this.view.displayTeam(
                 GameStateHolder.getInstance().getCurrentTeamPlayer().getTeamDTO(),
@@ -77,62 +43,28 @@ public class LearnNewAttackController extends Controller<SelectBugemonFromTeamVi
     }
 
     /**
-     * Step 1: the player selects a Bugémon.
-     * Closes the team selection window and opens the attack selection window.
-     *
-     * @param bugemon the selected Bugémon (as DTO)
+     * Closes the team window and asks the meta-controller to open the
+     * attack-selection sub-window for the chosen Bugémon.
      */
     @Override
     public void onBugemonClickedRequest(BugemonDTO bugemon) {
         try {
-            selectedBugemon = GameStateHolder.getInstance()
+            Bugemon selected = GameStateHolder.getInstance()
                     .getCurrentTeamPlayer()
                     .getBugemonById(bugemon.getId());
             view.closeWindow();
-            Platform.runLater(() ->
-                    controllerManager.openAttackSelectionWindow(selectedBugemon, newAttack, this)
-            );
+            Platform.runLater(() -> controllerManager.openSelectAttackWindow(selected, newAttack));
         } catch (BugemonNotInTeamException e) {
             view.showMessageKO("Erreur", "Ce Bugémon n'est pas dans votre équipe !");
         }
     }
 
-    /**
-     * Step 2: the player selects which attack to replace.
-     * Uses the existing {@link Bugemon#replaceAttack} method which updates
-     * both the attack object, the attack name, and the attack color.
-     *
-     * @param attackIndex index of the attack to replace
-     */
-    @Override
-    public void onAttackSelectedToReplace(int attackIndex) {
-        Attack attackToReplace = selectedBugemon.getAttackFromIndex(attackIndex);
-        selectedBugemon.replaceAttack(newAttack, attackToReplace);
-        attackView.closeWindow();
-        controllerManager.goToNextTowerStep();
-    }
-
-    /**
-     * Handles cancel from the Bugémon selection screen.
-     */
     @Override
     public void onCancelClickedRequest() {
         view.closeWindow();
     }
 
-    /**
-     * Handles cancel from the attack selection screen.
-     */
-    @Override
-    public void onCancelClicked() {
-        attackView.closeWindow();
-    }
-
-    /**
-     * Returns the view managed by this controller.
-     *
-     * @return the team selection sub-view
-     */
+    /** @return the team selection view managed by this controller. */
     public SelectBugemonFromTeamView getView() {
         return view;
     }

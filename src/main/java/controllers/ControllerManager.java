@@ -9,6 +9,7 @@ import controllers.teamchoice.SelectionController;
 import controllers.tower.ApplyBonusRewardController;
 import controllers.tower.LearnNewAttackController;
 import controllers.tower.RewardController;
+import controllers.tower.SelectAttackController;
 import exceptions.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -25,8 +26,6 @@ import services.game.ExperienceService;
 import services.game.GameStateHolder;
 import views.FatalErrorView;
 import views.View;
-import views.listener.SelectAttackListener;
-import views.tower.SelectAttackView;
 
 import java.io.IOException;
 import java.util.List;
@@ -332,10 +331,10 @@ public class ControllerManager {
             fatalError("Une erreur est survenue lors du chargement de la fenêtre de bonus.");
         }
     }
+
     public void openLearnAttackWindow(Attack newAttack) {
         try {
-            LearnNewAttackController learnController = new LearnNewAttackController(this);
-            learnController.setNewAttack(newAttack);
+            LearnNewAttackController learnController = new LearnNewAttackController(this, newAttack);
             learnController.displayTeam();
             openSubScene(learnController.getView(), true);
         } catch (IOException e) {
@@ -343,13 +342,10 @@ public class ControllerManager {
         }
     }
 
-    public void openAttackSelectionWindow(Bugemon bugemon, Attack newAttack, LearnNewAttackController controller) {
+    public void openSelectAttackWindow(Bugemon target, Attack newAttack) {
         try {
-            SelectAttackView attackView = new SelectAttackView();
-            attackView.setListener(controller);
-            attackView.displayAttacks(bugemon.getAttacks(), newAttack.getName());
-            controller.setAttackView(attackView);
-            openSubScene(attackView, true);
+            SelectAttackController selectAttack = new SelectAttackController(this, target, newAttack);
+            openSubScene(selectAttack.getView(), true);
         } catch (IOException e) {
             fatalError("Une erreur est survenue lors du chargement de la sélection d'attaque.");
         }
