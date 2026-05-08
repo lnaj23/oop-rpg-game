@@ -8,8 +8,10 @@ import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
+import models.bugemon.Bugemon;
 import models.fight.AttackActionResult;
 import models.fight.Effectiveness;
+import models.game.Item;
 import models.game.TowerNodeType;
 import services.view.ActionMessageFormatter;
 import views.listener.FightListener;
@@ -153,7 +155,7 @@ public class FightView extends View<Controller> {
      *
      * @param bugemon the Bugémon DTO to display
      */
-    public void updateActiveBugemonSprite(BugemonDTO bugemon) {
+    public void updateActiveBugemonSprite(BugemonDTO bugemon) throws IOException {
         updateBugemonHPAndEffectDisplay(bugemon);
 
         Label nameLabel = bugemon.isPlayer() ? playerNameLabel : enemyNameLabel;
@@ -171,12 +173,9 @@ public class FightView extends View<Controller> {
                 + "\n attaque : " + (atk > 0 ? "+" + atk : atk)
                 + "\n défense : " + (def > 0 ? "+" + def : def)
                 + "\n initiative : " + (init > 0 ? "+" + init : init));
-        try {
-            Image img = SpriteLoader.loadSprite(bugemon);
-            sprite.setImage(img);
-        } catch (IOException e) {
-            throw new RuntimeException("Sprite introuvable pour " + bugemon.getName(), e);
-        }
+
+        Image img = SpriteLoader.loadSprite(bugemon);
+        sprite.setImage(img);
 
         if (bugemon.isPlayer() && bugemon.isDefault()) {
             sprite.setScaleX(-1);
@@ -217,7 +216,7 @@ public class FightView extends View<Controller> {
      *
      * @param message the message to display
      */
-    public void updateCombatMessage(String message) {
+    private void updateCombatMessage(String message) {
         choicePanelController.updateCombatMessage(message);
     }
 
@@ -360,5 +359,20 @@ public class FightView extends View<Controller> {
      */
     public void displayActionResult(AttackActionResult result) {
         updateCombatMessage(ActionMessageFormatter.format(result));
+    }
+
+    public void displayPlayerChangeMessage(Bugemon before, Bugemon after) {
+        String message = before.getName() +  ", reviens !\n" + after.getName() + " entre en jeu !";
+        updateCombatMessage(message);
+    }
+
+    public void displayEnemiChangeMessage(Bugemon onFieldEnemyBugemon) {
+        String message = "L'adversaire envoie " + onFieldEnemyBugemon.getName() + " ! ";
+        updateCombatMessage(message);
+    }
+
+    public void displayItemMessage(Item item) {
+        String message = "Vous utilisez " + item.getName() + " !";
+        updateCombatMessage(message);
     }
 }

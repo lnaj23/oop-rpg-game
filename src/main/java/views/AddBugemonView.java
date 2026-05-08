@@ -304,4 +304,8 @@ public class AddBugemonView extends View<AddBugemonController> {
     public boolean isFlipImageSelected() {
         return flipImageCheckBox.isSelected();
     }
+
+    public boolean isStarterSelected() {
+        return "Oui".equalsIgnoreCase(starterChoiceBox.getValue());
+    }
 }

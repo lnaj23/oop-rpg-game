@@ -15,15 +15,11 @@ import java.util.Objects;
  * while added Bugémon sprites are loaded from the filesystem.
  */
 public class SpriteLoader {
-
-    private SpriteLoader() {}
-
     public static Image loadSprite(BugemonDTO bugemon) throws IOException {
         if (bugemon.isDefault()) {
             String path = AppConfig.PNG_PREFIX + bugemon.getSprite();
             return new Image(Objects.requireNonNull(SpriteLoader.class.getResourceAsStream(path)));
         }
-        String path = AppConfig.PNG_PREFIX_ADDEDBUEMON + bugemon.getSprite();
         return new Image(new FileInputStream(Path.of(AppConfig.PNG_PREFIX_ADDEDBUEMON, bugemon.getSprite()).toString()));
     }
 }

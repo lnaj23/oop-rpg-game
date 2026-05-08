@@ -23,4 +23,9 @@ public interface TeamBugemonDTO {
      */
     int getSize();
 
+    /**
+     * @return the Bugémon currently on the field (read-only view)
+     */
+    BugemonDTO getOnFieldBugemon();
+
 }

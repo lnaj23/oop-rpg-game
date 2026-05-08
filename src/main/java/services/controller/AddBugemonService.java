@@ -1,6 +1,10 @@
 package services.controller;
 
+import exceptions.LoadingAddedBugemonFailedException;
+import exceptions.SavingAddedBugemonFailedException;
 import models.bugemon.Attack;
+import models.bugemon.Bugemon;
+import repositories.CustomBugemonRepository;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -14,7 +18,7 @@ import java.io.IOException;
  * attacks are valid and distinct, and confirms that the sprite path points to
  * a readable image file.
  */
-public class AddBugemonValidationService {
+public class AddBugemonService {
 
     /**
      * Validates all the data required to create a new Bugemon.
@@ -162,5 +166,10 @@ public class AddBugemonValidationService {
         }
 
         return null;
+    }
+
+    public void saveBugemon(Bugemon bugemon, File selectedSprite, boolean flipHorizontally) throws SavingAddedBugemonFailedException, LoadingAddedBugemonFailedException, IOException {
+        CustomBugemonRepository.getInstance().saveAddedBugemons(bugemon);
+        CustomBugemonRepository.getInstance().saveSprite(selectedSprite,flipHorizontally);
     }
 }

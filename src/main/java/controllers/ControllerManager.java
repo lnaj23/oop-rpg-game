@@ -180,10 +180,10 @@ public class ControllerManager {
      * </p>
      *
      */
-    public void openSwitchWindow() {
+    public void openSwitchWindow(boolean onPurpose) {
         try {
-            SwitchBugemonController switchController = new SwitchBugemonController(this);
-            openSubScene(switchController.getView(), !GameStateHolder.getInstance().isSwitchOnPurpose());
+            SwitchBugemonController switchController = new SwitchBugemonController(this, onPurpose);
+            openSubScene(switchController.getView(), !onPurpose);
         } catch (IOException | IllegalStateException e) {
             fatalError("Une erreur est survenue lors du chargement de la fenêtre de changement de Bugémon.");
         }
@@ -293,13 +293,10 @@ public class ControllerManager {
         }
     }
 
-    public void onSwitchBugemonChosen(String selectedId) {
+    public void onSwitchBugemonChosen(String selectedId, boolean onPurpose) {
         try {
-            fightAgainstCPUController.onSwitchBugemonChosen(
-                    selectedId,
-                    GameStateHolder.getInstance().isSwitchOnPurpose()
-            );
-        } catch (BugemonNotInTeamException e){
+            fightAgainstCPUController.onSwitchBugemonChosen(selectedId, onPurpose);
+        } catch (BugemonNotInTeamException | IOException e) {
             fatalError("Une erreur est survenue lors du changement de Bugemon Actif");
         }
     }

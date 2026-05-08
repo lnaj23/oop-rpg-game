@@ -4,13 +4,16 @@ import exceptions.BugemonNotInTeamException;
 import models.bugemon.Attack;
 import models.bugemon.Bugemon;
 import models.bugemon.TeamBugemon;
-import models.bugemon.dto.BugemonDTO;
-import services.models.fight.*;
+import models.fight.AttackActionResult;
+import models.fight.EffectEvent;
+import models.fight.Effectiveness;
+import services.models.fight.EffectManager;
+import services.models.fight.TypeEffectivenessService;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
-import java.util.stream.Collectors;
 
 /**
  * Represents a fight between two Bugémon teams.
@@ -20,10 +23,9 @@ public class Fight {
     private final TeamBugemon teamPlayer;
     private final TeamBugemon teamEnemy;
     private boolean isPlayerTurn;
+    private AttackActionResult lastActionResult;
     private final List<Effectiveness> predictedEffectiveness = new ArrayList<>();
     private final Random random = new Random();
-    private AttackActionResult lastActionResult;
-
 
     /**
      * @param teamPlayer the player's team
@@ -36,12 +38,12 @@ public class Fight {
         this.teamPlayer.getTeam().forEach(Bugemon::setIsPlayerToTrue);
         this.teamEnemy.getTeam().forEach(Bugemon::setIsPlayerToFalse);
         this.teamPlayer.changeOnFieldBugemon(this.teamPlayer.getTeam().getFirst());
-        for(Bugemon bug : this.teamPlayer.getTeam()){
-            bug.initPv(); // Heal all bugemon at the start, maybe we'll remove if we want to make a real roguelike game
+        for (Bugemon bug : this.teamPlayer.getTeam()) {
+            bug.initPv();
             bug.resetAllModifiers();
         }
-        for(Bugemon bug : this.teamPlayer.getTeam()){
-            if (!bug.isKO()){
+        for (Bugemon bug : this.teamPlayer.getTeam()) {
+            if (!bug.isKO()) {
                 this.teamPlayer.changeOnFieldBugemon(bug);
                 break;
             }
@@ -49,7 +51,6 @@ public class Fight {
         this.teamEnemy.changeOnFieldBugemon(this.teamEnemy.getTeam().getFirst());
         this.isPlayerTurn = true;
     }
-
 
     /** Executes the player's attack at the given index. */
     public void playerAttack(int attackIndex) {
@@ -83,11 +84,7 @@ public class Fight {
         switchRole();
     }
 
-
-
-    /**
-     * @throws BugemonNotInTeamException if the Bugémon is not in the player's team
-     */
+    /** @throws BugemonNotInTeamException if the Bugémon is not in the player's team */
     public void changePlayerOnField(String id) throws BugemonNotInTeamException {
         Bugemon bugemon = teamPlayer.getTeam().stream()
                 .filter(b -> b.getId().equals(id))
@@ -96,14 +93,10 @@ public class Fight {
         teamPlayer.changeOnFieldBugemon(bugemon);
     }
 
-    /**
-     * @throws BugemonNotInTeamException if the Bugémon is not in the enemy's team
-     */
+    /** @throws BugemonNotInTeamException if the Bugémon is not in the enemy's team */
     public void changeEnemyOnField(Bugemon bugemon) throws BugemonNotInTeamException {
         teamEnemy.changeOnFieldBugemon(bugemon);
     }
-
-
 
     /** @return {@code true} if the player's total initiative is strictly greater */
     public boolean playerCanStart() {
@@ -131,8 +124,6 @@ public class Fight {
     /** @return {@code true} if it is the player's turn */
     public boolean isPlayerTurn() { return isPlayerTurn; }
 
-
-
     public boolean isBattleOver() {
         return !teamEnemy.isTeamStillStanding() || !teamPlayer.isTeamStillStanding();
     }
@@ -143,46 +134,28 @@ public class Fight {
 
     public boolean isOnFieldEnemyBugemonKO() { return teamEnemy.isOnFieldBugemonKO(); }
 
-
     public TeamBugemon getTeamPlayer() { return teamPlayer; }
-    public TeamBugemon getTeamEnemy() { return teamEnemy; }
-    public List<BugemonDTO> getTeamPlayerToDisplay() {
-        return getTeamPlayer().getTeam().stream()
-                .map(b -> (BugemonDTO) b)
-                .collect(Collectors.toList());
-    }
-    public List<BugemonDTO> getTeamEnemyToDisplay() {
-        return getTeamEnemy().getTeam().stream()
-                .map(b -> (BugemonDTO) b)
-                .collect(Collectors.toList());
-    }
+    public TeamBugemon getTeamEnemy()  { return teamEnemy; }
     public Bugemon getOnFieldPlayerBugemon() { return teamPlayer.getOnFieldBugemon(); }
-    public String getOnFieldPlayerBugemonName() { return teamPlayer.getOnFieldBugemon().getName(); }
-    public String getOnFieldPlayerBugemonId() { return teamPlayer.getOnFieldBugemon().getId(); }
     public Bugemon getOnFieldEnemyBugemon() { return teamEnemy.getOnFieldBugemon(); }
-    public String getOnFieldEnemyBugemonName() { return teamEnemy.getOnFieldBugemon().getName(); }
     public List<Bugemon> getAvailablePlayerBugemons() { return teamPlayer.getAvailableBugemons(); }
-    public List<Bugemon> getAvailableEnemyBugemons() { return teamEnemy.getAvailableBugemons(); }
+    public List<Bugemon> getAvailableEnemyBugemons()  { return teamEnemy.getAvailableBugemons(); }
+
     public AttackActionResult getLastActionResult() { return lastActionResult; }
 
-
     /**
-     * Returns the number of Bugemons in the enemy team for XP computation enemy_count factor
-     *
-     * @return the number of enemies
+     * @return the number of Bugemons in the enemy team for XP computation enemy_count factor
      */
     public int getEnemyTeamSize() {
         return teamEnemy.getTeam().size();
     }
 
-
     public void computePredictedEffectiveness() {
         predictedEffectiveness.clear();
-        Bugemon player = teamPlayer.getOnFieldBugemon();
-        Bugemon enemy = teamEnemy.getOnFieldBugemon();
-        for (Attack attack : player.getAttacks()) {
+        String targetType = teamEnemy.getOnFieldBugemonType();
+        for (Attack attack : teamPlayer.getOnFieldBugemonAttacks()) {
             predictedEffectiveness.add(
-                    TypeEffectivenessService.getEffectiveness(attack.getType(), enemy.getType())
+                    TypeEffectivenessService.getEffectiveness(attack.getType(), targetType)
             );
         }
     }
@@ -190,7 +163,6 @@ public class Fight {
     public List<Effectiveness> getPredictedEffectiveness() {
         return Collections.unmodifiableList(predictedEffectiveness);
     }
-
 
     private Attack getAttack(int index) {
         Bugemon attacker = isPlayerTurn ? teamPlayer.getOnFieldBugemon() : teamEnemy.getOnFieldBugemon();

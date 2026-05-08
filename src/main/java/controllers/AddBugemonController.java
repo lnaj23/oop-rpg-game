@@ -3,9 +3,8 @@ package controllers;
 import exceptions.JsonResourceNotFoundException;
 import models.bugemon.Attack;
 import models.bugemon.Bugemon;
-import repositories.CustomBugemonRepository;
 import services.models.dataprovider.AttackProvider;
-import services.controller.AddBugemonValidationService;
+import services.controller.AddBugemonService;
 import views.AddBugemonView;
 
 import java.io.IOException;
@@ -35,7 +34,7 @@ public class AddBugemonController extends Controller<AddBugemonView> {
     private final List<Attack> attacksToShow;
 
     /** Service used to validate the values entered in the Add Bugemon form. */
-    private final AddBugemonValidationService validationService = new AddBugemonValidationService();
+    private final AddBugemonService addBugemonService = new AddBugemonService();
 
     private File selectedFile;
 
@@ -83,7 +82,7 @@ public class AddBugemonController extends Controller<AddBugemonView> {
         Attack attack3 = view.getSelectedAttack3();
         String starterText = view.getSelectedStarter();
 
-        String errorMessage = validationService.validate(
+        String errorMessage = addBugemonService.validate(
                 name,
                 type,
                 hpText,
@@ -111,7 +110,7 @@ public class AddBugemonController extends Controller<AddBugemonView> {
         int attack = Integer.parseInt(attackText);
         int defense = Integer.parseInt(defenseText);
         int initiative = Integer.parseInt(initiativeText);
-        boolean starter = "Oui".equals(starterText);
+        boolean starter = view.isStarterSelected();
 
         List<Attack> attacks = Arrays.asList(attack1, attack2, attack3);
         List<String> attackNames = Arrays.asList(
@@ -136,8 +135,7 @@ public class AddBugemonController extends Controller<AddBugemonView> {
         );
 
         try {
-            CustomBugemonRepository.getInstance().saveAddedBugemons(bugemonToSave);
-            CustomBugemonRepository.getInstance().saveSprite(selectedFile, view.isFlipImageSelected());
+            addBugemonService.saveBugemon(bugemonToSave, selectedFile, view.isFlipImageSelected());
         } catch (Exception e) {
             view.showMessage("Impossible d'ajouter le Bugémon : " + e.getMessage());
             return;
