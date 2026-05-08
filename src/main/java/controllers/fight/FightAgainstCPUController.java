@@ -10,7 +10,7 @@ import exceptions.JsonResourceNotFoundException;
 import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.util.Duration;
-import models.game.Fight;
+import models.fight.Fight;
 import models.game.Item;
 import models.game.LevelTower;
 import views.listener.FightListener;
@@ -211,7 +211,7 @@ public class FightAgainstCPUController extends Controller<FightView> implements 
     private void viewReactToAttack() {
         view.updateBugemonHPAndEffectDisplay(fight.getOnFieldEnemyBugemon());
         view.updateBugemonHPAndEffectDisplay(fight.getOnFieldPlayerBugemon());
-        view.updateCombatMessage(fight.getActionResultText());
+        view.displayActionResult(fight.getLastActionResult());
     }
 
     private void endIfBattleOver() {

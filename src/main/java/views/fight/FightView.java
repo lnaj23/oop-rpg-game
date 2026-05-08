@@ -8,7 +8,10 @@ import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
+import models.fight.AttackActionResult;
+import models.fight.Effectiveness;
 import models.game.TowerNodeType;
+import services.view.ActionMessageFormatter;
 import views.listener.FightListener;
 import models.bugemon.dto.BugemonDTO;
 import views.View;
@@ -223,7 +226,7 @@ public class FightView extends View<Controller> {
      *
      * @param predictedEffectivenessFromFightModels messages from the fight model
      */
-    public void updatePredictedEffectiveness(List<String> predictedEffectivenessFromFightModels) {
+    public void updatePredictedEffectiveness(List<Effectiveness> predictedEffectivenessFromFightModels) {
         choicePanelController.updatePredictedEffectiveness(predictedEffectivenessFromFightModels);
     }
 
@@ -349,5 +352,13 @@ public class FightView extends View<Controller> {
      */
     public void animateKO(BugemonDTO bugemon, Runnable afterKOAnimation) {
         animator.animateKO(bugemon, afterKOAnimation);
+    }
+
+    /**
+     * Formats the structured result of an attack action and displays it in the
+     * combat message panel.
+     */
+    public void displayActionResult(AttackActionResult result) {
+        updateCombatMessage(ActionMessageFormatter.format(result));
     }
 }

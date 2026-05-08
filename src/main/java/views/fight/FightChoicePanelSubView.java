@@ -4,6 +4,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
+import models.fight.Effectiveness;
+import services.view.ActionMessageFormatter;
 import views.listener.FightListener;
 import models.bugemon.dto.BugemonDTO;
 import services.view.TypeColorService;
@@ -27,7 +29,7 @@ public class FightChoicePanelSubView {
     private FightListener listener;
 
     /** Cached list of effectiveness messages for the current Bugémon's attacks. */
-    private List<String> predictedEffectiveness = new ArrayList<>();
+    private List<Effectiveness> predictedEffectiveness = new ArrayList<>();
 
     /** Label displaying combat feedback messages. */
     @FXML private Label combatMessageLabel;
@@ -113,8 +115,8 @@ public class FightChoicePanelSubView {
      * @param predictedEffectivenessFromFightModels list of effectiveness strings
      *        (e.g., "Super efficace !", "Peu efficace...", or neutral)
      */
-    public void updatePredictedEffectiveness(List<String> predictedEffectivenessFromFightModels) {
-        this.predictedEffectiveness = predictedEffectivenessFromFightModels;
+    public void updatePredictedEffectiveness(List<Effectiveness> predicted) {
+        this.predictedEffectiveness = predicted;
     }
 
     /**
@@ -129,14 +131,16 @@ public class FightChoicePanelSubView {
      */
     public void updateAttackButtons(BugemonDTO bugemon) {
         List<String> attackNames = formatAttackNames(bugemon.getAttackNamesAsList());
+        List<String> attackTypes = bugemon.getAttackTypesAsList();
         List<Button> btns = List.of(btnAttack1, btnAttack2, btnAttack3);
 
         for (int i = 0; i < btns.size(); i++) {
             Button btn = btns.get(i);
             if (i < attackNames.size()) {
-                String typeColor = TypeColorService.getColor(bugemon.getAttackTypesAsList().get(i));
-                String borderColor = getEffectivenessColor(predictedEffectiveness.get(i));
-                btn.setText(attackNames.get(i) + "\n" + predictedEffectiveness.get(i));
+                Effectiveness eff = predictedEffectiveness.get(i);
+                String typeColor = TypeColorService.getColor(attackTypes.get(i));
+                String borderColor = getEffectivenessColor(eff);
+                btn.setText(attackNames.get(i) + "\n" + ActionMessageFormatter.formatEffectivenessShort(eff));
                 btn.setStyle(
                         "-fx-background-color: " + typeColor + "; " +
                                 "-fx-text-fill: white; " +
@@ -198,11 +202,11 @@ public class FightChoicePanelSubView {
      * @param effectiveness the effectiveness message (e.g., "Super efficace !", "Peu efficace...")
      * @return an RGB or hex color string; transparent if neutral
      */
-    private String getEffectivenessColor(String effectiveness) {
-        return switch (effectiveness) {
-            case "Super efficace !" -> "rgb(0,152,0)";
-            case "Peu efficace..." -> "#FF0000";
-            default -> "transparent";
+    private String getEffectivenessColor(Effectiveness e) {
+        return switch (e) {
+            case SUPER_EFFECTIVE     -> "rgb(0,152,0)";
+            case NOT_VERY_EFFECTIVE  -> "#FF0000";
+            case NEUTRAL             -> "transparent";
         };
     }
 

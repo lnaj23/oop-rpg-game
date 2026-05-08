@@ -5,7 +5,7 @@ import exceptions.BugemonNotFoundException;
 import exceptions.BugemonNotInTeamException;
 import exceptions.JsonResourceNotFoundException;
 import junit.framework.TestCase;
-import models.game.Fight;
+import models.fight.Fight;
 import org.junit.Before;
 import org.junit.Test;
 import services.models.dataprovider.BugemonProvider;

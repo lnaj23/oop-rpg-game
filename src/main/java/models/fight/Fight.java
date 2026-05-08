@@ -1,14 +1,11 @@
-package models.game;
+package models.fight;
 
 import exceptions.BugemonNotInTeamException;
 import models.bugemon.Attack;
 import models.bugemon.Bugemon;
 import models.bugemon.TeamBugemon;
 import models.bugemon.dto.BugemonDTO;
-import services.models.fight.EffectManager;
-import services.models.fight.EffectResult;
-import services.models.fight.TypeEffectivenessService;
-import services.view.AttackMessageService;
+import services.models.fight.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -23,9 +20,9 @@ public class Fight {
     private final TeamBugemon teamPlayer;
     private final TeamBugemon teamEnemy;
     private boolean isPlayerTurn;
-    private String actionResulText;
-    private final List<String> predictedEffectiveness = new ArrayList<>();
+    private final List<Effectiveness> predictedEffectiveness = new ArrayList<>();
     private final Random random = new Random();
+    private AttackActionResult lastActionResult;
 
 
     /**
@@ -71,9 +68,18 @@ public class Fight {
         TeamBugemon defenderTeam = isPlayerTurn ? teamEnemy  : teamPlayer;
 
         int damage = attacker.attack(defender, attack);
-        EffectResult effectResult = EffectManager.handleEffect(attacker, defender, attackerTeam, defenderTeam, attack);
+        List<EffectEvent> effects = EffectManager.handleEffect(attacker, defender, attackerTeam, defenderTeam, attack);
 
-        actionResulText = AttackMessageService.buildAttackMessage(attacker, defender, attack, damage, effectResult);
+        lastActionResult = new AttackActionResult(
+                attacker.getName(),
+                attack.getName(),
+                defender.getName(),
+                damage,
+                defender.isKO(),
+                TypeEffectivenessService.getEffectiveness(attack.getType(), defender.getType()),
+                effects
+        );
+
         switchRole();
     }
 
@@ -157,8 +163,7 @@ public class Fight {
     public String getOnFieldEnemyBugemonName() { return teamEnemy.getOnFieldBugemon().getName(); }
     public List<Bugemon> getAvailablePlayerBugemons() { return teamPlayer.getAvailableBugemons(); }
     public List<Bugemon> getAvailableEnemyBugemons() { return teamEnemy.getAvailableBugemons(); }
-    public String getActionResultText() { return actionResulText; }
-
+    public AttackActionResult getLastActionResult() { return lastActionResult; }
 
 
     /**
@@ -173,16 +178,16 @@ public class Fight {
 
     public void computePredictedEffectiveness() {
         predictedEffectiveness.clear();
-        String targetType = teamEnemy.getOnFieldBugemonType();
-        for (Attack attack : teamPlayer.getOnFieldBugemonAttacks()) {
-            double m = TypeEffectivenessService.getTypeMultiplier(attack.getType(), targetType);
-            if (m > 1.0) predictedEffectiveness.add("Super efficace !");
-            else if (m < 1.0) predictedEffectiveness.add("Peu efficace...");
-            else predictedEffectiveness.add("Rien de spécial");
+        Bugemon player = teamPlayer.getOnFieldBugemon();
+        Bugemon enemy = teamEnemy.getOnFieldBugemon();
+        for (Attack attack : player.getAttacks()) {
+            predictedEffectiveness.add(
+                    TypeEffectivenessService.getEffectiveness(attack.getType(), enemy.getType())
+            );
         }
     }
 
-    public List<String> getPredictedEffectiveness() {
+    public List<Effectiveness> getPredictedEffectiveness() {
         return Collections.unmodifiableList(predictedEffectiveness);
     }
 

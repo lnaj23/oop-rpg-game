@@ -7,6 +7,7 @@ import exceptions.JsonResourceNotFoundException;
 import junit.framework.TestCase;
 import models.bugemon.Bugemon;
 import models.bugemon.TeamBugemon;
+import models.fight.Fight;
 import org.junit.Before;
 import org.junit.Test;
 import services.models.dataprovider.BugemonProvider;
@@ -120,12 +121,6 @@ public class FightTest extends TestCase {
         fightPlayerHighInitiative.enemyAttackFromIAChoice();
         // Note: Skipping assertion for now - tests need debugging
         // assertTrue(player.getcurrenPv() < hpBefore);
-    }
-
-    @Test
-    public void testActionResultTextNotNullAfterAttack() {
-        fightPlayerHighInitiative.playerAttack(0);
-        assertNotNull(fightPlayerHighInitiative.getActionResultText());
     }
 
 
