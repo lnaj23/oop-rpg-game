@@ -63,11 +63,7 @@ public class LevelUpController extends Controller<LevelUpView> {
         int displayedLevel = currentBugemon.getLevel() - totalOccurrencesForThisBugemon + currentOccurrenceIndex;
         view.updateBugemonSprite(currentBugemon);
         view.updateLevelUpText(currentBugemon, displayedLevel);
-        setOptions(
-                allOptions.get(0).toString(),
-                allOptions.get(1).toString(),
-                allOptions.get(2).toString()
-        );
+        view.updateOptions(allOptions);
     }
 
     /**
@@ -111,17 +107,6 @@ public class LevelUpController extends Controller<LevelUpView> {
         }
 
         return indexLevelUp - start + 1;
-    }
-
-    /**
-     * Updates the text of the three bonus option buttons.
-     *
-     * @param option1 the text for the first option
-     * @param option2 the text for the second option
-     * @param option3 the text for the third option
-     */
-    public void setOptions(String option1, String option2, String option3) {
-        view.updateOptionTexts(option1, option2, option3);
     }
 
     /**

@@ -3,6 +3,7 @@ package controllers;
 import exceptions.JsonResourceNotFoundException;
 import models.bugemon.Attack;
 import models.bugemon.Bugemon;
+import services.controller.AddBugemonError;
 import services.models.dataprovider.AttackProvider;
 import services.controller.AddBugemonService;
 import views.AddBugemonView;
@@ -82,7 +83,7 @@ public class AddBugemonController extends Controller<AddBugemonView> {
         Attack attack3 = view.getSelectedAttack3();
         String starterText = view.getSelectedStarter();
 
-        String errorMessage = addBugemonService.validate(
+        AddBugemonError error = addBugemonService.validate(
                 name,
                 type,
                 hpText,
@@ -96,13 +97,13 @@ public class AddBugemonController extends Controller<AddBugemonView> {
                 starterText
         );
 
-        if (errorMessage != null) {
-            view.showMessage(errorMessage);
+        if (error != null) {
+            view.showError(error);
             return;
         }
 
         if (selectedFile == null) {
-            view.showMessage("Il faut choisir un sprite avec le bouton Parcourir.");
+            view.showError(AddBugemonError.SPRITE_NOT_SELECTED);
             return;
         }
 

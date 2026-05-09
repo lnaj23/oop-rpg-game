@@ -8,11 +8,10 @@ import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
-import models.bugemon.Bugemon;
 import models.fight.AttackActionResult;
 import models.fight.Effectiveness;
-import models.game.Item;
 import models.game.TowerNodeType;
+import models.game.dto.ItemDTO;
 import services.view.ActionMessageFormatter;
 import views.listener.FightListener;
 import models.bugemon.dto.BugemonDTO;
@@ -361,17 +360,17 @@ public class FightView extends View<Controller> {
         updateCombatMessage(ActionMessageFormatter.format(result));
     }
 
-    public void displayPlayerChangeMessage(Bugemon before, Bugemon after) {
+    public void displayPlayerChangeMessage(BugemonDTO before, BugemonDTO after) {
         String message = before.getName() +  ", reviens !\n" + after.getName() + " entre en jeu !";
         updateCombatMessage(message);
     }
 
-    public void displayEnemiChangeMessage(Bugemon onFieldEnemyBugemon) {
+    public void displayEnemiChangeMessage(BugemonDTO onFieldEnemyBugemon) {
         String message = "L'adversaire envoie " + onFieldEnemyBugemon.getName() + " ! ";
         updateCombatMessage(message);
     }
 
-    public void displayItemMessage(Item item) {
+    public void displayItemMessage(ItemDTO item) {
         String message = "Vous utilisez " + item.getName() + " !";
         updateCombatMessage(message);
     }

@@ -49,8 +49,4 @@ public class Item implements ItemDTO {
     public String getStatToModify(){ return this.effect.getStat();}
     public int getModifier() { return this.effect.getModifier();}
     public Effect getEffect() { return this.effect; }
-    @Override
-    public String toString() {
-        return name + " : " + description;
-    }
 }

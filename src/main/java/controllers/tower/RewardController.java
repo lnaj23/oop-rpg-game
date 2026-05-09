@@ -34,7 +34,7 @@ public class RewardController extends Controller<RewardView> {
         itemToGain = itemProvider.getRandomItem();
         attackToLearn = attackProvider.getRandomAttack();
         bonus = bonusGenerator.generateSingleBonus();
-        this.view.setRewardDisplay(itemToGain, attackToLearn.getName(),bonus.toString());
+        this.view.setRewardDisplay(itemToGain, attackToLearn, bonus);
     }
 
     public void onGainItemBtnClicked() {

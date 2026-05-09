@@ -23,7 +23,7 @@ import java.io.IOException;
 public class ApplyBonusRewardController extends Controller<SelectBugemonFromTeamView> implements SelectBugemonFromTeamListener {
 
     /** The stat bonus to apply to the selected Bugémon. */
-    private LevelUpBonus bonus;
+    private final LevelUpBonus bonus;
 
     /**
      * Creates the controller and wires the listener to the view.
@@ -36,15 +36,6 @@ public class ApplyBonusRewardController extends Controller<SelectBugemonFromTeam
         this.view.setController(this);
         this.view.setListener(this);
         this.bonus = bonus;
-        this.view.displayTeam(GameStateHolder.getInstance().getCurrentTeamPlayer().getTeamDTO(), true);
-    }
-
-    /**
-     * Displays the player's team in the sub-window.
-     *
-     * @throws IOException if the team display fails
-     */
-    public void displayTeam() throws IOException {
         this.view.displayTeam(GameStateHolder.getInstance().getCurrentTeamPlayer().getTeamDTO(), true);
     }
 

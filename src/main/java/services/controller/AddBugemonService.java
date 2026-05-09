@@ -13,30 +13,17 @@ import java.io.IOException;
 
 /**
  * Service responsible for validating the data entered in the Add Bugemon form.
- * This service checks whether the required fields are filled in correctly,
- * verifies that the stats are valid numeric values, ensures that the selected
- * attacks are valid and distinct, and confirms that the sprite path points to
- * a readable image file.
+ * Returns a structured {@link AddBugemonError} instead of a UI string —
+ * the view layer is responsible for formatting.
  */
 public class AddBugemonService {
 
     /**
      * Validates all the data required to create a new Bugemon.
      *
-     * @param name the Bugemon name
-     * @param type the Bugemon type
-     * @param hpText the HP value entered as text
-     * @param attackText the attack stat entered as text
-     * @param defenseText the defense stat entered as text
-     * @param initiativeText the initiative stat entered as text
-     * @param spritePath the file path of the selected sprite
-     * @param attack1 the first selected attack
-     * @param attack2 the second selected attack
-     * @param attack3 the third selected attack
-     * @param starterText the selected starter value
-     * @return an error message if validation fails, or {@code null} if all data is valid
+     * @return an {@link AddBugemonError} if validation fails, or {@code null} if all data is valid
      */
-    public String validate(
+    public AddBugemonError validate(
             String name,
             String type,
             String hpText,
@@ -50,103 +37,80 @@ public class AddBugemonService {
             String starterText
     ) {
         if (name == null || name.isBlank()) {
-            return "Le nom est obligatoire.";
+            return AddBugemonError.NAME_REQUIRED;
         }
 
         if (type == null || type.isBlank()) {
-            return "Le type est obligatoire.";
+            return AddBugemonError.TYPE_REQUIRED;
         }
 
-        String errorMessage = checkStats(hpText, attackText, defenseText, initiativeText);
-        if (errorMessage != null) {
-            return errorMessage;
+        AddBugemonError error = checkStats(hpText, attackText, defenseText, initiativeText);
+        if (error != null) {
+            return error;
         }
 
-        errorMessage = checkAttack(attack1, attack2, attack3);
-        if (errorMessage != null) {
-            return errorMessage;
+        error = checkAttack(attack1, attack2, attack3);
+        if (error != null) {
+            return error;
         }
 
-        errorMessage = checkSpritePath(spritePath);
-        if (errorMessage != null) {
-            return errorMessage;
+        error = checkSpritePath(spritePath);
+        if (error != null) {
+            return error;
         }
 
         if (starterText == null || starterText.isBlank()) {
-            return "Il faut choisir si le Bugémon est starter.";
+            return AddBugemonError.STARTER_REQUIRED;
         }
 
         return null;
     }
 
-    /**
-     * Checks whether the provided sprite path points to a valid readable image file.
-     *
-     * @param spritePath the path of the sprite file
-     * @return an error message if the sprite is invalid, or {@code null} if it is valid
-     */
-    private String checkSpritePath(String spritePath) {
+    private AddBugemonError checkSpritePath(String spritePath) {
         if (spritePath == null || spritePath.isBlank()) {
-            return "Le sprite est obligatoire.";
+            return AddBugemonError.SPRITE_REQUIRED;
         }
 
         File spriteFile = new File(spritePath);
 
         if (!spriteFile.exists()) {
-            return "Le fichier du sprite n'existe pas.";
+            return AddBugemonError.SPRITE_FILE_NOT_FOUND;
         }
 
         if (!spriteFile.isFile()) {
-            return "Le chemin du sprite n'est pas un fichier valide.";
+            return AddBugemonError.SPRITE_NOT_A_FILE;
         }
 
         String lowerPath = spriteFile.getName().toLowerCase();
         if (!(lowerPath.endsWith(".png") || lowerPath.endsWith(".jpg") || lowerPath.endsWith(".jpeg"))) {
-            return "Le sprite doit être une image PNG, JPG ou JPEG.";
+            return AddBugemonError.SPRITE_WRONG_FORMAT;
         }
 
         try {
             BufferedImage image = ImageIO.read(spriteFile);
             if (image == null) {
-                return "Le fichier sélectionné n'est pas une image valide.";
+                return AddBugemonError.SPRITE_NOT_VALID_IMAGE;
             }
         } catch (IOException e) {
-            return "Impossible de lire le fichier image du sprite.";
+            return AddBugemonError.SPRITE_NOT_VALID_IMAGE;
         }
 
         return null;
     }
 
-    /**
-     * Checks whether the selected attacks are all present and distinct.
-     *
-     * @param attack1 the first selected attack
-     * @param attack2 the second selected attack
-     * @param attack3 the third selected attack
-     * @return an error message if the attacks are invalid, or {@code null} if they are valid
-     */
-    private String checkAttack(Attack attack1, Attack attack2, Attack attack3) {
+    private AddBugemonError checkAttack(Attack attack1, Attack attack2, Attack attack3) {
         if (attack1 == null || attack2 == null || attack3 == null) {
-            return "Il faut sélectionner 3 attaques.";
+            return AddBugemonError.ATTACK_COUNT_INVALID;
         }
 
         if (attack1.equals(attack2) || attack1.equals(attack3) || attack2.equals(attack3)) {
-            return "Les 3 attaques doivent être différentes.";
+            return AddBugemonError.ATTACKS_NOT_DISTINCT;
         }
 
         return null;
     }
 
-    /**
-     * Checks whether the stat fields contain valid numeric values.
-     *
-     * @param hpText the HP value entered as text
-     * @param attackText the attack stat entered as text
-     * @param defenseText the defense stat entered as text
-     * @param initiativeText the initiative stat entered as text
-     * @return an error message if the stats are invalid, or {@code null} if they are valid
-     */
-    private String checkStats(String hpText, String attackText, String defenseText, String initiativeText) {
+    private AddBugemonError checkStats(String hpText, String attackText, String defenseText, String initiativeText) {
         int hp;
         int attack;
         int defense;
@@ -158,11 +122,11 @@ public class AddBugemonService {
             defense = Integer.parseInt(defenseText);
             initiative = Integer.parseInt(initiativeText);
         } catch (NumberFormatException e) {
-            return "HP, Attaque, Défense et Initiative doivent être des nombres.";
+            return AddBugemonError.STATS_NOT_NUMERIC;
         }
 
         if (hp <= 0 || attack < 0 || defense < 0 || initiative < 0) {
-            return "Les statistiques sont invalides.";
+            return AddBugemonError.STATS_INVALID;
         }
 
         return null;
@@ -170,6 +134,6 @@ public class AddBugemonService {
 
     public void saveBugemon(Bugemon bugemon, File selectedSprite, boolean flipHorizontally) throws SavingAddedBugemonFailedException, LoadingAddedBugemonFailedException, IOException {
         CustomBugemonRepository.getInstance().saveAddedBugemons(bugemon);
-        CustomBugemonRepository.getInstance().saveSprite(selectedSprite,flipHorizontally);
+        CustomBugemonRepository.getInstance().saveSprite(selectedSprite, flipHorizontally);
     }
 }

@@ -7,11 +7,14 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import models.bugemon.dto.BugemonDTO;
+import models.game.LevelUpBonus;
+import services.view.LevelUpBonusFormatter;
 import views.View;
 import services.view.SpriteLoader;
 
 
 import java.io.IOException;
+import java.util.List;
 
 public class LevelUpView extends View<LevelUpController> {
 
@@ -60,16 +63,13 @@ public class LevelUpView extends View<LevelUpController> {
     }
 
     /**
-     * Updates the text displayed on the three option buttons.
-     *
-     * @param option1 the text for the first option
-     * @param option2 the text for the second option
-     * @param option3 the text for the third option
+     * Updates the text displayed on the three option buttons by formatting
+     * the given level-up bonuses internally.
      */
-    public void updateOptionTexts(String option1, String option2, String option3) {
-        btnOption1.setText(option1);
-        btnOption2.setText(option2);
-        btnOption3.setText(option3);
+    public void updateOptions(List<LevelUpBonus> options) {
+        btnOption1.setText(LevelUpBonusFormatter.format(options.get(0)));
+        btnOption2.setText(LevelUpBonusFormatter.format(options.get(1)));
+        btnOption3.setText(LevelUpBonusFormatter.format(options.get(2)));
     }
 
     /**

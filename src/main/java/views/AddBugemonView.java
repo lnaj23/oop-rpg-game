@@ -6,6 +6,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.StageStyle;
 import models.bugemon.Attack;
+import services.controller.AddBugemonError;
+import services.view.AddBugemonErrorFormatter;
 
 import java.io.IOException;
 import java.util.List;
@@ -307,5 +309,12 @@ public class AddBugemonView extends View<AddBugemonController> {
 
     public boolean isStarterSelected() {
         return "Oui".equalsIgnoreCase(starterChoiceBox.getValue());
+    }
+
+    /**
+     * Formats and displays a validation error in the form's message area.
+     */
+    public void showError(AddBugemonError error) {
+        showMessage(AddBugemonErrorFormatter.format(error));
     }
 }
