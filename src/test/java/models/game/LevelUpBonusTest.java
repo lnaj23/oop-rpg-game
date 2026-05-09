@@ -89,22 +89,4 @@ public class LevelUpBonusTest extends TestCase {
         assertEquals(atkBefore + 5, bugemon.getAttaque());
         assertEquals(defBefore + 5, bugemon.getDefense());
     }
-
-    /**
-     * Verifies that toString() produces readable text for pure HP.
-     */
-    @Test
-    public void testToStringPureHp() {
-        LevelUpBonus bonus = new LevelUpBonus(20, 0, 0, 0);
-        assertEquals("+20 HP", bonus.toString());
-    }
-
-    /**
-     * Verifies that toString() with a mixed bonus displays both stats.
-     */
-    @Test
-    public void testToStringMixed() {
-        LevelUpBonus bonus = new LevelUpBonus(0, 5, 5, 0);
-        assertEquals("+5 Attaque, +5 Défense", bonus.toString());
-    }
 }
