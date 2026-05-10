@@ -1,4 +1,4 @@
-package services;
+package services.app;
 
 import exceptions.AttackNotFoundException;
 import exceptions.JsonResourceNotFoundException;
@@ -7,9 +7,9 @@ import exceptions.TowerNotInitializedException;
 import models.game.TowerNodeType;
 import models.bugemon.TeamBugemon;
 import models.game.Item;
-import services.models.dataprovider.ItemProvider;
+import services.controller.dataprovider.ItemProvider;
 import models.game.LevelTower;
-import services.models.dataprovider.TeamProvider;
+import services.controller.dataprovider.TeamProvider;
 
 import java.util.ArrayList;
 import java.util.Comparator;

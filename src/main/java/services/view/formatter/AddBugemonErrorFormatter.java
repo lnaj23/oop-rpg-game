@@ -1,7 +1,7 @@
-package services.view;
+package services.view.formatter;
 
 
-import services.controller.AddBugemonError;
+import services.controller.addbugemon.AddBugemonError;
 
 /**
  * Formats an {@link AddBugemonError} into the user-facing error message.

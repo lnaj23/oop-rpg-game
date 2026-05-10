@@ -14,7 +14,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.StageStyle;
 import models.bugemon.dto.BugemonDTO;
-import services.view.SpriteLoader;
+import services.view.assets.SpriteLoader;
 
 import java.io.IOException;
 import java.util.List;

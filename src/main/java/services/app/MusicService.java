@@ -1,4 +1,4 @@
-package services;
+package services.app;
 
 import configuration.AppConfig;
 import controllers.ControllerManager.Scenes;
@@ -10,34 +10,30 @@ import javax.sound.sampled.Clip;
 import javax.sound.sampled.FloatControl;
 import java.io.File;
 
-public class MusicService {
+/**
+ * Background music manager.
+ * <p>
+ * Holds the currently playing audio clip and switches it whenever the active
+ * scene changes. Stateless from the caller's point of view — exposes only
+ * static methods.
+ * </p>
+ */
+public abstract class MusicService {
 
-    private static MusicService instance;
+    private static GameState currentState;
+    private static Clip currentClip;
 
-    private GameState currentState;
-    private Clip currentClip;
-
-    private MusicService() {}
-
-    public static MusicService getInstance() {
-        if (instance == null) {
-            instance = new MusicService();
-        }
-        return instance;
-    }
-
-    public void updateMusicForScene(Scenes scene) {
+    /** Switches the background music to match the given scene, if needed. */
+    public static void updateMusicForScene(Scenes scene) {
         GameState nextState = determineGameState(scene);
-
         if (nextState == currentState) {
             return;
         }
-
         currentState = nextState;
         chooseAmbiance(currentState);
     }
 
-    private GameState determineGameState(Scenes scene) {
+    private static GameState determineGameState(Scenes scene) {
         return switch (scene) {
             case FIGHT_AGAINST_CPU -> GameState.COMBAT_STATE;
             case DEFEAT -> GameState.DEFEAT;
@@ -46,7 +42,7 @@ public class MusicService {
         };
     }
 
-    private void chooseAmbiance(GameState state) {
+    private static void chooseAmbiance(GameState state) {
         String filepath = "";
         float volume = 0.0f;
 
@@ -73,16 +69,14 @@ public class MusicService {
         playMusic(filepath, volume);
     }
 
-    private void playMusic(String filepath, float volume) {
+    private static void playMusic(String filepath, float volume) {
         try {
             File musicPath = new File(filepath);
-
             if (!musicPath.exists()) {
                 return;
             }
 
             AudioInputStream audioInput = AudioSystem.getAudioInputStream(musicPath);
-
             currentClip = AudioSystem.getClip();
             currentClip.open(audioInput);
 
@@ -99,7 +93,7 @@ public class MusicService {
         }
     }
 
-    private void stopCurrentMusic() {
+    private static void stopCurrentMusic() {
         if (currentClip != null) {
             currentClip.stop();
             currentClip.close();

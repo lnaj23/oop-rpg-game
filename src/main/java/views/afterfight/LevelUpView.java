@@ -8,9 +8,9 @@ import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import models.bugemon.dto.BugemonDTO;
 import models.game.LevelUpBonus;
-import services.view.LevelUpBonusFormatter;
+import services.view.formatter.LevelUpBonusFormatter;
 import views.View;
-import services.view.SpriteLoader;
+import services.view.assets.SpriteLoader;
 
 
 import java.io.IOException;

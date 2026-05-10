@@ -6,7 +6,7 @@ import junit.framework.TestCase;
 import org.junit.Test;
 import exceptions.BugemonNotFoundException;
 import exceptions.BugemonNotInTeamException;
-import services.models.dataprovider.BugemonProvider;
+import services.controller.dataprovider.BugemonProvider;
 
 import java.util.Arrays;
 import java.util.List;

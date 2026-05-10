@@ -5,7 +5,7 @@ import exceptions.JsonResourceNotFoundException;
 import models.bugemon.Bugemon;
 import models.bugemon.TeamBugemon;
 import repositories.BugemonRepository;
-import services.GameStateHolder;
+import services.app.GameStateHolder;
 
 import java.util.Collections;
 import java.util.List;

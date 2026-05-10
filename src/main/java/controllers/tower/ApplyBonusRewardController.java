@@ -6,7 +6,7 @@ import exceptions.BugemonNotInTeamException;
 import models.bugemon.Bugemon;
 import models.bugemon.dto.BugemonDTO;
 import models.game.LevelUpBonus;
-import services.GameStateHolder;
+import services.app.GameStateHolder;
 import views.SelectBugemonFromTeamView;
 import views.listener.SelectBugemonFromTeamListener;
 

@@ -5,7 +5,7 @@ import controllers.ControllerManager;
 import models.bugemon.Bugemon;
 import models.bugemon.dto.BugemonDTO;
 import services.models.game.ExperienceService;
-import services.GameStateHolder;
+import services.app.GameStateHolder;
 import views.afterfight.VictoryView;
 
 import java.io.IOException;

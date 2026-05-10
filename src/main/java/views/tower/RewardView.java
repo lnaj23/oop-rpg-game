@@ -5,10 +5,9 @@ import controllers.tower.RewardController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import models.bugemon.Attack;
-import models.game.Item;
 import models.game.LevelUpBonus;
 import models.game.dto.ItemDTO;
-import services.view.LevelUpBonusFormatter;
+import services.view.formatter.LevelUpBonusFormatter;
 import views.View;
 
 import java.io.IOException;

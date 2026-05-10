@@ -7,7 +7,9 @@ import models.bugemon.TeamBugemon;
 import models.fight.AttackActionResult;
 import models.fight.EffectEvent;
 import models.fight.Effectiveness;
+import models.game.Item;
 import services.models.fight.EffectManager;
+import services.models.fight.ItemEffectApplier;
 import services.models.fight.TypeEffectivenessService;
 
 import java.util.ArrayList;
@@ -181,5 +183,12 @@ public class Fight {
         if (available.isEmpty()) return;
         Bugemon randomBug = available.get(random.nextInt(available.size()));
         changeEnemyOnField(randomBug);
+    }
+
+    /**
+     * Applies the effect of an item to the player's on-field Bugémon.
+     */
+    public void applyItem(Item item) {
+        ItemEffectApplier.ApplyItems(teamPlayer.getOnFieldBugemon(), item);
     }
 }

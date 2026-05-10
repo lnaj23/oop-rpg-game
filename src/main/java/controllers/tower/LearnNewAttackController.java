@@ -7,7 +7,7 @@ import javafx.application.Platform;
 import models.bugemon.Attack;
 import models.bugemon.Bugemon;
 import models.bugemon.dto.BugemonDTO;
-import services.GameStateHolder;
+import services.app.GameStateHolder;
 import views.SelectBugemonFromTeamView;
 import views.listener.SelectBugemonFromTeamListener;
 

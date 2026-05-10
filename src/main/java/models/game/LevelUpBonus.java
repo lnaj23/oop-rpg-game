@@ -9,7 +9,7 @@ import models.bugemon.Bugemon;
  * with a total of 10 points. Conversion: 1 point = 2 HP or 2 Initiative or 1 Attack or 1 Defense.
  * <p>
  * Pure data + apply behavior — UI formatting is handled by
- * {@code services.view.LevelUpBonusFormatter}.
+ * {@code services.view.formatter.LevelUpBonusFormatter}.
  */
 public class LevelUpBonus {
 

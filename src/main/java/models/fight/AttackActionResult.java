@@ -4,7 +4,7 @@ import java.util.List;
 
 /**
  * Structured outcome of a single attack action — pure data, no UI strings.
- * The view layer (e.g. {@code services.view.ActionMessageFormatter}) consumes this
+ * The view layer (e.g. {@code services.view.formatter.ActionMessageFormatter}) consumes this
  * to build the user-facing combat message.
  */
 public record AttackActionResult(

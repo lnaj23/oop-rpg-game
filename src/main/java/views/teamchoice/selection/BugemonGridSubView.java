@@ -13,9 +13,9 @@ import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import models.bugemon.dto.BugemonDTO;
-import services.view.PopupManager;
-import services.view.SpriteLoader;
-import services.view.TypeColorService;
+import services.view.popup.PopupManager;
+import services.view.assets.SpriteLoader;
+import services.view.style.TypeColorService;
 
 import java.io.IOException;
 import java.util.ArrayList;

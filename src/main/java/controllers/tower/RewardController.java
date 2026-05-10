@@ -7,9 +7,9 @@ import exceptions.JsonResourceNotFoundException;
 import models.bugemon.Attack;
 import models.game.Item;
 import models.game.LevelUpBonus;
-import services.models.dataprovider.AttackProvider;
-import services.models.dataprovider.ItemProvider;
-import services.GameStateHolder;
+import services.controller.dataprovider.AttackProvider;
+import services.controller.dataprovider.ItemProvider;
+import services.app.GameStateHolder;
 import services.models.game.LevelUpBonusGenerator;
 import views.tower.RewardView;
 

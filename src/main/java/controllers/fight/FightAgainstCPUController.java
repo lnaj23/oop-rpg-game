@@ -13,7 +13,7 @@ import models.bugemon.Bugemon;
 import models.fight.Fight;
 import models.game.Item;
 import models.game.LevelTower;
-import services.GameStateHolder;
+import services.app.GameStateHolder;
 import services.models.game.EnemyTeamGenerator;
 import views.listener.FightListener;
 
@@ -23,7 +23,6 @@ import java.io.IOException;
 
 import models.bugemon.TeamBugemon;
 
-import static services.models.fight.ItemEffectApplier.ApplyItems;
 
 
 /**
@@ -119,20 +118,31 @@ public class FightAgainstCPUController extends Controller<FightView> implements 
     }
 
     private void useItem(Item item) {
-        GameStateHolder.getInstance().consumeItem(item);
-        if (item.getName().equals("Pierre de Retraite")) {
-            if (GameStateHolder.getInstance().getCurrentTeamPlayer().getSize() == 1) {
-                return;
-            }
-            showSwitchWindow(false);
-            useItemToChange = true;
+        if ("switch".equals(item.getCategory())) {
+            GameStateHolder.getInstance().consumeItem(item);
+            handleSwitchItem();
+        } else {
+            handleCombatItem(item);
+        }
+    }
+
+    private void handleSwitchItem() {
+        if (GameStateHolder.getInstance().getCurrentTeamPlayer().getSize() == 1) {
             return;
         }
+        useItemToChange = true;
+        showSwitchWindow(false);
+    }
+
+    private void handleCombatItem(Item item) {
         useItemToChange = false;
         view.setButtonsDisabled(true);
-        ApplyItems(fight.getOnFieldPlayerBugemon(), item);
-        viewReactToAttack();
-        view.displayItemMessage(item);
+
+        GameStateHolder.getInstance().consumeItem(item);
+        fight.applyItem(item);
+
+        viewReactToItem(item);
+
         PauseTransition pause = new PauseTransition(Duration.seconds(1));
         pause.setOnFinished(e -> forceEnemyToAttack());
         pause.play();
@@ -232,5 +242,11 @@ public class FightAgainstCPUController extends Controller<FightView> implements 
 
     private void showSwitchWindow(boolean onPurpose) {
         controllerManager.openSwitchWindow(onPurpose);
+    }
+
+    private void viewReactToItem(Item item) {
+        view.updateBugemonHPAndEffectDisplay(fight.getOnFieldEnemyBugemon());
+        view.updateBugemonHPAndEffectDisplay(fight.getOnFieldPlayerBugemon());
+        view.displayItemMessage(item);
     }
 }

@@ -5,7 +5,7 @@ import controllers.ControllerManager;
 import models.bugemon.dto.BugemonDTO;
 import views.SelectBugemonFromTeamView;
 import views.listener.SelectBugemonFromTeamListener;
-import services.GameStateHolder;
+import services.app.GameStateHolder;
 
 import java.io.IOException;
 

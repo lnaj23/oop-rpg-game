@@ -1,4 +1,4 @@
-package services.view;
+package services.view.popup;
 
 import javafx.scene.Node;
 import javafx.scene.control.Label;

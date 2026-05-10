@@ -1,4 +1,4 @@
-package services.controller;
+package services.controller.addbugemon;
 
 import exceptions.LoadingAddedBugemonFailedException;
 import exceptions.SavingAddedBugemonFailedException;

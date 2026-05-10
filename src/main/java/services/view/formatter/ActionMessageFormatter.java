@@ -1,4 +1,4 @@
-package services.view;
+package services.view.formatter;
 
 import models.fight.*;
 

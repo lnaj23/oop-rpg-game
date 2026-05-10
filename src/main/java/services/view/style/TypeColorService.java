@@ -1,4 +1,4 @@
-package services.view;
+package services.view.style;
 
 /**
  * Provides CSS hex color strings associated with Bugémon and attack types.

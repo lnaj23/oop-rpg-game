@@ -20,10 +20,10 @@ import models.game.TowerNodeType;
 import models.bugemon.Bugemon;
 import models.game.Item;
 import models.game.LevelTower;
-import services.MusicService;
-import services.models.dataprovider.TeamProvider;
+import services.app.MusicService;
+import services.controller.dataprovider.TeamProvider;
 import services.models.game.ExperienceService;
-import services.GameStateHolder;
+import services.app.GameStateHolder;
 import views.FatalErrorView;
 import views.View;
 
@@ -101,7 +101,7 @@ public class ControllerManager {
      * @param scene the scene to switch to
      */
     private void switchScene(Scenes scene) {
-        MusicService.getInstance().updateMusicForScene(scene);
+        MusicService.updateMusicForScene(scene);
         getPrimaryStageProperties();
         switch (scene) {
             case TITLE_SCREEN -> this.titleScreenController.show(PrimaryStage);

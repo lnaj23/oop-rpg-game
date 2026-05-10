@@ -8,7 +8,7 @@ import junit.framework.TestCase;
 import models.fight.Fight;
 import org.junit.Before;
 import org.junit.Test;
-import services.models.dataprovider.BugemonProvider;
+import services.controller.dataprovider.BugemonProvider;
 
 import java.util.List;
 

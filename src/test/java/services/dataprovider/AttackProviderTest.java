@@ -5,7 +5,7 @@ import exceptions.JsonResourceNotFoundException;
 import junit.framework.TestCase;
 import models.bugemon.Attack;
 import org.junit.Test;
-import services.models.dataprovider.AttackProvider;
+import services.controller.dataprovider.AttackProvider;
 
 import java.util.List;
 

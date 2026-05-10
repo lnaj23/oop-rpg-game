@@ -3,9 +3,9 @@ package controllers;
 import exceptions.JsonResourceNotFoundException;
 import models.bugemon.Attack;
 import models.bugemon.Bugemon;
-import services.controller.AddBugemonError;
-import services.models.dataprovider.AttackProvider;
-import services.controller.AddBugemonService;
+import services.controller.addbugemon.AddBugemonError;
+import services.controller.dataprovider.AttackProvider;
+import services.controller.addbugemon.AddBugemonService;
 import views.AddBugemonView;
 
 import java.io.IOException;

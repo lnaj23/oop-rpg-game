@@ -1,9 +1,9 @@
-package services.controller;
+package services.controller.addbugemon;
 
 /**
- * Possible validation errors returned by {@link services.controller.AddBugemonService}
+ * Possible validation errors returned by {@link AddBugemonService}
  * when adding a new Bugémon. Pure data — view-side formatting is handled by
- * {@code services.view.AddBugemonErrorFormatter}.
+ * {@code services.view.formatter.AddBugemonErrorFormatter}.
  */
 public enum AddBugemonError {
     NAME_REQUIRED,

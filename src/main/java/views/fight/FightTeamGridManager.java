@@ -8,8 +8,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Popup;
 import models.bugemon.dto.BugemonDTO;
-import services.view.PopupManager;
-import services.view.SpriteLoader;
+import services.view.popup.PopupManager;
+import services.view.assets.SpriteLoader;
 
 import java.io.IOException;
 import java.util.List;

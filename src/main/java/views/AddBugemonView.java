@@ -6,8 +6,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.StageStyle;
 import models.bugemon.Attack;
-import services.controller.AddBugemonError;
-import services.view.AddBugemonErrorFormatter;
+import services.controller.addbugemon.AddBugemonError;
+import services.view.formatter.AddBugemonErrorFormatter;
 
 import java.io.IOException;
 import java.util.List;

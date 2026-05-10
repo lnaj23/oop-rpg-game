@@ -62,6 +62,18 @@
         "cible": "lanceur"
       },
       "sprite": "baume_reparateur.png"
+    },
+    {
+      "id": "pierre_de_retraite",
+      "nom": "Pierre de Retraite",
+      "description": "Permet de changer de Bugémon sans perdre l'initiative du tour.",
+      "categorie": "switch",
+      "effet": {
+        "type": "none",
+        "cible": "lanceur",
+        "valeur": 0
+      },
+      "sprite": "pierre_de_retraite.png"
     }
   ],
   "inventaire_depart": {

@@ -12,11 +12,11 @@ import models.fight.AttackActionResult;
 import models.fight.Effectiveness;
 import models.game.TowerNodeType;
 import models.game.dto.ItemDTO;
-import services.view.ActionMessageFormatter;
+import services.view.formatter.ActionMessageFormatter;
 import views.listener.FightListener;
 import models.bugemon.dto.BugemonDTO;
 import views.View;
-import services.view.SpriteLoader;
+import services.view.assets.SpriteLoader;
 
 import java.io.IOException;
 import java.util.List;

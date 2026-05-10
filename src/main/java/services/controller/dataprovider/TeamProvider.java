@@ -1,4 +1,4 @@
-package services.models.dataprovider;
+package services.controller.dataprovider;
 
 import exceptions.*;
 import models.bugemon.Bugemon;
