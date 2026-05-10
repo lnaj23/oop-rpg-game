@@ -12,7 +12,18 @@ import views.View;
 
 import java.io.IOException;
 
-public class RewardView extends View<RewardController> {
+public class RewardView extends View {
+
+    private RewardController controller;
+
+    /**
+     * Sets the controller used by this view to delegate user actions.
+     *
+     * @param controller the controller associated with this view
+     */
+    public void setController(RewardController controller) {
+        this.controller = controller;
+    }
 
     @FXML private Button gainItemBtn;
     @FXML private Button learnAttackBtn;

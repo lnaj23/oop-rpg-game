@@ -16,7 +16,18 @@ import services.view.assets.SpriteLoader;
 import java.io.IOException;
 import java.util.List;
 
-public class LevelUpView extends View<LevelUpController> {
+public class LevelUpView extends View {
+
+    private LevelUpController controller;
+
+    /**
+     * Sets the controller used by this view to delegate user actions.
+     *
+     * @param controller the controller associated with this view
+     */
+    public void setController(LevelUpController controller) {
+        this.controller = controller;
+    }
 
     @FXML private Button btnOption1;
     @FXML private Button btnOption2;

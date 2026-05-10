@@ -33,7 +33,6 @@ public class ApplyBonusRewardController extends Controller<SelectBugemonFromTeam
      */
     public ApplyBonusRewardController(ControllerManager metaController, LevelUpBonus bonus) throws IOException {
         super(metaController, new SelectBugemonFromTeamView());
-        this.view.setController(this);
         this.view.setListener(this);
         this.bonus = bonus;
         this.view.displayTeam(GameStateHolder.getInstance().getCurrentTeamPlayer().getTeamDTO(), true);

@@ -13,7 +13,18 @@ import views.View;
 import java.io.IOException;
 import java.util.List;
 
-public class ItemsView extends View<ItemChoiceController> {
+public class ItemsView extends View {
+
+    private ItemChoiceController controller;
+
+    /**
+     * Sets the controller used by this view to delegate user actions.
+     *
+     * @param controller the controller associated with this view
+     */
+    public void setController(ItemChoiceController controller) {
+        this.controller = controller;
+    }
 
     @FXML private ListView<ItemDTO> itemListView;
     @FXML private Button btnUse;

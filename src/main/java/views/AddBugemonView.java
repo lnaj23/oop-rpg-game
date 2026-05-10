@@ -21,7 +21,18 @@ import java.util.Objects;
  * provides helper methods to read the values entered by the user.
  * </p>
  */
-public class AddBugemonView extends View<AddBugemonController> {
+public class AddBugemonView extends View {
+
+    private AddBugemonController controller;
+
+    /**
+     * Sets the controller used by this view to delegate user actions.
+     *
+     * @param controller the controller associated with this view
+     */
+    public void setController(AddBugemonController controller) {
+        this.controller = controller;
+    }
 
     @FXML private Button btnAdd;
     @FXML private Button btnCancel;

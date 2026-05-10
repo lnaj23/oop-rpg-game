@@ -1,7 +1,6 @@
 package views;
 
 import configuration.AppConfig;
-import controllers.Controller;
 import javafx.fxml.FXML;
 import javafx.geometry.HPos;
 import javafx.scene.control.Alert;
@@ -25,10 +24,10 @@ import java.util.Objects;
  * <p>
  * This view renders the player's team, shows HP popups on hover,
  * and forwards selection and cancellation events to its associated
- * {@link Controller}.
+ * listener.
  * </p>
  */
-public class SelectBugemonFromTeamView extends View<Controller> {
+public class SelectBugemonFromTeamView extends View {
 
     @FXML private GridPane grid;
     @FXML private Button btnCancel;

@@ -19,7 +19,9 @@ import java.util.List;
  * JavaFX injects sub-controllers as {@code bugemonGridController} and {@code teamPanelController}
  * after FXML loading, following the {@code fx:id + "Controller"} naming convention.
  */
-public class SelectionView extends View<SelectionController> {
+public class SelectionView extends View {
+
+    private SelectionController controller;
 
     @FXML private BugemonGridSubView bugemonGridController;
     @FXML private TeamPanelSubView teamPanelController;
@@ -53,9 +55,8 @@ public class SelectionView extends View<SelectionController> {
      *
      * @param controller the selection controller
      */
-    @Override
     public void setController(SelectionController controller) {
-        super.setController(controller);
+        this.controller = controller;
         bugemonGridController.setController(controller);
         teamPanelController.setController(controller);
     }

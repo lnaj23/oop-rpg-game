@@ -17,7 +17,18 @@ import java.util.Optional;
  * View for the team management screen.
  * Displays the list of saved teams and their Bugémons, and provides actions to play, modify, rename, or delete them.
  */
-public class PreBuildTeamView extends View<PreBuildTeamController> {
+public class PreBuildTeamView extends View {
+
+    private PreBuildTeamController controller;
+
+    /**
+     * Sets the controller used by this view to delegate user actions.
+     *
+     * @param controller the controller associated with this view
+     */
+    public void setController(PreBuildTeamController controller) {
+        this.controller = controller;
+    }
 
     @FXML private ListView<TeamBugemonDTO> teamListView;
     @FXML private ListView<String> bugemonListView;

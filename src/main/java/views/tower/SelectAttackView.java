@@ -19,7 +19,18 @@ import java.util.List;
  * actions directly to the controller (no listener layer).
  * </p>
  */
-public class SelectAttackView extends View<SelectAttackController> {
+public class SelectAttackView extends View {
+
+    private SelectAttackController controller;
+
+    /**
+     * Sets the controller used by this view to delegate user actions.
+     *
+     * @param controller the controller associated with this view
+     */
+    public void setController(SelectAttackController controller) {
+        this.controller = controller;
+    }
 
     @FXML private Label titleLabel;
     @FXML private Label newAttackLabel;

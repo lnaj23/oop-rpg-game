@@ -8,7 +8,18 @@ import views.View;
 
 import java.io.IOException;
 
-public class DefeatView extends View<DefeatController> {
+public class DefeatView extends View {
+
+    private DefeatController controller;
+
+    /**
+     * Sets the controller used by this view to delegate user actions.
+     *
+     * @param controller the controller associated with this view
+     */
+    public void setController(DefeatController controller) {
+        this.controller = controller;
+    }
     @FXML private Button retryBtn;
     @FXML private Button giveUpBtn;
 

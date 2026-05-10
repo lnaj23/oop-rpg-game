@@ -1,7 +1,6 @@
 package views.fight;
 
 import configuration.AppConfig;
-import controllers.Controller;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
@@ -32,7 +31,7 @@ import java.util.List;
  * this view has no direct dependency on any concrete controller.
  * </p>
  */
-public class FightView extends View<Controller> {
+public class FightView extends View {
 
     /**
      * The listener that receives all fight-related user actions.
@@ -299,8 +298,8 @@ public class FightView extends View<Controller> {
     public void createStartMessage(String enemyBugemonName, boolean playerCanStart) {
         String message = "L'adversaire envoie " + enemyBugemonName + " ! "
                 + (!playerCanStart
-                        ? "L'adversaire a plus d'initiative, il lance les hostilités !"
-                        : "L'adversaire a moins d'initiative, vous lancez les hostilités !");
+                ? "L'adversaire a plus d'initiative, il lance les hostilités !"
+                : "L'adversaire a moins d'initiative, vous lancez les hostilités !");
         choicePanelController.updateCombatMessage(message);
     }
 

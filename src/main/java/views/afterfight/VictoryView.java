@@ -12,7 +12,18 @@ import views.View;
 import java.io.IOException;
 import java.util.List;
 
-public class VictoryView extends View<VictoryController> {
+public class VictoryView extends View {
+
+    private VictoryController controller;
+
+    /**
+     * Sets the controller used by this view to delegate user actions.
+     *
+     * @param controller the controller associated with this view
+     */
+    public void setController(VictoryController controller) {
+        this.controller = controller;
+    }
 
     @FXML private Button continueBtn;
     @FXML private VBox bugemonXpList;

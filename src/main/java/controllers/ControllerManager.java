@@ -140,7 +140,7 @@ public class ControllerManager {
      * @param view the view to display in the sub-window
      * @param wait {@code true} to use {@code showAndWait()}, {@code false} to use {@code show()}
      */
-    private void openSubScene(View<?> view, boolean wait) {
+    private void openSubScene(View view, boolean wait) {
         Stage subStage = new Stage();
         subStage.initOwner(PrimaryStage);
         subStage.initModality(Modality.APPLICATION_MODAL);

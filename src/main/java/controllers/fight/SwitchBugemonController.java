@@ -32,7 +32,6 @@ public class SwitchBugemonController extends Controller<SelectBugemonFromTeamVie
                 .getCurrentTeamPlayer()
                 .getOnFieldBugemon()
                 .getId();
-        this.view.setController(this);
         this.view.setListener(this);
         this.view.displayTeam(
                 GameStateHolder.getInstance().getCurrentTeamPlayer().getTeamDTO(),

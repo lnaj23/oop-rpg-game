@@ -12,7 +12,18 @@ import java.io.IOException;
  * View for the main title screen.
  * Displays the game title and buttons to start a new team or manage existing ones.
  */
-public class TitleScreenView extends View <TitleScreenController> {
+public class TitleScreenView extends View {
+
+    private TitleScreenController controller;
+
+    /**
+     * Sets the controller used by this view to delegate user actions.
+     *
+     * @param controller the controller associated with this view
+     */
+    public void setController(TitleScreenController controller) {
+        this.controller = controller;
+    }
 
     @FXML private Label titelLabel;
     @FXML private Button btnNewGame;
