@@ -34,4 +34,8 @@ public abstract class Controller<T extends View> {
         this.view.show(stage);
     }
 
+    public void attachTo(Stage stage) {
+        view.attachTo(stage);
+    }
+
 }
