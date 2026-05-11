@@ -207,9 +207,8 @@ public class ControllerManager {
      *
      */
     public void openSelectionForEdit(int index) {
-        this.selectionController.reset();
-        this.selectionController.loadTeamForEditing(index);
         this.switchScene(Scenes.SELECTION);
+        this.selectionController.loadTeamForEditing(index);
     }
 
     public void goToTitleScreen() {
