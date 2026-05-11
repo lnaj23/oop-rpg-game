@@ -4,6 +4,8 @@ import controllers.Controller;
 import controllers.ControllerManager;
 import models.bugemon.Bugemon;
 import models.bugemon.dto.BugemonDTO;
+import models.game.LevelTower;
+import models.game.TowerNodeType;
 import services.models.game.ExperienceService;
 import services.app.GameStateHolder;
 import views.afterfight.VictoryView;
@@ -16,6 +18,7 @@ public class VictoryController extends Controller<VictoryView> {
 
     private int totalExpToDistribute;
     private List<Bugemon> bugemonsToLevelUp = new ArrayList<>();
+    int enemyCount;
     /**
      * @param metaController the central controller handling navigation
      */
@@ -64,5 +67,18 @@ public class VictoryController extends Controller<VictoryView> {
             // Pas de level up, on continue l'ascension
             this.controllerManager.goToNextTowerStep();
         }
+    }
+
+    public void prepareVictory(int enemyCount) {
+        this.enemyCount = enemyCount;
+    }
+
+    @Override
+    protected void onshow() {
+        LevelTower tower = GameStateHolder.getInstance().getCurrentLevelTower();
+        int floorNumber = tower.getCurrentFloor();
+        boolean isBossFight = tower.getCurrentStepType() == TowerNodeType.BOSS;
+        int totalXp = ExperienceService.computeCombatXp(floorNumber, isBossFight, enemyCount);
+        updateExp(totalXp);
     }
 }

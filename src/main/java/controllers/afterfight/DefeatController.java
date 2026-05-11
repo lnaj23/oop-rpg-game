@@ -2,8 +2,6 @@ package controllers.afterfight;
 
 import controllers.Controller;
 import controllers.ControllerManager;
-import javafx.stage.Stage;
-import models.GameState;
 import views.afterfight.DefeatView;
 
 import java.io.IOException;

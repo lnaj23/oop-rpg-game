@@ -20,10 +20,8 @@ import models.game.TowerNodeType;
 import models.bugemon.Bugemon;
 import models.game.Item;
 import models.game.LevelTower;
-import services.app.MusicService;
+import services.app.*;
 import services.controller.dataprovider.TeamProvider;
-import services.models.game.ExperienceService;
-import services.app.GameStateHolder;
 import views.FatalErrorView;
 
 import java.io.IOException;
@@ -50,6 +48,9 @@ public class ControllerManager {
     private final RewardController rewardController;
     private final LevelUpController levelUpController;
     private final AddBugemonController addBugemonController;
+
+    private final GameSessionService gameSessionService;
+    private final TowerFlowService towerFlowService;
 
     private TeamProvider teamProvider = new TeamProvider();
 
@@ -84,6 +85,9 @@ public class ControllerManager {
         this.rewardController = new RewardController(this);
         this.levelUpController = new LevelUpController(this);
         this.addBugemonController = new AddBugemonController(this);
+
+        this.gameSessionService = new GameSessionService();
+        this.towerFlowService = new TowerFlowService();
     }
 
     /**
@@ -100,7 +104,7 @@ public class ControllerManager {
      * @param scene the scene to switch to
      */
     private void switchScene(Scenes scene) {
-        MusicService.updateMusicForScene(scene);
+        GlobalMusicService.updateMusicForScene(scene);
         getPrimaryStageProperties();
         switch (scene) {
             case TITLE_SCREEN -> this.titleScreenController.show(PrimaryStage);
@@ -217,28 +221,17 @@ public class ControllerManager {
     }
 
     public void goToTitleScreen() {
-        if (GameStateHolder.getInstance().getCurrentTeamPlayer() != null) {
-            try {
-                teamProvider.saveTeams(GameStateHolder.getInstance().getSavedTeams());
-            } catch (SavingTeamFailedException e ) {
-                this.fatalError("Sauvegarde échouée. Les équipes n'ont pas été sauvegardées.");
-                return;
-            }
+        try {
+            gameSessionService.returnToMenu();
+            this.switchScene(Scenes.TITLE_SCREEN);
+        } catch (SavingTeamFailedException e) {
+            this.fatalError("Sauvegarde échouée. Les équipes n'ont pas été sauvegardées.");
         }
-        GameStateHolder.getInstance().clearCurrentTeamPlayer();
-        GameStateHolder.getInstance().clearCurrentLevelTower();
-        this.switchScene(Scenes.TITLE_SCREEN);
     }
 
 
     public void goToVictoryScreen(int enemyCount) {
-        LevelTower tower = GameStateHolder.getInstance().getCurrentLevelTower();
-        int floorNumber = tower.getCurrentFloor();
-        boolean isBossFight = tower.getCurrentStepType() == TowerNodeType.BOSS;
-
-        int totalXp = ExperienceService.computeCombatXp(floorNumber, isBossFight, enemyCount);
-
-        this.victoryController.updateExp(totalXp);
+        this.victoryController.prepareVictory(enemyCount);
         this.switchScene(Scenes.VICTORY);
     }
 
@@ -252,43 +245,28 @@ public class ControllerManager {
     }
 
     public void goToRewardScreen() {
-        try {
-            this.rewardController.setReward();
-            this.switchScene(Scenes.REWARD);
-        } catch (JsonResourceNotFoundException e){
-            this.fatalError("Une erreur est survenue lors du chargement des récompenses");
-        }
+        this.switchScene(Scenes.REWARD);
     }
 
     public void startNewTower() {
-        GameStateHolder.getInstance().setCurrentLevelTower(new LevelTower());
-        this.goToNextFight();
+        towerFlowService.startNewTower();
+        goToNextFight();
     }
 
     private void goToNextFight() {
-        try {
-            this.fightAgainstCPUController.setFight();
-        } catch (BugemonNotInTeamException | AttackNotFoundException | JsonResourceNotFoundException | IOException e){
-            this.fatalError("Une erreur est survenue lors du chargement du combat.");
-            return;
-        }
         this.switchScene(Scenes.FIGHT_AGAINST_CPU);
     }
 
-    public void goToNextTowerStep(){
-        GameStateHolder.getInstance().advanceStep();
-        if(GameStateHolder.getInstance().getCurrentLevelTower().isFinished()) {
-            this.goToTitleScreen();
-            return;
-        }
+    public void goToNextTowerStep() {
         try {
-            TowerNodeType nextStep = GameStateHolder.getInstance().getCurrentStepType();
-            switch (nextStep) {
-                case COMBAT, BOSS -> this.goToNextFight();
-                case REWARD -> this.goToRewardScreen();
+            TowerNextAction action = towerFlowService.advanceToNextAction();
+            switch (action) {
+                case FIGHT -> goToNextFight();
+                case REWARD -> goToRewardScreen();
+                case TITLE_SCREEN -> goToTitleScreen();
             }
-        } catch (TowerNotInitializedException e){
-            this.fatalError("Une erreur est survenue lors de la progression dans la tour.");
+        } catch (TowerNotInitializedException e) {
+            fatalError("Une erreur est survenue lors de la progression dans la tour.");
         }
     }
 

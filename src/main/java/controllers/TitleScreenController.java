@@ -1,6 +1,5 @@
 package controllers;
 
-import models.GameState;
 import views.TitleScreenView;
 
 import java.io.IOException;

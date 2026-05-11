@@ -12,6 +12,9 @@ import views.View;
 
 import java.io.IOException;
 
+/**
+ * View displaying reward for the player
+ */
 public class RewardView extends View {
 
     private RewardController controller;

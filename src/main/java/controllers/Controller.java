@@ -31,7 +31,11 @@ public abstract class Controller<T extends View> {
      * @param stage the JavaFX stage to display the view on
      */
     public void show(Stage stage) {
+        onshow();
         this.view.show(stage);
+    }
+
+    protected void onshow() {
     }
 
     public void attachTo(Stage stage) {

@@ -2,7 +2,6 @@ package services.app;
 
 import configuration.AppConfig;
 import controllers.ControllerManager.Scenes;
-import models.GameState;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -18,14 +17,14 @@ import java.io.File;
  * static methods.
  * </p>
  */
-public abstract class MusicService {
+public abstract class GlobalMusicService {
 
-    private static GameState currentState;
+    private static GlobalMusicState currentState;
     private static Clip currentClip;
 
     /** Switches the background music to match the given scene, if needed. */
     public static void updateMusicForScene(Scenes scene) {
-        GameState nextState = determineGameState(scene);
+        GlobalMusicState nextState = determineGameState(scene);
         if (nextState == currentState) {
             return;
         }
@@ -33,16 +32,16 @@ public abstract class MusicService {
         chooseAmbiance(currentState);
     }
 
-    private static GameState determineGameState(Scenes scene) {
+    private static GlobalMusicState determineGameState(Scenes scene) {
         return switch (scene) {
-            case FIGHT_AGAINST_CPU -> GameState.COMBAT_STATE;
-            case DEFEAT -> GameState.DEFEAT;
-            case TITLE_SCREEN, PREBUILD_TEAM, SELECTION, ADD_BUGEMON -> GameState.TEAM_CREATION;
-            default -> GameState.EXPLORATION;
+            case FIGHT_AGAINST_CPU -> GlobalMusicState.COMBAT_STATE;
+            case DEFEAT -> GlobalMusicState.DEFEAT;
+            case TITLE_SCREEN, PREBUILD_TEAM, SELECTION, ADD_BUGEMON -> GlobalMusicState.TEAM_CREATION;
+            default -> GlobalMusicState.EXPLORATION;
         };
     }
 
-    private static void chooseAmbiance(GameState state) {
+    private static void chooseAmbiance(GlobalMusicState state) {
         String filepath = "";
         float volume = 0.0f;
 

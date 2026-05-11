@@ -1,6 +1,6 @@
-package models;
+package services.app;
 
-public enum GameState {
+public enum GlobalMusicState {
     COMBAT_STATE,
     TEAM_CREATION,
     EXPLORATION,

@@ -15,9 +15,6 @@ import java.util.List;
  * View displaying a Bugémon's current attacks so the player
  * can choose which one to replace with a new attack.
  * <p>
- * Bound 1:1 to {@link SelectAttackController} — the buttons forward their
- * actions directly to the controller (no listener layer).
- * </p>
  */
 public class SelectAttackView extends View {
 

@@ -50,4 +50,12 @@ public class RewardController extends Controller<RewardView> {
         this.controllerManager.openBonusRewardWindow(bonus);
     }
 
+    @Override
+    protected void onshow() {
+        try {
+            setReward();
+        } catch (JsonResourceNotFoundException e) {
+            controllerManager.fatalError("Une erreur est survenue lors du chargement des récompenses");
+        }
+    }
 }

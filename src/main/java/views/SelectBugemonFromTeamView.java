@@ -20,11 +20,18 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * View for the Bugemon switch sub-window displayed during a fight.
+ * Reusable view used to display the Bugémons of a team.
  * <p>
- * This view renders the player's team, shows HP popups on hover,
- * and forwards selection and cancellation events to its associated
- * listener.
+ * This view only handles presentation: it renders the team, displays Bugémon information
+ * such as HP, and forwards user actions through a listener.
+ * </p>
+ *
+ * <p>
+ * It is shared by multiple controllers: {@code SwitchBugemonController} for combat
+ * switching, {@code ApplyBonusRewardController} for applying level-up bonuses, and
+ * {@code LearnNewAttackController} for choosing which Bugémon learns a new attack.
+ * A listener is used so the view stays independent from the concrete action performed
+ * by each controller.
  * </p>
  */
 public class SelectBugemonFromTeamView extends View {

@@ -38,6 +38,15 @@ public class FightAgainstCPUController extends Controller<FightView> implements 
         this.view.setListener(this);
     }
 
+    @Override
+    protected void onshow() {
+        try {
+            setFight();
+        } catch (BugemonNotInTeamException | AttackNotFoundException | JsonResourceNotFoundException | IOException e) {
+            controllerManager.fatalError("Une erreur est survenue lors du chargement du combat.");
+        }
+    }
+
     /**
      * Initialises the fight from {@link GameStateHolder} against a randomly generated enemy team
      * with the same number of Bugemons as the player's team.
