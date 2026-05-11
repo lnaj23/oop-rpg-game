@@ -191,12 +191,10 @@ public class ControllerManager {
      * Resets the selection view and navigates to it for creating a new team.
      */
     public void openNewSelection() {
-        this.selectionController.reset();
         this.switchScene(Scenes.SELECTION);
     }
 
     public void goToPrebuildTeam() {
-        this.preBuildTeamController.refreshView();
         this.switchScene(Scenes.PREBUILD_TEAM);
     }
 

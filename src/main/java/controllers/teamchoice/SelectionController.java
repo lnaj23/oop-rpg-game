@@ -85,7 +85,10 @@ public class SelectionController extends Controller<SelectionView> {
         }
         this.view.setEditMode(true);
     }
-
+    @Override
+    protected void onshow(){
+        reset();
+    }
     /** Resets the selection screen to its initial empty state. */
     public void reset() {
         this.teamBeingEdited = null;

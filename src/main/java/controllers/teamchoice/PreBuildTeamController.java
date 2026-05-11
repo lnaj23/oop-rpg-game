@@ -98,4 +98,9 @@ public class PreBuildTeamController extends Controller<PreBuildTeamView> {
         this.controllerManager.startNewTower();
     }
 
+    @Override
+    protected void onshow(){
+        refreshView();
+    }
+
 }
