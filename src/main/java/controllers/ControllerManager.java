@@ -51,6 +51,7 @@ public class ControllerManager {
 
     private final GameSessionService gameSessionService;
     private final TowerFlowService towerFlowService;
+    private final GlobalMusicService globalMusicService;
 
     private TeamProvider teamProvider = new TeamProvider();
 
@@ -88,6 +89,7 @@ public class ControllerManager {
 
         this.gameSessionService = new GameSessionService();
         this.towerFlowService = new TowerFlowService();
+        this.globalMusicService = new GlobalMusicService();
     }
 
     /**
@@ -104,7 +106,7 @@ public class ControllerManager {
      * @param scene the scene to switch to
      */
     private void switchScene(Scenes scene) {
-        GlobalMusicService.updateMusicForScene(scene);
+        globalMusicService.updateMusicForScene(scene);
         getPrimaryStageProperties();
         switch (scene) {
             case TITLE_SCREEN -> this.titleScreenController.show(PrimaryStage);

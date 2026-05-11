@@ -17,13 +17,13 @@ import java.io.File;
  * static methods.
  * </p>
  */
-public abstract class GlobalMusicService {
+public class GlobalMusicService {
 
     private static GlobalMusicState currentState;
     private static Clip currentClip;
 
     /** Switches the background music to match the given scene, if needed. */
-    public static void updateMusicForScene(Scenes scene) {
+    public void updateMusicForScene(Scenes scene) {
         GlobalMusicState nextState = determineGameState(scene);
         if (nextState == currentState) {
             return;
@@ -32,7 +32,7 @@ public abstract class GlobalMusicService {
         chooseAmbiance(currentState);
     }
 
-    private static GlobalMusicState determineGameState(Scenes scene) {
+    private GlobalMusicState determineGameState(Scenes scene) {
         return switch (scene) {
             case FIGHT_AGAINST_CPU -> GlobalMusicState.COMBAT_STATE;
             case DEFEAT -> GlobalMusicState.DEFEAT;
@@ -41,7 +41,7 @@ public abstract class GlobalMusicService {
         };
     }
 
-    private static void chooseAmbiance(GlobalMusicState state) {
+    private void chooseAmbiance(GlobalMusicState state) {
         String filepath = "";
         float volume = 0.0f;
 
@@ -68,7 +68,7 @@ public abstract class GlobalMusicService {
         playMusic(filepath, volume);
     }
 
-    private static void playMusic(String filepath, float volume) {
+    private void playMusic(String filepath, float volume) {
         try {
             File musicPath = new File(filepath);
             if (!musicPath.exists()) {
@@ -92,7 +92,7 @@ public abstract class GlobalMusicService {
         }
     }
 
-    private static void stopCurrentMusic() {
+    private void stopCurrentMusic() {
         if (currentClip != null) {
             currentClip.stop();
             currentClip.close();
