@@ -28,13 +28,19 @@ import java.io.File;
  */
 public class AddBugemonController extends Controller<AddBugemonView> {
 
-    /** Provides access to the available attacks loaded from the game data. */
+    /**
+     * Provides access to the available attacks loaded from the game data.
+     */
     private final AttackProvider attackProvider = new AttackProvider();
 
-    /** List of attacks displayed in the choice boxes of the form. */
+    /**
+     * List of attacks displayed in the choice boxes of the form.
+     */
     private final List<Attack> attacksToShow;
 
-    /** Service used to validate the values entered in the Add Bugemon form. */
+    /**
+     * Service used to validate the values entered in the Add Bugemon form.
+     */
     private final AddBugemonService addBugemonService = new AddBugemonService();
 
     private File selectedFile;
@@ -43,7 +49,7 @@ public class AddBugemonController extends Controller<AddBugemonView> {
      * Creates the controller and initializes the associated Add Bugemon view.
      *
      * @param metaController the main controller manager of the application
-     * @throws IOException if the FXML view cannot be loaded
+     * @throws IOException                   if the FXML view cannot be loaded
      * @throws JsonResourceNotFoundException if the attack data resource cannot be found
      */
     public AddBugemonController(ControllerManager metaController) throws IOException, JsonResourceNotFoundException {
@@ -56,7 +62,8 @@ public class AddBugemonController extends Controller<AddBugemonView> {
      * Initializes the Add Bugemon view by populating its choice boxes
      * with the available types, attacks, and starter options.
      */
-    public void initAddBugemonMenu() {
+    @Override
+    public void onshow() {
         selectedFile = null;
         this.view.cleanUI();
     }
