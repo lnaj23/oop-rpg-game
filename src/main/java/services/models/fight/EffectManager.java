@@ -12,6 +12,7 @@ import models.fight.StatModifierEvent;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public abstract class EffectManager {
 
@@ -19,46 +20,75 @@ public abstract class EffectManager {
      * Applies the effects of an attack and ticks ongoing temporary effects.
      * Returns a list of structured events describing what happened — no UI strings.
      */
-    public static List<EffectEvent> handleEffect(Bugemon attacker, Bugemon target,
-                                                 TeamBugemon attackerTeam, TeamBugemon targetTeam,
-                                                 Attack attack) {
+    public static List<EffectEvent> handleEffect(Bugemon attacker, Bugemon target, TeamBugemon attackerTeam, TeamBugemon targetTeam, Attack attack) {
         List<EffectEvent> events = new ArrayList<>();
-        if (attack.getEffects() == null) return events;
+
+        if (attack.getEffects() == null) {
+            return events;
+        }
 
         for (Effect effet : attack.getEffects()) {
-            if (effet.getType().equals("soin")) {
-                int valeur = effet.getValue();
-                if (effet.getTarget().equals("equipe")) {
-                    for (Bugemon membre : attackerTeam.getTeam()) {
-                        if (!membre.isKO()) {
-                            membre.getStats().heal(valeur);
-                        }
-                    }
-                    events.add(new HealTeamEvent(attacker.getName(), valeur));
-                } else if (effet.getTarget().equals("lanceur")) {
-                    if (!attacker.isKO()) {
-                        attacker.getStats().heal(valeur);
-                        events.add(new HealSelfEvent(attacker.getName(), valeur));
-                    }
-                }
-            } else if (effet.getType().equals("stat_modifier")) {
-                Bugemon finalTarget = switch (effet.getTarget()) {
-                    case "lanceur"    -> attacker;
-                    case "adversaire" -> target;
-                    default           -> null;
-                };
-                if (finalTarget != null) {
-                    applyStatModifier(finalTarget, effet);
-                    finalTarget.addOngoingEffect(effet);
-                    events.add(new StatModifierEvent(finalTarget.getName(), effet.getStat(), effet.getModifier()));
-                }
-            }
+            Optional<EffectEvent> event = handleSingleEffect(attacker, target, attackerTeam, effet);
+            event.ifPresent(events::add);
         }
 
         tickEffects(attacker);
         tickEffects(target);
 
         return events;
+    }
+
+    private static Optional<EffectEvent> handleSingleEffect(Bugemon attacker, Bugemon target, TeamBugemon attackerTeam, Effect effet) {
+        return switch (effet.getType()) {
+            case "soin" -> handleHealEffect(attacker, attackerTeam, effet);
+            case "stat_modifier" -> handleStatModifierEffect(attacker, target, effet);
+            default -> Optional.empty();
+        };
+    }
+
+    private static Optional<EffectEvent> handleHealEffect(Bugemon attacker, TeamBugemon attackerTeam, Effect effet) {
+        int valeur = effet.getValue();
+        return switch (effet.getTarget()) {
+            case "equipe" -> healTeam(attacker, attackerTeam, valeur);
+            case "lanceur" -> healSelf(attacker, valeur);
+            default -> Optional.empty();
+        };
+    }
+
+    private static Optional<EffectEvent> healTeam(Bugemon attacker, TeamBugemon attackerTeam, int valeur) {
+        for (Bugemon membre : attackerTeam.getTeam()) {
+            if (!membre.isKO()) {
+                membre.getStats().heal(valeur);
+            }
+        }
+
+        return Optional.of(new HealTeamEvent(attacker.getName(), valeur));
+    }
+
+    private static Optional<EffectEvent> healSelf(Bugemon attacker, int valeur) {
+        if (attacker.isKO()) {
+            return Optional.empty();
+        }
+        attacker.getStats().heal(valeur);
+        return Optional.of(new HealSelfEvent(attacker.getName(), valeur));
+    }
+
+    private static Optional<EffectEvent> handleStatModifierEffect(Bugemon attacker, Bugemon target, Effect effet) {
+        Bugemon finalTarget = resolveStatModifierTarget(attacker, target, effet);
+        if (finalTarget == null) {
+            return Optional.empty();
+        }
+        applyStatModifier(finalTarget, effet);
+        finalTarget.addOngoingEffect(effet);
+        return Optional.of(new StatModifierEvent(finalTarget.getName(), effet.getStat(), effet.getModifier()));
+    }
+
+    private static Bugemon resolveStatModifierTarget(Bugemon attacker, Bugemon target, Effect effet) {
+        return switch (effet.getTarget()) {
+            case "lanceur" -> attacker;
+            case "adversaire" -> target;
+            default -> null;
+        };
     }
 
     public static void applyStatModifier(Bugemon target, Effect effect) {

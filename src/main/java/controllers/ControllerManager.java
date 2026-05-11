@@ -53,7 +53,6 @@ public class ControllerManager {
     private final TowerFlowService towerFlowService;
     private final GlobalMusicService globalMusicService;
 
-    private TeamProvider teamProvider = new TeamProvider();
 
     /** Enumeration of all available scenes in the application. */
     public enum Scenes {
