@@ -336,3 +336,108 @@ Lorsque c'est possible, on préfère faire remonter l'exception jusqu'au Control
 De nouvelles exceptions ont également été ajoutées : JsonResourceNotFoundException, LoadingTeamFailedException, SavingTeamFailedException et TowerNotInitializedException, chacune représentant un cas d'erreur précis et explicite.
 #### Assertions
 Les tests JUnit constituent toujours notre principale forme de programmation défensive. Cette itération ajoute ExperienceServiceTest, LevelUpBonusGeneratorTest, LevelUpBonusTest, StatsTest, ItemRepositoryTest et enrichit les tests existants, couvrant notamment le calcul d'XP, la génération des options de bonus, la montée de niveau et l'application des bonus sur les stats.
+
+# Itération 3
+
+- Date : 12/04/2026
+## Suivi de planification du projet
+### Analyse de l'écart (Prévu vs Réalisé)
+### Gestion des risques (R1, R2, R3)
+### Commentaires sur la Burndown Chart
+## Motivation des choix pris lors de la conception
+### Structure du code
+Par rapport à l'itération 3, la structure des packages a été profondément réorganisée afin de mieux séparer les responsabilités entre les couches de l'application. Les services ont notamment été subdivisés en sous-packages fonctionnels reflétant leur domaine d'appartenance.
+```
+├── configuration
+├── controllers
+│   ├── afterfight
+│   ├── fight
+│   ├── teamchoice
+│   └── tower
+├── exceptions
+├── models
+│   ├── bugemon
+│   │   └── dto
+│   ├── fight
+│   └── game
+│       └── dto
+├── repositories
+├── services
+│   ├── app
+│   ├── controller
+│   │   ├── addbugemon
+│   │   └── dataprovider
+│   ├── models
+│   │   ├── fight
+│   │   └── game
+│   └── view
+│       ├── assets
+│       ├── formatter
+│       ├── popup
+│       └── style
+└── views
+    ├── afterfight
+    ├── fight
+    ├── listener
+    ├── teamchoice
+    │   └── selection
+    ├── tower
+    └── utils
+```
+Les changements principaux par rapport à l'itération 3 sont les suivants.
+Le package `models/game/` a été complété par un nouveau package `models/fight/` qui regroupe toutes les classes propres au déroulement d'un combat. 
+Les services ont été réorganisés en quatre sous-packages selon leur rôle : `services/app/` pour les services transversaux à l'application (GameStateHolder, MusicService), `services/controller/` pour les services utilisés directement par les controllers, `services/models/` pour les services opérant sur les modèles de combat et de jeu, et `services/view/` pour les services dédiés à la couche vue (formatters, assets, style, popup). 
+Enfin, `JsonRepository` a été enrichie pour gérer deux types distincts de persistance : les données en lecture seule embarquées dans les ressources (`readJSONFromAssets`) et les données mutables sur le système de fichiers (`readPersistenceData`, `updatePersistenceData`).
+### Justification du modèle MVC
+#### Modèle
+Le modèle s'est enrichi avec la création d'un nouveau package `models/fight/` qui regroupe toutes les classes nécessaires au combat.
+Le modèle a été enrichi avec plusieurs classes liées au combat. La classe `Fight` a été déplacée dans `models/fight`, ce qui correspond mieux à son rôle. De nouvelles classes comme `AttackActionResult`, `EffectEvent`, `HealSelfEvent`, `HealTeamEvent` et `StatModifierEvent`, qui sont des record immuable, permettant de représenter plus proprement le résultat d’une attaque et ses éventuels effets secondaires.
+Ce choix améliore la lisibilité du code, au lieu de représenter le résultat d’une attaque avec plusieurs valeurs dispersées, le résultat est maintenant encapsulé dans des objets dédiés.
+Cela permet de mieux distinguer les dégâts, les soins, les modifications de statistiques et l’efficacité d’une attaque.
+Le modèle reste indépendant de JavaFX.
+Les classes du modèle ne manipulent pas directement les boutons, les scènes ou les fichiers FXML. 
+Cela respecte le principe MVC déjà appliqué dans les itérations précédentes.
+#### Vue
+De nouvelles classes ont été extraites de `FightView` pour respecter le principe de responsabilité unique. 
+`FightAnimator` centralise toutes les animations JavaFX du combat (bond d'attaque, flash de touche, diminution de la barre HP, fondu au KO) ; il est branché à la vue via un `Consumer<BugemonDTO>` pour déclencher le masquage des éléments UI après le fondu, ce qui évite tout couplage direct. 
+`FightTeamGridManager` gère l'affichage et la mise à jour des grilles d'équipe des deux camps. 
+La vue de sélection de Bugémon depuis l'équipe (`SelectBugemonFromTeamView`) a également été remontée du sous-package `views/fight/` vers le niveau `views/` car elle est maintenant réutilisée par plusieurs contrôleurs de la tour (`LearnNewAttackController`, `ApplyBonusRewardController`).
+Une nouvelle vue `AddBugemonView` prend en charge le formulaire de création de Bugémon personnalisé, et `SelectAttackView` permet de choisir quelle attaque remplacer lors d'un apprentissage.
+Enfin, des classes comme `AddBugemonErrorFormatter`, `ActionMessageFormatter` et `LevelUpBonusFormatter` permettent de séparer la mise en forme des messages de la logique métier. La vue reçoit donc des textes déjà formatés, ce qui rend le code plus propre.
+#### Contrôleur
+La scène `ADD_BUGEMON` a été ajoutée à l'enum `Scenes` du `ControllerManager`, désormais `public` afin d'être accessible par `MusicService` et le `MusicService` est appelé automatiquement à chaque changement de scène via `MusicService.updateMusicForScene(scene)`.
+Ce qui permet à `ControleManager`de garder son rôle de façade de navigation.
+La gestion de la récompense après un combat de tour a été subdivisée en plusieurs contrôleurs distincts à la place d'un seul `RewardController`.
+`RewardController` orchestre dorénavant l'affichage dynamique des trois types de récompenses possibles (objet aléatoire, attaque à apprendre, bonus de stats), chacun étant ensuite délégué à un contrôleur dédié. 
+`ApplyBonusRewardController` ouvre une fenêtre de sélection d'équipe et applique le `LevelUpBonus` au Bugémon choisi avant de faire avancer la tour.
+`LearnNewAttackController` ouvre la même fenêtre de sélection d'équipe et délègue à `SelectAttackController` le choix de l'attaque à remplacer. 
+Ce découpage respecte le principe de responsabilité unique et facilite l'extension future de la logique de récompense.
+`AddBugemonController` gère le formulaire de création : il délègue la validation à `AddBugemonService`, ouvre un `FileChooser` natif pour le sprite et orchestre l'appel au `CustomBugemonRepository`pour la persistance.
+#### Services et repositories
+`AddBugemonService` est un nouveau service de validation dédié au formulaire de création de Bugémon. 
+Il retourne un enum `AddBugemonError` structuré plutôt qu'une chaîne de caractères, la mise en forme du message à destination de l'utilisateur étant délégée au formateur `AddBugemonErrorFormatter` dans la couche vue.
+`CustomBugemonRepository` est un nouveau repository singleton, héritant de `JsonRepository`, qui persiste les Bugémons créés par l'utilisateur, leurs données JSON dans `persistence/addedbugemon/json/` et leurs sprites PNG dans `persistence/addedbugemon/png/`.
+`SpriteLoader` est un nouveau service de chargement de sprites qui distingue les sprites par défaut (chargés depuis le classpath via `getResourceAsStream`) des sprites de Bugémons personnalisés (chargés depuis le système de fichiers via `FileInputStream`). Ce service est utilisé partout où une image de Bugémon doit être affichée, remplaçant les chargements ad hoc dispersés dans les vues.
+`JsonRepository` a été enrichie avec deux nouvelles méthodes : `readPersistenceData` pour lire des données mutables depuis le système de fichiers (avec gestion du fichier absent et wrap via `JsonPersistenceLoadingException`), et `updatePersistenceData` pour écrire ces mêmes données.
+`MusicService` est une nouvelle classe abstraite qui gère la musique de fond. Elle détermine l'état musical associé à chaque scène via un switch sur l'enum `Scenes`, compare cet état au précédent (`GameState`) pour éviter les redémarrages inutiles, et pilote un `Clip javax.sound. Aucun contrôleur ne gère de musique directement : toute la logique est centralisée dans ce service.
+### Principe de la programmation orientée objet
+
+#### Encapsulation
+Le modèle de combat bénéficie d'une encapsulation renforcée avec l'introduction du record `AttackActionResult`.
+Étant un record Java, tous ses composants sont immuables par définition (Java génère automatiquement des champs privés et final pour chaque composant. Une fois que l'objet est construit, vous ne pouvez plus réassigner de valeur à ses attributs.), ce qui empêche toute modification accidentelle du résultat d'une attaque après sa production.
+De même, `EffectEvent` et ses sous-types (`HealSelfEvent`, `HealTeamEvent`, `StatModifierEvent) sont des records immuables, garantissant l'intégrité des données d'effet.
+
+#### Interfaces
+L'interface scellée (`sealed interface`) `EffectEvent` est introduite comme type de base pour tous les événements d'effet produits lors d'un combat. 
+En listant exhaustivement ses sous-types via permits, elle garantit que tout `switch` sur un `EffectEvent` est nécessairement complet, le compilateur refuse une correspondance non exhaustive.
+`ActionMessageFormatter` exploite cette propriété avec un `switch` exhaustif sur les sous-types pour formater les messages de combat, sans aucun default ni cast.
+#### Héritage
+`CustomBugemonRepository` hérite de `JsonRepository`, concrétisant la piste mentionnée dans le DRC de l'itération 3 qui anticipait ce besoin si l'histoire « Ajouter des Bugémons » était implémentée. 
+De même, `TeamRepository` hérite maintenant de `JsonRepository`, alignant sa logique d'accès aux données sur le même contrat que les autres repositories. 
+`LearnNewAttackController` et `ApplyBonusRewardController` héritent de `Controller<SelectBugemonFromTeamView>` et implémentent `SelectBugemonFromTeamListener, démontrant la réutilisation de la même vue par deux contrôleurs distincts.
+#### Classes et méthodes abstraites
+### Design Patterns
+### Programmation défensive
+#### Mécanismes de typage
+#### Exceptions
+#### Assertions
