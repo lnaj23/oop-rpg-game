@@ -141,21 +141,14 @@ public class ControllerManager {
      * Opens the view managed by the given controller in a secondary modal window.
      *
      * @param controller the controller responsible for the view to display
-     * @param wait {@code true} to use {@code showAndWait()}, {@code false} to use {@code show()}
      */
-    private void openSubScene(Controller<?> controller, boolean wait) {
+    private void openSubScene(Controller<?> controller) {
         Stage subStage = new Stage();
         subStage.initOwner(PrimaryStage);
         subStage.initModality(Modality.APPLICATION_MODAL);
         subStage.initStyle(StageStyle.UNDECORATED);
-
         controller.attachTo(subStage);
-
-        if (wait) {
-            subStage.showAndWait();
-        } else {
-            subStage.show();
-        }
+        subStage.showAndWait();
     }
 
     /**
@@ -169,7 +162,7 @@ public class ControllerManager {
     public void openItemChoiceWindow() {
         try {
             ItemChoiceController itemChoiceController = new ItemChoiceController(this);
-            openSubScene(itemChoiceController, true);
+            openSubScene(itemChoiceController);
         } catch (IOException | IllegalStateException e) {
             fatalError("Une erreur est survenue lors du chargement de la fenêtre des objets.");
         }
@@ -186,7 +179,7 @@ public class ControllerManager {
     public void openSwitchWindow(boolean onPurpose) {
         try {
             SwitchBugemonController switchController = new SwitchBugemonController(this, onPurpose);
-            openSubScene(switchController, !onPurpose);
+            openSubScene(switchController);
         } catch (IOException | IllegalStateException e) {
             fatalError("Une erreur est survenue lors du chargement de la fenêtre de changement de Bugémon.");
         }
@@ -299,7 +292,7 @@ public class ControllerManager {
     public void openBonusRewardWindow(LevelUpBonus bonus) {
         try {
             ApplyBonusRewardController bonusController = new ApplyBonusRewardController(this, bonus);
-            openSubScene(bonusController, true);
+            openSubScene(bonusController);
         } catch (IOException e) {
             fatalError("Une erreur est survenue lors du chargement de la fenêtre de bonus.");
         }
@@ -308,7 +301,7 @@ public class ControllerManager {
     public void openLearnAttackWindow(Attack newAttack) {
         try {
             LearnNewAttackController learnController = new LearnNewAttackController(this, newAttack);
-            openSubScene(learnController, true);
+            openSubScene(learnController);
         } catch (IOException e) {
             fatalError("Une erreur est survenue lors du chargement de la fenêtre d'apprentissage d'attaque.");
         }
@@ -317,7 +310,7 @@ public class ControllerManager {
     public void openSelectAttackWindow(Bugemon target, Attack newAttack) {
         try {
             SelectAttackController selectAttack = new SelectAttackController(this, target, newAttack);
-            openSubScene(selectAttack, true);
+            openSubScene(selectAttack);
         } catch (IOException e) {
             fatalError("Une erreur est survenue lors du chargement de la sélection d'attaque.");
         }
