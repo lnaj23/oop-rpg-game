@@ -3,6 +3,7 @@ package services.app;
 import exceptions.AttackNotFoundException;
 import exceptions.JsonResourceNotFoundException;
 import exceptions.SavingTeamFailedException;
+import models.bugemon.TeamBugemon;
 import services.controller.dataprovider.TeamProvider;
 
 public class GameSessionService {
@@ -13,11 +14,16 @@ public class GameSessionService {
     }
 
     public void returnToMenu() throws SavingTeamFailedException {
-        if (GameStateHolder.getInstance().getCurrentTeamPlayer() != null) {
-            teamProvider.saveTeams(GameStateHolder.getInstance().getSavedTeams());
+        GameStateHolder state = GameStateHolder.getInstance();
+
+        TeamBugemon currentTeam = state.getCurrentTeamPlayer();
+        String savedTeamId = state.getCurrentSavedTeamId();
+
+        if (currentTeam != null && savedTeamId != null) {
+            teamProvider.updateTeamById(savedTeamId, currentTeam);
         }
 
-        GameStateHolder.getInstance().clearCurrentTeamPlayer();
-        GameStateHolder.getInstance().clearCurrentLevelTower();
+        state.clearCurrentTeamPlayer();
+        state.clearCurrentLevelTower();
     }
 }

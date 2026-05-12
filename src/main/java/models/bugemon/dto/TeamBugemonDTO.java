@@ -28,4 +28,11 @@ public interface TeamBugemonDTO {
      */
     BugemonDTO getOnFieldBugemon();
 
+    /**
+     * Returns the stable technical id of the team.
+     *
+     * @return the team id
+     */
+    String getId();
+
 }

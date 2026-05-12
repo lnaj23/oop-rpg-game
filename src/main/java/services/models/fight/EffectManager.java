@@ -20,7 +20,7 @@ public abstract class EffectManager {
      * Applies the effects of an attack and ticks ongoing temporary effects.
      * Returns a list of structured events describing what happened — no UI strings.
      */
-    public static List<EffectEvent> handleEffect(Bugemon attacker, Bugemon target, TeamBugemon attackerTeam, TeamBugemon targetTeam, Attack attack) {
+    public static List<EffectEvent> handleEffect(Bugemon attacker, Bugemon target, TeamBugemon attackerTeam, Attack attack) {
         List<EffectEvent> events = new ArrayList<>();
 
         if (attack.getEffects() == null) {
@@ -61,7 +61,6 @@ public abstract class EffectManager {
                 membre.getStats().heal(valeur);
             }
         }
-
         return Optional.of(new HealTeamEvent(attacker.getName(), valeur));
     }
 

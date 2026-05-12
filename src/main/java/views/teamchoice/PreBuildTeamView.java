@@ -91,8 +91,14 @@ public class PreBuildTeamView extends View {
     private void setActionButtons(){
         btnRetour.setOnAction(e -> this.controller.goToMenu());
         btnNewTeam.setOnAction(e -> this.controller.goToNewTeam());
-        btnPlay.setOnAction(e -> this.controller.play(getSelectedIndex()));
-        btnModify.setOnAction(e -> this.controller.modifyTeam(getSelectedIndex()));
+        btnPlay.setOnAction(e -> {
+            TeamBugemonDTO selected = getSelectedTeam();
+            if (selected != null) controller.play(selected.getId());
+        });
+        btnModify.setOnAction(e -> {
+            TeamBugemonDTO selected = getSelectedTeam();
+            if (selected != null) controller.modifyTeam(selected.getId());
+        });
         btnRename.setOnAction(e -> onRenameClicked());
         btnDelete.setOnAction(e -> onDeleteClicked());
     }
@@ -108,7 +114,9 @@ public class PreBuildTeamView extends View {
     }
 
     /**
-     * @return the currently selected team as a DTO, or null if none is selected
+     * Returns the index of the currently selected team.
+     *
+     * @return the selected index, or -1 if no team is selected
      */
     private int getSelectedIndex() {
         return teamListView.getSelectionModel().getSelectedIndex();
@@ -123,7 +131,7 @@ public class PreBuildTeamView extends View {
         TeamBugemonDTO selected = teamListView.getItems().get(index);
         showRenameDialog(selected).ifPresent(newName -> {
             if (!newName.trim().isEmpty())
-                this.controller.renameTeam(index, newName.trim());
+                this.controller.renameTeam(selected.getId(), newName.trim());
         });
     }
 
@@ -144,12 +152,13 @@ public class PreBuildTeamView extends View {
      * Shows a confirmation dialog before deleting the selected team.
      */
     private void onDeleteClicked() {
-        int index = getSelectedIndex();
-        if (index < 0) return;
-        TeamBugemonDTO selected = teamListView.getItems().get(index);
+        TeamBugemonDTO selected = getSelectedTeam();
+        if (selected == null) return;
+
         Optional<ButtonType> result = showDeleteConfirmDialog(selected);
+
         if (result.isPresent() && result.get() == ButtonType.OK) {
-            this.controller.deleteTeam(index);
+            this.controller.deleteTeam(selected.getId());
             bugemonListView.getItems().clear();
         }
     }
@@ -181,5 +190,19 @@ public class PreBuildTeamView extends View {
     @Override
     protected String getTitle() {
         return "Mes équipes - Bugémon";
+    }
+
+    public void showError(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.initStyle(StageStyle.UNDECORATED);
+        alert.setGraphic(null);
+        alert.showAndWait();
+    }
+
+    private TeamBugemonDTO getSelectedTeam() {
+        return teamListView.getSelectionModel().getSelectedItem();
     }
 }

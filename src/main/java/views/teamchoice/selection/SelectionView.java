@@ -1,13 +1,15 @@
 package views.teamchoice.selection;
 
 import configuration.AppConfig;
-import controllers.teamchoice.SelectionController;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseButton;
+import javafx.stage.StageStyle;
 import models.bugemon.dto.BugemonDTO;
 import models.bugemon.dto.TeamBugemonDTO;
 import views.View;
+import views.listener.SelectionListener;
 
 import java.io.IOException;
 import java.util.List;
@@ -16,12 +18,17 @@ import java.util.List;
  * Main view for the Bugémon selection screen.
  * Coordinates the two sub-views: {@link BugemonGridSubView} and {@link TeamPanelSubView}.
  * Sub-views are loaded via {@code fx:include} in {@code selectionview.fxml}.
- * JavaFX injects sub-controllers as {@code bugemonGridController} and {@code teamPanelController}
- * after FXML loading, following the {@code fx:id + "Controller"} naming convention.
+ *
+ * <p>
+ * This view does not know which controller is using it: it only knows a
+ * {@link SelectionListener}. The same view instance can therefore be shared
+ * between a creation controller and an edition controller, each one registering
+ * itself as the listener when it takes over.
+ * </p>
  */
 public class SelectionView extends View {
 
-    private SelectionController controller;
+    private SelectionListener listener;
 
     @FXML private BugemonGridSubView bugemonGridController;
     @FXML private TeamPanelSubView teamPanelController;
@@ -34,8 +41,8 @@ public class SelectionView extends View {
     public SelectionView() throws IOException {
         super(AppConfig.FXML_SELECTION);
         root.setOnMouseClicked(e -> {
-            if (e.getButton() == MouseButton.SECONDARY) {
-                controller.reset();
+            if (e.getButton() == MouseButton.SECONDARY && listener != null) {
+                listener.onReset();
             }
         });
     }
@@ -50,15 +57,16 @@ public class SelectionView extends View {
     }
 
     /**
-     * Propagates the controller to both sub-views.
-     * Must be called after {@link #initialize()} has run, i.e. after FXML is fully loaded.
+     * Registers the listener that will receive user events.
+     * Propagates it to both sub-views.
+     * Must be called after FXML loading and before showing the view.
      *
-     * @param controller the selection controller
+     * @param listener the listener to wire (typically the active controller)
      */
-    public void setController(SelectionController controller) {
-        this.controller = controller;
-        bugemonGridController.setController(controller);
-        teamPanelController.setController(controller);
+    public void setListener(SelectionListener listener) {
+        this.listener = listener;
+        bugemonGridController.setListener(listener);
+        teamPanelController.setListener(listener);
     }
 
     /**
@@ -158,5 +166,21 @@ public class SelectionView extends View {
     @Override
     protected String getTitle() {
         return "Sélection d'équipe - Bugémon";
+    }
+
+    /**
+     * Displays an error dialog.
+     *
+     * @param title the title of the dialog
+     * @param message the error message displayed to the user
+     */
+    public void showError(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.initStyle(StageStyle.UNDECORATED);
+        alert.setGraphic(null);
+        alert.showAndWait();
     }
 }

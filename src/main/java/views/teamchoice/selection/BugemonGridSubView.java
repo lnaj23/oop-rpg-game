@@ -1,7 +1,6 @@
 package views.teamchoice.selection;
 
 import configuration.AppConfig;
-import controllers.teamchoice.SelectionController;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -16,6 +15,7 @@ import models.bugemon.dto.BugemonDTO;
 import services.view.popup.PopupManager;
 import services.view.assets.SpriteLoader;
 import services.view.style.TypeColorService;
+import views.listener.SelectionListener;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -25,13 +25,18 @@ import java.util.List;
  * Sub-view managing the Bugémon selection grid.
  * Handles button display, hover/click popups and selection logic.
  * Loaded via {@code fx:include} in {@code selectionview.fxml} — does not extend {@link views.View}.
+ *
  * <p>
  * Popup functionality is provided by a {@link PopupManager} instance (composition).
+ * </p>
+ *
+ * <p>
+ * This sub-view only talks to a {@link SelectionListener} — never to a concrete controller.
  * </p>
  */
 public class BugemonGridSubView {
 
-    private SelectionController controller;
+    private SelectionListener listener;
 
     @FXML private GridPane gridPane;
 
@@ -49,12 +54,12 @@ public class BugemonGridSubView {
 
 
     /**
-     * Sets the controller. Called by {@link SelectionView} after FXML loading.
+     * Sets the listener. Called by {@link SelectionView} after FXML loading.
      *
-     * @param controller the selection controller
+     * @param listener the listener that will receive user events
      */
-    public void setController(SelectionController controller) {
-        this.controller = controller;
+    public void setListener(SelectionListener listener) {
+        this.listener = listener;
     }
 
 
@@ -92,16 +97,16 @@ public class BugemonGridSubView {
      * Pre-selects the Bugémons of an existing team in the grid.
      *
      * @param teamBugemons the team to pre-select
-     * @param listener     the panel that listens for team changes
+     * @param panel        the team panel that needs to be notified for each added Bugémon
      */
-    public void preSelectTeam(List<BugemonDTO> teamBugemons, TeamPanelSubView listener) {
+    public void preSelectTeam(List<BugemonDTO> teamBugemons, TeamPanelSubView panel) {
         List<Node> buttons = gridPane.getChildren().filtered(n -> n instanceof Button);
         for (int i = 0; i < displayedBugemons.size() && i < buttons.size(); i++) {
             BugemonDTO current = displayedBugemons.get(i);
             if (teamBugemons.stream().anyMatch(b -> b.getId().equals(current.getId()))) {
                 Button btn = (Button) buttons.get(i);
                 selectButton(btn, current);
-                listener.onBugemonAdded(current);
+                panel.onBugemonAdded(current);
             }
         }
     }
@@ -163,14 +168,15 @@ public class BugemonGridSubView {
 
         btn.setOnAction(e -> onBugemonClicked(btn, index));
         btn.setOnMouseClicked(e -> {
-            if (e.getButton() == MouseButton.SECONDARY) controller.reset();
+            if (e.getButton() == MouseButton.SECONDARY && listener != null) listener.onReset();
         });
     }
 
     private void onBugemonClicked(Button btn, int index) {
-        BugemonDTO selected  = displayedBugemons.get(index);
+        if (listener == null) return;
+        BugemonDTO selected   = displayedBugemons.get(index);
         boolean    wasSelected = selectedButtons.contains(btn);
-        controller.onBugemonClicked(btn, selected, wasSelected, selectedButtons.size() >= MAX_TEAM_SIZE);
+        listener.onBugemonClicked(btn, selected, wasSelected, selectedButtons.size() >= MAX_TEAM_SIZE);
     }
 
     private void applyButtonStyle(Button btn, BugemonDTO bugemon) throws IOException {

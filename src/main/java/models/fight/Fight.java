@@ -68,10 +68,9 @@ public class Fight {
         Bugemon attacker         = isPlayerTurn ? teamPlayer.getOnFieldBugemon() : teamEnemy.getOnFieldBugemon();
         Bugemon defender         = isPlayerTurn ? teamEnemy.getOnFieldBugemon()  : teamPlayer.getOnFieldBugemon();
         TeamBugemon attackerTeam = isPlayerTurn ? teamPlayer : teamEnemy;
-        TeamBugemon defenderTeam = isPlayerTurn ? teamEnemy  : teamPlayer;
 
         int damage = attacker.attack(defender, attack);
-        List<EffectEvent> effects = EffectManager.handleEffect(attacker, defender, attackerTeam, defenderTeam, attack);
+        List<EffectEvent> effects = EffectManager.handleEffect(attacker, defender, attackerTeam, attack);
 
         lastActionResult = new AttackActionResult(
                 attacker.getName(),

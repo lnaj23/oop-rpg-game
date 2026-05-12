@@ -4,6 +4,7 @@ import controllers.afterfight.DefeatController;
 import controllers.afterfight.LevelUpController;
 import controllers.afterfight.VictoryController;
 import controllers.fight.*;
+import controllers.teamchoice.EditTeamController;
 import controllers.teamchoice.PreBuildTeamController;
 import controllers.teamchoice.SelectionController;
 import controllers.tower.ApplyBonusRewardController;
@@ -23,6 +24,7 @@ import models.game.LevelTower;
 import services.app.*;
 import services.controller.dataprovider.TeamProvider;
 import views.FatalErrorView;
+import views.teamchoice.selection.SelectionView;
 
 import java.io.IOException;
 import java.util.List;
@@ -42,6 +44,7 @@ public class ControllerManager {
     private final TitleScreenController titleScreenController;
     private final PreBuildTeamController preBuildTeamController;
     private final SelectionController selectionController;
+    private final EditTeamController editTeamController;
     private final FightAgainstCPUController fightAgainstCPUController;
     private final VictoryController victoryController;
     private final DefeatController defeatController;
@@ -59,6 +62,7 @@ public class ControllerManager {
         TITLE_SCREEN,
         PREBUILD_TEAM,
         SELECTION,
+        EDIT_TEAM,
         FIGHT_AGAINST_CPU,
         VICTORY,
         DEFEAT,
@@ -78,7 +82,13 @@ public class ControllerManager {
         this.PrimaryStage = stage;
         this.titleScreenController = new TitleScreenController(this);
         this.preBuildTeamController = new PreBuildTeamController(this);
-        this.selectionController = new SelectionController(this);
+
+        // Single SelectionView shared between creation and edition controllers.
+        // Each controller registers itself as the listener in its onshow() method.
+        SelectionView selectionView = new SelectionView();
+        this.selectionController = new SelectionController(this, selectionView);
+        this.editTeamController = new EditTeamController(this, selectionView);
+
         this.fightAgainstCPUController = new FightAgainstCPUController(this);
         this.victoryController = new VictoryController(this);
         this.defeatController = new DefeatController(this);
@@ -111,6 +121,7 @@ public class ControllerManager {
             case TITLE_SCREEN -> this.titleScreenController.show(PrimaryStage);
             case PREBUILD_TEAM -> this.preBuildTeamController.show(PrimaryStage);
             case SELECTION -> this.selectionController.show(PrimaryStage);
+            case EDIT_TEAM -> this.editTeamController.show(PrimaryStage);
             case FIGHT_AGAINST_CPU -> this.fightAgainstCPUController.show(PrimaryStage);
             case VICTORY -> this.victoryController.show(PrimaryStage);
             case DEFEAT -> this.defeatController.show(PrimaryStage);
@@ -154,11 +165,6 @@ public class ControllerManager {
 
     /**
      * Opens the item selection sub-window for the fight scene.
-     * <p>
-     * The corresponding sub-controller is created here and the selected item
-     * is sent back to the fight controller through the meta-controller.
-     * </p>
-     *
      */
     public void openItemChoiceWindow() {
         try {
@@ -171,11 +177,6 @@ public class ControllerManager {
 
     /**
      * Opens the Bugemon switch sub-window for the fight scene.
-     * <p>
-     * The corresponding sub-controller is created here and the selected Bugemon
-     * is sent back to the fight controller through the meta-controller.
-     * </p>
-     *
      */
     public void openSwitchWindow(boolean onPurpose) {
         try {
@@ -202,12 +203,12 @@ public class ControllerManager {
     }
 
     /**
-     * Resets the selection view, pre-selects the given team's Bugémons, and navigates to it.
-     *
+     * Prepares the edit-team controller with the given team, then navigates to the edit scene.
+     * The view is synchronized by {@link EditTeamController#onshow()}.
      */
-    public void openSelectionForEdit(int index) {
-        this.switchScene(Scenes.SELECTION);
-        this.selectionController.loadTeamForEditing(index);
+    public void openSelectionForEdit(String teamId) {
+        this.editTeamController.loadTeamForEditing(teamId);
+        this.switchScene(Scenes.EDIT_TEAM);
     }
 
     public void goToTitleScreen() {

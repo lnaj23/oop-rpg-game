@@ -3,124 +3,65 @@ package controllers.teamchoice;
 import controllers.Controller;
 import controllers.ControllerManager;
 
+import exceptions.*;
 
-import exceptions.AttackNotFoundException;
-import exceptions.JsonResourceNotFoundException;
-import exceptions.LoadingAddedBugemonFailedException;
-import exceptions.SavingTeamFailedException;
-
+import javafx.scene.control.Button;
 import models.bugemon.dto.BugemonDTO;
 import models.bugemon.TeamBugemon;
-import services.controller.dataprovider.TeamProvider;
-import services.controller.dataprovider.BugemonProvider;
 import services.app.GameStateHolder;
+import services.controller.dataprovider.BugemonProvider;
+import services.controller.dataprovider.TeamProvider;
+import views.listener.SelectionListener;
 import views.teamchoice.selection.SelectionView;
-import javafx.scene.control.Button;
 
 import java.io.IOException;
-import java.util.List;
 
 /**
- * Controller for the Bugémon selection screen.
- * Handles both new team creation and editing of existing teams.
- * Coordinates BugemonGridView and TeamPanelView via SelectionView.
+ * Controller for the Bugémon selection screen — <b>creation flow only</b>.
+ * Edition is now handled by {@link EditTeamController}, which shares
+ * the same {@link SelectionView} instance.
+ *
+ * <p>
+ * Implements {@link SelectionListener}: the view does not know this is
+ * a "creation" controller, it only sees a listener.
+ * </p>
  */
-public class SelectionController extends Controller<SelectionView> {
-
-    /** The shared list of saved teams. */
-    private final List<TeamBugemon> teams;
-
-    /** The team currently being edited, or null if creating a new team. */
-    private TeamBugemon teamBeingEdited = null;
+public class SelectionController extends Controller<SelectionView> implements SelectionListener {
 
     /** The team currently being built by the player. */
     private TeamBugemon playerTeam;
 
-    private BugemonProvider bugemonProvider = new BugemonProvider();
-    private TeamProvider teamProvider = new TeamProvider();
+    private final BugemonProvider bugemonProvider = new BugemonProvider();
+    private final TeamProvider teamProvider = new TeamProvider();
 
     /**
      * @param metaController the central controller
-     * @throws IOException if the FXML fails to load
+     * @param view           the shared selection view (injected by {@link ControllerManager})
      */
-    public SelectionController(ControllerManager metaController) throws IOException, AttackNotFoundException, JsonResourceNotFoundException {
-        super(metaController, new SelectionView());
-        this.teams = GameStateHolder.getInstance().getSavedTeams();
+    public SelectionController(ControllerManager metaController, SelectionView view) throws AttackNotFoundException, JsonResourceNotFoundException {
+        super(metaController, view);
         this.playerTeam = new TeamBugemon();
-        this.view.setController(this);
     }
 
-    /**
-     * Returns the number of Bugémons currently in the player's team.
-     * Used by sub-views to check team size without pulling the full team object.
-     *
-     * @return the size of the player's current team
-     */
-    public int getPlayerTeamSize() {
-        return playerTeam.getSize();
-    }
-
-    /** Navigates back to the Title Screen. */
-    public void goToTitleScreen() {
-        this.controllerManager.goToTitleScreen();
-    }
-
-    /** Navigates to the pre-built team screen. */
-    public void goToPrebuildTeam() {
-        this.controllerManager.goToPrebuildTeam();
-    }
-
-    /**
-     * Enters edit mode for an existing team and pre-selects its Bugémons in the view.
-     *
-     */
-    public void loadTeamForEditing(int index) {
-        TeamBugemon team = GameStateHolder.getInstance().getSavedTeams().get(index);
-        this.teamBeingEdited = team;
-        team.getTeamDTO().forEach(bug -> this.playerTeam.addBugemonDTO(bug));
-        try {
-            this.view.preSelectTeam(team);
-        } catch (IOException e) {
-            this.controllerManager.fatalError("Un erreur est survenu lors du chargement des équipes");
-        }
-        this.view.setEditMode(true);
-    }
     @Override
-    protected void onshow(){
+    protected void onshow() {
+        this.view.setListener(this);
         reset();
     }
+
     /** Resets the selection screen to its initial empty state. */
     public void reset() {
-        this.teamBeingEdited = null;
         this.playerTeam = new TeamBugemon();
         try {
             this.view.reset(bugemonProvider.getAllBugemonsDTO());
-        } catch (JsonResourceNotFoundException | LoadingAddedBugemonFailedException | IOException e){
+        } catch (JsonResourceNotFoundException | LoadingAddedBugemonFailedException | IOException e) {
             this.controllerManager.fatalError("Une erreur est survenue lors du chargement des Bugémons.");
         }
         this.view.setEditMode(false);
     }
 
-    /**
-     * Returns whether the controller is currently in edit mode.
-     *
-     * @return {@code true} if editing an existing team, {@code false} if creating a new one
-     */
-    public boolean isEditing() {
-        return this.teamBeingEdited != null;
-    }
 
-
-    /**
-     * Handles a click on a Bugémon button in the grid.
-     * Adds or removes the Bugémon from the player's team, notifies the view,
-     * and pushes the updated team list to the view.
-     *
-     * @param btn         the button that was clicked
-     * @param bugemon     the Bugémon associated with that button
-     * @param wasSelected true if the button was already selected before the click
-     * @param teamFull    true if the team has already reached the maximum size
-     */
+    @Override
     public void onBugemonClicked(Button btn, BugemonDTO bugemon, boolean wasSelected, boolean teamFull) {
         if (wasSelected) {
             playerTeam.removeBugemonDTO(bugemon);
@@ -143,30 +84,37 @@ public class SelectionController extends Controller<SelectionView> {
         }
     }
 
-    /**
-     * Confirms the current selection. Updates the existing team if editing,
-     * or adds a new named team to the shared list and persists it to disk.
-     *
-     * @param teamName the name for the new team (ignored in edit mode, can be null)
-     */
-    public void saveSelection(String teamName) {
-        if (this.teamBeingEdited != null) {
-            this.teamBeingEdited.getTeam().clear();
-            this.teamBeingEdited.getTeam().addAll(playerTeam.getTeam());
-            this.teamBeingEdited = null;
-        } else {
-            playerTeam.setName(teamName);
-            this.teams.add(playerTeam);
-        }
+    @Override
+    public void onConfirm(String teamName) {
+        // In creation mode, teamName is always non-null (the view asked for it).
         try {
-            teamProvider.saveTeams(this.teams);
+            playerTeam.setName(teamName);
+            teamProvider.addTeam(playerTeam);
+        } catch (IllegalArgumentException e) {
+            view.showError("Nom déjà utilisé", e.getMessage());
         } catch (SavingTeamFailedException e) {
             controllerManager.fatalError("Une erreur est survenue lors de la sauvegarde de l'équipe.");
         }
     }
 
-    public void goToFight() {
-        GameStateHolder.getInstance().setCurrentTeamPlayer(playerTeam);
+    @Override
+    public void onPlay() {
+        GameStateHolder.getInstance().startUnsavedTeam(playerTeam);
         this.controllerManager.startNewTower();
+    }
+
+    @Override
+    public void onLoadTeam() {
+        this.controllerManager.goToPrebuildTeam();
+    }
+
+    @Override
+    public void onBack() {
+        this.controllerManager.goToTitleScreen();
+    }
+
+    @Override
+    public void onReset() {
+        reset();
     }
 }

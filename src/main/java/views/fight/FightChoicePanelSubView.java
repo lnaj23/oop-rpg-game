@@ -112,7 +112,6 @@ public class FightChoicePanelSubView {
      * Caches the effectiveness messages for the current Bugémon's attacks.
      * These messages are used to style attack buttons.
      *
-     * @param predictedEffectivenessFromFightModels list of effectiveness strings
      *        (e.g., "Super efficace !", "Peu efficace...", or neutral)
      */
     public void updatePredictedEffectiveness(List<Effectiveness> predicted) {
@@ -202,8 +201,8 @@ public class FightChoicePanelSubView {
      * @param effectiveness the effectiveness message (e.g., "Super efficace !", "Peu efficace...")
      * @return an RGB or hex color string; transparent if neutral
      */
-    private String getEffectivenessColor(Effectiveness e) {
-        return switch (e) {
+    private String getEffectivenessColor(Effectiveness effectiveness) {
+        return switch (effectiveness) {
             case SUPER_EFFECTIVE     -> "rgb(0,152,0)";
             case NOT_VERY_EFFECTIVE  -> "#FF0000";
             case NEUTRAL             -> "transparent";
