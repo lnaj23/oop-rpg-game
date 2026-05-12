@@ -11,22 +11,22 @@ import models.bugemon.TeamBugemon;
 import services.app.GameStateHolder;
 import services.controller.dataprovider.BugemonProvider;
 import services.controller.prebuiltteam.TeamService;
-import views.listener.SelectionListener;
-import views.teamchoice.selection.SelectionView;
+import views.listener.TeamBuilderListener;
+import views.teamchoice.selection.TeamBuilderView;
 
 import java.io.IOException;
 
 /**
  * Controller for the Bugémon selection screen — <b>creation flow only</b>.
  * Edition is now handled by {@link EditTeamController}, which shares
- * the same {@link SelectionView} instance.
+ * the same {@link TeamBuilderView} instance.
  *
  * <p>
- * Implements {@link SelectionListener}: the view does not know this is
+ * Implements {@link TeamBuilderListener}: the view does not know this is
  * a "creation" controller, it only sees a listener.
  * </p>
  */
-public class SelectionController extends Controller<SelectionView> implements SelectionListener {
+public class CreateTeamController extends Controller<TeamBuilderView> implements TeamBuilderListener {
 
     /** The team currently being built by the player. */
     private TeamBugemon playerTeam;
@@ -38,7 +38,7 @@ public class SelectionController extends Controller<SelectionView> implements Se
      * @param metaController the central controller
      * @param view           the shared selection view (injected by {@link ControllerManager})
      */
-    public SelectionController(ControllerManager metaController, SelectionView view) throws AttackNotFoundException, JsonResourceNotFoundException {
+    public CreateTeamController(ControllerManager metaController, TeamBuilderView view) throws AttackNotFoundException, JsonResourceNotFoundException {
         super(metaController, view);
         this.playerTeam = new TeamBugemon();
     }

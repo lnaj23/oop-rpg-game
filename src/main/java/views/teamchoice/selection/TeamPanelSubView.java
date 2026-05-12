@@ -14,7 +14,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.StageStyle;
 import models.bugemon.dto.BugemonDTO;
 import services.view.assets.SpriteLoader;
-import views.listener.SelectionListener;
+import views.listener.TeamBuilderListener;
 
 import java.io.IOException;
 import java.util.List;
@@ -29,7 +29,7 @@ import java.util.Optional;
  * <p>
  * This sub-view does not pull data from the controller — it receives
  * all data via method parameters (push model) and emits events through
- * a {@link SelectionListener}.
+ * a {@link TeamBuilderListener}.
  * </p>
  *
  * <p>
@@ -42,7 +42,7 @@ import java.util.Optional;
  */
 public class TeamPanelSubView {
 
-    private SelectionListener listener;
+    private TeamBuilderListener listener;
 
     @FXML private GridPane teamGrid;
     @FXML private VBox teamRectangle;
@@ -80,11 +80,11 @@ public class TeamPanelSubView {
     }
 
     /**
-     * Sets the listener. Called by {@link SelectionView} after FXML loading.
+     * Sets the listener. Called by {@link TeamBuilderView} after FXML loading.
      *
      * @param listener the listener that will receive user events
      */
-    public void setListener(SelectionListener listener) {
+    public void setListener(TeamBuilderListener listener) {
         this.listener = listener;
     }
 

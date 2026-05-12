@@ -9,7 +9,7 @@ import javafx.stage.StageStyle;
 import models.bugemon.dto.BugemonDTO;
 import models.bugemon.dto.TeamBugemonDTO;
 import views.View;
-import views.listener.SelectionListener;
+import views.listener.TeamBuilderListener;
 
 import java.io.IOException;
 import java.util.List;
@@ -21,14 +21,14 @@ import java.util.List;
  *
  * <p>
  * This view does not know which controller is using it: it only knows a
- * {@link SelectionListener}. The same view instance can therefore be shared
+ * {@link TeamBuilderListener}. The same view instance can therefore be shared
  * between a creation controller and an edition controller, each one registering
  * itself as the listener when it takes over.
  * </p>
  */
-public class SelectionView extends View {
+public class TeamBuilderView extends View {
 
-    private SelectionListener listener;
+    private TeamBuilderListener listener;
 
     @FXML private BugemonGridSubView bugemonGridController;
     @FXML private TeamPanelSubView teamPanelController;
@@ -38,7 +38,7 @@ public class SelectionView extends View {
      *
      * @throws IOException if the FXML file cannot be loaded
      */
-    public SelectionView() throws IOException {
+    public TeamBuilderView() throws IOException {
         super(AppConfig.FXML_SELECTION);
         root.setOnMouseClicked(e -> {
             if (e.getButton() == MouseButton.SECONDARY && listener != null) {
@@ -63,7 +63,7 @@ public class SelectionView extends View {
      *
      * @param listener the listener to wire (typically the active controller)
      */
-    public void setListener(SelectionListener listener) {
+    public void setListener(TeamBuilderListener listener) {
         this.listener = listener;
         bugemonGridController.setListener(listener);
         teamPanelController.setListener(listener);

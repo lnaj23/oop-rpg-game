@@ -10,15 +10,15 @@ import models.bugemon.TeamBugemon;
 import models.bugemon.dto.BugemonDTO;
 import services.controller.dataprovider.BugemonProvider;
 import services.controller.prebuiltteam.TeamService;
-import views.listener.SelectionListener;
-import views.teamchoice.selection.SelectionView;
+import views.listener.TeamBuilderListener;
+import views.teamchoice.selection.TeamBuilderView;
 
 import java.io.IOException;
 
 /**
  * Controller for the Bugémon selection screen — <b>edition flow only</b>.
- * Shares the same {@link SelectionView} instance with {@link SelectionController}
- * and registers itself as the active {@link SelectionListener} in {@link #onshow()}.
+ * Shares the same {@link TeamBuilderView} instance with {@link CreateTeamController}
+ * and registers itself as the active {@link TeamBuilderListener} in {@link #onshow()}.
  *
  * <p>
  * Edition is launched from {@link ControllerManager#openSelectionForEdit(String)},
@@ -27,7 +27,7 @@ import java.io.IOException;
  * into the view.
  * </p>
  */
-public class EditTeamController extends Controller<SelectionView> implements SelectionListener {
+public class EditTeamController extends Controller<TeamBuilderView> implements TeamBuilderListener {
 
     /** Id of the team being edited. */
     private String editingTeamId = null;
@@ -42,7 +42,7 @@ public class EditTeamController extends Controller<SelectionView> implements Sel
      * @param metaController the central controller
      * @param view           the shared selection view (injected by {@link ControllerManager})
      */
-    public EditTeamController(ControllerManager metaController, SelectionView view) throws AttackNotFoundException, JsonResourceNotFoundException {
+    public EditTeamController(ControllerManager metaController, TeamBuilderView view) throws AttackNotFoundException, JsonResourceNotFoundException {
         super(metaController, view);
     }
 

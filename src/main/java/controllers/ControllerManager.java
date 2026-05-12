@@ -6,7 +6,7 @@ import controllers.afterfight.VictoryController;
 import controllers.fight.*;
 import controllers.teamchoice.EditTeamController;
 import controllers.teamchoice.PreBuildTeamController;
-import controllers.teamchoice.SelectionController;
+import controllers.teamchoice.CreateTeamController;
 import controllers.tower.ApplyBonusRewardController;
 import controllers.tower.LearnNewAttackController;
 import controllers.tower.RewardController;
@@ -21,7 +21,7 @@ import models.bugemon.Bugemon;
 import models.game.Item;
 import services.app.*;
 import views.FatalErrorView;
-import views.teamchoice.selection.SelectionView;
+import views.teamchoice.selection.TeamBuilderView;
 
 import java.io.IOException;
 import java.util.List;
@@ -40,7 +40,7 @@ public class ControllerManager {
     private final Stage PrimaryStage;
     private final TitleScreenController titleScreenController;
     private final PreBuildTeamController preBuildTeamController;
-    private final SelectionController selectionController;
+    private final CreateTeamController selectionController;
     private final EditTeamController editTeamController;
     private final FightAgainstCPUController fightAgainstCPUController;
     private final VictoryController victoryController;
@@ -80,10 +80,10 @@ public class ControllerManager {
         this.titleScreenController = new TitleScreenController(this);
         this.preBuildTeamController = new PreBuildTeamController(this);
 
-        // Single SelectionView shared between creation and edition controllers.
+        // Single TeamBuilderView shared between creation and edition controllers.
         // Each controller registers itself as the listener in its onshow() method.
-        SelectionView selectionView = new SelectionView();
-        this.selectionController = new SelectionController(this, selectionView);
+        TeamBuilderView selectionView = new TeamBuilderView();
+        this.selectionController = new CreateTeamController(this, selectionView);
         this.editTeamController = new EditTeamController(this, selectionView);
 
         this.fightAgainstCPUController = new FightAgainstCPUController(this);
@@ -201,7 +201,6 @@ public class ControllerManager {
 
     /**
      * Prepares the edit-team controller with the given team, then navigates to the edit scene.
-     * The view is synchronized by {@link EditTeamController#onshow()}.
      */
     public void openSelectionForEdit(String teamId) {
         this.editTeamController.loadTeamForEditing(teamId);

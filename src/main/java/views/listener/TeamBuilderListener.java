@@ -2,14 +2,15 @@ package views.listener;
 
 import javafx.scene.control.Button;
 import models.bugemon.dto.BugemonDTO;
+import views.teamchoice.selection.TeamBuilderView;
 
 /**
  * Listener used by the selection view to delegate user actions.
  *
  * <p>
- * This allows the same {@link views.teamchoice.selection.SelectionView} to be reused
+ * This allows the same {@link TeamBuilderView} to be reused
  * by different controllers, for example one controller for team creation
- * ({@code SelectionController}) and another one for team edition ({@code EditTeamController}).
+ * ({@code CreateTeamController}) and another one for team edition ({@code EditTeamController}).
  * </p>
  *
  * <p>
@@ -17,7 +18,7 @@ import models.bugemon.dto.BugemonDTO;
  * it only emits user events and pushes data through the view's public API.
  * </p>
  */
-public interface SelectionListener {
+public interface TeamBuilderListener {
 
     /**
      * Called when the user clicks a Bugémon in the grid.

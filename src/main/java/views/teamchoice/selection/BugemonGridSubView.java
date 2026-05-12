@@ -15,7 +15,7 @@ import models.bugemon.dto.BugemonDTO;
 import services.view.popup.PopupManager;
 import services.view.assets.SpriteLoader;
 import services.view.style.TypeColorService;
-import views.listener.SelectionListener;
+import views.listener.TeamBuilderListener;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -31,12 +31,12 @@ import java.util.List;
  * </p>
  *
  * <p>
- * This sub-view only talks to a {@link SelectionListener} — never to a concrete controller.
+ * This sub-view only talks to a {@link TeamBuilderListener} — never to a concrete controller.
  * </p>
  */
 public class BugemonGridSubView {
 
-    private SelectionListener listener;
+    private TeamBuilderListener listener;
 
     @FXML private GridPane gridPane;
 
@@ -54,11 +54,11 @@ public class BugemonGridSubView {
 
 
     /**
-     * Sets the listener. Called by {@link SelectionView} after FXML loading.
+     * Sets the listener. Called by {@link TeamBuilderView} after FXML loading.
      *
      * @param listener the listener that will receive user events
      */
-    public void setListener(SelectionListener listener) {
+    public void setListener(TeamBuilderListener listener) {
         this.listener = listener;
     }
 
