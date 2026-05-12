@@ -42,8 +42,8 @@ public class EditTeamController extends Controller<TeamBuilderView> implements T
      * @param metaController the central controller
      * @param view           the shared selection view (injected by {@link ControllerManager})
      */
-    public EditTeamController(ControllerManager metaController, TeamBuilderView view) throws AttackNotFoundException, JsonResourceNotFoundException {
-        super(metaController, view);
+    public EditTeamController(ControllerManager metaController) throws AttackNotFoundException, JsonResourceNotFoundException, IOException {
+        super(metaController, new TeamBuilderView());
     }
 
     /**

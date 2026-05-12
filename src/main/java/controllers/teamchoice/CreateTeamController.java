@@ -38,8 +38,8 @@ public class CreateTeamController extends Controller<TeamBuilderView> implements
      * @param metaController the central controller
      * @param view           the shared selection view (injected by {@link ControllerManager})
      */
-    public CreateTeamController(ControllerManager metaController, TeamBuilderView view) throws AttackNotFoundException, JsonResourceNotFoundException {
-        super(metaController, view);
+    public CreateTeamController(ControllerManager metaController) throws AttackNotFoundException, JsonResourceNotFoundException, IOException {
+        super(metaController, new TeamBuilderView());
         this.playerTeam = new TeamBugemon();
     }
 

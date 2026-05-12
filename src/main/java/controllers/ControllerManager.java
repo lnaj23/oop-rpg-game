@@ -80,11 +80,8 @@ public class ControllerManager {
         this.titleScreenController = new TitleScreenController(this);
         this.preBuildTeamController = new PreBuildTeamController(this);
 
-        // Single TeamBuilderView shared between creation and edition controllers.
-        // Each controller registers itself as the listener in its onshow() method.
-        TeamBuilderView selectionView = new TeamBuilderView();
-        this.selectionController = new CreateTeamController(this, selectionView);
-        this.editTeamController = new EditTeamController(this, selectionView);
+        this.selectionController = new CreateTeamController(this);
+        this.editTeamController = new EditTeamController(this);
 
         this.fightAgainstCPUController = new FightAgainstCPUController(this);
         this.victoryController = new VictoryController(this);
