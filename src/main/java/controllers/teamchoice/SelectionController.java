@@ -10,7 +10,7 @@ import models.bugemon.dto.BugemonDTO;
 import models.bugemon.TeamBugemon;
 import services.app.GameStateHolder;
 import services.controller.dataprovider.BugemonProvider;
-import services.controller.dataprovider.TeamProvider;
+import services.controller.prebuiltteam.TeamService;
 import views.listener.SelectionListener;
 import views.teamchoice.selection.SelectionView;
 
@@ -32,7 +32,7 @@ public class SelectionController extends Controller<SelectionView> implements Se
     private TeamBugemon playerTeam;
 
     private final BugemonProvider bugemonProvider = new BugemonProvider();
-    private final TeamProvider teamProvider = new TeamProvider();
+    private final TeamService teamProvider = new TeamService();
 
     /**
      * @param metaController the central controller

@@ -4,11 +4,11 @@ import exceptions.AttackNotFoundException;
 import exceptions.JsonResourceNotFoundException;
 import exceptions.SavingTeamFailedException;
 import models.bugemon.TeamBugemon;
-import services.controller.dataprovider.TeamProvider;
+import services.controller.prebuiltteam.TeamService;
 
 public class GameSessionService {
 
-    private final TeamProvider teamProvider = new TeamProvider();
+    private final TeamService teamProvider = new TeamService();
 
     public GameSessionService() throws AttackNotFoundException, JsonResourceNotFoundException {
     }

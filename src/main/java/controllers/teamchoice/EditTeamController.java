@@ -9,7 +9,7 @@ import javafx.scene.control.Button;
 import models.bugemon.TeamBugemon;
 import models.bugemon.dto.BugemonDTO;
 import services.controller.dataprovider.BugemonProvider;
-import services.controller.dataprovider.TeamProvider;
+import services.controller.prebuiltteam.TeamService;
 import views.listener.SelectionListener;
 import views.teamchoice.selection.SelectionView;
 
@@ -36,7 +36,7 @@ public class EditTeamController extends Controller<SelectionView> implements Sel
     private TeamBugemon playerTeam = new TeamBugemon();
 
     private final BugemonProvider bugemonProvider = new BugemonProvider();
-    private final TeamProvider teamProvider = new TeamProvider();
+    private final TeamService teamProvider = new TeamService();
 
     /**
      * @param metaController the central controller

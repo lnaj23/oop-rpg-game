@@ -17,12 +17,9 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import models.bugemon.Attack;
 import models.game.LevelUpBonus;
-import models.game.TowerNodeType;
 import models.bugemon.Bugemon;
 import models.game.Item;
-import models.game.LevelTower;
 import services.app.*;
-import services.controller.dataprovider.TeamProvider;
 import views.FatalErrorView;
 import views.teamchoice.selection.SelectionView;
 

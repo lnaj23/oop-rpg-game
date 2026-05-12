@@ -7,7 +7,7 @@ import exceptions.JsonResourceNotFoundException;
 import exceptions.LoadingTeamFailedException;
 import exceptions.SavingTeamFailedException;
 import models.bugemon.TeamBugemon;
-import services.controller.dataprovider.TeamProvider;
+import services.controller.prebuiltteam.TeamService;
 import services.app.GameStateHolder;
 import views.teamchoice.PreBuildTeamView;
 
@@ -20,7 +20,7 @@ import java.util.List;
  */
 public class PreBuildTeamController extends Controller<PreBuildTeamView> {
 
-    private final TeamProvider teamProvider = new TeamProvider();
+    private final TeamService teamProvider = new TeamService();
 
     public PreBuildTeamController(ControllerManager metaController)
             throws IOException, AttackNotFoundException, JsonResourceNotFoundException {
