@@ -74,9 +74,6 @@ public class EditTeamController extends Controller<SelectionView> implements Sel
         }
     }
 
-    // ----------------------------------------------------------------
-    // SelectionListener
-    // ----------------------------------------------------------------
 
     @Override
     public void onBugemonClicked(Button btn, BugemonDTO bugemon, boolean wasSelected, boolean teamFull) {
