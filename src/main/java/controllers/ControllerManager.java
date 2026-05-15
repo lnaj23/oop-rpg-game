@@ -237,7 +237,7 @@ public class ControllerManager {
             towerFlowService.startNewTower();
             goToNextFight();
         } catch (JsonResourceNotFoundException e){
-            fatalError("Erreur lors de la création d'une nouvelle tour");
+            fatalError("Une erreur est survenue lors de la création d'une nouvelle tour");
         }
     }
 
