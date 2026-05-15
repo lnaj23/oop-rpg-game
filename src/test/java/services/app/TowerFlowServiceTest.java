@@ -1,5 +1,6 @@
 package services.app;
 
+import exceptions.JsonResourceNotFoundException;
 import junit.framework.TestCase;
 
 import exceptions.TowerNotInitializedException;
@@ -12,7 +13,7 @@ public class TowerFlowServiceTest extends TestCase {
     private TowerFlowService service;
 
     @Before
-    public void setUp() {
+    public void setUp() throws JsonResourceNotFoundException {
         service = new TowerFlowService();
         service.startNewTower();
     }
