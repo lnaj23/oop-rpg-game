@@ -328,4 +328,9 @@ public class GameStateHolder {
         availableItems.add(item);
         availableItems.sort(Comparator.comparing(Item::getName));
     }
+
+    public void resetItems() throws JsonResourceNotFoundException {
+        availableItems = new ArrayList<>(itemProvider.getDefautItems());
+        availableItems.sort(Comparator.comparing(Item::getName));
+    }
 }

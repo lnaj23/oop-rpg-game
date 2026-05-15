@@ -233,8 +233,12 @@ public class ControllerManager {
     }
 
     public void startNewTower() {
-        towerFlowService.startNewTower();
-        goToNextFight();
+        try {
+            towerFlowService.startNewTower();
+            goToNextFight();
+        } catch (JsonResourceNotFoundException e){
+            fatalError("Erreur lors de la création d'une nouvelle tour");
+        }
     }
 
     private void goToNextFight() {

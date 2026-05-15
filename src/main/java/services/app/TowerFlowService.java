@@ -1,5 +1,6 @@
 package services.app;
 
+import exceptions.JsonResourceNotFoundException;
 import exceptions.TowerNotInitializedException;
 import models.game.LevelTower;
 import models.game.TowerNodeType;
@@ -21,7 +22,8 @@ public class TowerFlowService {
         };
     }
 
-    public void startNewTower() {
+    public void startNewTower() throws JsonResourceNotFoundException {
         GameStateHolder.getInstance().setCurrentLevelTower(new LevelTower());
+        GameStateHolder.getInstance().resetItems();
     }
 }
