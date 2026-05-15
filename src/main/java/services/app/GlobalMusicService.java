@@ -7,7 +7,6 @@ import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.FloatControl;
-import java.io.File;
 
 /**
  * Background music manager.
@@ -68,27 +67,25 @@ public class GlobalMusicService {
         playMusic(filepath, volume);
     }
 
-    private void playMusic(String filepath, float volume) {
+    private void playMusic(String resourcePath, float volume) {
         try {
-            File musicPath = new File(filepath);
-            if (!musicPath.exists()) {
+            var musicUrl = GlobalMusicService.class.getResource(resourcePath);
+            if (musicUrl == null) {
+                System.err.println("Music resource not found: " + resourcePath);
                 return;
             }
-
-            AudioInputStream audioInput = AudioSystem.getAudioInputStream(musicPath);
+            AudioInputStream audioInput = AudioSystem.getAudioInputStream(musicUrl);
             currentClip = AudioSystem.getClip();
             currentClip.open(audioInput);
-
             if (currentClip.isControlSupported(FloatControl.Type.MASTER_GAIN)) {
-                FloatControl gainControl = (FloatControl) currentClip.getControl(FloatControl.Type.MASTER_GAIN);
+                FloatControl gainControl =
+                        (FloatControl) currentClip.getControl(FloatControl.Type.MASTER_GAIN);
                 gainControl.setValue(volume);
             }
-
             currentClip.loop(Clip.LOOP_CONTINUOUSLY);
             currentClip.start();
-
         } catch (Exception e) {
-            System.out.println(e);
+            e.printStackTrace();
         }
     }
 

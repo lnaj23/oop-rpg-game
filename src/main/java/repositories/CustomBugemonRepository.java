@@ -74,11 +74,14 @@ public class CustomBugemonRepository extends JsonRepository {
      * @param selectedFile      the source PNG file
      * @param flipHorizontally  if {@code true}, mirrors the image left-to-right before saving
      */
-    public void saveSprite(File selectedFile, boolean flipHorizontally) throws IOException {
-        Path destination = Path.of(AppConfig.PNG_PREFIX_ADDEDBUEMON, selectedFile.getName());
-
+    public void saveSprite(File selectedFile, String savedFileName, boolean flipHorizontally) throws IOException {
+        Path destination = Path.of(AppConfig.PNG_PREFIX_ADDEDBUEMON, savedFileName);
+        Files.createDirectories(destination.getParent());
         if (flipHorizontally) {
             BufferedImage src = ImageIO.read(selectedFile);
+            if (src == null) {
+                throw new IOException("Invalid image file: " + selectedFile.getAbsolutePath());
+            }
             BufferedImage flipped = horizontalFlip(src);
             ImageIO.write(flipped, "png", destination.toFile());
         } else {

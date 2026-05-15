@@ -10,6 +10,7 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.text.Normalizer;
 
 /**
  * Service responsible for validating the data entered in the Add Bugemon form.
@@ -132,8 +133,32 @@ public class AddBugemonService {
         return null;
     }
 
-    public void saveBugemon(Bugemon bugemon, File selectedSprite, boolean flipHorizontally) throws SavingAddedBugemonFailedException, LoadingAddedBugemonFailedException, IOException {
-        CustomBugemonRepository.getInstance().saveAddedBugemons(bugemon);
-        CustomBugemonRepository.getInstance().saveSprite(selectedSprite, flipHorizontally);
+    public void saveBugemon(Bugemon bugemon, File selectedSprite, String savedSpriteName, boolean flipHorizontally) throws SavingAddedBugemonFailedException, LoadingAddedBugemonFailedException, IOException {
+
+        CustomBugemonRepository repository = CustomBugemonRepository.getInstance();
+
+        repository.saveSprite(selectedSprite, savedSpriteName, flipHorizontally);
+        repository.saveAddedBugemons(bugemon);
+    }
+
+    public String createSafeSpriteFileName(File selectedFile) {
+        String originalName = selectedFile.getName();
+
+        String baseName = originalName.replaceFirst("\\.[^.]+$", "");
+
+        baseName = Normalizer.normalize(baseName, Normalizer.Form.NFD);
+        baseName = baseName.replaceAll("\\p{M}", "");
+
+        baseName = baseName
+                .replaceAll("[^a-zA-Z0-9_-]", "_")
+                .replaceAll("_+", "_")
+                .replaceAll("^_|_$", "")
+                .toLowerCase();
+
+        if (baseName.isBlank()) {
+            baseName = "sprite";
+        }
+
+        return baseName + "_" + System.currentTimeMillis() + ".png";
     }
 }

@@ -28,6 +28,8 @@ public class CustomBugemonRepositoryTest {
     /** Where {@code saveSprite()} is expected to copy the PNG. */
     private static final Path SPRITE_DESTINATION = Path.of(AppConfig.PNG_PREFIX_ADDEDBUEMON, SPRITE_SOURCE.getName());
 
+    private static final String SAVED_SPRITE_NAME = "ulb.png";
+
     /** In-memory backup of the real persistence files, taken before each test. */
     private byte[] jsonBackup;
     private byte[] spriteBackup;
@@ -73,7 +75,7 @@ public class CustomBugemonRepositoryTest {
 
         // Persist: JSON + sprite copy
         repo.saveAddedBugemons(original);
-        repo.saveSprite(SPRITE_SOURCE, false);
+        repo.saveSprite(SPRITE_SOURCE, SAVED_SPRITE_NAME, false);
         // Reload and verify the Bugémon
         List<Bugemon> loaded = repo.loadAddedBugemon();
         assertEquals("Should contain exactly 1 saved Bugémon", 1, loaded.size());
@@ -83,7 +85,7 @@ public class CustomBugemonRepositoryTest {
         assertEquals("Pyro", reloaded.getType());
         assertEquals(50, reloaded.getPv());
         assertFalse("A custom Bugémon must not be marked as default", reloaded.isDefault());
-        assertEquals(SPRITE_SOURCE.getName(), reloaded.getSprite());
+        assertEquals(SAVED_SPRITE_NAME, reloaded.getSprite());
         assertEquals(3, reloaded.getAttackNamesAsList().size());
 
         // Verify the sprite was actually copied to the destination

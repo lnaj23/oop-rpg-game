@@ -126,7 +126,7 @@ public abstract class View {
      * @param title dialog title
      * @param headerText dialog header
      * @param contentText label before the text field
-     * @return the string entered by the user, or empty if cancelled
+     * @return the string entered by the user, or empty if canceled
      */
     protected Optional<String> showAndWaitTextInputDialog(
             TeamBugemonDTO selected, String title, String headerText, String contentText) {

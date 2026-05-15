@@ -1,5 +1,6 @@
 package services.controller.dataprovider;
 
+import exceptions.ItemNotFoundException;
 import exceptions.JsonResourceNotFoundException;
 import models.game.Item;
 import repositories.ItemRepository;
@@ -37,5 +38,12 @@ public class ItemProvider {
     public Item getRandomItem() throws JsonResourceNotFoundException {
         List<Item> items = getAllItems();
         return items.get(new Random().nextInt(items.size()));
+    }
+
+    public Item getItemById(String id) throws ItemNotFoundException, JsonResourceNotFoundException {
+        for (Item item : getAllItems()) {
+            if (item.getId().equals(id)) return item;
+        }
+        throw new ItemNotFoundException(id);
     }
 }

@@ -127,7 +127,7 @@ public class AddBugemonController extends Controller<AddBugemonView> {
                 attack3.getId()
         );
 
-        String sprite = selectedFile.getName();
+        String spriteName = addBugemonService.createSafeSpriteFileName(selectedFile);
 
         Bugemon bugemonToSave = new Bugemon(
                 name,
@@ -137,13 +137,18 @@ public class AddBugemonController extends Controller<AddBugemonView> {
                 defense,
                 initiative,
                 starter,
-                sprite,
+                spriteName,
                 attacks,
                 attackNames
         );
 
         try {
-            addBugemonService.saveBugemon(bugemonToSave, selectedFile, view.isFlipImageSelected());
+            addBugemonService.saveBugemon(
+                    bugemonToSave,
+                    selectedFile,
+                    spriteName,
+                    view.isFlipImageSelected()
+            );
         } catch (Exception e) {
             view.showMessage("Impossible d'ajouter le Bugémon : " + e.getMessage());
             return;
