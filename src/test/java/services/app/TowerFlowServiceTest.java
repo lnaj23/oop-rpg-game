@@ -28,7 +28,7 @@ public class TowerFlowServiceTest extends TestCase {
     }
 
     @Test
-    public void testStartNewTowerOverridesPreviousTower() {
+    public void testStartNewTowerOverridesPreviousTower() throws JsonResourceNotFoundException {
         LevelTower first = GameStateHolder.getInstance().getCurrentLevelTower();
         service.startNewTower();
         LevelTower second = GameStateHolder.getInstance().getCurrentLevelTower();
