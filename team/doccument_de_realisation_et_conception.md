@@ -399,45 +399,61 @@ Enfin, `JsonRepository` a été enrichie pour gérer deux types distincts de per
 ### Justification du modèle MVC
 #### Modèle
 Le modèle s'est enrichi avec la création d'un nouveau package `models/fight/` qui regroupe toutes les classes nécessaires au combat.
-Le modèle a été enrichi avec plusieurs classes liées au combat. La classe `Fight` a été déplacée dans `models/fight`, ce qui correspond mieux à son rôle. De nouvelles classes comme `AttackActionResult`, `EffectEvent`, `HealSelfEvent`, `HealTeamEvent` et `StatModifierEvent`, qui sont des record immuable, permettant de représenter plus proprement le résultat d’une attaque et ses éventuels effets secondaires.
+
+Le modèle a été enrichi avec plusieurs classes liées au combat. La classe `Fight` a été déplacée dans `models/fight`, ce qui correspond mieux à son rôle. 
+
+De nouvelles classes comme `AttackActionResult`, `EffectEvent`, `HealSelfEvent`, `HealTeamEvent` et `StatModifierEvent`, qui sont des record immuable, permettant de représenter plus proprement le résultat d’une attaque et ses éventuels effets secondaires.
 Ce choix améliore la lisibilité du code, au lieu de représenter le résultat d’une attaque avec plusieurs valeurs dispersées, le résultat est maintenant encapsulé dans des objets dédiés.
-Cela permet de mieux distinguer les dégâts, les soins, les modifications de statistiques et l’efficacité d’une attaque.
-Le modèle reste indépendant de JavaFX.
-Les classes du modèle ne manipulent pas directement les boutons, les scènes ou les fichiers FXML. 
-Cela respecte le principe MVC déjà appliqué dans les itérations précédentes.
+Cela permet de mieux distinguer les dégâts, les soins, les modifications de statistiques et l’efficacité d’une attaque.  Le modèle reste indépendant de JavaFX.  Les classes du modèle ne manipulent pas directement les boutons, les scènes ou les fichiers FXML. Cela respecte le principe MVC déjà appliqué dans les itérations précédentes.
 #### Vue
 De nouvelles classes ont été extraites de `FightView` pour respecter le principe de responsabilité unique. 
+
 `FightAnimator` centralise toutes les animations JavaFX du combat (bond d'attaque, flash de touche, diminution de la barre HP, fondu au KO) ; il est branché à la vue via un `Consumer<BugemonDTO>` pour déclencher le masquage des éléments UI après le fondu, ce qui évite tout couplage direct. 
+
 `FightTeamGridManager` gère l'affichage et la mise à jour des grilles d'équipe des deux camps.
+
 `TeamBuilderView` remplace l'ancienne `SelectionView`, conçue pour être partagée entre `CreateTeamController` et `EditTeamController`, elle expose un mode édition via `setEditMode(boolean)` et une méthode `preSelectTeam(TeamBugemonDTO)` pour pré-remplir la grille lors d'une édition, sans jamais connaître le contrôleur concret qui l'utilise. 
+
 De nouvelles vues `AddBugemonView` et `SelectAttackView` prennent en charge respectivement le formulaire de création de Bugémon personnalisé et le choix d'attaque à remplacer lors d'un apprentissage.
+
 La vue de sélection de Bugémon depuis l'équipe (`SelectBugemonFromTeamView`) a également été remontée du sous-package `views/fight/` vers le niveau `views/` car elle est maintenant réutilisée par plusieurs contrôleurs de la tour (`LearnNewAttackController`, `ApplyBonusRewardController`).
-Une nouvelle vue `AddBugemonView` prend en charge le formulaire de création de Bugémon personnalisé, et `SelectAttackView` permet de choisir quelle attaque remplacer lors d'un apprentissage.
+
 Enfin, des classes comme `AddBugemonErrorFormatter`, `ActionMessageFormatter` et `LevelUpBonusFormatter` permettent de séparer la mise en forme des messages de la logique métier. La vue reçoit donc des textes déjà formatés, ce qui rend le code plus propre.
 #### Contrôleur
 Le `SelectionController` a été scindé en `CreateTeamController` et `EditTeamController`, tous deux héritant de `Controller<TeamBuilderView>` et implémentant `TeamBuilderListener`. 
 Cette séparation découple les deux flux applicatifs : la création construit une nouvelle `TeamBugemon` vide, tandis que l'édition charge une copie défensive de l'équipe existante via `loadTeamForEditing(String teamId)` avant même que la vue ne soit affichée, la synchronisation avec la vue est ensuite effectuée dans `onshow()`. 
 L'`EditTeamController` ne prend pas en compte le teamName reçu dans `onConfirm` car le nom est immuable en mode édition, ce qui illustre comment la même interface listener peut être interprétée différemment selon le contrôleur actif.
+
 La scène `ADD_BUGEMON` a été ajoutée à l'enum `Scenes` du `ControllerManager`, désormais `public` afin d'être accessible par `MusicService` et le `MusicService` est appelé automatiquement à chaque changement de scène via `MusicService.updateMusicForScene(scene)`.
 Ce qui permet à `ControleManager`de garder son rôle de façade de navigation.
+
 La gestion de la récompense après un combat de tour a été subdivisée en plusieurs contrôleurs distincts à la place d'un seul `RewardController`.
-`RewardController` orchestre dorénavant l'affichage dynamique des trois types de récompenses possibles (objet aléatoire, attaque à apprendre, bonus de stats), chacun étant ensuite délégué à un contrôleur dédié. 
-`ApplyBonusRewardController` ouvre une fenêtre de sélection d'équipe et applique le `LevelUpBonus` au Bugémon choisi avant de faire avancer la tour.
-`LearnNewAttackController` ouvre la même fenêtre de sélection d'équipe et délègue à `SelectAttackController` le choix de l'attaque à remplacer. 
-Ce découpage respecte le principe de responsabilité unique et facilite l'extension future de la logique de récompense.
+`RewardController` orchestre dorénavant l'affichage dynamique des trois types de récompenses possibles (objet aléatoire, attaque à apprendre, bonus de stats), chacun étant ensuite délégué à un contrôleur dédié. `ApplyBonusRewardController` ouvre une fenêtre de sélection d'équipe et applique le `LevelUpBonus` au Bugémon choisi avant de faire avancer la tour. `LearnNewAttackController` ouvre la même fenêtre de sélection d'équipe et délègue à `SelectAttackController` le choix de l'attaque à remplacer. Ce découpage respecte le principe de responsabilité unique et facilite l'extension future de la logique de récompense.
+
 `AddBugemonController` gère le formulaire de création : il délègue la validation à `AddBugemonService`, ouvre un `FileChooser` natif pour le sprite et orchestre l'appel au `CustomBugemonRepository`pour la persistance.
+
 `ControllerManager` a été allégé, il délègue désormais la logique de navigation de la tour à `TowerFlowService` et la gestion de fin de session à `GameSessionService`, au lieu de contenir cette logique directement. 
+
 `GlobalMusicService` est instancié comme un objet régulier dans le `ControllerManager (plutôt que via des méthodes statiques), ce qui facilite son remplacement ou son test.
+
 #### Services et repositories
 `AddBugemonService` est un nouveau service de validation dédié au formulaire de création de Bugémon. 
 Il retourne un enum `AddBugemonError` structuré plutôt qu'une chaîne de caractères, la mise en forme du message à destination de l'utilisateur étant délégée au formateur `AddBugemonErrorFormatter` dans la couche vue.
+
 `CustomBugemonRepository` est un nouveau repository singleton, héritant de `JsonRepository`, qui persiste les Bugémons créés par l'utilisateur, leurs données JSON dans `persistence/addedbugemon/json/` et leurs sprites PNG dans `persistence/addedbugemon/png/`.
+
 `SpriteLoader` est un nouveau service de chargement de sprites qui distingue les sprites par défaut (chargés depuis le classpath via `getResourceAsStream`) des sprites de Bugémons personnalisés (chargés depuis le système de fichiers via `FileInputStream`). Ce service est utilisé partout où une image de Bugémon doit être affichée, remplaçant les chargements ad hoc dispersés dans les vues.
+
 `JsonRepository` a été enrichie avec deux nouvelles méthodes : `readPersistenceData` pour lire des données mutables depuis le système de fichiers (avec gestion du fichier absent et wrap via `JsonPersistenceLoadingException`), et `updatePersistenceData` pour écrire ces mêmes données.
+
 `GameStateHolder` a été profondément refactorisé. Il ne charge plus les équipes sauvegardées dans son constructeur, cette responsabilité appartient désormais à `TeamService` et `TeamRepository`. Il introduit une distinction explicite entre une session lancée depuis une équipe sauvegardée (`startSavedTeam(team, teamId)`, qui mémorise l'identifiant) et une session avec une équipe temporaire (`startUnsavedTeam(team)`, qui laisse l'identifiant à null). Cette distinction permet à `GameSessionService` de décider automatiquement si la persistance doit être déclenchée à la fin de la session.
+
 `GlobalMusicService` remplace l'ancienne `MusicService`. Elle n'est plus une classe aux méthodes statiques mais une instance ordinaire, ce qui la rend plus facilement substituable. Elle s'appuie sur l'enum `GlobalMusicState` (qui remplace l'ancien `GameState` du package `models/`) pour distinguer les quatre ambiances musicales (`COMBAT_STATE`, `TEAM_CREATION`, `EXPLORATION`, `DEFEAT`) et ajuste le volume différemment selon l'état.
+
 `TeamService` est un nouveau service dans `services/controller/prebuiltteam/` qui remplace `TeamProvider` pour la gestion des équipes sauvegardées. Il expose des opérations complètes : `loadTeams()`, `findTeamById()`, `addTeam()`, `updateTeamById()`, `renameTeam()` et `deleteTeam()`. `addTeam()` et `renameTeam()` valident que le nom n'est pas déjà utilisé et lèvent une `IllegalArgumentException` en cas de doublon, centralisant ainsi cette règle métier dans une seule classe.
+
 `GameSessionService` centralise la logique de fin de session. Sa méthode `returnToMenu()` lit l'équipe courante et son identifiant depuis `GameStateHolder` et, si la session était lancée depuis une équipe sauvegardée, appelle `TeamService.updateTeamById()` pour persister l'état de l'équipe avant de nettoyer le holder. Aucun contrôleur ne contient plus cette logique dispersée.
+
 `TowerFlowService` est un nouveau service qui centralise toute la logique de progression dans la tour. Sa méthode `advanceToNextAction()` avance d'un pas et retourne un enum `TowerNextAction` (`FIGHT`, `REWARD`, `TITLE_SCREEN`), permettant au `ControllerManager` de naviguer sans connaître la structure interne de `LevelTower`. `startNewTower()` initialise une nouvelle instance de LevelTower et réinitialise l'inventaire via `GameStateHolder.resetItems()`.
 ### Principe de la programmation orientée objet
 
@@ -463,14 +479,16 @@ Ils partagent la même vue sans la dupliquer.
 #### Classes et méthodes abstraites
 
 `JsonRepository` a été étendue avec `readPersistenceData` et `updatePersistenceData`, complétant ainsi le Template Method déjà en place, la classe abstraite définit maintenant le squelette complet de toute opération de sérialisation/désérialisation JSON, que ce soit vers les ressources embarquées ou vers le système de fichiers. 
+
 `ActionMessageFormatter` et `LevelUpBonusFormatter` sont des classes abstraites avec uniquement des méthodes statiques, empêchant leur instanciation tout en regroupant logiquement la logique de formatage dans la couche vue.
 
-### Design Patterns
+
 ### Programmation défensive
 #### Mécanismes de typage
 
 L'interface scellée `EffectEvent` renforce le typage en limitant au compilateur les sous-types valides.
 Tout code recevant un `EffectEvent` est contraint de traiter exhaustivement les cas connus, évitant les `ClassCastException` et les comportements indéfinis. 
+
 `AddBugemonError` est un enum structuré qui remplace des chaînes de caractères libres pour représenter les erreurs de validation, rendant la gestion d'erreurs exhaustive et vérifiable à la compilation.
 #### Exceptions
 Deux nouvelles exceptions génériques de persistance ont été introduites : `JsonPersistenceLoadingException` et `JsonPersistenceSavingException`, permettant un wrapping uniforme pour tous les repositories manipulant des données mutables. 
