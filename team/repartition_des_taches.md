@@ -347,7 +347,7 @@ ___
 <table>
     <tbody>
         <tr><td>Vélocité :</td><td>28</td></tr>
-        <tr><td>Total Points réel :</td><td></td></tr>
+        <tr><td>Total Points réel :</td><td>28,5</td></tr>
         <tr><td>Total Points estimé :</td><td>28</td></tr>
     </tbody>
 </table>
@@ -425,7 +425,7 @@ ___
   </thead>
   <tbody>
     <tr><td>Musique création d'équipe</td><td>Alexandre</td><td>Enzo</td><td>3</td><td>3</td></tr>
-    <tr><td>Musique combat</td><td>Enzo</td><td>Alexandre</td><td></td><td>2</td></tr>
+    <tr><td>Musique combat</td><td>Enzo</td><td>Alexandre</td><td>3</td><td>2</td></tr>
   </tbody>
 </table>
 
