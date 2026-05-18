@@ -342,8 +342,15 @@ Les tests JUnit constituent toujours notre principale forme de programmation dé
 - Date : 18/05/2026
 ## Suivi de planification du projet
 ### Analyse de l'écart (Prévu vs Réalisé)
+
+Pour cette itération, la vélocité était fixée à 28 points. Nous avons réalisé 28,5 points. 
+Par rapport aux itérations précédentes, la répartition des commits entre les membres reste encore fort déséquilibrée malgré l'amélioration durant l'itération 3.
 ### Gestion des risques (R1, R2, R3)
+
+Pour l'histoire 11 (récompenses d'étage), nous avions attribué un risque R2. Mais l'histoire s'est avéré bien plus simple que prévu, car l'histoire 10 nous avait déjà permis de poser une bonne base pour l'histoire 11.
 ### Commentaires sur la Burndown Chart
+
+La burndown chart de cette itération présente une progression en paliers très marquée, alternant entre des phases de stagnation et des chutes brutales. Après un démarrage légèrement plus lent que la courbe idéale (jours 0 à 4), la courbe réelle montre d'importantes clôtures de tâches autour du jour 6, du jour 11, et tout particulièrement entre les jours 12 et 14 (du 26 au 28 avril), où la quasi-totalité du travail restant a été abattue. La courbe s'aplatit ensuite et atteint zéro au jour 21, soit bien avant la fin prévue au jour 27. Tout comme pour la précédente itération, cette dynamique en « escalier » indique que le travail est accompli et validé par gros blocs successifs. Cette stratégie nous offre une marge de sécurité de près d'une semaine complète (du 5 au 11 mai) en fin de cycle, un temps précieux pour perfectionner le code de Bugémon, s'assurer de la robustesse de nos tests unitaires, et intégrer sereinement les dernières remarques du coach avant la remise.
 ## Motivation des choix pris lors de la conception
 ### Structure du code
 Par rapport à l'itération 3, la structure des packages a été profondément réorganisée afin de mieux séparer les responsabilités entre les couches de l'application. Les services ont notamment été subdivisés en sous-packages fonctionnels reflétant leur domaine d'appartenance.
