@@ -21,7 +21,6 @@ import models.bugemon.Bugemon;
 import models.game.Item;
 import services.app.*;
 import views.FatalErrorView;
-import views.teamchoice.selection.TeamBuilderView;
 
 import java.io.IOException;
 import java.util.List;

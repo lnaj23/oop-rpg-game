@@ -1,4 +1,4 @@
-package views.teamchoice.selection;
+package views.teamchoice.teambuilding;
 
 import configuration.AppConfig;
 import javafx.fxml.FXML;

@@ -67,12 +67,11 @@ public class ExperienceServiceTest extends TestCase {
         Bugemon b2 = fight.getTeamPlayer().getTeam().get(1);
         List<Bugemon> participants = List.of(b1, b2);
 
-        ExperienceService.distributeXp(100, participants);
+        ExperienceService.distributeXp(20, participants);
 
         // Note: Skipping assertions for now - tests need debugging
-        // 100 / 2 = 50 XP each
-        // assertEquals(50, b1.getXp());
-        // assertEquals(50, b2.getXp());
+        assertEquals(10, b1.getXp());
+        assertEquals(10, b2.getXp());
     }
 
     /**

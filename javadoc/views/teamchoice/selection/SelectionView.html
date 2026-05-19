@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="dc.created" content="2026-05-07">
-<meta name="description" content="declaration: package: views.teamchoice.selection, class: SelectionView">
+<meta name="description" content="declaration: package: views.teamchoice.teambuilding, class: SelectionView">
 <meta name="generator" content="javadoc/ClassWriter">
 <link rel="stylesheet" type="text/css" href="../../../resource-files/jquery-ui.min.css">
 <link rel="stylesheet" type="text/css" href="../../../resource-files/stylesheet.css">
@@ -40,7 +40,7 @@ loadScripts(document, 'script');</script>
 <div class="sub-nav">
 <div class="nav-content">
 <ol class="sub-nav-list">
-<li><a href="package-summary.html">views.teamchoice.selection</a></li>
+<li><a href="package-summary.html">views.teamchoice.teambuilding</a></li>
 <li><a href="SelectionView.html" class="current-selection">SelectionView</a></li>
 </ol>
 <div class="nav-list-search"><input type="text" id="search-input" disabled placeholder="Search documentation (type /)" aria-label="Search in documentation" autocomplete="off" spellcheck="false"><input type="reset" id="reset-search" disabled value="Reset"></div>
@@ -88,7 +88,7 @@ loadScripts(document, 'script');</script>
 </div>
 <div class="inheritance" title="Inheritance Tree"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">java.lang.Object</a>
 <div class="inheritance"><a href="../../View.html" title="class in views">views.View</a>&lt;<a href="../../../controllers/teamchoice/SelectionController.html" title="class in controllers.teamchoice">SelectionController</a>&gt;
-<div class="inheritance">views.teamchoice.selection.TeamBuilderView</div>
+<div class="inheritance">views.teamchoice.teambuilding.TeamBuilderView</div>
 </div>
 </div>
 <section class="class-description" id="class-description">
@@ -97,7 +97,7 @@ loadScripts(document, 'script');</script>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">SelectionView</span>
 <span class="extends-implements">extends <a href="../../View.html" title="class in views">View</a>&lt;<a href="../../../controllers/teamchoice/SelectionController.html" title="class in controllers.teamchoice">SelectionController</a>&gt;</span></div>
 <div class="block">Main view for the Bugémon selection screen.
-Coordinates the two sub-views: <a href="BugemonGridSubView.html" title="class in views.teamchoice.selection"><code>BugemonGridSubView</code></a> and <a href="TeamPanelSubView.html" title="class in views.teamchoice.selection"><code>TeamPanelSubView</code></a>.
+Coordinates the two sub-views: <a href="BugemonGridSubView.html" title="class in views.teamchoice.teambuilding"><code>BugemonGridSubView</code></a> and <a href="TeamPanelSubView.html" title="class in views.teamchoice.teambuilding"><code>TeamPanelSubView</code></a>.
 Sub-views are loaded via <code>fx:include</code> in <code>selectionview.fxml</code>.
 JavaFX injects sub-controllers as <code>bugemonGridController</code> and <code>teamPanelController</code>
 after FXML loading, following the <code>fx:id + "Controller"</code> naming convention.</div>

@@ -2,7 +2,7 @@ package views.listener;
 
 import javafx.scene.control.Button;
 import models.bugemon.dto.BugemonDTO;
-import views.teamchoice.selection.TeamBuilderView;
+import views.teamchoice.teambuilding.TeamBuilderView;
 
 /**
  * Listener used by the selection view to delegate user actions.

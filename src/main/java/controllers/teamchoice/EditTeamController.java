@@ -11,7 +11,7 @@ import models.bugemon.dto.BugemonDTO;
 import services.controller.dataprovider.BugemonProvider;
 import services.controller.prebuiltteam.TeamService;
 import views.listener.TeamBuilderListener;
-import views.teamchoice.selection.TeamBuilderView;
+import views.teamchoice.teambuilding.TeamBuilderView;
 
 import java.io.IOException;
 
@@ -69,7 +69,7 @@ public class EditTeamController extends Controller<TeamBuilderView> implements T
             this.view.reset(bugemonProvider.getAllBugemonsDTO());
             this.view.setEditMode(true);
             this.view.preSelectTeam(playerTeam);
-        } catch (JsonResourceNotFoundException | LoadingAddedBugemonFailedException | IOException e) {
+        } catch (Exception e) {
             this.controllerManager.fatalError("Une erreur est survenue lors du chargement de l'équipe.");
         }
     }

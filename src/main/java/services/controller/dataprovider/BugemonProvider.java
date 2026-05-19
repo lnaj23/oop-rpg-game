@@ -52,22 +52,22 @@ public class BugemonProvider {
         throw new BugemonNotFoundException(id);
     }
 
-    public List<Bugemon> getAllBugemons() throws JsonResourceNotFoundException, LoadingAddedBugemonFailedException {
+    public List<Bugemon> getAllBugemons() throws JsonResourceNotFoundException, LoadingAddedBugemonFailedException, AttackNotFoundException {
         List<Bugemon> allBugemons = new ArrayList<>(BugemonRepository.getInstance().getAllBugemons());
         List<Bugemon> addedBugemons = CustomBugemonRepository.getInstance().loadAddedBugemon();
         for (Bugemon bug : addedBugemons) {
-            try { initBugemonFromSavedTeam(bug); } catch (AttackNotFoundException ignored) {}
+            initBugemonFromSavedTeam(bug);
         }
         allBugemons.addAll(addedBugemons);
         allBugemons.sort(Comparator.comparing(Bugemon::getType));
         return allBugemons;
     }
 
-    public List<BugemonDTO> getAllBugemonsDTO() throws JsonResourceNotFoundException, LoadingAddedBugemonFailedException {
+    public List<BugemonDTO> getAllBugemonsDTO() throws JsonResourceNotFoundException, LoadingAddedBugemonFailedException, AttackNotFoundException {
         List<BugemonDTO> allDefaultBugemon = new ArrayList<>(BugemonRepository.getInstance().getAllBugemons());
         List<Bugemon> addedBugemons = CustomBugemonRepository.getInstance().loadAddedBugemon();
         for (Bugemon bug : addedBugemons) {
-            try { initBugemonFromSavedTeam(bug); } catch (AttackNotFoundException ignored) {}
+            initBugemonFromSavedTeam(bug);
         }
         List<BugemonDTO> newList = Stream.concat(allDefaultBugemon.stream(), addedBugemons.stream())
                 .sorted(Comparator.comparing(BugemonDTO::getType))

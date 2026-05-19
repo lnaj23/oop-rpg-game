@@ -12,7 +12,7 @@ import services.app.GameStateHolder;
 import services.controller.dataprovider.BugemonProvider;
 import services.controller.prebuiltteam.TeamService;
 import views.listener.TeamBuilderListener;
-import views.teamchoice.selection.TeamBuilderView;
+import views.teamchoice.teambuilding.TeamBuilderView;
 
 import java.io.IOException;
 
@@ -54,7 +54,7 @@ public class CreateTeamController extends Controller<TeamBuilderView> implements
         this.playerTeam = new TeamBugemon();
         try {
             this.view.reset(bugemonProvider.getAllBugemonsDTO());
-        } catch (JsonResourceNotFoundException | LoadingAddedBugemonFailedException | IOException e) {
+        } catch (Exception e) {
             this.controllerManager.fatalError("Une erreur est survenue lors du chargement des Bugémons.");
         }
         this.view.setEditMode(false);
