@@ -15,6 +15,14 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+/**
+ * Provides {@link Bugemon} instances to the controllers.
+ * <p>
+ * On first instantiation it resolves each repository Bugémon's attacks and
+ * initialises their HP. Accessors return deep copies so that two teams never
+ * share the same Bugémon instance in memory.
+ * </p>
+ */
 public class BugemonProvider {
 
     private static final AttackProvider attackProvider = new AttackProvider();

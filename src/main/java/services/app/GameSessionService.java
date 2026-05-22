@@ -6,6 +6,11 @@ import exceptions.SavingTeamFailedException;
 import models.bugemon.TeamBugemon;
 import services.controller.prebuiltteam.TeamService;
 
+/**
+ * Coordinates session-level team persistence. When returning to the menu it
+ * saves the current team back to its source slot (if it came from a saved team)
+ * and clears the in-memory game state.
+ */
 public class GameSessionService {
 
     private final TeamService teamProvider = new TeamService();

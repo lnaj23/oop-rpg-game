@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.StageStyle;
 import models.bugemon.Attack;
+import models.bugemon.dto.BugemonDTO;
 import services.controller.addbugemon.AddBugemonError;
 import services.view.formatter.AddBugemonErrorFormatter;
 
@@ -134,7 +135,8 @@ public class AddBugemonView extends View {
      *
      * @param message the message to display in the alert
      */
-    public void showMessage(String message) {
+    private void showMessage(String message) {
+        message = "Impossible d'ajouter le Bugémon : " + message;
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Error");
         alert.setHeaderText(null);
@@ -327,5 +329,10 @@ public class AddBugemonView extends View {
      */
     public void showError(AddBugemonError error) {
         showMessage(AddBugemonErrorFormatter.format(error));
+    }
+
+    public void showCreationError(String error ){
+        String message = "Impossible d'ajouter le Bugémon : " + error;
+        showMessage(message);
     }
 }

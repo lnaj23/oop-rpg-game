@@ -13,6 +13,10 @@ import views.View;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * View for the in-fight item selection window, listing the player's items and
+ * delegating the chosen item to its {@link ItemChoiceController}.
+ */
 public class ItemsView extends View {
 
     private ItemChoiceController controller;

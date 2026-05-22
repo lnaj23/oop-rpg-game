@@ -16,6 +16,10 @@ import services.view.assets.SpriteLoader;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * View for the level-up screen, showing each leveling-up Bugémon and its new
+ * level-up bonus, and delegating user choices to its {@link LevelUpController}.
+ */
 public class LevelUpView extends View {
 
     private LevelUpController controller;

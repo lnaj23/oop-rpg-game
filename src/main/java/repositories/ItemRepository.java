@@ -13,8 +13,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Singleton repository loading the items and the default starting inventory
+ * from the items JSON resource.
+ */
 public class ItemRepository extends JsonRepository {
 
+    /**
+     * Mirrors the structure of {@code objets.json}: the list of {@link Item}
+     * objects under {@code "objets"} and the default starting inventory
+     * (item id -> quantity) under {@code "inventaire_depart"}.
+     * Used exclusively by Gson to deserialize the file.
+     */
     private static class JsonItem implements JsonWrapper<Item> {
         @SerializedName("objets")
         public List<Item> items;

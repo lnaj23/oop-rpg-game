@@ -8,6 +8,10 @@ import views.View;
 
 import java.io.IOException;
 
+/**
+ * View for the defeat screen. Displays the retry and give-up buttons and
+ * delegates clicks to its {@link DefeatController}.
+ */
 public class DefeatView extends View {
 
     private DefeatController controller;
@@ -23,10 +27,7 @@ public class DefeatView extends View {
     @FXML private Button retryBtn;
     @FXML private Button giveUpBtn;
 
-    /**
-     Le cours dit que le chargement FXML peut échouer si le fichier n'existe pas
-     */
-    public DefeatView() throws IOException{
+public DefeatView() throws IOException{
         super(AppConfig.FXML_DEFEAT);
         this.retryBtn.setOnAction(M -> this.controller.retryRun());
         this.giveUpBtn.setOnAction(M -> this.controller.goToMenu());

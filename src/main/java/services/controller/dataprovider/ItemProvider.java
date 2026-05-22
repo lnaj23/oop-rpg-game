@@ -10,6 +10,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+/**
+ * Provides {@link Item} instances to the controllers, including the default
+ * starting inventory expanded from the configured quantities.
+ */
 public class ItemProvider {
 
     private List<Item> getAllItems() throws JsonResourceNotFoundException {

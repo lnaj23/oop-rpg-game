@@ -15,6 +15,10 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * View helper that renders the player's and enemy's team grids during a fight,
+ * wiring each Bugémon icon to its HP popup and greying out fainted Bugémons.
+ */
 public class FightTeamGridManager {
 
     private final GridPane teamGrid;

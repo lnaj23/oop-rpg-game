@@ -5,6 +5,11 @@ import models.bugemon.Bugemon;
 
 import java.util.Random;
 
+/**
+ * Stateless helper computing the damage of an attack from the attacker's and
+ * target's stats, the attack power, type effectiveness and a random critical hit.
+ * The {@link Random} source is injectable for testing.
+ */
 public abstract class DamageCalculator {
 
     private static Random random = new Random();

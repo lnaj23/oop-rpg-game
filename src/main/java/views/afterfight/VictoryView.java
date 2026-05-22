@@ -12,6 +12,10 @@ import views.View;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * View for the victory screen, displaying the XP gained by each participating
+ * Bugémon and delegating the continue action to its {@link VictoryController}.
+ */
 public class VictoryView extends View {
 
     private VictoryController controller;

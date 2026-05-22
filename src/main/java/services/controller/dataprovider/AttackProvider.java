@@ -9,6 +9,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * Provides {@link Attack} instances to the controllers, returning defensive
+ * copies sourced from the {@link AttackRepository}.
+ */
 public class AttackProvider {
 
     public Attack getAttackById(String id) throws AttackNotFoundException, JsonResourceNotFoundException {

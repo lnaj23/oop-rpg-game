@@ -1,5 +1,10 @@
 package models.bugemon;
 
+/**
+ * A temporary {@link Effect} currently active on a Bugémon during a fight,
+ * tracking how many turns it has left. A {@code null} turn count denotes a
+ * permanent effect with no expiry.
+ */
 public class ActiveEffect {
     private Effect effect;
     private Integer turnsLeft;

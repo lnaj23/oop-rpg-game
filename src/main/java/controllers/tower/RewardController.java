@@ -15,6 +15,11 @@ import views.tower.RewardView;
 
 import java.io.IOException;
 
+/**
+ * Controller for the reward screen reached on a reward node of the tower.
+ * Generates a random item, a random attack to learn and a level-up bonus, then
+ * lets the player pick one of them before continuing the ascent.
+ */
 public class RewardController extends Controller<RewardView> {
 
     Item itemToGain;

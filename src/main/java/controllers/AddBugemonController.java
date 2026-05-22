@@ -69,12 +69,10 @@ public class AddBugemonController extends Controller<AddBugemonView> {
     }
 
     /**
-     * Validates the values entered in the form and, if valid,
-     * displays a success message summarizing the created Bugemon.
-     * <p>
-     * The actual creation and persistence logic is intended to be added later
-     * through a dedicated service.
-     * </p>
+     * Validates the form input through the validation service and, if valid,
+     * builds the new Bugémon, persists it (with its sprite) via
+     * {@link AddBugemonService#saveBugemon}, shows a success summary and resets
+     * the form. Validation errors are reported back to the view instead.
      */
     public void addBugemon() {
         String name = view.getNameValue();
@@ -150,7 +148,7 @@ public class AddBugemonController extends Controller<AddBugemonView> {
                     view.isFlipImageSelected()
             );
         } catch (Exception e) {
-            view.showMessage("Impossible d'ajouter le Bugémon : " + e.getMessage());
+            view.showCreationError(e.getMessage());
             return;
         }
 

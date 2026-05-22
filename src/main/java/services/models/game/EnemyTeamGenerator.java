@@ -12,6 +12,10 @@ import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
 
+/**
+ * Generates a random enemy team matching the player's team size, drawn from the
+ * full Bugémon roster. The {@link Random} source is injectable for testing.
+ */
 public abstract class EnemyTeamGenerator {
 
     private static Random random = new Random();

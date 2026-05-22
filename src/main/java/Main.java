@@ -4,6 +4,14 @@ import javafx.stage.Stage;
 import views.FatalErrorView;
 
 
+/**
+ * JavaFX application entry point.
+ * <p>
+ * Bootstraps the {@link ControllerManager} on the primary stage and starts the
+ * application. Any failure during startup is treated as fatal: a
+ * {@link FatalErrorView} is shown and the process exits.
+ * </p>
+ */
 public class Main extends Application {
 
     @Override

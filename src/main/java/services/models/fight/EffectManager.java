@@ -14,6 +14,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Applies attack effects and ticks ongoing temporary effects on Bugémons.
+ * Returns structured {@link EffectEvent}s describing what happened, leaving all
+ * UI string formatting to the view layer.
+ */
 public abstract class EffectManager {
 
     /**

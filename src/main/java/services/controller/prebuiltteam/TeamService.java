@@ -8,6 +8,11 @@ import services.controller.dataprovider.BugemonProvider;
 
 import java.util.List;
 
+/**
+ * Application service for managing saved teams: loading and fully initialising
+ * them, creating, updating, renaming and deleting, with name-uniqueness checks.
+ * Read accessors return defensive copies.
+ */
 public class TeamService {
 
     private final BugemonProvider bugemonProvider = new BugemonProvider();

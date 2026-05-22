@@ -14,6 +14,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Controller for the victory screen, shown after the player wins a fight.
+ * <p>
+ * Computes and distributes combat XP to the Bugémons that took part in the
+ * fight, then routes either to the level-up screen (if any Bugémon levels up)
+ * or directly to the next tower step.
+ * </p>
+ */
 public class VictoryController extends Controller<VictoryView> {
 
     private int totalExpToDistribute;
