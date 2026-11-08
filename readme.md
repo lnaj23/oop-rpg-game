@@ -98,9 +98,9 @@ The CI pipeline defined in `.gitlab-ci.yml` runs these tests automatically on ev
 This project was designed as a hands-on exploration of OOP principles:
 
 - **Encapsulation** — game entities (characters, moves, items) bundle their data and behaviour into self-contained classes.
-- **Inheritance** — a shared base class (e.g. `Character`) is extended by concrete types such as player characters and enemies, avoiding duplication.
-- **Abstraction** — interfaces and abstract classes define contracts (e.g. a `Battler` interface) that decouple game logic from specific implementations.
-- **Polymorphism** — the battle engine calls methods on `Character` references and each subclass responds according to its own rules, enabling extensible combat without branching conditionals.
+- **Inheritance** — a shared base class is extended by concrete types such as player characters and enemies, avoiding duplication.
+- **Abstraction** — interfaces and abstract classes define contracts that decouple game logic from specific implementations.
+- **Polymorphism** — the battle engine calls methods on references and each subclass responds according to its own rules, enabling extensible combat without branching conditionals.
 
 The JavaDoc generated in `/javadoc` documents the full class hierarchy.
 
