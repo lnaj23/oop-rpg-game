@@ -1,5 +1,5 @@
 # oop-rpg-game
-
+![Game screenshot](docs/images/game.png)
 A Pokémon-inspired **turn-based RPG** built with **Java** and **JavaFX**, developed as part of the *INFO-F307* course at **ULB (Université Libre de Bruxelles)**.
 
 The project showcases the four core pillars of Object-Oriented Programming — **encapsulation**, **inheritance**, **abstraction**, and **polymorphism** — applied to a fully playable graphical game.
@@ -15,6 +15,8 @@ The project showcases the four core pillars of Object-Oriented Programming — *
 - **Automated tests** with JUnit 4 and TestFX for UI testing
 - **CI/CD pipeline** via GitLab CI
 
+Combat	Character selection
+![Combat screen](docs/images/combat.png)	![Character selection](docs/images/character-select.png)
 ---
 
 ## Tech Stack
